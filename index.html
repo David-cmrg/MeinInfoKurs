@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MeinInfoKurs V3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e13;
+    --bg2: #111720;
+    --bg3: #192032;
+    --card: #141c27;
+    --card-hover: #1a2536;
+    --border: #1e2d42;
+    --border-bright: #2a3f5f;
+    --green: #3ddc84;
+    --green-dim: #2a9a5e;
+    --blue: #4da6ff;
+    --blue-dim: #2a6aaa;
+    --orange: #ff9a3d;
+    --purple: #a78bfa;
+    --red: #ff5c5c;
+    --text: #dde6f0;
+    --text-muted: #6a8099;
+    --text-dim: #3d5570;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+background: var(–bg);
+color: var(–text);
+font-family: var(–mono);
+min-height: 100vh;
+line-height: 1.6;
+overflow-x: hidden;
+}
+
+/* ── GRID NOISE OVERLAY ── */
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background-image:
+repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(30,45,66,0.3) 39px, rgba(30,45,66,0.3) 40px),
+repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(30,45,66,0.3) 39px, rgba(30,45,66,0.3) 40px);
+pointer-events: none;
+z-index: 0;
+}
+
+/* ── AMBIENT GLOW ── */
+.ambient {
+position: fixed;
+border-radius: 50%;
+pointer-events: none;
+z-index: 0;
+filter: blur(120px);
+opacity: 0.07;
+}
+.ambient-1 { width: 600px; height: 600px; top: -200px; left: -200px; background: var(–blue); }
+.ambient-2 { width: 500px; height: 500px; bottom: -150px; right: -150px; background: var(–green); }
+.ambient-3 { width: 300px; height: 300px; top: 40%; left: 40%; background: var(–purple); }
+
+/* ── NAVBAR ── */
+nav {
+position: fixed;
+top: 0; left: 0; right: 0;
+z-index: 100;
+background: rgba(10,14,19,0.85);
+backdrop-filter: blur(20px);
+border-bottom: 1px solid var(–border);
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0 2rem;
+height: 60px;
+}
+
+.nav-brand {
+font-family: var(–sans);
+font-size: 1.1rem;
+font-weight: 800;
+display: flex;
+align-items: center;
+gap: 10px;
+cursor: pointer;
+text-decoration: none;
+color: var(–text);
+letter-spacing: -0.02em;
+}
+.nav-brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(–green); box-shadow: 0 0 10px var(–green); animation: pulse 2s infinite; }
+
+@keyframes pulse {
+0%, 100% { opacity: 1; transform: scale(1); }
+50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.nav-right {
+display: flex;
+align-items: center;
+gap: 1rem;
+}
+
+.breadcrumb {
+font-size: 0.75rem;
+color: var(–text-muted);
+display: flex;
+align-items: center;
+gap: 6px;
+}
+.breadcrumb span { color: var(–text-dim); }
+.breadcrumb a { color: var(–blue); text-decoration: none; cursor: pointer; }
+.breadcrumb a:hover { color: var(–text); }
+
+.nav-badge {
+font-size: 0.65rem;
+padding: 3px 8px;
+border-radius: 4px;
+background: rgba(61,220,132,0.1);
+border: 1px solid rgba(61,220,132,0.2);
+color: var(–green);
+font-weight: 500;
+letter-spacing: 0.05em;
+}
+
+/* ── PAGES ── */
+.page { display: none; position: relative; z-index: 1; }
+.page.active { display: block; }
+
+/* ── HOME PAGE ── */
+.home-hero {
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 80px 2rem 4rem;
+text-align: center;
+}
+
+.terminal-badge {
+font-size: 0.75rem;
+color: var(–green);
+background: rgba(61,220,132,0.08);
+border: 1px solid rgba(61,220,132,0.2);
+border-radius: 6px;
+padding: 6px 14px;
+margin-bottom: 2rem;
+display: inline-flex;
+align-items: center;
+gap: 8px;
+letter-spacing: 0.08em;
+animation: fadeDown 0.6s ease forwards;
+}
+.terminal-badge::before { content: ‘▶’; font-size: 0.6rem; }
+
+.home-title {
+font-family: var(–sans);
+font-size: clamp(2.8rem, 7vw, 5.5rem);
+font-weight: 800;
+line-height: 1.05;
+letter-spacing: -0.04em;
+margin-bottom: 1.5rem;
+animation: fadeDown 0.7s ease 0.1s both;
+}
+
+.home-title .accent-green { color: var(–green); }
+.home-title .accent-blue { color: var(–blue); }
+
+.home-subtitle {
+font-size: 1rem;
+color: var(–text-muted);
+max-width: 480px;
+margin: 0 auto 3.5rem;
+animation: fadeDown 0.7s ease 0.2s both;
+line-height: 1.8;
+}
+
+.lang-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+gap: 1.5rem;
+max-width: 900px;
+width: 100%;
+animation: fadeDown 0.7s ease 0.3s both;
+}
+
+.lang-card {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: var(–radius-lg);
+padding: 2rem;
+cursor: pointer;
+transition: all 0.25s ease;
+text-align: left;
+position: relative;
+overflow: hidden;
+}
+
+.lang-card::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+opacity: 0;
+transition: opacity 0.25s;
+border-radius: var(–radius-lg);
+}
+
+.lang-card.java::before { background: radial-gradient(circle at top left, rgba(255,154,61,0.12), transparent 60%); }
+.lang-card.html::before { background: radial-gradient(circle at top left, rgba(77,166,255,0.12), transparent 60%); }
+.lang-card.scratch::before { background: radial-gradient(circle at top left, rgba(167,139,250,0.12), transparent 60%); }
+
+.lang-card:hover {
+border-color: var(–border-bright);
+transform: translateY(-4px);
+box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.lang-card:hover::before { opacity: 1; }
+
+.lang-icon {
+width: 52px;
+height: 52px;
+border-radius: 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.5rem;
+margin-bottom: 1.25rem;
+position: relative;
+}
+.lang-card.java .lang-icon { background: rgba(255,154,61,0.12); border: 1px solid rgba(255,154,61,0.2); }
+.lang-card.html .lang-icon { background: rgba(77,166,255,0.12); border: 1px solid rgba(77,166,255,0.2); }
+.lang-card.scratch .lang-icon { background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.2); }
+
+.lang-name {
+font-family: var(–sans);
+font-size: 1.4rem;
+font-weight: 700;
+margin-bottom: 0.5rem;
+letter-spacing: -0.02em;
+}
+.lang-card.java .lang-name { color: var(–orange); }
+.lang-card.html .lang-name { color: var(–blue); }
+.lang-card.scratch .lang-name { color: var(–purple); }
+
+.lang-desc {
+font-size: 0.8rem;
+color: var(–text-muted);
+line-height: 1.7;
+margin-bottom: 1.5rem;
+}
+
+.lang-meta {
+display: flex;
+gap: 1rem;
+font-size: 0.7rem;
+color: var(–text-dim);
+}
+.lang-meta-item {
+display: flex;
+align-items: center;
+gap: 5px;
+}
+.lang-meta-item .dot2 { width: 6px; height: 6px; border-radius: 50%; }
+.lang-card.java .dot2 { background: var(–orange); }
+.lang-card.html .dot2 { background: var(–blue); }
+.lang-card.scratch .dot2 { background: var(–purple); }
+
+.lang-arrow {
+position: absolute;
+top: 1.5rem;
+right: 1.5rem;
+font-size: 1.2rem;
+color: var(–text-dim);
+transition: all 0.25s;
+}
+.lang-card:hover .lang-arrow { color: var(–text); transform: translate(3px, -3px); }
+
+/* ── STATS ROW ── */
+.stats-row {
+display: flex;
+gap: 2rem;
+margin-top: 4rem;
+justify-content: center;
+flex-wrap: wrap;
+animation: fadeDown 0.7s ease 0.4s both;
+}
+.stat { text-align: center; }
+.stat-num {
+font-family: var(–sans);
+font-size: 2rem;
+font-weight: 800;
+color: var(–text);
+letter-spacing: -0.04em;
+}
+.stat-label { font-size: 0.7rem; color: var(–text-dim); margin-top: 2px; letter-spacing: 0.05em; }
+.stat-div { width: 1px; background: var(–border); height: 40px; align-self: center; }
+
+/* ── JAVA LIST PAGE ── */
+.list-page {
+padding: 100px 2rem 4rem;
+max-width: 900px;
+margin: 0 auto;
+}
+
+.page-header {
+margin-bottom: 2.5rem;
+animation: fadeDown 0.5s ease both;
+}
+
+.page-tag {
+font-size: 0.7rem;
+color: var(–orange);
+letter-spacing: 0.12em;
+margin-bottom: 0.75rem;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.page-tag::before { content: ‘//’; color: var(–text-dim); }
+
+.page-title {
+font-family: var(–sans);
+font-size: 2.5rem;
+font-weight: 800;
+letter-spacing: -0.04em;
+color: var(–text);
+line-height: 1.1;
+}
+.page-title .hl { color: var(–orange); }
+
+.page-subtitle {
+font-size: 0.82rem;
+color: var(–text-muted);
+margin-top: 0.75rem;
+}
+
+/* Category sections */
+.category-section { margin-bottom: 2.5rem; }
+
+.category-label {
+font-size: 0.7rem;
+letter-spacing: 0.12em;
+color: var(–text-dim);
+padding: 0.5rem 0;
+border-bottom: 1px solid var(–border);
+margin-bottom: 1rem;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.category-label::after { content: ‘’; flex: 1; height: 1px; background: var(–border); }
+
+.cat-badge {
+font-size: 0.65rem;
+padding: 2px 8px;
+border-radius: 4px;
+font-weight: 600;
+letter-spacing: 0.05em;
+}
+.cat-badge.konsole { background: rgba(61,220,132,0.1); color: var(–green); border: 1px solid rgba(61,220,132,0.2); }
+.cat-badge.gui { background: rgba(77,166,255,0.1); color: var(–blue); border: 1px solid rgba(77,166,255,0.2); }
+.cat-badge.arrays { background: rgba(255,154,61,0.1); color: var(–orange); border: 1px solid rgba(255,154,61,0.2); }
+.cat-badge.oop { background: rgba(167,139,250,0.1); color: var(–purple); border: 1px solid rgba(167,139,250,0.2); }
+
+.exercise-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+gap: 0.75rem;
+}
+
+.exercise-card {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: var(–radius);
+padding: 1rem 1.25rem;
+cursor: pointer;
+transition: all 0.2s;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 0.75rem;
+}
+.exercise-card:hover {
+background: var(–card-hover);
+border-color: var(–border-bright);
+transform: translateX(4px);
+}
+
+.exercise-num {
+font-size: 0.65rem;
+color: var(–text-dim);
+min-width: 24px;
+font-weight: 500;
+}
+.exercise-name {
+font-size: 0.82rem;
+color: var(–text);
+flex: 1;
+line-height: 1.4;
+}
+.exercise-chevron { color: var(–text-dim); font-size: 0.75rem; transition: all 0.2s; }
+.exercise-card:hover .exercise-chevron { color: var(–orange); transform: translateX(3px); }
+
+/* ── EXERCISE DETAIL PAGE ── */
+.detail-page {
+padding: 80px 0 4rem;
+max-width: 820px;
+margin: 0 auto;
+}
+
+.detail-header {
+padding: 2.5rem 2rem 2rem;
+border-bottom: 1px solid var(–border);
+animation: fadeDown 0.5s ease both;
+}
+
+.detail-tag {
+font-size: 0.68rem;
+color: var(–green);
+letter-spacing: 0.12em;
+margin-bottom: 0.6rem;
+}
+
+.detail-title {
+font-family: var(–sans);
+font-size: 2rem;
+font-weight: 800;
+letter-spacing: -0.04em;
+color: var(–text);
+margin-bottom: 0.5rem;
+}
+
+.detail-meta {
+display: flex;
+gap: 1rem;
+flex-wrap: wrap;
+}
+.detail-meta-item {
+font-size: 0.7rem;
+color: var(–text-muted);
+display: flex;
+align-items: center;
+gap: 5px;
+}
+
+.detail-body {
+padding: 2rem;
+animation: fadeDown 0.5s ease 0.1s both;
+}
+
+.task-box {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: var(–radius-lg);
+padding: 1.5rem;
+margin-bottom: 2rem;
+position: relative;
+overflow: hidden;
+}
+.task-box::before {
+content: ‘’;
+position: absolute;
+left: 0; top: 0; bottom: 0;
+width: 3px;
+background: var(–green);
+border-radius: 2px 0 0 2px;
+}
+
+.task-label {
+font-size: 0.65rem;
+letter-spacing: 0.12em;
+color: var(–green);
+margin-bottom: 0.75rem;
+display: flex;
+align-items: center;
+gap: 6px;
+}
+.task-label::before { content: ‘’; width: 8px; height: 1px; background: var(–green); }
+
+.task-text {
+font-size: 0.85rem;
+color: var(–text);
+line-height: 1.8;
+}
+
+.inline-code {
+background: rgba(61,220,132,0.08);
+border: 1px solid rgba(61,220,132,0.15);
+border-radius: 4px;
+padding: 1px 6px;
+font-family: var(–mono);
+font-size: 0.85em;
+color: var(–green);
+}
+
+.section-heading {
+font-family: var(–sans);
+font-size: 1.1rem;
+font-weight: 700;
+color: var(–text);
+margin: 2rem 0 1rem;
+display: flex;
+align-items: center;
+gap: 10px;
+letter-spacing: -0.02em;
+}
+.section-heading::after { content: ‘’; flex: 1; height: 1px; background: var(–border); }
+
+/* Code block */
+.code-wrap {
+background: #080c10;
+border: 1px solid var(–border);
+border-radius: var(–radius-lg);
+overflow: hidden;
+margin-bottom: 1.5rem;
+}
+
+.code-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0.75rem 1.25rem;
+background: var(–card);
+border-bottom: 1px solid var(–border);
+}
+
+.code-header-left {
+display: flex;
+align-items: center;
+gap: 1rem;
+}
+
+.code-dots { display: flex; gap: 6px; }
+.code-dots span {
+width: 12px; height: 12px; border-radius: 50%;
+}
+.code-dots span:nth-child(1) { background: #ff5f56; }
+.code-dots span:nth-child(2) { background: #febc2e; }
+.code-dots span:nth-child(3) { background: #27c840; }
+
+.code-filename {
+font-size: 0.75rem;
+color: var(–text-muted);
+}
+
+.code-actions {
+display: flex;
+gap: 0.5rem;
+}
+
+.code-btn {
+font-family: var(–mono);
+font-size: 0.68rem;
+padding: 4px 10px;
+border-radius: 5px;
+border: 1px solid var(–border-bright);
+background: transparent;
+color: var(–text-muted);
+cursor: pointer;
+transition: all 0.15s;
+letter-spacing: 0.03em;
+}
+.code-btn:hover {
+background: var(–bg3);
+color: var(–text);
+border-color: var(–text-dim);
+}
+.code-btn.copied { color: var(–green); border-color: rgba(61,220,132,0.3); }
+
+.code-pre {
+margin: 0;
+padding: 1.5rem;
+overflow-x: auto;
+font-family: var(–mono);
+font-size: 0.82rem;
+line-height: 1.8;
+color: #c9d1d9;
+}
+
+/* Syntax highlighting */
+.kw { color: #ff79c6; }
+.cls { color: #8be9fd; }
+.fn { color: #50fa7b; }
+.str { color: #f1fa8c; }
+.cm { color: #6272a4; font-style: italic; }
+.num { color: #bd93f9; }
+.ann { color: #ffb86c; }
+
+/* Line numbers */
+.code-pre .line { display: flex; }
+.line-num {
+color: var(–text-dim);
+min-width: 2.5rem;
+user-select: none;
+text-align: right;
+padding-right: 1.5rem;
+flex-shrink: 0;
+}
+
+.explanation-box {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: var(–radius-lg);
+padding: 1.5rem;
+margin-bottom: 1.5rem;
+}
+
+.explanation-box p {
+font-size: 0.84rem;
+color: var(–text-muted);
+line-height: 1.85;
+margin-bottom: 0.75rem;
+}
+.explanation-box p:last-child { margin-bottom: 0; }
+
+.shortcut-pill {
+display: inline-flex;
+align-items: center;
+gap: 4px;
+background: rgba(77,166,255,0.08);
+border: 1px solid rgba(77,166,255,0.2);
+border-radius: 5px;
+padding: 2px 8px;
+font-size: 0.75rem;
+color: var(–blue);
+vertical-align: middle;
+}
+
+.mini-code {
+background: #080c10;
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 1rem 1.25rem;
+font-size: 0.82rem;
+color: var(–green);
+margin: 0.75rem 0;
+}
+
+/* Navigation buttons */
+.nav-buttons {
+display: flex;
+gap: 1rem;
+margin-top: 2.5rem;
+padding-top: 2rem;
+border-top: 1px solid var(–border);
+}
+
+.nav-btn {
+font-family: var(–mono);
+font-size: 0.78rem;
+padding: 0.75rem 1.5rem;
+border-radius: 8px;
+border: 1px solid var(–border-bright);
+background: var(–card);
+color: var(–text-muted);
+cursor: pointer;
+transition: all 0.2s;
+display: flex;
+align-items: center;
+gap: 8px;
+flex: 1;
+justify-content: center;
+}
+.nav-btn:hover {
+background: var(–card-hover);
+color: var(–text);
+border-color: var(–text-dim);
+}
+.nav-btn.primary {
+background: rgba(61,220,132,0.08);
+border-color: rgba(61,220,132,0.25);
+color: var(–green);
+}
+.nav-btn.primary:hover {
+background: rgba(61,220,132,0.15);
+border-color: var(–green);
+}
+
+/* ── SUPPORT PAGE ── */
+.support-page {
+padding: 100px 2rem 4rem;
+max-width: 700px;
+margin: 0 auto;
+}
+
+.support-grid {
+display: grid;
+gap: 1rem;
+margin-top: 2rem;
+}
+
+.support-card {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: var(–radius-lg);
+padding: 1.5rem;
+transition: all 0.2s;
+}
+.support-card:hover {
+border-color: var(–border-bright);
+background: var(–card-hover);
+}
+
+.support-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+.support-title {
+font-family: var(–sans);
+font-size: 1rem;
+font-weight: 700;
+color: var(–text);
+margin-bottom: 0.4rem;
+}
+.support-text { font-size: 0.8rem; color: var(–text-muted); line-height: 1.7; }
+
+/* ── SCRATCH PAGE ── */
+.coming-soon {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+min-height: 60vh;
+text-align: center;
+padding: 4rem 2rem;
+animation: fadeDown 0.5s ease both;
+}
+
+.coming-icon { font-size: 4rem; margin-bottom: 1.5rem; opacity: 0.4; }
+.coming-title {
+font-family: var(–sans);
+font-size: 1.8rem;
+font-weight: 800;
+color: var(–text);
+letter-spacing: -0.04em;
+margin-bottom: 0.75rem;
+}
+.coming-text { font-size: 0.82rem; color: var(–text-muted); max-width: 340px; line-height: 1.7; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeDown {
+from { opacity: 0; transform: translateY(-12px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SIDEBAR for list page ── */
+.list-layout {
+display: grid;
+grid-template-columns: 1fr 280px;
+gap: 2rem;
+align-items: start;
+}
+
+.sidebar {
+position: sticky;
+top: 80px;
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: var(–radius-lg);
+padding: 1.25rem;
+animation: fadeDown 0.5s ease 0.1s both;
+}
+
+.sidebar-title {
+font-size: 0.68rem;
+color: var(–text-dim);
+letter-spacing: 0.1em;
+margin-bottom: 0.75rem;
+padding-bottom: 0.75rem;
+border-bottom: 1px solid var(–border);
+}
+
+.sidebar-link {
+display: block;
+font-size: 0.75rem;
+color: var(–text-muted);
+padding: 5px 8px;
+border-radius: 5px;
+cursor: pointer;
+transition: all 0.15s;
+line-height: 1.4;
+}
+.sidebar-link:hover {
+color: var(–text);
+background: var(–bg3);
+}
+.sidebar-link.active {
+color: var(–orange);
+background: rgba(255,154,61,0.07);
+}
+
+.progress-bar-wrap {
+margin-top: 1rem;
+padding-top: 1rem;
+border-top: 1px solid var(–border);
+}
+.progress-label {
+display: flex;
+justify-content: space-between;
+font-size: 0.68rem;
+color: var(–text-dim);
+margin-bottom: 0.5rem;
+}
+.progress-track {
+height: 4px;
+background: var(–border);
+border-radius: 2px;
+overflow: hidden;
+}
+.progress-fill {
+height: 100%;
+width: 8%;
+background: linear-gradient(90deg, var(–orange), var(–green));
+border-radius: 2px;
+transition: width 0.5s ease;
+}
+
+@media (max-width: 768px) {
+.list-layout { grid-template-columns: 1fr; }
+.sidebar { display: none; }
+.lang-grid { grid-template-columns: 1fr; }
+.detail-page { padding: 80px 0 4rem; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- Ambient lights -->
+
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+<div class="ambient ambient-3"></div>
+
+<!-- Navbar -->
+
+<nav>
+  <a class="nav-brand" onclick="showPage('home')">
+    <div class="dot"></div>
+    MeinInfoKurs
+  </a>
+  <div class="nav-right">
+    <div class="breadcrumb" id="breadcrumb">
+      <span>~</span>
+      <span>home</span>
+    </div>
+    <div class="nav-badge">V2</div>
+  </div>
+</nav>
+
+<!-- ════════════════ HOME PAGE ════════════════ -->
+
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <div class="terminal-badge">INFORMATIK KURSMATERIAL</div>
+
+```
+<h1 class="home-title">
+  Lerne<br>
+  <span class="accent-green">Programmieren</span><br>
+  <span class="accent-blue">Schritt für Schritt</span>
+</h1>
+
+<p class="home-subtitle">
+  Aufgaben mit vollständigen Lösungen und Erklärungen –<br>
+  für Java, HTML und Scratch.
+</p>
+
+<div class="lang-grid">
+
+  <div class="lang-card java" onclick="showPage('java-list')">
+    <div class="lang-arrow">↗</div>
+    <div class="lang-icon">☕</div>
+    <div class="lang-name">Java</div>
+    <p class="lang-desc">Konsolenprogramme, GUI-Entwicklung, Arrays und objektorientierte Programmierung mit BlueJ.</p>
+    <div class="lang-meta">
+      <div class="lang-meta-item"><div class="dot2"></div>34 Aufgaben</div>
+      <div class="lang-meta-item"><div class="dot2"></div>4 Kategorien</div>
+    </div>
+  </div>
+
+  <div class="lang-card html" onclick="showPage('html-page')">
+    <div class="lang-arrow">↗</div>
+    <div class="lang-icon">&lt;/&gt;</div>
+    <div class="lang-name">HTML</div>
+    <p class="lang-desc">Webseiten erstellen und verstehen. Von der Grundstruktur bis zu eigenen Projekten.</p>
+    <div class="lang-meta">
+      <div class="lang-meta-item"><div class="dot2"></div>Grundgerüst</div>
+      <div class="lang-meta-item"><div class="dot2"></div>Einsteiger</div>
+    </div>
+  </div>
+
+  <div class="lang-card scratch" onclick="showPage('scratch-page')">
+    <div class="lang-arrow">↗</div>
+    <div class="lang-icon">🎮</div>
+    <div class="lang-name">Scratch</div>
+    <p class="lang-desc">Visuelle Programmierung mit Blöcken. Ideal für den Einstieg in die Welt der Algorithmen.</p>
+    <div class="lang-meta">
+      <div class="lang-meta-item"><div class="dot2"></div>Visuell</div>
+      <div class="lang-meta-item"><div class="dot2"></div>Einsteiger</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="stats-row">
+  <div class="stat"><div class="stat-num">34+</div><div class="stat-label">AUFGABEN</div></div>
+  <div class="stat-div"></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">SPRACHEN</div></div>
+  <div class="stat-div"></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">KOSTENLOS</div></div>
+  <div class="stat-div"></div>
+  <div class="stat"><div class="stat-num">∞</div><div class="stat-label">ERKLÄRUNGEN</div></div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ════════════════ JAVA LIST PAGE ════════════════ -->
+
+<div class="page" id="page-java-list">
+  <div class="list-page">
+    <div class="page-header">
+      <div class="page-tag">Java · BlueJ</div>
+      <h1 class="page-title">Java <span class="hl">Aufgaben</span></h1>
+      <p class="page-subtitle">Wähle eine Aufgabe, um die Lösung und Erklärung anzusehen.</p>
+    </div>
+
+```
+<div class="list-layout">
+  <div>
+
+    <!-- Konsolenausgabe -->
+    <div class="category-section">
+      <div class="category-label"><span class="cat-badge konsole">[K] Konsole</span> Konsolenprogramme</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="showPage('detail-helloworld')">
+          <span class="exercise-num">01</span>
+          <span class="exercise-name">Hello World</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">02</span>
+          <span class="exercise-name">Mein Name ist..</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">03</span>
+          <span class="exercise-name">Die Wahl des Bürgermeisters</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">04</span>
+          <span class="exercise-name">Bewährungsfragen</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">05</span>
+          <span class="exercise-name">Die Schulsprecherwahl</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">06</span>
+          <span class="exercise-name">Immobilienpreiskalkulator</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">07</span>
+          <span class="exercise-name">Das Variablenrätsel</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">08</span>
+          <span class="exercise-name">Die Wassergebühren</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">09</span>
+          <span class="exercise-name">Fibonacci Zahlen</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">10</span>
+          <span class="exercise-name">Die Marklerfirma</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">11</span>
+          <span class="exercise-name">Das Online Kaufhaus</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">12</span>
+          <span class="exercise-name">Der Parkscheinautomat</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">13</span>
+          <span class="exercise-name">Body-Mass-Index</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">14</span>
+          <span class="exercise-name">Die Bahnreise</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">15</span>
+          <span class="exercise-name">Notenprogramm</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">16</span>
+          <span class="exercise-name">Club der Millionäre</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">17</span>
+          <span class="exercise-name">Das Ratespiel</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">18</span>
+          <span class="exercise-name">Stift und Papier</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">19</span>
+          <span class="exercise-name">Code-Lücken</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">20</span>
+          <span class="exercise-name">Der Fahrscheinautomat</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">21</span>
+          <span class="exercise-name">Simulation der Population</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GUI -->
+    <div class="category-section">
+      <div class="category-label"><span class="cat-badge gui">[G] GUI</span> Grafische Oberflächen</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">01</span>
+          <span class="exercise-name">GUI: Einführung</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">02</span>
+          <span class="exercise-name">SMS-Rechner</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">03</span>
+          <span class="exercise-name">BMI-Rechner</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">04</span>
+          <span class="exercise-name">Taschenrechner</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">05</span>
+          <span class="exercise-name">GUI Parkscheinautomat</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">06</span>
+          <span class="exercise-name">Weg des Betrunkenen</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">07</span>
+          <span class="exercise-name">Würfelsimulation</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrays -->
+    <div class="category-section">
+      <div class="category-label"><span class="cat-badge arrays">[A] Arrays</span> Array-Aufgaben</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">01</span>
+          <span class="exercise-name">Array: Einführung</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">02</span>
+          <span class="exercise-name">Aktienanalyse</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">03</span>
+          <span class="exercise-name">Konsolenbilder</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">04</span>
+          <span class="exercise-name">Das Streichholzspiel</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- OOP -->
+    <div class="category-section">
+      <div class="category-label"><span class="cat-badge oop">[OOP]</span> Objektorientierung</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">01</span>
+          <span class="exercise-name">OOP: Einstieg</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">02</span>
+          <span class="exercise-name">Das Autohaus</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">03</span>
+          <span class="exercise-name">Geometrische Figuren</span>
+          <span class="exercise-chevron">›</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-title">KATEGORIEN</div>
+    <a class="sidebar-link active">[K] Konsolenprogramme (21)</a>
+    <a class="sidebar-link">[G] GUI-Programme (7)</a>
+    <a class="sidebar-link">[A] Arrays (4)</a>
+    <a class="sidebar-link">[OOP] Objektorientierung (3)</a>
+    <div class="progress-bar-wrap">
+      <div class="progress-label">
+        <span>Fortschritt</span>
+        <span id="progress-pct">3 / 35</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ════════════════ DETAIL: HELLO WORLD ════════════════ -->
+
+<div class="page" id="page-detail-helloworld">
+  <div class="detail-page">
+
+```
+<div class="detail-header">
+  <div class="detail-tag">☕ JAVA · KONSOLE · AUFGABE 01</div>
+  <h1 class="detail-title">Hello World</h1>
+  <div class="detail-meta">
+    <div class="detail-meta-item">📄 HelloWorld.java</div>
+    <div class="detail-meta-item">· Version 1.0</div>
+    <div class="detail-meta-item">· 25.02.2024</div>
+    <div class="detail-meta-item">· ⭐ Einsteiger</div>
+  </div>
+</div>
+
+<div class="detail-body">
+
+  <div class="task-box">
+    <div class="task-label">AUFGABENSTELLUNG</div>
+    <p class="task-text">
+      Die Aufgabe der heutigen Stunde ist <strong>Hello World!</strong> Hello World ist ein Standardprogramm, 
+      welches man in jeder Programmiersprache als erstes schreibt. Man versucht zu verstehen, wie Dinge in 
+      dieser Sprache funktionieren. Bist du bei dieser Aufgabe, stehst du am Anfang eines langen Weges mit Java.<br><br>
+      Schreibe die folgende Zeile in den Haupt-Abschnitt:<br>
+      <code class="inline-code">System.out.println("Hello World");</code>
+    </p>
+  </div>
+
+  <h2 class="section-heading">Lösung</h2>
+
+  <div class="code-wrap">
+    <div class="code-header">
+      <div class="code-header-left">
+        <div class="code-dots"><span></span><span></span><span></span></div>
+        <span class="code-filename">HelloWorld.java</span>
+      </div>
+      <div class="code-actions">
+        <button class="code-btn" onclick="copyCode(this)">Kopieren</button>
+        <button class="code-btn">Herunterladen</button>
+      </div>
+    </div>
+    <pre class="code-pre" id="code-helloworld"><div class="line"><span class="line-num">1</span><span class="cm">/**</span></div><div class="line"><span class="line-num">2</span><span class="cm"> * Das fertige Java Programm "HelloWorld.java"</span></div><div class="line"><span class="line-num">3</span><span class="cm"> *</span></div><div class="line"><span class="line-num">4</span><span class="cm"> * @version 1.0 vom 25.02.2024</span></div><div class="line"><span class="line-num">5</span><span class="cm"> * @MeinInfoKurs.github.io</span></div><div class="line"><span class="line-num">6</span><span class="cm"> */</span></div><div class="line"><span class="line-num">7</span></div><div class="line"><span class="line-num">8</span><span class="kw">public class</span> <span class="cls">HelloWorld</span> {</div><div class="line"><span class="line-num">9</span></div><div class="line"><span class="line-num">10</span>    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {</div><div class="line"><span class="line-num">11</span>        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hello World"</span>);</div><div class="line"><span class="line-num">12</span>    }</div><div class="line"><span class="line-num">13</span>}</div></pre>
+  </div>
+
+  <h2 class="section-heading">Erklärung</h2>
+
+  <div class="explanation-box">
+    <p>In dieser Aufgabe wird lediglich die Ausgabe eines <strong>Strings</strong> (String = Text) gefordert. Das ist der einfachste Schritt in Java!</p>
+    <p>
+      In BlueJ kannst du mit der Tastenkombination 
+      <span class="shortcut-pill">⌃ STRG</span> + <span class="shortcut-pill">U</span>
+      automatisch einen <code class="inline-code">System.out.println()</code>-Befehl erzeugen.
+      Schreibe dann <code class="inline-code">"Hello World"</code> in die Klammern.
+    </p>
+    <p>⚠️ Vergiss das Semikolon am Ende nicht — ohne es wird dein Programm nicht kompilieren!</p>
+  </div>
+
+  <div class="mini-code">System.out.println("Hello World");</div>
+
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="showPage('java-list')">‹ Zurück zur Liste</button>
+    <button class="nav-btn primary" onclick="showPage('detail-placeholder')">Nächste Aufgabe: Mein Name ist.. ›</button>
+  </div>
+
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ════════════════ DETAIL: PLACEHOLDER ════════════════ -->
+
+<div class="page" id="page-detail-placeholder">
+  <div class="detail-page">
+    <div class="coming-soon">
+      <div class="coming-icon">🔒</div>
+      <div class="coming-title">Aufgabe in Bearbeitung</div>
+      <p class="coming-text">Diese Aufgabenseite ist im vollen MeinInfoKurs verfügbar. Besuche die Originalseite auf GitHub Pages.</p>
+      <div style="margin-top: 2rem;">
+        <button class="nav-btn" onclick="showPage('java-list')" style="display: inline-flex; gap: 8px;">‹ Zur Aufgabenliste</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ HTML PAGE ════════════════ -->
+
+<div class="page" id="page-html-page">
+  <div class="list-page">
+    <div class="page-header">
+      <div class="page-tag" style="color: var(--blue);">HTML · Webentwicklung</div>
+      <h1 class="page-title" style="color: var(--text);">HTML <span style="color: var(--blue);">Aufgaben</span></h1>
+      <p class="page-subtitle">Lerne die Grundlagen der Webentwicklung mit HTML.</p>
+    </div>
+    <div class="category-section">
+      <div class="category-label" style="color: var(--blue);">Grundlagen</div>
+      <div class="exercise-grid">
+        <div class="exercise-card" onclick="showPage('detail-placeholder')">
+          <span class="exercise-num">01</span>
+          <span class="exercise-name">Das Grundgerüst</span>
+          <span class="exercise-chevron" style="color: var(--blue);">›</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ SCRATCH PAGE ════════════════ -->
+
+<div class="page" id="page-scratch-page">
+  <div class="coming-soon" style="margin-top: 60px;">
+    <div class="coming-icon">🎮</div>
+    <div class="coming-title">Scratch kommt bald</div>
+    <p class="coming-text">Die Scratch-Aufgaben werden gerade aufbereitet und sind bald verfügbar.</p>
+    <div style="margin-top: 2rem;">
+      <button class="nav-btn" onclick="showPage('home')" style="display: inline-flex; gap: 8px;">‹ Zur Startseite</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const pages = {
+    'home': 'page-home',
+    'java-list': 'page-java-list',
+    'detail-helloworld': 'page-detail-helloworld',
+    'detail-placeholder': 'page-detail-placeholder',
+    'html-page': 'page-html-page',
+    'scratch-page': 'page-scratch-page',
+  };
+
+  const breadcrumbs = {
+    'home': ['~', 'home'],
+    'java-list': ['~', '<a onclick="showPage(\'home\')">home</a>', 'java'],
+    'detail-helloworld': ['~', '<a onclick="showPage(\'home\')">home</a>', '<a onclick="showPage(\'java-list\')">java</a>', 'HelloWorld'],
+    'detail-placeholder': ['~', '<a onclick="showPage(\'home\')">home</a>', '<a onclick="showPage(\'java-list\')">java</a>', '...'],
+    'html-page': ['~', '<a onclick="showPage(\'home\')">home</a>', 'html'],
+    'scratch-page': ['~', '<a onclick="showPage(\'home\')">home</a>', 'scratch'],
+  };
+
+  function showPage(key) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const pageId = pages[key];
+    if (pageId) {
+      document.getElementById(pageId).classList.add('active');
+    }
+    // Breadcrumb
+    const bc = breadcrumbs[key] || ['~', 'home'];
+    document.getElementById('breadcrumb').innerHTML = bc.map((item, i) =>
+      i === bc.length - 1
+        ? `<span>${item}</span>`
+        : (i === 0 ? `<span>${item}</span>` : item)
+    ).join(' <span style="color:var(--text-dim)">›</span> ');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function copyCode(btn) {
+    const pre = document.getElementById('code-helloworld');
+    const text = pre.innerText.replace(/^\d+\s*/gm, '').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✓ Kopiert!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Kopieren';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
