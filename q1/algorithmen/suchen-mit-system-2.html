@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -159,6 +160,43 @@
         <p>Wichtig ist, dass das Array <strong>sortiert</strong> ist. Ohne das
            funktioniert die binäre Suche nicht – sie würde ganze Bereiche
            wegwerfen, in denen die gesuchte Zahl noch liegen könnte.</p>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="flowchart TD
+    A[&quot;links = 0, rechts = Länge des Arrays - 1&quot;] --&gt; B{&quot;links &lt;= rechts?&quot;}
+    B -- nein --&gt; Z[&quot;return false&quot;]
+    B -- ja --&gt; C[&quot;mitte = (links + rechts) / 2&quot;]
+    C --&gt; D{&quot;aktuelles Element gleich Suchschlüssel?&quot;}
+    D -- WAHR --&gt; T[&quot;return true&quot;]
+    D -- FALSCH --&gt; E{&quot;aktuelles Element &lt; Suchschlüssel?&quot;}
+    E -- WAHR --&gt; F[&quot;links = mitte + 1&quot;]
+    E -- FALSCH --&gt; G{&quot;aktuelles Element &gt; Suchschlüssel?&quot;}
+    F --&gt; G
+    G -- WAHR --&gt; H[&quot;rechts = mitte - 1&quot;]
+    G -- FALSCH --&gt; B
+    H --&gt; B">flowchart TD
+    A[&quot;links = 0, rechts = Länge des Arrays - 1&quot;] --&gt; B{&quot;links &lt;= rechts?&quot;}
+    B -- nein --&gt; Z[&quot;return false&quot;]
+    B -- ja --&gt; C[&quot;mitte = (links + rechts) / 2&quot;]
+    C --&gt; D{&quot;aktuelles Element gleich Suchschlüssel?&quot;}
+    D -- WAHR --&gt; T[&quot;return true&quot;]
+    D -- FALSCH --&gt; E{&quot;aktuelles Element &lt; Suchschlüssel?&quot;}
+    E -- WAHR --&gt; F[&quot;links = mitte + 1&quot;]
+    E -- FALSCH --&gt; G{&quot;aktuelles Element &gt; Suchschlüssel?&quot;}
+    F --&gt; G
+    G -- WAHR --&gt; H[&quot;rechts = mitte - 1&quot;]
+    G -- FALSCH --&gt; B
+    H --&gt; B</pre>
+            </div>
+            <figcaption>Wie die binäre Suche den Bereich halbiert</figcaption>
+        </figure>
+
+
+        <p>Das ist der Ablauf, den wir gleich zweimal von Hand durchspielen. Die
+           drei Abfragen kommen im Struktogramm nacheinander und nicht als
+           <code>else</code>-Kette – das wird später bei der Aufgabe wichtig, in der
+           man die Zeilen sortieren soll.</p>
 
         <h2>a) Die Suche nach der 7</h2>
 

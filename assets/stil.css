@@ -635,6 +635,52 @@ tbody tr:hover { background: var(--flaeche); }
 
 /* --- Modale Fenster ------------------------------------------------------ */
 
+/* --- Diagramme ----------------------------------------------------------- */
+
+.diagramm {
+    margin: var(--s5) 0 var(--s6);
+    padding: 0;
+}
+
+/* Breite Diagramme duerfen scrollen - die Seite selbst nie. */
+.diagramm-huelle {
+    overflow-x: auto;
+    padding: var(--s5) var(--s4);
+    border: 1px solid var(--rand);
+    border-radius: var(--radius);
+    background: var(--flaeche);
+}
+
+pre.mermaid {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    font-family: inherit;
+    /* Vor dem Rendern steht hier der mermaid-Quelltext. Der soll nicht
+       aufblitzen, bis das SVG da ist. */
+    visibility: hidden;
+    min-height: 3rem;
+}
+pre.mermaid.fertig { visibility: visible; }
+pre.mermaid svg { max-width: 100%; height: auto; }
+
+/* Notfall: mermaid konnte nicht rendern. Dann lieber den Quelltext lesbar
+   zeigen als einen leeren Kasten. */
+pre.mermaid.roh {
+    visibility: visible;
+    display: block;
+    white-space: pre;
+    font-family: "JetBrains Mono", ui-monospace, "Courier New", monospace;
+    font-size: .8rem;
+    color: var(--text-still);
+}
+
+.diagramm figcaption {
+    margin-top: var(--s3);
+    font-size: .82rem;
+    color: var(--text-still);
+    text-align: center;
+}
 /* --- Suchfenster --------------------------------------------------------- */
 
 dialog.fenster.fenster-suche { width: min(94vw, 38rem); }

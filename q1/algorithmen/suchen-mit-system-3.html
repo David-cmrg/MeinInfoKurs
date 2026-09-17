@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -220,6 +221,38 @@
                 </tbody>
             </table>
         </div>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="flowchart TD
+    A[&quot;Schlüssel z, zum Beispiel 06061981&quot;] --&gt; B[&quot;Hashfunktion h1(z) = z mod 10&quot;]
+    B --&gt; C[&quot;Index = 1&quot;]
+    C --&gt; D{&quot;Ist Feld [Index] frei?&quot;}
+    D -- ja --&gt; E[&quot;Zahl in Feld [Index] ablegen&quot;]
+    D -- nein --&gt; F[&quot;Kollision, also lineares Verschieben: Index = Index + 1&quot;]
+    F --&gt; G{&quot;Index hinter dem letzten Feld?&quot;}
+    G -- ja --&gt; H[&quot;vorne wieder anfangen, Index = 0&quot;]
+    G -- nein --&gt; D
+    H --&gt; D">flowchart TD
+    A[&quot;Schlüssel z, zum Beispiel 06061981&quot;] --&gt; B[&quot;Hashfunktion h1(z) = z mod 10&quot;]
+    B --&gt; C[&quot;Index = 1&quot;]
+    C --&gt; D{&quot;Ist Feld [Index] frei?&quot;}
+    D -- ja --&gt; E[&quot;Zahl in Feld [Index] ablegen&quot;]
+    D -- nein --&gt; F[&quot;Kollision, also lineares Verschieben: Index = Index + 1&quot;]
+    F --&gt; G{&quot;Index hinter dem letzten Feld?&quot;}
+    G -- ja --&gt; H[&quot;vorne wieder anfangen, Index = 0&quot;]
+    G -- nein --&gt; D
+    H --&gt; D</pre>
+            </div>
+            <figcaption>Was beim Hashing passiert, wenn der Platz schon belegt ist</figcaption>
+        </figure>
+
+
+        <p>Die vierte Zeile der Tabelle steht im Diagramm: die 06061981 möchte auf
+           Platz [1], dort sitzt aber schon die 09081981. Beim
+           <strong>linearen Verschieben</strong> rückt sie dann so lange ein Feld
+           weiter, bis ein freier Platz kommt. Wäre sie dabei hinten aus dem Array
+           gelaufen, ginge es vorne wieder los.</p>
 
         <p>Ergebnis: <strong>5 Kollisionen</strong>, und es entsteht ein dicker
            Klumpen von [0] bis [6].</p>

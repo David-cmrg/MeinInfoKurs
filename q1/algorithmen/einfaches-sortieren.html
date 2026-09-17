@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -277,6 +278,46 @@ fertig:        1  2  3  4  6  8 11 12</code></pre>
            immer als Erstes erklärt, weil man es am leichtesten versteht.</p>
 
         <h2>Aufgabe 4 a) – Selection Sort in Java</h2>
+
+        <p>Das Struktogramm aus der Aufgabe sieht als Ablauf so aus:</p>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="flowchart TD
+    A[&quot;links = 0&quot;] --&gt; B{&quot;links &lt; Länge von a?&quot;}
+    B -- nein --&gt; Z[&quot;fertig, a ist sortiert&quot;]
+    B -- ja --&gt; C[&quot;min = links&quot;]
+    C --&gt; D[&quot;i = links + 1&quot;]
+    D --&gt; E{&quot;i &lt; Länge von a?&quot;}
+    E -- ja --&gt; F{&quot;a[i] &lt; a[min]?&quot;}
+    F -- WAHR --&gt; G[&quot;min = i&quot;]
+    F -- FALSCH --&gt; H[&quot;i = i + 1&quot;]
+    G --&gt; H
+    H --&gt; E
+    E -- nein --&gt; I[&quot;vertausche a[min] und a[links]&quot;]
+    I --&gt; J[&quot;links = links + 1&quot;]
+    J --&gt; B">flowchart TD
+    A[&quot;links = 0&quot;] --&gt; B{&quot;links &lt; Länge von a?&quot;}
+    B -- nein --&gt; Z[&quot;fertig, a ist sortiert&quot;]
+    B -- ja --&gt; C[&quot;min = links&quot;]
+    C --&gt; D[&quot;i = links + 1&quot;]
+    D --&gt; E{&quot;i &lt; Länge von a?&quot;}
+    E -- ja --&gt; F{&quot;a[i] &lt; a[min]?&quot;}
+    F -- WAHR --&gt; G[&quot;min = i&quot;]
+    F -- FALSCH --&gt; H[&quot;i = i + 1&quot;]
+    G --&gt; H
+    H --&gt; E
+    E -- nein --&gt; I[&quot;vertausche a[min] und a[links]&quot;]
+    I --&gt; J[&quot;links = links + 1&quot;]
+    J --&gt; B</pre>
+            </div>
+            <figcaption>Wie Selection Sort das Minimum nach vorne holt</figcaption>
+        </figure>
+
+
+        <p>Zwei ineinander geschachtelte Schleifen: die äußere schiebt
+           <code>links</code> Feld für Feld nach rechts, die innere sucht im Rest
+           das Minimum. Getauscht wird erst, wenn die innere Schleife durch ist.</p>
 
         <div class="code">
             <div class="code-leiste">

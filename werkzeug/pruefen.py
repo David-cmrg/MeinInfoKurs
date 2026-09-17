@@ -26,6 +26,11 @@ for a in AUFGABEN:
     geprueft += 1
     s = datei.read_text(encoding="utf-8")
 
+    # Diagramme sind mermaid-Quelltext, kein Java. Klammern wie in
+    # "A[Start] --> B{Bedingung}" gehen dort absichtlich nicht paarweise auf.
+    # Die Syntax prueft diagrammpruefung.py, nicht dieses Werkzeug.
+    s = re.sub(r'<pre class="mermaid".*?</pre>', "", s, flags=re.S)
+
     for roh in re.findall(r"<code[^>]*>(.*?)</code>", s, re.S):
         code = html.unescape(roh)
 

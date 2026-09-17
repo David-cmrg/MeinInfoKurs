@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -126,6 +127,48 @@
         <p>Wenn du aus der E-Phase kommst, sieht das hier erstmal komisch aus. Wir
            schreiben nämlich zwei Dateien statt einer. Das ist aber genau der
            Punkt bei der OOP und garnicht so wild, wenn man es einmal gemacht hat.</p>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="classDiagram
+    class Auto {
+        -String Kennzeichen
+        -double Kilometerstand
+        -double Tankvolumen
+        -double Kraftstoffverbrauch
+        -double Kraftstoffmenge
+        +Auto(String, double, double)
+        +getKennzeichen() String
+        +getKilometerstand() double
+        +getKraftstoffmenge() double
+        +tanken(double) void
+        +fahren(double) void
+    }
+    class Autohaus {
+        +main(String[]) void
+    }
+    Autohaus ..&gt; Auto : erzeugt mit new">classDiagram
+    class Auto {
+        -String Kennzeichen
+        -double Kilometerstand
+        -double Tankvolumen
+        -double Kraftstoffverbrauch
+        -double Kraftstoffmenge
+        +Auto(String, double, double)
+        +getKennzeichen() String
+        +getKilometerstand() double
+        +getKraftstoffmenge() double
+        +tanken(double) void
+        +fahren(double) void
+    }
+    class Autohaus {
+        +main(String[]) void
+    }
+    Autohaus ..&gt; Auto : erzeugt mit new</pre>
+            </div>
+            <figcaption>Wie Auto und Autohaus zusammenhängen</figcaption>
+        </figure>
+
 
         <div class="aufgabenstellung">
             <span class="marke">Die Aufgabenstellung lautet</span>

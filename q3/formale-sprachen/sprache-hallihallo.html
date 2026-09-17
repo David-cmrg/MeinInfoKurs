@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -184,6 +185,32 @@ hallihallihallihallihallihallo</code></pre>
         <p>Der Punkt, den man dabei leicht übersieht: <strong>kein Mal</strong> ist
            auch erlaubt. Deshalb gehört das einzelne „hallo" zur Sprache, obwohl gar
            kein „halli" davorsteht.</p>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="stateDiagram-v2
+    direction LR
+    [*] --&gt; Anfang
+    Anfang : Anfang
+    Fertig : Wort fertig
+    Anfang --&gt; Anfang : halli (beliebig oft, auch kein Mal)
+    Anfang --&gt; Fertig : hallo (genau einmal, am Ende)
+    Fertig --&gt; [*]">stateDiagram-v2
+    direction LR
+    [*] --&gt; Anfang
+    Anfang : Anfang
+    Fertig : Wort fertig
+    Anfang --&gt; Anfang : halli (beliebig oft, auch kein Mal)
+    Anfang --&gt; Fertig : hallo (genau einmal, am Ende)
+    Fertig --&gt; [*]</pre>
+            </div>
+            <figcaption>Wie ein Wort der Sprache hallihallo entsteht</figcaption>
+        </figure>
+
+
+        <p>Die Schleife ist der ganze Trick: man darf beliebig oft „halli" nehmen –
+           auch null Mal – und muss die Schleife mit einem „hallo" verlassen. Danach
+           ist das Wort zu Ende, ein zweites „hallo" gibt es nicht.</p>
 
         <h2>Aufgabe 2 – Alphabet und Zugehörigkeit</h2>
 

@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -199,6 +200,24 @@
 ;  o  )      Augen ; , Nase o , Mund )</code></pre>
             </div>
         </div>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="flowchart LR
+    S((&quot;Start&quot;)) --&gt; A[&quot;Augen&lt;br&gt;: ; = x X&quot;]
+    A --&gt; N[&quot;Nase, optional&lt;br&gt;- o &#x27;&quot;]
+    A --&gt;|ohne Nase| M
+    N --&gt; M[&quot;Mund&lt;br&gt;) ( ] [ } { D P p b C c / &amp;lt; &amp;gt; 0 O o&quot;]
+    M --&gt; E((&quot;fertig&quot;))">flowchart LR
+    S((&quot;Start&quot;)) --&gt; A[&quot;Augen&lt;br&gt;: ; = x X&quot;]
+    A --&gt; N[&quot;Nase, optional&lt;br&gt;- o &#x27;&quot;]
+    A --&gt;|ohne Nase| M
+    N --&gt; M[&quot;Mund&lt;br&gt;) ( ] [ } { D P p b C c / &amp;lt; &amp;gt; 0 O o&quot;]
+    M --&gt; E((&quot;fertig&quot;))</pre>
+            </div>
+            <figcaption>Wie ein Emoticon aus seinen Bausteinen zusammengesetzt wird</figcaption>
+        </figure>
+
 
         <p>Das ist derselbe Gedanke wie beim Backofen: nicht jede Zeichenfolge aus
            dem Alphabet ist ein gültiges Wort. Die Reihenfolge entscheidet.</p>

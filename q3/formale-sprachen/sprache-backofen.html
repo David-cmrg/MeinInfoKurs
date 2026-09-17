@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -162,6 +163,36 @@
             </table>
         </div>
 
+        <p>Alle Wörter auf dem Display sind nach demselben Muster gebaut: erst ein
+           Symbol, dann die Zahl, die dazugehört – und das mehrmals hintereinander.
+           Das Symbol sagt, was die Zahl bedeutet.</p>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="stateDiagram-v2
+    direction LR
+    [*] --&gt; Symbol
+    Symbol : Symbol (Garzeit, Endzeit oder Betriebsart)
+    Zahl : Zahl (Dauer, Uhrzeit oder Temperatur)
+    Symbol --&gt; Zahl
+    Zahl --&gt; Symbol : noch ein Block
+    Zahl --&gt; [*] : Wort zu Ende">stateDiagram-v2
+    direction LR
+    [*] --&gt; Symbol
+    Symbol : Symbol (Garzeit, Endzeit oder Betriebsart)
+    Zahl : Zahl (Dauer, Uhrzeit oder Temperatur)
+    Symbol --&gt; Zahl
+    Zahl --&gt; Symbol : noch ein Block
+    Zahl --&gt; [*] : Wort zu Ende</pre>
+            </div>
+            <figcaption>Wie ein Wort auf dem Backofen-Display aufgebaut ist</figcaption>
+        </figure>
+
+
+        <p>Die Blöcke müssen dabei nicht in einer festen Reihenfolge stehen: in
+           Aufgabe 3 kommen beide Varianten vor – einmal steht die Betriebsart
+           vorne, einmal hinten –, und beide gelten als syntaktisch richtig.</p>
+
         <h2>Aufgabe 1 – Das Alphabet Σ</h2>
         <div class="code">
             <div class="code-feld">
@@ -259,6 +290,26 @@ C) ist syntaktisch richtig und semantisch sinnvoll. Der Backofen läuft
            eingestellt, Umluft und Umluft-Grill. Ein echter Backofen hat einen
            Drehknopf, der immer nur auf einer Position stehen kann. Das Wort
            beschreibt also etwas, das es physikalisch nicht gibt.</p>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="flowchart TD
+    W[&quot;Wort B&quot;] --&gt; B1[&quot;Umluft, 220 Grad&quot;]
+    W --&gt; B2[&quot;Umluft-Grill, 2115&quot;]
+    W --&gt; B3[&quot;Garzeit 100&quot;]
+    B1 --&gt; K[&quot;Der Drehknopf kann nur auf einer Position stehen&quot;]
+    B2 --&gt; K
+    K --&gt; X[&quot;semantisch nicht sinnvoll&quot;]">flowchart TD
+    W[&quot;Wort B&quot;] --&gt; B1[&quot;Umluft, 220 Grad&quot;]
+    W --&gt; B2[&quot;Umluft-Grill, 2115&quot;]
+    W --&gt; B3[&quot;Garzeit 100&quot;]
+    B1 --&gt; K[&quot;Der Drehknopf kann nur auf einer Position stehen&quot;]
+    B2 --&gt; K
+    K --&gt; X[&quot;semantisch nicht sinnvoll&quot;]</pre>
+            </div>
+            <figcaption>Woran Wort B scheitert: zwei Betriebsarten auf einmal</figcaption>
+        </figure>
+
 
         <p>Genau das ist der Kern: <strong>syntaktisch korrekt heißt nicht
            automatisch sinnvoll.</strong> Umgekehrt gilt aber: was syntaktisch falsch

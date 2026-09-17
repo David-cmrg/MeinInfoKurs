@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -243,6 +244,68 @@ Orte(Postleitzahl, Ortname, Tel-Vorwahl)
      +---------> Farbstoffe</code></pre>
             </div>
         </div>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="erDiagram
+    ORTE ||--o{ LIEFERANTEN : &quot;Postleitzahl&quot;
+    LIEFERANTEN ||--o{ WURSTSORTEN : &quot;Lieferant_ID&quot;
+    FARBSTOFFE ||--o{ WURSTSORTEN : &quot;Farbstoff_ID&quot;
+    WURSTSORTEN {
+        int ID PK
+        string Sorte_Name
+        int Lieferant_ID FK
+        int Mehrwertsteuersatz
+        decimal Einkaufspreis
+        int Farbstoff_ID FK
+    }
+    FARBSTOFFE {
+        int ID PK
+        string Name
+        int Gefaehrlichkeitsstufe
+    }
+    LIEFERANTEN {
+        int ID PK
+        string Name
+        int Postleitzahl FK
+        string Status
+    }
+    ORTE {
+        int Postleitzahl PK
+        string Ortname
+        string Tel_Vorwahl
+    }">erDiagram
+    ORTE ||--o{ LIEFERANTEN : &quot;Postleitzahl&quot;
+    LIEFERANTEN ||--o{ WURSTSORTEN : &quot;Lieferant_ID&quot;
+    FARBSTOFFE ||--o{ WURSTSORTEN : &quot;Farbstoff_ID&quot;
+    WURSTSORTEN {
+        int ID PK
+        string Sorte_Name
+        int Lieferant_ID FK
+        int Mehrwertsteuersatz
+        decimal Einkaufspreis
+        int Farbstoff_ID FK
+    }
+    FARBSTOFFE {
+        int ID PK
+        string Name
+        int Gefaehrlichkeitsstufe
+    }
+    LIEFERANTEN {
+        int ID PK
+        string Name
+        int Postleitzahl FK
+        string Status
+    }
+    ORTE {
+        int Postleitzahl PK
+        string Ortname
+        string Tel_Vorwahl
+    }</pre>
+            </div>
+            <figcaption>Wer bei den Wurstsorten auf wen zeigt</figcaption>
+        </figure>
+
 
         <p>Zwei Sachen fallen dabei auf. Erstens verweist <code>Wurstsorten</code>
            auf <strong>zwei</strong> Tabellen gleichzeitig – eine Tabelle darf

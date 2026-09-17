@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -199,6 +200,38 @@ Formatkennung</code></pre>
             <li>Jeder Pixelwert muss zwischen 0 und Maxval liegen</li>
             <li>Zwischen zwei Bestandteilen steht genau ein Leerzeichen</li>
         </ol>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="stateDiagram-v2
+    [*] --&gt; P2
+    P2 : P2 (Formatkennung)
+    Breite : Breite
+    Hoehe : Höhe
+    Maxval : Maxval (1 bis 255)
+    Pixel : Pixelwert (0 bis Maxval)
+    P2 --&gt; Breite
+    Breite --&gt; Hoehe
+    Hoehe --&gt; Maxval
+    Maxval --&gt; Pixel
+    Pixel --&gt; Pixel : noch nicht Breite · Höhe Werte
+    Pixel --&gt; [*] : Breite · Höhe Werte erreicht">stateDiagram-v2
+    [*] --&gt; P2
+    P2 : P2 (Formatkennung)
+    Breite : Breite
+    Hoehe : Höhe
+    Maxval : Maxval (1 bis 255)
+    Pixel : Pixelwert (0 bis Maxval)
+    P2 --&gt; Breite
+    Breite --&gt; Hoehe
+    Hoehe --&gt; Maxval
+    Maxval --&gt; Pixel
+    Pixel --&gt; Pixel : noch nicht Breite · Höhe Werte
+    Pixel --&gt; [*] : Breite · Höhe Werte erreicht</pre>
+            </div>
+            <figcaption>Wie eine PGM-Datei aufgebaut ist</figcaption>
+        </figure>
+
 
         <p>Regel 3 ist die bemerkenswerte: <strong>ein Teil des Wortes bestimmt,
            wie lang der Rest sein muss.</strong> Das ist bei hallihallo nicht so, dort

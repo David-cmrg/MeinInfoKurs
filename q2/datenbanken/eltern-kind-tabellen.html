@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -197,6 +198,82 @@ artikel_hat_warengruppe
 warengruppen</code></pre>
             </div>
         </div>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="erDiagram
+    orte ||--o{ lieferanten : &quot;ort_id&quot;
+    lieferanten ||--o{ artikel : &quot;lieferant&quot;
+    artikel ||--o{ artikel_hat_lieferant : &quot;artikel_id&quot;
+    lieferanten ||--o{ artikel_hat_lieferant : &quot;lieferant_id&quot;
+    artikel ||--o{ artikel_hat_warengruppe : &quot;artikel_id&quot;
+    warengruppen ||--o{ artikel_hat_warengruppe : &quot;warengruppe_id&quot;
+    orte {
+        int id PK
+        string postleitzahl
+        string name
+    }
+    lieferanten {
+        int id PK
+        string name
+        int ort_id FK
+    }
+    artikel {
+        int id PK
+        string name
+        decimal preis
+        int lieferant FK
+    }
+    artikel_hat_lieferant {
+        int artikel_id PK, FK
+        int lieferant_id PK, FK
+    }
+    warengruppen {
+        int id PK
+        string name
+    }
+    artikel_hat_warengruppe {
+        int artikel_id PK, FK
+        int warengruppe_id PK, FK
+    }">erDiagram
+    orte ||--o{ lieferanten : &quot;ort_id&quot;
+    lieferanten ||--o{ artikel : &quot;lieferant&quot;
+    artikel ||--o{ artikel_hat_lieferant : &quot;artikel_id&quot;
+    lieferanten ||--o{ artikel_hat_lieferant : &quot;lieferant_id&quot;
+    artikel ||--o{ artikel_hat_warengruppe : &quot;artikel_id&quot;
+    warengruppen ||--o{ artikel_hat_warengruppe : &quot;warengruppe_id&quot;
+    orte {
+        int id PK
+        string postleitzahl
+        string name
+    }
+    lieferanten {
+        int id PK
+        string name
+        int ort_id FK
+    }
+    artikel {
+        int id PK
+        string name
+        decimal preis
+        int lieferant FK
+    }
+    artikel_hat_lieferant {
+        int artikel_id PK, FK
+        int lieferant_id PK, FK
+    }
+    warengruppen {
+        int id PK
+        string name
+    }
+    artikel_hat_warengruppe {
+        int artikel_id PK, FK
+        int warengruppe_id PK, FK
+    }</pre>
+            </div>
+            <figcaption>Wer im Warenbestand auf wen zeigt</figcaption>
+        </figure>
+
 
         <p><code>lieferanten</code> und <code>artikel</code> sind gleichzeitig
            Eltern und Kind. Das ist der Kern der Aufgabe: die Rolle ist nicht die

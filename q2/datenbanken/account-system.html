@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -179,6 +180,98 @@ CREATE TABLE user (
            Prüfung im PHP-Code allein sollte man sich nicht verlassen: klickt jemand
            zweimal schnell hintereinander auf Absenden, können beide Anfragen die
            Prüfung passieren, bevor die erste gespeichert hat.</p>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="flowchart TD
+    subgraph R[&quot;registrieren.php&quot;]
+        R1[&quot;E-Mail und Passwort aus dem Formular&quot;]
+        R2{&quot;E-Mail gültig und&lt;br&gt;Passwort lang genug?&quot;}
+        R3[&quot;SELECT id FROM user WHERE email = ?&quot;]
+        R4{&quot;E-Mail schon vergeben?&quot;}
+        R5[&quot;password_hash(...)&lt;br&gt;hier wird gehasht -&lt;br&gt;nie im Klartext speichern&quot;]
+        R6[&quot;INSERT INTO user (email, passwort)&quot;]
+        R7[&quot;Erfolgsmeldung, Formular ausblenden&quot;]
+        RF[&quot;Fehlermeldung,&lt;br&gt;Formular bleibt stehen&quot;]
+    end
+
+    subgraph L[&quot;login.php&quot;]
+        L1[&quot;E-Mail und Passwort aus dem Formular&quot;]
+        L2[&quot;SELECT id, email, passwort&lt;br&gt;FROM user WHERE email = ?&quot;]
+        L3{&quot;password_verify(Eingabe, Hash)&lt;br&gt;stimmt?&quot;}
+        L4[&quot;session_regenerate_id(true)&quot;]
+        L5[&quot;$_SESSION[&#x27;userid&#x27;] setzen&quot;]
+        L6[&quot;Weiterleitung auf geheim.php&quot;]
+        LF[&quot;E-Mail oder Passwort ist falsch&quot;]
+    end
+
+    G{&quot;geheim.php:&lt;br&gt;ist userid in der Session?&quot;}
+    GJ[&quot;geschützter Inhalt&quot;]
+
+    R1 --&gt; R2
+    R2 -- nein --&gt; RF
+    R2 -- ja --&gt; R3
+    R3 --&gt; R4
+    R4 -- ja --&gt; RF
+    R4 -- nein --&gt; R5
+    R5 --&gt; R6
+    R6 --&gt; R7
+    R7 --&gt; L1
+    L1 --&gt; L2
+    L2 --&gt; L3
+    L3 -- nein --&gt; LF
+    L3 -- ja --&gt; L4
+    L4 --&gt; L5
+    L5 --&gt; L6
+    L6 --&gt; G
+    G -- ja --&gt; GJ
+    G -- nein --&gt; L1">flowchart TD
+    subgraph R[&quot;registrieren.php&quot;]
+        R1[&quot;E-Mail und Passwort aus dem Formular&quot;]
+        R2{&quot;E-Mail gültig und&lt;br&gt;Passwort lang genug?&quot;}
+        R3[&quot;SELECT id FROM user WHERE email = ?&quot;]
+        R4{&quot;E-Mail schon vergeben?&quot;}
+        R5[&quot;password_hash(...)&lt;br&gt;hier wird gehasht -&lt;br&gt;nie im Klartext speichern&quot;]
+        R6[&quot;INSERT INTO user (email, passwort)&quot;]
+        R7[&quot;Erfolgsmeldung, Formular ausblenden&quot;]
+        RF[&quot;Fehlermeldung,&lt;br&gt;Formular bleibt stehen&quot;]
+    end
+
+    subgraph L[&quot;login.php&quot;]
+        L1[&quot;E-Mail und Passwort aus dem Formular&quot;]
+        L2[&quot;SELECT id, email, passwort&lt;br&gt;FROM user WHERE email = ?&quot;]
+        L3{&quot;password_verify(Eingabe, Hash)&lt;br&gt;stimmt?&quot;}
+        L4[&quot;session_regenerate_id(true)&quot;]
+        L5[&quot;$_SESSION[&#x27;userid&#x27;] setzen&quot;]
+        L6[&quot;Weiterleitung auf geheim.php&quot;]
+        LF[&quot;E-Mail oder Passwort ist falsch&quot;]
+    end
+
+    G{&quot;geheim.php:&lt;br&gt;ist userid in der Session?&quot;}
+    GJ[&quot;geschützter Inhalt&quot;]
+
+    R1 --&gt; R2
+    R2 -- nein --&gt; RF
+    R2 -- ja --&gt; R3
+    R3 --&gt; R4
+    R4 -- ja --&gt; RF
+    R4 -- nein --&gt; R5
+    R5 --&gt; R6
+    R6 --&gt; R7
+    R7 --&gt; L1
+    L1 --&gt; L2
+    L2 --&gt; L3
+    L3 -- nein --&gt; LF
+    L3 -- ja --&gt; L4
+    L4 --&gt; L5
+    L5 --&gt; L6
+    L6 --&gt; G
+    G -- ja --&gt; GJ
+    G -- nein --&gt; L1</pre>
+            </div>
+            <figcaption>Registrierung und Login Schritt für Schritt</figcaption>
+        </figure>
+
 
         <h2>Registrierung</h2>
         <div class="code">

@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -214,6 +215,26 @@ public class Main2 {
             <li>Eine überladene Variante <code>summe(int anfang, int grenze)</code> mit eigenem Startwert</li>
             <li>Alle drei aus <code>main</code> aufrufen und die Ergebnisse ausgeben</li>
         </ol>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="classDiagram
+    class Main2 {
+        +summe(int) int
+        +summe(String) int
+        +summe(int, int) int
+        +main(String[]) void
+    }">classDiagram
+    class Main2 {
+        +summe(int) int
+        +summe(String) int
+        +summe(int, int) int
+        +main(String[]) void
+    }</pre>
+            </div>
+            <figcaption>Dreimal summe, jedes Mal andere Parameter</figcaption>
+        </figure>
+
 
         <h3 class="schritt-titel">Wie Java die richtige Methode findet</h3>
         <p>Drei Methoden heißen <code>summe</code>. Für Java sind das trotzdem

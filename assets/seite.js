@@ -30,6 +30,9 @@
     function themaSetzen(thema) {
         document.documentElement.setAttribute("data-thema", thema);
         speicher.schreib("thema", thema);
+        // mermaid backt die Farben ins SVG. Ohne Neuzeichnen bliebe das
+        // Diagramm im alten Thema stehen.
+        if (window.mermaid && $("pre.mermaid")) diagrammeZeichnen();
         var knopf = $("#thema-schalter");
         if (knopf) {
             var hell = thema === "hell";
@@ -128,6 +131,101 @@
         });
     }
 
+
+
+    /* ------------------------------------------------------------ Diagramme
+       Die Diagramme stehen als mermaid-Quelltext in <pre class="mermaid">.
+       Beim Rendern ersetzt mermaid den Inhalt durch ein SVG - deshalb liegt
+       die Quelle zusaetzlich in data-quelle. Ohne diese Kopie koennte man
+       beim Umschalten auf das helle Thema nicht neu zeichnen, und das
+       Diagramm bliebe in den dunklen Farben stehen. */
+
+    var diagrammZaehler = 0;
+
+    function mermaidFarben(thema) {
+        var hell = thema === "hell";
+        return {
+            startOnLoad: false,
+            securityLevel: "strict",
+            theme: "base",
+            fontFamily: '"Montserrat", system-ui, sans-serif',
+            themeVariables: {
+                darkMode: !hell,
+                background:        hell ? "#ffffff" : "#1a1b26",
+                primaryColor:      hell ? "#eef2ff" : "#252739",
+                primaryTextColor:  hell ? "#1a1a2e" : "#e8e8f0",
+                primaryBorderColor:hell ? "#8ab4f8" : "#7dd3fc",
+                lineColor:         hell ? "#6b7280" : "#8a8aa5",
+                secondaryColor:    hell ? "#f5f0ff" : "#2d2a3f",
+                tertiaryColor:     hell ? "#f8fafc" : "#20212f",
+                textColor:         hell ? "#1a1a2e" : "#e8e8f0",
+                fontSize: "14px",
+                /* Die Attributzeilen der ER-Diagramme haben eine eigene
+                   Faerbung. Ohne diese vier Werte setzt mermaid im dunklen
+                   Thema helle Zeilen mit hellem Text - unlesbar. */
+                attributeBackgroundColorOdd:  hell ? "#ffffff" : "#20212f",
+                attributeBackgroundColorEven: hell ? "#f3f4f8" : "#272a3b",
+                nodeBorder:        hell ? "#8ab4f8" : "#7dd3fc",
+                mainBkg:           hell ? "#eef2ff" : "#252739"
+            },
+            flowchart: { curve: "basis", padding: 14, useMaxWidth: true },
+            sequence:  { useMaxWidth: true },
+            er:        { useMaxWidth: true },
+            class:     { useMaxWidth: true }
+        };
+    }
+
+    function diagrammeZeichnen() {
+        var bloecke = $$("pre.mermaid");
+        if (!bloecke.length || !window.mermaid) return;
+
+        var thema = document.documentElement.getAttribute("data-thema") || "dunkel";
+        try { window.mermaid.initialize(mermaidFarben(thema)); }
+        catch (e) { return; }
+
+        bloecke.forEach(function (block) {
+            var quelle = block.dataset.quelle;
+            if (!quelle) return;
+            var id = "diagramm-" + (++diagrammZaehler);
+            try {
+                window.mermaid.render(id, quelle).then(function (r) {
+                    block.innerHTML = r.svg;
+                    block.classList.add("fertig");
+                }).catch(function () {
+                    // Kaputtes Diagramm: lieber den Quelltext zeigen als nichts
+                    block.textContent = quelle;
+                    block.classList.add("roh");
+                });
+            } catch (e) {
+                block.textContent = quelle;
+                block.classList.add("roh");
+            }
+        });
+    }
+
+    function diagrammeRoh() {
+        // Kein mermaid da (kein Netz, CDN gesperrt). Dann den Quelltext zeigen
+        // statt einen leeren Kasten stehen zu lassen.
+        $$("pre.mermaid").forEach(function (block) {
+            block.textContent = block.dataset.quelle || "";
+            block.classList.add("roh");
+        });
+    }
+
+    function diagrammeStarten() {
+        if (!$("pre.mermaid")) return;
+        // Das mermaid-Skript steht mit defer im Kopf. Deferred Skripte laufen
+        // fertig, BEVOR DOMContentLoaded feuert - und diese Funktion haengt an
+        // DOMContentLoaded. Ist window.mermaid hier nicht da, kommt es auch
+        // nicht mehr. Kein Pollen noetig.
+        if (window.mermaid) { diagrammeZeichnen(); return; }
+        // Einzige Ausnahme: seite.js lief schon bei readyState "complete".
+        // Dann noch einmal auf load warten, danach ist Schluss.
+        if (document.readyState === "complete") { diagrammeRoh(); return; }
+        window.addEventListener("load", function () {
+            if (window.mermaid) diagrammeZeichnen(); else diagrammeRoh();
+        }, { once: true });
+    }
 
     /* ----------------------------------------------------------------- Suche
        Der Index liegt als eine JSON-Datei unter assets/suchindex.json und wird
@@ -449,6 +547,7 @@
         verlaufMerken();
         dialogVerdrahten();
         sucheVerdrahten();
+        diagrammeStarten();
         codeVerdrahten();
         antwortenVerdrahten();
         hinweisVerdrahten();

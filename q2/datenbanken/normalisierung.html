@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -436,6 +437,58 @@ Ausleihen(ID, Buch_ID, LeiherName)
             <li><strong>3NF:</strong> Hängt ein Attribut von einem anderen Nicht-Schlüssel-Attribut ab? Beide zusammen in eine eigene Tabelle.</li>
             <li><strong>Fremdschlüssel setzen</strong>, damit die Tabellen wieder verbunden sind.</li>
         </ol>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="flowchart TD
+    A[&quot;Die Relation, so wie sie gegeben ist&quot;]
+    B{&quot;Steht in einer Zelle&lt;br&gt;mehr als ein Wert?&quot;}
+    B1[&quot;1NF: den Text in einzelne Spalten zerlegen&lt;br&gt;Aufgabe 2: Kunde wird zu Vorname, Nachname,&lt;br&gt;Strasse, Hausnummer, PLZ, Ort&quot;]
+    C{&quot;Primärschlüssel bestimmen:&lt;br&gt;einfach oder zusammengesetzt?&quot;}
+    D{&quot;Hängt ein Attribut nur von&lt;br&gt;einem Teil des Schlüssels ab?&quot;}
+    D1[&quot;2NF: Teilschlüssel und die abhängigen&lt;br&gt;Attribute in eine eigene Tabelle&lt;br&gt;Aufgabe 6: Lexikontitel wird zu Lexika&quot;]
+    E{&quot;Hängt ein Nicht-Schlüssel-Attribut&lt;br&gt;von einem anderen ab?&quot;}
+    E1[&quot;3NF: beide zusammen in eine&lt;br&gt;eigene Tabelle&lt;br&gt;Aufgabe 8: Lieferant_Ort wird zu Lieferanten&quot;]
+    F[&quot;Fremdschlüssel setzen - fertig&quot;]
+
+    A --&gt; B
+    B -- ja --&gt; B1
+    B1 --&gt; C
+    B -- nein --&gt; C
+    C -- &quot;einfach: 2NF ist automatisch erfüllt&quot; --&gt; E
+    C -- zusammengesetzt --&gt; D
+    D -- ja --&gt; D1
+    D1 --&gt; E
+    D -- nein --&gt; E
+    E -- ja --&gt; E1
+    E1 --&gt; F
+    E -- nein --&gt; F">flowchart TD
+    A[&quot;Die Relation, so wie sie gegeben ist&quot;]
+    B{&quot;Steht in einer Zelle&lt;br&gt;mehr als ein Wert?&quot;}
+    B1[&quot;1NF: den Text in einzelne Spalten zerlegen&lt;br&gt;Aufgabe 2: Kunde wird zu Vorname, Nachname,&lt;br&gt;Strasse, Hausnummer, PLZ, Ort&quot;]
+    C{&quot;Primärschlüssel bestimmen:&lt;br&gt;einfach oder zusammengesetzt?&quot;}
+    D{&quot;Hängt ein Attribut nur von&lt;br&gt;einem Teil des Schlüssels ab?&quot;}
+    D1[&quot;2NF: Teilschlüssel und die abhängigen&lt;br&gt;Attribute in eine eigene Tabelle&lt;br&gt;Aufgabe 6: Lexikontitel wird zu Lexika&quot;]
+    E{&quot;Hängt ein Nicht-Schlüssel-Attribut&lt;br&gt;von einem anderen ab?&quot;}
+    E1[&quot;3NF: beide zusammen in eine&lt;br&gt;eigene Tabelle&lt;br&gt;Aufgabe 8: Lieferant_Ort wird zu Lieferanten&quot;]
+    F[&quot;Fremdschlüssel setzen - fertig&quot;]
+
+    A --&gt; B
+    B -- ja --&gt; B1
+    B1 --&gt; C
+    B -- nein --&gt; C
+    C -- &quot;einfach: 2NF ist automatisch erfüllt&quot; --&gt; E
+    C -- zusammengesetzt --&gt; D
+    D -- ja --&gt; D1
+    D1 --&gt; E
+    D -- nein --&gt; E
+    E -- ja --&gt; E1
+    E1 --&gt; F
+    E -- nein --&gt; F</pre>
+            </div>
+            <figcaption>Was in welchem Schritt herausgezogen wird</figcaption>
+        </figure>
+
 
         <p>Der schnellste Test in der Klausur: <strong>schau, welcher Wert in der
            Tabelle doppelt vorkommt.</strong> Steht „Herlitz – Wiesbaden" zweimal

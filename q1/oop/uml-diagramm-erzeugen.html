@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -136,6 +137,44 @@
         </div>
 
         <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <p>Das ist der Kasten, der am Ende im UML-Fenster stehen soll:</p>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="classDiagram
+    class Termin {
+        -LocalDate datum
+        -LocalTime uhrzeit
+        -Art art
+        +Termin(LocalDate, Art)
+        +Termin(LocalDate, LocalTime, Art)
+        +getDatum() LocalDate
+        +setDatum(LocalDate) void
+        +getUhrzeit() LocalTime
+        +setUhrzeit(LocalTime) void
+        +getArt() Art
+        +setArt(Art) void
+        +toString() String
+    }">classDiagram
+    class Termin {
+        -LocalDate datum
+        -LocalTime uhrzeit
+        -Art art
+        +Termin(LocalDate, Art)
+        +Termin(LocalDate, LocalTime, Art)
+        +getDatum() LocalDate
+        +setDatum(LocalDate) void
+        +getUhrzeit() LocalTime
+        +setUhrzeit(LocalTime) void
+        +getArt() Art
+        +setArt(Art) void
+        +toString() String
+    }</pre>
+            </div>
+            <figcaption>Die Klasse Termin, wie sie im UML-Editor aussieht</figcaption>
+        </figure>
 
 
         <h2>So geht man im Editor vor</h2>

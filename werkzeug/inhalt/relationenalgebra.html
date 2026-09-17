@@ -59,6 +59,17 @@ hat(Pnr, Kontonr)                  -- 1:1 zwischen FrequentFlyer und Meilenkonto
             </div>
         </div>
 
+        <div data-diagramm="relationenalgebra-flugdatenbank"></div>
+
+        <p>Beim Datenmodell oben stehen die Schlüsselattribute jeweils vorne. Bei
+           der <code>Flugstrecke</code> sind das <strong>zwei</strong>: im
+           ER-Diagramm sind <code>FlugNr</code> und <code>Abflugzeit</code> beide
+           unterstrichen. Eine Flugstrecke wird also erst durch beide zusammen
+           eindeutig – dieselbe Flugnummer kann ja mehrmals am Tag abgehen. Streng
+           genommen müsste <code>gebucht_von</code> deshalb
+           <code>(FlugNr, Abflugzeit, Pnr)</code> heißen. Für die Aufgaben hier
+           reicht die kurze Schreibweise, aber wissen sollte man es.</p>
+
         <h2>Aufgabe 1 – Vornamen aller Meyers</h2>
         <div class="code">
             <div class="code-feld">
@@ -162,6 +173,8 @@ hat(Pnr, Kontonr)                  -- 1:1 zwischen FrequentFlyer und Meilenkonto
             <li><code>σ_Name='Schmitz'</code> – nur die Zeilen mit Passagier Schmitz</li>
             <li><code>π_Kennzeichen</code> – nur das Flugzeugkennzeichen ausgeben</li>
         </ol>
+
+        <div data-diagramm="relationenalgebra-aufgabe-5"></div>
 
         <p>Interessant ist, dass die beiden σ an <strong>verschiedenen Stellen</strong>
            stehen. Das Start-Kriterium wird früh angewendet, solange nur Strecken und

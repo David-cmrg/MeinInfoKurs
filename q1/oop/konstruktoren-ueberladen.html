@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -185,6 +186,33 @@
 
         <p>Konstruktor 3 ist der interessanteste: ein Rechteck mit nur einer
            Seitenangabe ist ein Quadrat. Man spart sich also eine eigene Klasse.</p>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="classDiagram
+    class Rechteck {
+        -double breite = 1
+        -double hoehe = 1
+        +Rechteck(double, double)
+        +Rechteck(int, int)
+        +Rechteck(double)
+    }">classDiagram
+    class Rechteck {
+        -double breite = 1
+        -double hoehe = 1
+        +Rechteck(double, double)
+        +Rechteck(int, int)
+        +Rechteck(double)
+    }</pre>
+            </div>
+            <figcaption>Drei Konstruktoren, drei Parameterlisten</figcaption>
+        </figure>
+
+
+        <p>Alle drei heißen <code>Rechteck</code>, und trotzdem kann Java sie
+           auseinanderhalten: der erste nimmt zwei <code>double</code>, der zweite
+           zwei <code>int</code>, der dritte nur einen Wert. Die Parameterliste
+           ist das einzige Unterscheidungsmerkmal.</p>
 
         <h2>Lösungsprozess der Aufgabe</h2>
 

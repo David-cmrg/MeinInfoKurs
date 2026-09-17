@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -175,6 +176,30 @@ while (liste.hasAccess()) {        // solange man auf einem Element steht
 }</code></pre>
             </div>
         </div>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="flowchart TD
+    A[&quot;gefunden = false&quot;] --&gt; B[&quot;liste.toFirst(), Zeiger auf das erste Element&quot;]
+    B --&gt; C{&quot;liste.hasAccess() UND gefunden == false?&quot;}
+    C -- nein --&gt; Z[&quot;return gefunden&quot;]
+    C -- ja --&gt; D{&quot;liste.getContent() gleich Suchschlüssel?&quot;}
+    D -- WAHR --&gt; E[&quot;gefunden = true&quot;]
+    D -- FALSCH --&gt; F[&quot;liste.next(), ein Element weiter&quot;]
+    E --&gt; F
+    F --&gt; C">flowchart TD
+    A[&quot;gefunden = false&quot;] --&gt; B[&quot;liste.toFirst(), Zeiger auf das erste Element&quot;]
+    B --&gt; C{&quot;liste.hasAccess() UND gefunden == false?&quot;}
+    C -- nein --&gt; Z[&quot;return gefunden&quot;]
+    C -- ja --&gt; D{&quot;liste.getContent() gleich Suchschlüssel?&quot;}
+    D -- WAHR --&gt; E[&quot;gefunden = true&quot;]
+    D -- FALSCH --&gt; F[&quot;liste.next(), ein Element weiter&quot;]
+    E --&gt; F
+    F --&gt; C</pre>
+            </div>
+            <figcaption>Wie man eine lineare Liste von vorne durchgeht</figcaption>
+        </figure>
+
 
         <p><code>hasAccess()</code> ist dabei das Entscheidende: es sagt, ob der
            Zeiger überhaupt auf einem Element steht. Ist man hinten rausgelaufen,

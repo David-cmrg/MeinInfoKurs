@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -578,6 +579,34 @@ mA(3, "")  =  "a" + "ab"   =  "aab"
 Ergebnis: "aab"</code></pre>
             </div>
         </div>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="flowchart TD
+    S[&quot;rekStart(3)&quot;] --&gt; A3[&quot;mA(3): a + mB(2)&quot;]
+    A3 --&gt; B2[&quot;mB(2): mA(1) + b&quot;]
+    B2 --&gt; A1[&quot;mA(1): a + mB(0)&quot;]
+    A1 --&gt; B0[&quot;mB(0): Rekursionsanker, 0 &lt;= 0&quot;]
+    B0 -.-&gt;|liefert leeren String| A1
+    A1 -.-&gt;|liefert a| B2
+    B2 -.-&gt;|liefert ab| A3
+    A3 -.-&gt;|liefert aab| S">flowchart TD
+    S[&quot;rekStart(3)&quot;] --&gt; A3[&quot;mA(3): a + mB(2)&quot;]
+    A3 --&gt; B2[&quot;mB(2): mA(1) + b&quot;]
+    B2 --&gt; A1[&quot;mA(1): a + mB(0)&quot;]
+    A1 --&gt; B0[&quot;mB(0): Rekursionsanker, 0 &lt;= 0&quot;]
+    B0 -.-&gt;|liefert leeren String| A1
+    A1 -.-&gt;|liefert a| B2
+    B2 -.-&gt;|liefert ab| A3
+    A3 -.-&gt;|liefert aab| S</pre>
+            </div>
+            <figcaption>Wie mA und mB sich gegenseitig aufrufen, bis aab dasteht</figcaption>
+        </figure>
+
+
+        <p>Die durchgezogenen Pfeile sind der Weg hinein in die Rekursion, die
+           gestrichelten der Weg zurück. Erst auf dem Rückweg entsteht das Wort –
+           bis zum Anker steht nämlich noch gar nichts fest.</p>
 
         <h3 class="schritt-titel">a) rekStart(6) Schritt für Schritt</h3>
         <div class="code">

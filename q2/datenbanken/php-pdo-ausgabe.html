@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -145,6 +146,94 @@ Nachhilfegruppe(id, f_id)</code></pre>
             </div>
         </div>
 
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="erDiagram
+    Fach ||--o{ Kurs : &quot;f_id&quot;
+    Fach ||--o{ Nachhilfegruppe : &quot;f_id&quot;
+    &quot;Schüler&quot; ||--o{ belegt : &quot;s_id&quot;
+    Kurs ||--o{ belegt : &quot;k_id&quot;
+    &quot;Schüler&quot; ||--o{ leitet : &quot;s_id&quot;
+    Nachhilfegruppe ||--o{ leitet : &quot;ng_id&quot;
+    &quot;Schüler&quot; {
+        int id PK
+        string nachname
+        string vorname
+        date geburtsdatum
+        string strassenr
+        int plz
+        string ort
+    }
+    Fach {
+        int id PK
+        string fach
+    }
+    Kurs {
+        int id PK
+        int f_id FK
+        string art
+        string stufe
+        int wochenstunden
+    }
+    belegt {
+        int s_id FK
+        int k_id FK
+        int punkte
+    }
+    Nachhilfegruppe {
+        int id PK
+        int f_id FK
+    }
+    leitet {
+        int s_id FK
+        int ng_id FK
+        int stunden
+    }">erDiagram
+    Fach ||--o{ Kurs : &quot;f_id&quot;
+    Fach ||--o{ Nachhilfegruppe : &quot;f_id&quot;
+    &quot;Schüler&quot; ||--o{ belegt : &quot;s_id&quot;
+    Kurs ||--o{ belegt : &quot;k_id&quot;
+    &quot;Schüler&quot; ||--o{ leitet : &quot;s_id&quot;
+    Nachhilfegruppe ||--o{ leitet : &quot;ng_id&quot;
+    &quot;Schüler&quot; {
+        int id PK
+        string nachname
+        string vorname
+        date geburtsdatum
+        string strassenr
+        int plz
+        string ort
+    }
+    Fach {
+        int id PK
+        string fach
+    }
+    Kurs {
+        int id PK
+        int f_id FK
+        string art
+        string stufe
+        int wochenstunden
+    }
+    belegt {
+        int s_id FK
+        int k_id FK
+        int punkte
+    }
+    Nachhilfegruppe {
+        int id PK
+        int f_id FK
+    }
+    leitet {
+        int s_id FK
+        int ng_id FK
+        int stunden
+    }</pre>
+            </div>
+            <figcaption>Die Testdatenbank schule im Überblick</figcaption>
+        </figure>
+
+
         <h2>Warum PDO und nicht etwas anderes</h2>
         <p>In PHP gibt es drei Wege, auf eine MySQL-Datenbank zuzugreifen:</p>
         <div class="tabelle-huelle">
@@ -161,6 +250,44 @@ Nachhilfegruppe(id, f_id)</code></pre>
         <p>Wenn du im Netz ein Tutorial findest, in dem <code>mysql_query(...)</code>
            steht: zuklappen und ein anderes suchen. Das ist mindestens zehn Jahre
            alt und läuft auf keinem aktuellen Server mehr.</p>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="sequenceDiagram
+    participant B as Browser
+    participant P as ausgabe.php
+    participant D as PDO
+    participant M as MySQL
+
+    B-&gt;&gt;P: Aufruf von ausgabe.php
+    P-&gt;&gt;D: new PDO(...schule)
+    D-&gt;&gt;M: verbinden,&lt;br&gt;SET NAMES utf8
+    M--&gt;&gt;D: Verbindung steht
+    P-&gt;&gt;D: query(&quot;SELECT *&lt;br&gt;FROM schüler&quot;)
+    D-&gt;&gt;M: SQL absetzen
+    M--&gt;&gt;D: Ergebniszeilen
+    D--&gt;&gt;P: Ergebnis zum&lt;br&gt;Durchlaufen
+    P-&gt;&gt;P: foreach:&lt;br&gt;$row[&#x27;vorname&#x27;],&lt;br&gt;$row[&#x27;nachname&#x27;]
+    P--&gt;&gt;B: fertiges HTML">sequenceDiagram
+    participant B as Browser
+    participant P as ausgabe.php
+    participant D as PDO
+    participant M as MySQL
+
+    B-&gt;&gt;P: Aufruf von ausgabe.php
+    P-&gt;&gt;D: new PDO(...schule)
+    D-&gt;&gt;M: verbinden,&lt;br&gt;SET NAMES utf8
+    M--&gt;&gt;D: Verbindung steht
+    P-&gt;&gt;D: query(&quot;SELECT *&lt;br&gt;FROM schüler&quot;)
+    D-&gt;&gt;M: SQL absetzen
+    M--&gt;&gt;D: Ergebniszeilen
+    D--&gt;&gt;P: Ergebnis zum&lt;br&gt;Durchlaufen
+    P-&gt;&gt;P: foreach:&lt;br&gt;$row[&#x27;vorname&#x27;],&lt;br&gt;$row[&#x27;nachname&#x27;]
+    P--&gt;&gt;B: fertiges HTML</pre>
+            </div>
+            <figcaption>Der Weg vom Browser zur Datenbank und zurück</figcaption>
+        </figure>
+
 
         <h2>Lösungsprozess der Aufgabe</h2>
 

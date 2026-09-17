@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -182,6 +183,77 @@ hat(Pnr, Kontonr)                  -- 1:1 zwischen FrequentFlyer und Meilenkonto
             </div>
         </div>
 
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="erDiagram
+    Flugzeug }o--o{ Flugstrecke : &quot;fliegt (n kann : m kann)&quot;
+    Flugstrecke }|--|{ Passagier : &quot;gebucht von (n muss : m muss)&quot;
+    Passagier |o--o| &quot;Frequently-Flyer&quot; : &quot;ist (1 kann : 1 kann)&quot;
+    &quot;Frequently-Flyer&quot; ||--|| Meilenkonto : &quot;hat (1 muss : 1 muss)&quot;
+    Flugzeug {
+        string Kennz PK
+        int Baujahr
+        string Typ
+        int Sitze
+    }
+    Flugstrecke {
+        string FlugNr PK
+        time Abflugzeit PK
+        int Dauer
+        string Start
+        string Ziel
+        int Meilen
+    }
+    Passagier {
+        int Pnr PK
+        string Vorname
+        string Name
+    }
+    Meilenkonto {
+        int Kontonr
+        int Praemienmeilen
+    }">erDiagram
+    Flugzeug }o--o{ Flugstrecke : &quot;fliegt (n kann : m kann)&quot;
+    Flugstrecke }|--|{ Passagier : &quot;gebucht von (n muss : m muss)&quot;
+    Passagier |o--o| &quot;Frequently-Flyer&quot; : &quot;ist (1 kann : 1 kann)&quot;
+    &quot;Frequently-Flyer&quot; ||--|| Meilenkonto : &quot;hat (1 muss : 1 muss)&quot;
+    Flugzeug {
+        string Kennz PK
+        int Baujahr
+        string Typ
+        int Sitze
+    }
+    Flugstrecke {
+        string FlugNr PK
+        time Abflugzeit PK
+        int Dauer
+        string Start
+        string Ziel
+        int Meilen
+    }
+    Passagier {
+        int Pnr PK
+        string Vorname
+        string Name
+    }
+    Meilenkonto {
+        int Kontonr
+        int Praemienmeilen
+    }</pre>
+            </div>
+            <figcaption>Wie die Flugdatenbank zusammenhängt</figcaption>
+        </figure>
+
+
+        <p>Beim Datenmodell oben stehen die Schlüsselattribute jeweils vorne. Bei
+           der <code>Flugstrecke</code> sind das <strong>zwei</strong>: im
+           ER-Diagramm sind <code>FlugNr</code> und <code>Abflugzeit</code> beide
+           unterstrichen. Eine Flugstrecke wird also erst durch beide zusammen
+           eindeutig – dieselbe Flugnummer kann ja mehrmals am Tag abgehen. Streng
+           genommen müsste <code>gebucht_von</code> deshalb
+           <code>(FlugNr, Abflugzeit, Pnr)</code> heißen. Für die Aufgaben hier
+           reicht die kurze Schreibweise, aber wissen sollte man es.</p>
+
         <h2>Aufgabe 1 – Vornamen aller Meyers</h2>
         <div class="code">
             <div class="code-feld">
@@ -285,6 +357,54 @@ hat(Pnr, Kontonr)                  -- 1:1 zwischen FrequentFlyer und Meilenkonto
             <li><code>σ_Name='Schmitz'</code> – nur die Zeilen mit Passagier Schmitz</li>
             <li><code>π_Kennzeichen</code> – nur das Flugzeugkennzeichen ausgeben</li>
         </ol>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="flowchart TD
+    A[&quot;Flugstrecke&quot;]
+    B[&quot;Flugzeug&quot;]
+    J1[&quot;⋈ welches Flugzeug fliegt welche Strecke&quot;]
+    S1[&quot;σ Start=&#x27;Berlin&#x27;&quot;]
+    C[&quot;gebucht_von&quot;]
+    D[&quot;Passagier&quot;]
+    J2[&quot;⋈ die Passagiere dazuholen&quot;]
+    S2[&quot;σ Name=&#x27;Schmitz&#x27;&quot;]
+    P[&quot;π Kennzeichen&quot;]
+    E[&quot;Kennzeichen aller Flugzeuge auf einer&lt;br&gt;Berlin-Strecke mit einem Passagier Schmitz&quot;]
+
+    A --&gt; J1
+    B --&gt; J1
+    J1 --&gt; S1
+    S1 --&gt; J2
+    C --&gt; J2
+    D --&gt; J2
+    J2 --&gt; S2
+    S2 --&gt; P
+    P --&gt; E">flowchart TD
+    A[&quot;Flugstrecke&quot;]
+    B[&quot;Flugzeug&quot;]
+    J1[&quot;⋈ welches Flugzeug fliegt welche Strecke&quot;]
+    S1[&quot;σ Start=&#x27;Berlin&#x27;&quot;]
+    C[&quot;gebucht_von&quot;]
+    D[&quot;Passagier&quot;]
+    J2[&quot;⋈ die Passagiere dazuholen&quot;]
+    S2[&quot;σ Name=&#x27;Schmitz&#x27;&quot;]
+    P[&quot;π Kennzeichen&quot;]
+    E[&quot;Kennzeichen aller Flugzeuge auf einer&lt;br&gt;Berlin-Strecke mit einem Passagier Schmitz&quot;]
+
+    A --&gt; J1
+    B --&gt; J1
+    J1 --&gt; S1
+    S1 --&gt; J2
+    C --&gt; J2
+    D --&gt; J2
+    J2 --&gt; S2
+    S2 --&gt; P
+    P --&gt; E</pre>
+            </div>
+            <figcaption>Wie sich Aufgabe 5 von innen nach außen abarbeitet</figcaption>
+        </figure>
+
 
         <p>Interessant ist, dass die beiden σ an <strong>verschiedenen Stellen</strong>
            stehen. Das Start-Kriterium wird früh angewendet, solange nur Strecken und

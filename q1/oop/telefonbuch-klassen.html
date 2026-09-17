@@ -64,6 +64,7 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js" defer></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -141,6 +142,50 @@
         </div>
 
         <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <p>Drei der Klassen sind nach genau demselben Muster gebaut: ein Inhalt
+           und dazu ein Typ, der die Auswahl aus dem Screenshot abbildet. Wenn du
+           die drei nebeneinander siehst, wird das Muster offensichtlich:</p>
+
+        <figure class="diagramm">
+            <div class="diagramm-huelle">
+                <pre class="mermaid" data-quelle="classDiagram
+    class Telefon {
+        -String telefonnummer
+        -Typ typ
+    }
+    class Email {
+        -String email
+        -Typ typ
+    }
+    class Adresse {
+        -String strasse
+        -String hausnummer
+        -String plz
+        -String ort
+        -String land
+        -Typ typ
+    }">classDiagram
+    class Telefon {
+        -String telefonnummer
+        -Typ typ
+    }
+    class Email {
+        -String email
+        -Typ typ
+    }
+    class Adresse {
+        -String strasse
+        -String hausnummer
+        -String plz
+        -String ort
+        -String land
+        -Typ typ
+    }</pre>
+            </div>
+            <figcaption>Telefon, Email und Adresse haben alle einen Typ</figcaption>
+        </figure>
 
 
         <h2>Lösungsprozess der Aufgabe</h2>

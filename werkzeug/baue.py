@@ -76,7 +76,8 @@ STATUS_TEXT = {
 #  Kopf, Navigation, Fuss
 # --------------------------------------------------------------------------- #
 
-def kopf(*, titel, beschreibung, url, tiefe, og_bild, jsonld=None, extra_css=()):
+def kopf(*, titel, beschreibung, url, tiefe, og_bild, jsonld=None, extra_css=(),
+         mit_diagrammen=False):
     b = pfad_hoch(tiefe)
     voller_titel = titel if titel == NAME else f"{NAME} | {titel}"
 
@@ -84,6 +85,14 @@ def kopf(*, titel, beschreibung, url, tiefe, og_bild, jsonld=None, extra_css=())
         f'    <link rel="stylesheet" href="{b}assets/{datei}">' for datei in
         ("stil.css", "prism-thema.css", *extra_css)
     )
+
+    # mermaid ist knapp ein MB. Es wird nur auf den Seiten geladen, die
+    # wirklich ein Diagramm haben - das sind keine 20 von 96.
+    diagramm_skript = ""
+    if mit_diagrammen:
+        diagramm_skript = (
+            '\n    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/'
+            '10.9.1/mermaid.min.js" defer></script>')
 
     jsonld_block = ""
     if jsonld:
@@ -155,7 +164,7 @@ def kopf(*, titel, beschreibung, url, tiefe, og_bild, jsonld=None, extra_css=())
             werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADS}";
             document.head.appendChild(werbeSkript);
         }}
-    </script>{jsonld_block}
+    </script>{diagramm_skript}{jsonld_block}
 </head>
 <body>"""
 
@@ -338,6 +347,95 @@ def fuss(tiefe):
 
 
 # --------------------------------------------------------------------------- #
+#  Diagramme
+#
+#  Ein Diagramm ist eine ganz normale Markdown-Datei unter werkzeug/diagramme/,
+#  genau so wie man sie in Obsidian schreiben wuerde:
+#
+#      # Die Klasse Auto als UML-Diagramm
+#      Quelle: Q1.1.pdf S. 42
+#
+#      ```mermaid
+#      classDiagram
+#        class Auto { ... }
+#      ```
+#
+#  Man kann den Ordner direkt als Obsidian-Vault oeffnen und sieht dort exakt
+#  dasselbe Bild wie auf der Webseite. baue.py liest die Datei beim Bauen,
+#  holt Ueberschrift, Quellenangabe und den mermaid-Block raus und setzt daraus
+#  die fertige <figure>. Im Browser laeuft kein Markdown-Parser - das waere auf
+#  einer statisch erzeugten Seite nur Ballast.
+#
+#  Eingebunden wird ein Diagramm im Inhaltsschnipsel mit einer leeren Huelle:
+#      <div data-diagramm="uml-klasse-auto"></div>
+# --------------------------------------------------------------------------- #
+
+DIAGRAMME = WERK / "diagramme"
+DIAGRAMM_MARKE = re.compile(r'[ \t]*<div data-diagramm="([a-z0-9-]+)"></div>')
+ZAUN = re.compile(r"^```mermaid[ \t]*\n(.*?)^```[ \t]*$", re.M | re.S)
+
+
+def lies_diagramm(name):
+    """Liest eine Diagramm-Markdown und gibt (titel, quelle, mermaid) zurueck."""
+    datei = DIAGRAMME / f"{name}.md"
+    if not datei.exists():
+        sys.exit(f"FEHLER: Diagramm '{name}' gibt es nicht ({datei}).")
+    roh = datei.read_text(encoding="utf-8")
+
+    treffer = ZAUN.search(roh)
+    if not treffer:
+        sys.exit(f"FEHLER: In {datei.name} fehlt der ```mermaid-Block.")
+    mermaid = treffer.group(1).rstrip()
+
+    titel = quelle = ""
+    for zeile in roh[:treffer.start()].splitlines():
+        zeile = zeile.strip()
+        if zeile.startswith("# ") and not titel:
+            titel = zeile[2:].strip()
+        elif zeile.lower().startswith("quelle:") and not quelle:
+            quelle = zeile.split(":", 1)[1].strip()
+    if not titel:
+        sys.exit(f"FEHLER: In {datei.name} fehlt die Ueberschrift (# ...).")
+    if not quelle:
+        sys.exit(f"FEHLER: In {datei.name} fehlt die Zeile 'Quelle: ...'. "
+                 f"Jedes Diagramm muss sagen, aus welcher PDF-Seite es stammt.")
+    return titel, quelle, mermaid
+
+
+def diagramm_html(name):
+    # Die Quellenangabe wird gelesen (und ist Pflicht), aber NICHT angezeigt:
+    # Leser der Webseite haben die OneNote-PDFs nicht, fuer die ist "Q1.1.pdf
+    # S. 42" nur Rauschen. Sie steht in der .md, damit spaeter nachpruefbar
+    # bleibt, dass das Diagramm aus dem Unterrichtsmaterial stammt.
+    titel, _quelle, mermaid = lies_diagramm(name)
+    # Die Quelle steht in data-quelle, weil mermaid beim Rendern den Inhalt des
+    # <pre> durch das SVG ersetzt. Ohne die Kopie koennte man beim Themenwechsel
+    # nicht neu zeichnen.
+    return (
+        '        <figure class="diagramm">\n'
+        '            <div class="diagramm-huelle">\n'
+        f'                <pre class="mermaid" data-quelle="{e(mermaid)}">{e(mermaid)}</pre>\n'
+        '            </div>\n'
+        f'            <figcaption>{e(titel)}</figcaption>\n'
+        '        </figure>\n')
+
+
+def setze_diagramme(inhalt):
+    """Ersetzt alle <div data-diagramm="..."></div> durch die fertige figure.
+
+    Gibt (inhalt, anzahl) zurueck - die Anzahl entscheidet, ob die Seite
+    ueberhaupt das mermaid-Skript laden muss.
+    """
+    gefunden = []
+
+    def ersetze(m):
+        gefunden.append(m.group(1))
+        return diagramm_html(m.group(1))
+
+    return DIAGRAMM_MARKE.sub(ersetze, inhalt), len(gefunden)
+
+
+# --------------------------------------------------------------------------- #
 #  Aufgabenseite
 # --------------------------------------------------------------------------- #
 
@@ -361,6 +459,7 @@ def baue_aufgabe(a):
         print(f"  ! kein Inhalt fuer {a['id']} - uebersprungen")
         return None
     inhalt = fragment.read_text(encoding="utf-8").rstrip()
+    inhalt, anzahl_diagramme = setze_diagramme(inhalt)
 
     klasse, symbol, status_text = STATUS_TEXT.get(
         a.get("status", "nicht-verifiziert"), STATUS_TEXT["nicht-verifiziert"])
@@ -404,7 +503,7 @@ def baue_aufgabe(a):
 
     seite = kopf(titel=a["titel"], beschreibung=a["kurz"], url=url,
                  tiefe=tiefe, og_bild=f"{BASIS}/assets/og/{hj['id']}.png",
-                 jsonld=jsonld)
+                 jsonld=jsonld, mit_diagrammen=anzahl_diagramme > 0)
     seite += navigation(tiefe, hj["id"])
     seite += werkzeugleiste()
     seite += f"""
