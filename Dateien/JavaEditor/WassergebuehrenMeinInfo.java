@@ -1,9 +1,9 @@
 /**
                     *
-                    * Programm zur Berechnung der Wassergebühren.
+                    * Programm zur Berechnung der Wassergebï¿½hren.
                     *
                     * @version 1.0 vom 16.03.2025
-                    * @MeinInfoKurs.github.io
+                    * @meininfokurs.cmrg.site
                     */
 
                     public class WassergebuehrenMeinInfo {
@@ -13,8 +13,8 @@
                             double grundpreis, preisProM3, ust = 0.07;
                             double nettoVerbrauch, nettoGesamt, mehrwertsteuer, bruttoGesamt;
 
-                            zaehlerAlt = InOut.readInt("Alter Zählerstand: ");
-                            zaehlerNeu = InOut.readInt("Neuer Zählerstand: ");
+                            zaehlerAlt = InOut.readInt("Alter Zï¿½hlerstand: ");
+                            zaehlerNeu = InOut.readInt("Neuer Zï¿½hlerstand: ");
                             grundpreis = InOut.readDouble("Monatlicher Grundpreis (Euro): ");
                             preisProM3 = InOut.readDouble("Preis pro Kubikmeter (Euro): ");
 
@@ -24,7 +24,7 @@
                             mehrwertsteuer = nettoGesamt * ust;
                             bruttoGesamt = nettoGesamt + mehrwertsteuer;
 
-                            System.out.println("Ihr Wasserverbrauch: " + wasserverbrauch + " m³");
+                            System.out.println("Ihr Wasserverbrauch: " + wasserverbrauch + " mï¿½");
                             System.out.println("Nettobetrag: " + InOut.format2(nettoGesamt) + " Euro");
                             System.out.println("Mehrwertsteuer: " + InOut.format2(mehrwertsteuer) + " Euro");
                             System.out.println("Bruttobetrag: " + InOut.format2(bruttoGesamt) + " Euro");

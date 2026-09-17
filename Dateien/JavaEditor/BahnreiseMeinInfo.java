@@ -3,7 +3,7 @@
                 * Das fertige Java Programm der Bahnreise
                 *
                 * @version 1.0 vom 25.02.2024
-                * @MeinInfoKurs.github.io
+                * @meininfokurs.cmrg.site
                 */
     
                 public class BahnreiseMeinInfo {

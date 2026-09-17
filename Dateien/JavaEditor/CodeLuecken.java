@@ -1,9 +1,9 @@
 /**
                     *
-                    * Programm zur Berechnung der Wassergebühren.
+                    * Programm zur Berechnung der Wassergebï¿½hren.
                     *
                     * @version 1.0 vom 16.03.2025
-                    * @MeinInfoKurs.github.io
+                    * @meininfokurs.cmrg.site
                     */
 
                     public class CodeLuecken {

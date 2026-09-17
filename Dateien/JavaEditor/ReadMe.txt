@@ -3,4 +3,4 @@ Diese Software wird ohne Garantie auf Vollständigkeit oder Funktionsfähigkeit 
 Die Nutzung erfolgt auf eigene Verantwortung.
 
 Veröffentlichungsdatum: 20. März 2025
-Projektseite: MeinInfoKurs.github.io
+Projektseite: meininfokurs.cmrg.site

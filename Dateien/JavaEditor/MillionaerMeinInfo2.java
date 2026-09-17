@@ -3,7 +3,7 @@
                     * Das fertige Java Programm "Millionaer.java"
                     *
                     * @version 1.0 vom 08.03.2024
-                    * @MeinInfoKurs.github.io
+                    * @meininfokurs.cmrg.site
                     */
 
             public class MillionaerMeinInfo2 {

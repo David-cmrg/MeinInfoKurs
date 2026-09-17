@@ -59,7 +59,7 @@ for a in AUFGABEN:
 
     # Wasserzeichen darf nicht IN einem code-Element stehen
     for roh in re.findall(r"<code[^>]*>(.*?)</code>", s, re.S):
-        if "MeinInfoKurs.github.io */" in html.unescape(roh):
+        if "meininfokurs.cmrg.site */" in html.unescape(roh):
             probleme.append((a["id"], "Wasserzeichen-Span im Codeblock"))
 
     # Platzhalter nur in echten Codebloecken suchen

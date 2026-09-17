@@ -115,7 +115,7 @@ def neuer_codeblock(soup, *, quelltext, beschriftung, sprache, datei=None, verde
 
     if datei:   # nur die eigentliche Loesung bekommt ein Wasserzeichen
         wz = soup.new_tag("span", attrs={"class": "wz"})
-        wz.string = "/* MeinInfoKurs.github.io */"
+        wz.string = "/* meininfokurs.cmrg.site */"
         huelle.append(wz)
 
     feld = soup.new_tag("div", attrs={"class": "code-feld verdeckt" if verdeckt else "code-feld"})

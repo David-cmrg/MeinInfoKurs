@@ -3,7 +3,7 @@
 * Keine Garantie auf vollständigkeit oder funktionsfähigkeit. 
 *
 * @version 1.0 vom 20.03.2025
-* @MeinInfoKurs.github.io
+* @meininfokurs.cmrg.site
 */
 
 public class OnlineKaufhausX {
