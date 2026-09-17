@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Der Parkscheinautomat</title>
+    <meta name="description" content="Dieses Programm ist recht einfach gehalten und besteht aus einem einfachen EVA prinzip.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/e/java/parkscheinautomat.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Der Parkscheinautomat">
+    <meta property="og:description" content="Dieses Programm ist recht einfach gehalten und besteht aus einem einfachen EVA prinzip.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/e/java/parkscheinautomat.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Der Parkscheinautomat">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Der Parkscheinautomat">
+    <meta name="twitter:description" content="Dieses Programm ist recht einfach gehalten und besteht aus einem einfachen EVA prinzip.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Der Parkscheinautomat",
+  "description": "Dieses Programm ist recht einfach gehalten und besteht aus einem einfachen EVA prinzip.",
+  "url": "https://meininfokurs.cmrg.site/e/java/parkscheinautomat.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "E-Phase – Klasse 10 · Grundlagen",
+  "about": "Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – E-Phase",
+    "url": "https://meininfokurs.cmrg.site/e/"
+  },
+  "isBasedOn": "Informatik E-Phase · übernommen aus V2/Seiten/Java/ParkscheinAutomat.html",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html" aria-current="page"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../e/index.html">E-Phase</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../e/index.html#java">Java</a>
+        </p>
+        <h1 class="titel">Der Parkscheinautomat</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist <strong>der Parkscheinautomat!</strong> Dieses Programm ist recht einfach gehalten und besteht aus einem einfachen <a href="docs.html#Eingabe-Ausgabe">EVA</a> prinzip.<br/></p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+            In System gibt es zu wenig Parkplätze in der Innenstadt. Deshalb sollen sehr teure Parkplatzpreise ohne Kartenzahlungsmöglichkeit dafür sorgen, dass die Leute in der Innenstadt nur vorübergehend parken.  
+            Der verantwortliche Programmierer hatte schon angefangen und vorgestern im Lotto gewonnen. Wir haben gehört, dass er mittlerweile auf Hawaii ist. Sie erhalten von uns alle Unterlagen und Informationen um den Auftrag zu beenden:  <br/><br/>
+<strong>Beschreibung des Auftraggebers</strong><br/> 
+            Auf einem kostenpflichtigen Parkplatz gilt der Tarif 0,5 € pro angefangener Stunde, maximal 5 € pro Tag.
+        </p></div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="ParkscheinAutomat.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+*
+* Das fertige Java Programm des "ParkscheinAutomat.java"
+*
+* @version 1.0 vom 26.02.2024
+* @MeinInfoKurs.github.io
+*/
+
+public class ParkscheinAutomat {
+
+                public static void main(String[] args) {
+                                int Stunden;
+                                double Geldbetrag, Parkgebühr, Zahlbetrag, Wechselgeld;
+
+                                Stunden = InOut.readInt("Parkzeit in Stunden: ");
+                                Geldbetrag = InOut.readDouble("Eingeworfener Geldbetrag in Euro: ");
+
+                                Parkgebühr = Stunden * 0.5;
+                                System.out.println("Betrag zu Zahlen: " + Parkgebühr);
+                                if (Parkgebühr &gt; 5) {
+                                    Parkgebühr = 5;
+                                }
+                                if (Geldbetrag &lt; Parkgebühr) {
+                                    Zahlbetrag = Parkgebühr - Geldbetrag;
+                                    System.out.println("Noch zu Zahlen: " + Zahlbetrag);
+                                }else {
+                                    if (Geldbetrag &gt; Parkgebühr) {
+                                        Wechselgeld = Geldbetrag - Parkgebühr;
+                                        System.out.println("Wechselgeld: " + Wechselgeld);
+                                    } // end of if
+                                    System.out.println("Parkgebühr bezahlt! :");
+                                } // end of if-else
+                    } // end of main
+} // end of class ParkscheinAutomat.</code></pre></div></div>
+        <p>
+            In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>Nutzereingabe der geparkten Stunden</li>
+<li>Nutzereingabe des eingeworfenen Geldbetrags</li>
+<br/>
+<li>Berechnung der Parkgebühr</li>
+<ul class="unterliste">
+<li>Parkgebühr = maximal 5</li>
+<li>Falls Geldbetrag &lt; Parkgebühr wird mehr Geld gefordert</li>
+<li>Berechnung des Wechselgeldes</li>
+</ul>
+<br/>
+<li>Ausgabe des Wechselgeldes</li>
+</ol>
+        <h3 class="schritt-titel">1. Nutzereingaben (Stunden und Geldbetrag)</h3>
+        <p>
+            Um eine Nutzereingabe zu ermöglichen, müssen wir zuerst die Variable deklarieren, der wir einen Wert zuweisen wollen.
+            Nun brauchen wir eine Variable für die Stunden. Welche nutzen wir da am besten? Einen <span class="antwort" role="button" style="color: green; text-decoration: underline;" tabindex="0">Integer</span>.<br/>
+            Aber wir müssen auch den Geldbetrag eingeben lassen. Da dieser eine Nachkommastelle beinhalten kann, nutzen wir hier einen <span class="antwort" role="button" style="color: green; text-decoration: underline;" tabindex="0">Double</span>.<br/>
+            Der Code dafür könnte zb so aussehen:
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">int Stunden;
+double Geldbetrag;
+
+Stunden = InOut.readInt("Parkzeit in Stunden: ");
+Geldbetrag = InOut.readDouble("Eingeworfener Geldbetrag in Euro: ");</code></pre></div></div>
+        <h3 class="schritt-titel">2. Berechnung der Parkgebühr</h3>
+        <p>
+            Da die Eingabe nun vollendet ist, müssen wir mit den uns zugeteilten Werten einige Rechnungen anstellen, um an das gewünschte Ergebnis zu gelangen. 
+            Dafür teilen wir uns alle Rechenschritte in verschiedene kleinere auf:
+        </p>
+        <br/>
+        <br/>
+        <br/>
+        <div style="margin: 0px 10px 0px 30px;">
+<h4>2.1 Parkgebühr = maximal 5</h4>
+<p>
+                    Um zu überprüfen ob die Parkgebühr mehr als unser Maximal beträgt, benötigen wir ein <a href="docs.html">IF Statement</a>.
+                    Die Fähigkeit ein IF Statement zu benutzen ist eine wichtige Grundlage. Kannst du dies nicht, solltest du dir nochmal vergangene Aufgaben anschauen 
+                    und die <a href="docs.html">Dokumentation</a> durchlesen.
+                    Durch folgendes IF Statement können wir diese Bedinung (<kbd> Parkgebühr &gt; 5 </kbd>) überprüfen:
+                </p>
+
+</div>
+        <br/>
+        <div style="margin: 0px 0px 0px 30px !important;">
+<h3>2.2 Berechnung des Wechselgeldes</h3>
+<p>
+                Hat der Nutzer nun zu viel Geld eingeworfen, wollen wir ihm sein Wechselgeld geben. Hat er zu wenig eingeworfen, wollen wir das restliche Geld fordern.
+                Dazu benutzen wir ein if-else. Zuerst wollen wir schauen ob der Geldbetrag (den der Nutzer eingeworfen hat) weniger ist als die Parkgebühr, welches heißt das
+                er noch zusätzlich Geld einwerfen muss. Wir verwenden ein <a href="docs.html">IF-ELSE Statement</a>
+</p>
+<div class="code"><div class="code-feld"><pre><code class="language-java">if (Geldbetrag &lt; Parkgebühr) { // Überprüfen ob zu wenig Geld eingeworfen wurde
+    Zahlbetrag = Parkgebühr - Geldbetrag; // Falls ja, wird der noch zu zahlende Betrag ausgerechnet
+    System.out.println("Noch zu Zahlen: " + Zahlbetrag); // Wir fordern den restlichen Betrag
+}else { // Falls nicht zu wenig Geld eingeworfen wurde:
+    if (Geldbetrag &gt; Parkgebühr) { // Überprüfen wir ob zu viel Geld eingeworfen wurde
+        Wechselgeld = Geldbetrag - Parkgebühr; // Berechnung des Wechselgeldes
+        System.out.println("Wechselgeld: " + Wechselgeld); // Wechselgeld wird ausgegeben.
+    } // end of if
+    System.out.println("Parkgebühr bezahlt! :"); // Bestätigung
+} // end of if-else</code></pre></div></div>
+</div>
+        <p style="margin: 0px 0px 35px 30px;">
+            Die Bestätigung ist ganz am Ende, außerhalb des IF Statements, da falls direkt genug Geld eingeworfen wird, wir nicht in dieses IF Statement gehen müssen und 
+            somit, wenn die Bestätigung im IF Statement wäre, wir keine Bestätigung bei genauem Geldeinwurf erhalten würden. <br/>
+            Da beim ausführen eines Codes, die ausführreihenfolge immer von oben nach unten ist, hätten wir die Bestätigung auch ganz außerhalb des IF-ELSE Statements setzen können
+            und hätten die selbe Lösung.
+        </p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="onlinekaufhaus.html"><small>Vorherige Aufgabe</small>Das online Kaufhaus</a>
+            <a class="weiter" href="bodymassindex.html"><small>Nächste Aufgabe</small>Body Mass Index</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+        <p>Die Aufgabe der heutigen Stunde ist die erste PHP-Seite mit
+           Datenbankzugriff! Bis jetzt haben wir SQL immer direkt in phpMyAdmin
+           eingetippt. Jetzt holt ein Programm die Daten und gibt sie als Webseite
+           aus – und genau dafür gibt es <strong>PDO</strong>.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>Aufgabe 1: PHP und PDO.</strong> Eine einfache Ausgabe mit
+               PDO in PHP. PHP-Datei hier einfügen.</p>
+        </div>
+
+        <h2>Die Testdatenbank „schule"</h2>
+        <p>Alle PHP-Aufgaben laufen auf derselben Datenbank:</p>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Schüler(id, nachname, vorname, geburtsdatum, strassenr, plz, ort)
+Kurs(id, f_id, art, stufe, wochenstunden)
+Fach(id, fach)
+belegt(s_id, k_id, punkte)
+leitet(s_id, ng_id, stunden)
+Nachhilfegruppe(id, f_id)</code></pre>
+            </div>
+        </div>
+
+        <h2>Warum PDO und nicht etwas anderes</h2>
+        <p>In PHP gibt es drei Wege, auf eine MySQL-Datenbank zuzugreifen:</p>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Weg</th><th>Stand</th></tr></thead>
+                <tbody>
+                    <tr><td><code>mysql_*</code></td><td>veraltet, in PHP 7 komplett entfernt – gar nicht erst anfangen</td></tr>
+                    <tr><td>MySQLi</td><td>funktioniert, aber nur für MySQL</td></tr>
+                    <tr><td><strong>PDO</strong></td><td>das aktuellste Interface, funktioniert auch mit anderen Datenbanksystemen</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Wenn du im Netz ein Tutorial findest, in dem <code>mysql_query(...)</code>
+           steht: zuklappen und ein anderes suchen. Das ist mindestens zehn Jahre
+           alt und läuft auf keinem aktuellen Server mehr.</p>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> ausgabe.php</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="ausgabe.php">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-php">&lt;?php
+/**
+ *
+ * Eine einfache Ausgabe mit PDO
+ *
+ * @version 1.0 vom 16.05.2019
+ * @MeinInfoKurs.github.io
+ */
+
+// Verbindung zur Datenbank aufbauen
+$pdo = new PDO('mysql:host=localhost;dbname=schule', 'root', '',
+       array(PDO::MYSQL_ATTR_INIT_COMMAND =&gt; "SET NAMES utf8"));
+
+$sql = "SELECT * FROM schüler";
+
+// Variante 1: direkt ueber query() und foreach
+foreach ($pdo-&gt;query($sql) as $row) {
+    echo $row['vorname']." ".$row['nachname']."&lt;br /&gt;";
+}
+
+// Variante 2: ueber prepare() und execute()
+$sth = $pdo-&gt;prepare("SELECT * FROM schüler");
+$sth-&gt;execute();
+
+echo '&lt;br/&gt;';
+/* Alle Datensätze ausgeben */
+print("Alle Datensätze ausgeben:");
+echo '&lt;br/&gt;';
+$result = $sth-&gt;fetchAll();
+print_r($result);
+?&gt;</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Die Verbindungszeile</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-php">$pdo = new PDO('mysql:host=localhost;dbname=schule', 'root', '',
+       array(PDO::MYSQL_ATTR_INIT_COMMAND =&gt; "SET NAMES utf8"));</code></pre>
+            </div>
+        </div>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Teil</th><th>Bedeutung</th></tr></thead>
+                <tbody>
+                    <tr><td><code>mysql:host=localhost</code></td><td>Datenbanktyp und Server – bei XAMPP läuft beides auf dem eigenen Rechner</td></tr>
+                    <tr><td><code>dbname=schule</code></td><td>welche Datenbank</td></tr>
+                    <tr><td><code>'root'</code></td><td>Benutzername</td></tr>
+                    <tr><td><code>''</code></td><td>Passwort – bei XAMPP standardmäßig leer</td></tr>
+                    <tr><td><code>SET NAMES utf8</code></td><td>Zeichensatz, damit Umlaute nicht als Fragezeichen erscheinen</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Das <code>utf8</code> ist kein Luxus. Ohne das steht in der Ausgabe
+           „Müller" statt „Müller" und der Tabellenname <code>schüler</code>
+           funktioniert auch nicht. Das ist der Fehler, den bei dieser Aufgabe fast
+           jeder einmal hat.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Benutzer <code>root</code> ohne Passwort ist nur in Ordnung, weil
+            das alles lokal in XAMPP auf dem eigenen Rechner läuft. Auf einem echten
+            Server legt man einen eigenen Benutzer an, der nur auf diese eine
+            Datenbank darf – und gibt ihm ein Passwort.</span>
+        </div>
+
+        <h3 class="schritt-titel">query() und foreach</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-php">foreach ($pdo-&gt;query($sql) as $row) {
+    echo $row['vorname']." ".$row['nachname']."&lt;br /&gt;";
+}</code></pre>
+            </div>
+        </div>
+
+        <p><code>query()</code> schickt das SQL an die Datenbank und gibt etwas
+           zurück, das man mit <code>foreach</code> durchlaufen kann – genau wie eine
+           <code>ArrayList</code> in Java. Jeder Durchlauf liefert eine Zeile in
+           <code>$row</code>.</p>
+
+        <p><code>$row['vorname']</code> greift über den <strong>Spaltennamen</strong>
+           zu. So ein Array nennt man <strong>assoziativ</strong>: der Index ist kein
+           Zähler, sondern ein Text. In Aufgabe 5 kommt die Variante ohne das noch
+           dran.</p>
+
+        <p>Der Punkt <code>.</code> ist in PHP das, was in Java das Plus ist: er
+           hängt Texte aneinander. Wer aus Java kommt, schreibt hier reflexhaft ein
+           <code>+</code> – das ergibt in PHP aber eine Addition und damit meistens
+           eine 0.</p>
+
+        <h3 class="schritt-titel">prepare() und execute()</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-php">$sth = $pdo-&gt;prepare("SELECT * FROM schüler");
+$sth-&gt;execute();
+$result = $sth-&gt;fetchAll();</code></pre>
+            </div>
+        </div>
+
+        <p>Der zweite Weg macht dasselbe in zwei Schritten: erst die Anfrage
+           vorbereiten, dann ausführen. Das sieht umständlicher aus und ist es hier
+           auch – <strong>sobald aber Benutzereingaben in die Abfrage kommen, ist
+           dieser Weg der einzig richtige.</strong> Warum, kommt beim Thema
+           SQL-Injection.</p>
+
+        <p><code>fetchAll()</code> holt alle Zeilen auf einmal in ein Array, und
+           <code>print_r()</code> gibt dieses Array mit allen Schlüsseln aus. Das ist
+           kein hübscher Output für eine Webseite, aber unschlagbar zum Nachschauen,
+           wie die Daten überhaupt aussehen.</p>
+
+        <h3 class="schritt-titel">Die Ausgabe</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Browser</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Müller Peter
+Gamler Kevin
+Ritter Jörg
+Ritter Miriam
+Rose Stefanie
+Sproß Marie
+Klasen Daniel
+Margel Lukas
+
+Alle Datensätze ausgeben:
+Array ( [0] => Array ( [id] => 1 [0] => 1 [nachname] => Peter [1] => Peter ... ) ... )</code></pre>
+            </div>
+        </div>
+
+        <p>Beim <code>print_r</code> fällt etwas auf: jeder Wert steht
+           <strong>zweimal</strong> drin – einmal unter dem Spaltennamen und einmal
+           unter einer Nummer. PDO liefert standardmäßig beides. Genau darauf baut
+           Aufgabe 5 auf, die nur mit den Nummern arbeitet.</p>
+
+        <p>Übrigens: <code>&lt;br /&gt;</code> im <code>echo</code> ist HTML, kein
+           PHP. Ein <code>\n</code> würde im Quelltext einen Zeilenumbruch machen,
+           im Browser aber nichts – dort muss ein <code>&lt;br&gt;</code> stehen.</p>

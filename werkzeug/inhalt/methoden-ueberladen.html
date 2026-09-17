@@ -1,0 +1,212 @@
+        <p>Die Aufgabe der heutigen Stunde ist das Überladen von Methoden! Bei
+           den Konstruktoren haben wir das schon gemacht, jetzt geht es um ganz
+           normale Methoden. Das Prinzip ist dasselbe: gleicher Name, andere
+           Parameterliste. Nebenbei lernen wir, wie man einen String in eine Zahl
+           verwandelt – das braucht man dauernd.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Ein weiteres Beispiel zum Überladen von Methoden: Als Parameter wird
+               die Grenze der Summe gesetzt. Der String wird in ein Integer
+               konvertiert. <code>summe</code> hat den Rückgabetyp <code>int</code>
+               und einen Parameter <code>Grenze</code> vom Typ <code>int</code>. Die
+               Summe von 0 bis zur Grenze wird berechnet und mit <code>return</code>
+               zurückgegeben. Die Methoden werden mit Parametern überladen.</p>
+            <p><strong>Wichtig:</strong> Methoden mit gleichen Namen unterscheiden
+               sich durch die Anzahl der Parameter und deren Typen, aber nicht nach
+               dem Rückgabetyp. Die Methode <code>String summe(String s);</code> kann
+               oben nicht hinzugefügt werden, weil es eine Methode
+               <code>summe(String s)</code> schon gibt.</p>
+        </div>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Main2.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Main2.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Methoden ueberladen und Strings parsen
+ *
+ * @version 1.0 vom 22.05.2023
+ * @MeinInfoKurs.github.io
+ */
+
+public class Main2 {
+
+    // 1. Summe von 0 bis grenze
+    public static int summe(int grenze) {
+        int summe = 0;
+        for (int i = 1; i &lt; grenze + 1; i++) {
+            summe += i;
+        }
+        return summe;
+    }
+
+    // 2. Gleicher Name, aber ein String kommt rein.
+    //    Der wird in eine Zahl umgewandelt und an Methode 1 weitergereicht.
+    public static int summe(String s) {
+        int grenze = Integer.parseInt(s);
+        return summe(grenze);
+    }
+
+    // 3. Gleicher Name, zwei Parameter: Summe von anfang bis grenze
+    public static int summe(int anfang, int grenze) {
+        int summe = 0;
+        for (int i = anfang; i &lt; grenze + 1; i++) {
+            summe += i;
+        }
+        return summe;
+    }
+
+    public static void main(String[] args) {
+        int anfang = Integer.parseInt(args[0]);
+        int grenze = Integer.parseInt(args[1]);
+
+        String Ausgabe = "Die Summe von 0 bis " + grenze + " ist " + summe(grenze) + System.lineSeparator();
+        Ausgabe += "Die Summe von 0 bis " + grenze + " ist " + summe(args[1]) + System.lineSeparator();
+        Ausgabe += "Die Summe von " + anfang + " bis " + grenze + " ist " + summe(anfang, grenze);
+
+        System.out.println(Ausgabe);
+    } // end of main
+
+} // end of class Main2</code></pre>
+            </div>
+        </div>
+
+        <p>In der Aufgabenstellung wird gefordert, dass wir folgende Sachen
+           umsetzen:</p>
+
+        <ol class="schritte">
+            <li>Eine Methode <code>summe(int grenze)</code>, die von 1 bis zur Grenze aufsummiert</li>
+            <li>Eine überladene Variante <code>summe(String s)</code>, die den Text erst in eine Zahl umwandelt</li>
+            <li>Eine überladene Variante <code>summe(int anfang, int grenze)</code> mit eigenem Startwert</li>
+            <li>Alle drei aus <code>main</code> aufrufen und die Ergebnisse ausgeben</li>
+        </ol>
+
+        <h3 class="schritt-titel">Wie Java die richtige Methode findet</h3>
+        <p>Drei Methoden heißen <code>summe</code>. Für Java sind das trotzdem
+           drei verschiedene, weil es nicht nur auf den Namen guckt, sondern auf
+           <strong>Name + Parameterliste</strong> zusammen. Das nennt sich
+           Signatur:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Signatur</th><th>Aufruf</th><th>Was passiert</th></tr></thead>
+                <tbody>
+                    <tr><td><code>summe(int)</code></td><td><code>summe(10)</code></td><td>1+2+…+10 = 55</td></tr>
+                    <tr><td><code>summe(String)</code></td><td><code>summe("10")</code></td><td>wandelt um und ruft die erste auf → 55</td></tr>
+                    <tr><td><code>summe(int, int)</code></td><td><code>summe(5, 10)</code></td><td>5+6+…+10 = 45</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Beim Kompilieren schaut der Compiler auf die Typen der Argumente und
+           sucht die passende Methode raus. Das passiert nicht erst zur Laufzeit –
+           es steht schon im fertigen Programm fest, welche gemeint ist.</p>
+
+        <h3 class="schritt-titel">Warum der Rückgabetyp nicht zählt</h3>
+        <p>Das ist der Merksatz aus der Aufgabe, und man versteht ihn am besten,
+           wenn man überlegt, wie Java entscheiden müsste. Angenommen, es gäbe
+           beide:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public static int    summe(String s) { ... }
+public static String summe(String s) { ... }   // geht NICHT
+
+summe("10");   // und welche jetzt?</code></pre>
+            </div>
+        </div>
+
+        <p>Bei <code>summe("10");</code> als eigenständige Zeile wird der
+           Rückgabewert gar nicht benutzt. Java hätte keine Möglichkeit zu
+           entscheiden, welche der beiden gemeint ist. Deshalb ist das schon beim
+           Kompilieren verboten und nicht erst dann, wenn es mehrdeutig wird. Die
+           Fehlermeldung lautet <code>method summe(String) is already defined</code>.</p>
+
+        <h3 class="schritt-titel">Integer.parseInt – aus Text wird Zahl</h3>
+        <p>Über <code>args</code> kommen immer <strong>Strings</strong> rein, auch
+           wenn du beim Start eine Zahl eingibst. <code>"10"</code> ist Text, mit
+           dem man nicht rechnen kann. Umgewandelt wird mit:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">int grenze = Integer.parseInt("10");      // 10 als Zahl
+double d   = Double.parseDouble("3.5");   // dasselbe fuer Kommazahlen</code></pre>
+            </div>
+        </div>
+
+        <p>Steht etwas drin, das keine Zahl ist, fliegt eine
+           <code>NumberFormatException</code>. Bei <code>"10 "</code> mit
+           Leerzeichen geht es übrigens gut, das schneidet Java ab – bei
+           <code>"zehn"</code> oder <code>"3,5"</code> mit Komma statt Punkt nicht.</p>
+
+        <p>Und pass auf, dass du nicht <code>"10" + 5</code> schreibst: das ergibt
+           <code>"105"</code>, nicht 15. Sobald links ein String steht, hängt
+           <code>+</code> an, statt zu addieren.</p>
+
+        <h3 class="schritt-titel">Eine Methode ruft die andere auf</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public static int summe(String s) {
+    int grenze = Integer.parseInt(s);
+    return summe(grenze);
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Das ist der eleganteste Teil der ganzen Aufgabe. Die String-Variante
+           rechnet nichts selbst – sie wandelt nur um und gibt an die
+           int-Variante weiter. Die eigentliche Rechenschleife steht damit genau
+           <strong>einmal</strong> im Programm. Findest du später einen Fehler
+           darin, musst du ihn nur an einer Stelle beheben.</p>
+
+        <p>Das sieht aus wie Rekursion, ist aber keine: die Methode ruft nicht
+           sich selbst auf, sondern ihre <em>überladene Schwester</em> mit einer
+           anderen Signatur. Die Rekursion kommt später bei Suchen und Sortieren.</p>
+
+        <h3 class="schritt-titel">System.lineSeparator()</h3>
+        <p>Statt <code>"\n"</code> steht im Code <code>System.lineSeparator()</code>.
+           Beides erzeugt einen Zeilenumbruch. Der Unterschied: Windows benutzt
+           intern zwei Zeichen für einen Umbruch, Linux und macOS nur eins.
+           <code>lineSeparator()</code> fragt das Betriebssystem und nimmt das
+           richtige. Für die Konsolenausgabe ist das egal – sobald du Text in eine
+           Datei schreibst, nicht mehr.</p>
+
+        <h3 class="schritt-titel">Und so sieht es aus</h3>
+        <p>Trag unter <strong>Start &gt; Parameter…</strong> zum Beispiel
+           <code>5 10</code> ein:</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Die Summe von 0 bis 10 ist 55
+Die Summe von 0 bis 10 ist 55
+Die Summe von 5 bis 10 ist 45</code></pre>
+            </div>
+        </div>
+
+        <p>Die ersten beiden Zeilen sind absichtlich gleich. Einmal wurde
+           <code>summe(grenze)</code> mit der schon umgewandelten Zahl aufgerufen,
+           einmal <code>summe(args[1])</code> direkt mit dem String. Zwei
+           verschiedene Methoden, dasselbe Ergebnis – genau das ist der Punkt beim
+           Überladen.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Die Schleifen laufen mit <code>i &lt; grenze + 1</code> statt
+            <code>i &lt;= grenze</code>. Das ist dasselbe, nur umständlicher
+            geschrieben. So steht es in der Vorlage, deshalb habe ich es so
+            gelassen.</span>
+        </div>

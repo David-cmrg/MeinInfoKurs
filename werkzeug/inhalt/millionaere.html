@@ -1,0 +1,76 @@
+        <p>
+            Die Aufgabe der heutigen Stunde ist <strong>der Club der Millionäre!</strong> Der Club der Millionäre mag auf erstem Blick schwer erscheinen, aber bei genauerer Betrachtung
+            ist das Programm nicht so schwierig wie es scheint.</p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+            Schreibe ein Programm, das vom Anwender das Kapital und die Zinsen abfragt.  
+            Das Programm soll dem Anwender ausgeben, wieviel Jahre das Kapital auf der Bank bleiben muss, damit er Millionär wird. 
+            Prüfe das Programm auch mit einem Start Kapital von über 1 Million Euro. 
+        </p></div>
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="ClubDerMillionaere.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">        /**
+        *
+        * Das fertige Java Programm "Millionaer.java"
+        *
+        * @version 1.0 vom 08.03.2024
+        * @MeinInfoKurs.github.io
+        */
+
+public class Millionaer {
+
+    public static void main(String[] args) {
+        double Zinsen, Kapital, StartKapital;
+        double jahre=0;
+
+        // Nutzereingabe
+        System.out.println("Wilkommen beim Millionen-club und dem Rechner zu ihrer Millionen!");
+        StartKapital = InOut.readDouble("Wie viel Kapital besitzen Sie: ") ;
+        Zinsen = InOut.readDouble("Wie viele Zinsen beziehen Sie: ");
+
+        // Berechnung der Zinsen
+        Zinsen = Zinsen/100;
+        Zinsen = Zinsen + 1;
+        Kapital = StartKapital;
+
+        while (Kapital &lt; 1000000) {
+            Kapital = Kapital * Zinsen;
+            jahre = jahre + 1;
+        } // end of while
+
+        System.out.println("Sie benoetigen bei Kapital von " + StartKapital + "  " + jahre + " Jahre bis sie zu dem Vermoegen von einer Million kommen.");
+
+    } // end of main
+
+} // end of class Millionaer</code></pre></div></div>
+        <p>
+            In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>Nutzereingabe von Kapital und Zinsen</li>
+<li>Berechnung der Jahre bis zur Millionen</li>
+</ol>
+        <h3 class="schritt-titel">Nutzereingabe</h3>
+        <p>
+            Da wir nun so oft schon die Nutzereingabe durchgegangen sind, solltest du sie mitlerweile können. Falls nicht, empfehle ich dir <a href="docs.html#Eingabe-Ausgabe">die Nutzereingabe</a> in 
+            der <a href="docs.html">Dokumentation</a> nachzulesen, oder dir alte Aufgaben nochmal gründlich anzuschauen. Die Nutzereingabe ist sehr 
+            einfach und ist eine wichtige Grundlage, welche man beherrschen soll.
+        </p>
+        <br/>
+        <h3 class="schritt-titel">Berechnung</h3>
+        <p>
+            Schauen wir uns nun die Berechnung genauer an. Zuerst wollen wir verstehen welche und wieso wir solche Variablentypen gewählt haben. <br/>
+            Wir haben Startkapital und Kapital. Im Grunde gesehen sind diese Variablen die selbe. Die eine Variable speichert den vom Nutzer eingegebenen Wert (StartKapital) und die andere Nutzen 
+            wir in unserer Rechnung. Nach eingabe des Zinssatzes, wollen wir ihn durch 100 teilen, um ihn von einer ganzen Zahl in eine Demizahlzahl umzuwandeln. 5% wären dann 0.05 .
+            Wir müssen diese Dezimalzahl dann allerdings mit 1 addieren, damit bei unserer Multiplikation die Zahl des Kapitals steigt und nicht sinkt. <br/>
+            Durch eine While Schleife können wir dann die Inkrementierung des Kapitals so lange laufen lassen, bis das Kapital mindestens 1.000.000 erreicht hat.
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">while (Kapital &lt; 1000000) {
+    // Code der ausgeführt wird, solange die Bedingung nicht wahr ist.
+}</code></pre></div></div>
+        <br/>
+        <p>
+<code>While</code> heißt auf Deutsch "Solange", welches genau die Absicht dieser Schleife erklärt. Solange eine Bedigung wahr oder nicht wahr ist, wird der Code in 
+            der Schleife wiederholt. Darum platzieren wir unseren Code, welcher dann unser Kapital mit den Zinsen multipliziert und die Jahresanzahl um 1 erhöht. <br/>
+            Dann müssen wir nur noch die Jahresanzahl und das Endkapital ausgeben und wir haben unser Programm fertig!
+        </p>
+        <br/>

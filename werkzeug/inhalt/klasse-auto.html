@@ -1,0 +1,190 @@
+        <p>Die Aufgabe der heutigen Stunde ist unsere erste eigene Klasse! Bis
+           jetzt haben wir alles in eine einzige Datei geschrieben und von oben
+           nach unten abgearbeitet. Damit ist jetzt Schluss. Ab hier bauen wir
+           Baupläne und machen daraus Objekte.</p>
+
+        <p>Bevor wir irgendwas tippen: was wollen wir überhaupt modellieren?
+           Modellieren heißt, von den ganzen Details eines echten Autos
+           wegzugehen und nur das aufzuschreiben, was für unseren Zweck wichtig
+           ist. Unsere Autos sollen betankt werden und fahren können, mehr nicht.
+           Also brauchen wir auch nur das, was dafür nötig ist: Kennzeichen,
+           Kilometerstand, Tankvolumen, Kraftstoffverbrauch und Kraftstoffmenge.
+           Die Farbe interessiert uns nicht, die Anzahl der Türen auch nicht.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Schreibe den Code mit dem Java-Editor und speichere die Datei
+               hier ab.</p>
+        </div>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Auto.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Auto.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Die Klasse Auto
+ *
+ * @version 1.0 vom 13.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Auto {
+
+// Anfang Attribute
+private String Kennzeichen;
+private double Kilometerstand;
+private double Tankvolumen;
+private double Kraftstoffverbrauch;
+private double Kraftstoffmenge;
+// Ende Attribute
+
+//Konstruktor
+public Auto(String Kennzeichen, double Tankvolumen, double Kraftstoffverbrauch) {
+  this.Kennzeichen = Kennzeichen;
+  this.Tankvolumen = Tankvolumen;
+  this.Kraftstoffverbrauch = Kraftstoffverbrauch;
+  Kilometerstand = 0;
+  Kraftstoffmenge = 0;
+}
+
+// Anfang Methoden
+public String getKennzeichen() {
+  return Kennzeichen;
+}
+
+public double getKilometerstand() {
+  return Kilometerstand;
+}
+
+public double getKraftstoffmenge() {
+  return Kraftstoffmenge;
+}
+
+public void tanken(double Menge) {
+  // TODO
+}
+
+public void fahren(double Strecke) {
+  // TODO
+}
+// Ende Methoden
+}</code></pre>
+            </div>
+        </div>
+
+        <p>In der Aufgabenstellung wird gefordert, dass wir folgende Sachen
+           umsetzen:</p>
+
+        <ol class="schritte">
+            <li>Eine Klasse <code>Auto</code> anlegen</li>
+            <li>Die fünf Attribute deklarieren und auf <code>private</code> setzen</li>
+            <li>Einen Konstruktor schreiben, der Kennzeichen, Tankvolumen und Kraftstoffverbrauch entgegennimmt</li>
+            <li>Getter für die Werte schreiben, die man von außen lesen können soll</li>
+            <li>Die beiden Methoden <code>tanken</code> und <code>fahren</code> anlegen – erstmal leer</li>
+        </ol>
+
+        <h3 class="schritt-titel">Die Attribute</h3>
+        <p>Die fünf Attribute stehen ganz oben und beschreiben, was ein Auto bei
+           uns überhaupt ausmacht. Jedes Objekt, das wir später aus dieser Klasse
+           bauen, bekommt seinen eigenen Satz dieser Werte. Zwei Autos teilen
+           sich also keinen Kilometerstand, jedes hat seinen eigenen.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">private String Kennzeichen;
+private double Kilometerstand;
+private double Tankvolumen;
+private double Kraftstoffverbrauch;
+private double Kraftstoffmenge;</code></pre>
+            </div>
+        </div>
+
+        <p>Warum überall <code>private</code>? Weil von außen niemand einfach so
+           an diesen Werten rumschrauben soll. Wenn der Kilometerstand
+           <code>public</code> wäre, könnte jeder von außen
+           <code>meinAuto.Kilometerstand = 1000000;</code> schreiben, ohne je
+           gefahren zu sein. Genau das wollen wir nicht. Wer den Kilometerstand
+           ändern will, muss gefälligst <code>fahren</code> benutzen. Das nennt
+           sich Kapselung und ist einer der Gründe, warum man überhaupt
+           objektorientiert programmiert.</p>
+
+        <p><code>Kennzeichen</code> ist ein <code>String</code>, weil da Buchstaben
+           drin vorkommen. Alles andere ist <code>double</code>, weil ein
+           Kilometerstand oder eine Tankfüllung durchaus Nachkommastellen haben
+           kann.</p>
+
+        <h3 class="schritt-titel">Der Konstruktor</h3>
+        <p>Der Konstruktor ist die Methode, die läuft, wenn wir mit
+           <code>new</code> ein neues Auto bauen. Er heißt <strong>genau so wie
+           die Klasse</strong> und hat keinen Rückgabetyp – kein
+           <code>void</code>, gar nichts. Das ist das Erkennungszeichen eines
+           Konstruktors.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public Auto(String Kennzeichen, double Tankvolumen, double Kraftstoffverbrauch) {
+  this.Kennzeichen = Kennzeichen;
+  this.Tankvolumen = Tankvolumen;
+  this.Kraftstoffverbrauch = Kraftstoffverbrauch;
+  Kilometerstand = 0;
+  Kraftstoffmenge = 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Hier stolpern erfahrungsgemäß die meisten: der Parameter heißt
+           <code>Kennzeichen</code> und das Attribut heißt auch
+           <code>Kennzeichen</code>. Woher weiß Java, welches gemeint ist?</p>
+
+        <p>Gar nicht – deshalb gibt es <code>this</code>. Innerhalb der Methode
+           gewinnt immer der Parameter, der ist näher dran. <code>this.Kennzeichen</code>
+           heißt ausdrücklich „das Attribut von diesem Objekt hier".
+           <code>this.Kennzeichen = Kennzeichen;</code> liest sich also als:
+           schreib den übergebenen Wert in mein eigenes Attribut. Ohne
+           <code>this</code> würdest du den Parameter sich selbst zuweisen und das
+           Attribut bliebe leer. Der Compiler meckert dabei nicht mal, das
+           Programm tut nur nichts.</p>
+
+        <p>Kilometerstand und Kraftstoffmenge werden nicht mitgegeben, die setzt
+           der Konstruktor selbst auf 0. Ein frisch gebautes Auto ist eben leer
+           und ungefahren.</p>
+
+        <h3 class="schritt-titel">Die Getter</h3>
+        <p>Weil die Attribute <code>private</code> sind, kommt von außen niemand
+           ran. Wir wollen den Kilometerstand aber später ausgeben können. Dafür
+           gibt es Getter – kleine Methoden, die nichts weiter tun als den Wert
+           zurückzugeben:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public double getKilometerstand() {
+  return Kilometerstand;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Das sieht nach unnötiger Tipparbeit aus, ist es aber nicht. Der Punkt
+           ist, dass <em>wir</em> entscheiden, was nach außen geht. Für
+           Tankvolumen und Kraftstoffverbrauch gibt es hier absichtlich keinen
+           Getter – die braucht von außen gerade niemand.</p>
+
+        <h3 class="schritt-titel">Die beiden leeren Methoden</h3>
+        <p>Ganz unten stehen <code>tanken</code> und <code>fahren</code>, und in
+           beiden steht nur <code>// TODO</code>. Das ist Absicht. Die Gerüste
+           sind schon da, damit die Klasse durchkompiliert und wir sie benutzen
+           können – gefüllt werden sie erst in einer späteren Aufgabe.</p>
+
+        <p>Beide sind <code>void</code>, geben also nichts zurück. Sie ändern nur
+           den Zustand des Objekts. So etwas nennt man Prozedur, im Gegensatz zu
+           einer Funktion wie <code>getKilometerstand()</code>, die einen Wert
+           liefert. In Java heißt beides Methode.</p>

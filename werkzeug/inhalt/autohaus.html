@@ -1,0 +1,247 @@
+        <p>Die Aufgabe der heutigen Stunde ist das Autohaus! Wir haben jetzt eine
+           fertige Klasse <code>Auto</code> vor uns liegen und wollen sie auch
+           endlich mal benutzen. Genau dafür ist das Autohaus da: es ist unsere
+           Spielwiese, auf der wir Autos erzeugen, betanken und fahren lassen.</p>
+
+        <p>Wenn du aus der E-Phase kommst, sieht das hier erstmal komisch aus. Wir
+           schreiben nämlich zwei Dateien statt einer. Das ist aber genau der
+           Punkt bei der OOP und garnicht so wild, wenn man es einmal gemacht hat.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Erzeuge eine neue Klasse <code>Autohaus</code> im JavaEditor über
+               <em>Datei &gt; Neu &gt; Console</em>. Speichere die Klasse im gleichen
+               Ordner, wie die Klasse <code>Auto</code>. Nenne die Datei
+               <code>Autohaus.java</code>. Trage deinen Namen als Autor ein.</p>
+        </div>
+
+        <p>Dazu kam in der Stunde noch das Beispiel an der Tafel: in
+           <code>main</code> ein Auto erzeugen, es betanken und fahren lassen, und
+           am Ende den Kilometerstand ausgeben. Genau das bauen wir jetzt.</p>
+
+        <h2>Was wir schon haben</h2>
+        <p>Die Klasse <code>Auto</code> ist vorgegeben. Wichtig sind für uns vor
+           allem zwei Stellen: der Konstruktor, weil der uns sagt was wir beim
+           Erzeugen angeben müssen, und die beiden Methoden <code>tanken</code>
+           und <code>fahren</code> ganz unten, in denen noch <code>// TODO</code>
+           steht.</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Auto.java (vorgegeben)</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld">
+                <pre><code class="language-java">public class Auto {
+
+// Anfang Attribute
+private String Kennzeichen;
+private double Kilometerstand;
+private double Tankvolumen;
+private double Kraftstoffverbrauch;
+private double Kraftstoffmenge;
+// Ende Attribute
+
+//Konstruktor
+public Auto(String Kennzeichen, double Tankvolumen, double Kraftstoffverbrauch) {
+  this.Kennzeichen = Kennzeichen;
+  this.Tankvolumen = Tankvolumen;
+  this.Kraftstoffverbrauch = Kraftstoffverbrauch;
+  Kilometerstand = 0;
+  Kraftstoffmenge = 0;
+}
+
+// Anfang Methoden
+public String getKennzeichen() {
+  return Kennzeichen;
+}
+
+public double getKilometerstand() {
+  return Kilometerstand;
+}
+
+public double getKraftstoffmenge() {
+  return Kraftstoffmenge;
+}
+
+public void tanken(double Menge) {
+  // TODO
+}
+
+public void fahren(double Strecke) {
+  // TODO
+}
+// Ende Methoden
+}</code></pre>
+            </div>
+        </div>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Autohaus.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Autohaus.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Das fertige Java Programm des Autohauses
+ *
+ * @version 1.0 vom 13.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Autohaus {
+
+  public static void main(String[] args) {
+
+    // Ein neues Auto. Die drei Werte gehen an den Konstruktor:
+    // Kennzeichen, Tankvolumen (Liter), Kraftstoffverbrauch (L pro 100 km)
+    Auto meinAuto = new Auto("WI-AB 123", 50, 6.5);
+
+    meinAuto.tanken(20);    // 20 Liter in den Tank
+    meinAuto.fahren(100);   // 100 Kilometer fahren
+
+    System.out.println("Kilometerstand: " + meinAuto.getKilometerstand());
+
+  } // end of main
+
+} // end of class Autohaus</code></pre>
+            </div>
+        </div>
+
+        <p>In der Aufgabenstellung wird gefordert, dass wir folgende Sachen
+           umsetzen:</p>
+
+        <ol class="schritte">
+            <li>Eine neue Konsolen-Klasse <code>Autohaus</code> anlegen, im selben Ordner wie <code>Auto.java</code></li>
+            <li>Den Kommentarkopf ausfüllen und den eigenen Namen als Autor eintragen</li>
+            <li>Die <code>main</code>-Methode als Startpunkt schreiben</li>
+            <li>Ein Objekt der Klasse <code>Auto</code> erzeugen</li>
+            <li>Das Auto betanken und fahren lassen</li>
+            <li>Den Kilometerstand in der Konsole ausgeben</li>
+            <li>Verstehen, warum der Kilometerstand trotzdem 0 bleibt</li>
+        </ol>
+
+        <h3 class="schritt-titel">Die Klasse anlegen</h3>
+        <p>Im JavaEditor gehst du auf <em>Datei &gt; Neu &gt; Console</em> und
+           speicherst die Datei als <code>Autohaus.java</code>. Achte wirklich
+           darauf, dass sie im <strong>gleichen Ordner</strong> liegt wie
+           <code>Auto.java</code>. Wenn die beiden Dateien in verschiedenen Ordnern
+           liegen, findet Java die Klasse <code>Auto</code> nicht und du bekommst
+           beim Kompilieren ein <code>cannot find symbol</code> um die Ohren
+           gehauen. Das ist einer der häufigsten Fehler bei dieser Aufgabe.</p>
+
+        <h3 class="schritt-titel">Der Kommentarkopf</h3>
+        <p>Ganz oben steht ein mehrzeiliger Kommentar. Der fängt mit
+           <code>/*</code> an und hört mit <code>*/</code> auf, und dazwischen
+           gehört in jede Zeile ein Stern an den Anfang. Alles was dadrin steht
+           wird beim Ausführen komplett ignoriert, es ist also nur für uns
+           Menschen da. Hinter <code>@author</code> kommt dein Name.</p>
+
+        <h3 class="schritt-titel">Die main-Methode</h3>
+        <p>Die <code>main</code>-Methode ist der Startpunkt von jedem Java
+           Programm. Ohne sie passiert beim Ausführen einfach nichts. Die vier
+           Wörter davor sehen nach viel aus, jedes hat aber seinen Grund:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead>
+                    <tr><th>Wort</th><th>Was es bedeutet</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>public</code></td><td>Die Methode ist von überall aufrufbar.</td></tr>
+                    <tr><td><code>static</code></td><td>Sie gehört zur Klasse selbst und nicht zu einem Objekt. Nur deshalb kann die JVM sie starten, ohne vorher ein Autohaus-Objekt zu bauen.</td></tr>
+                    <tr><td><code>void</code></td><td>Sie gibt keinen Wert zurück.</td></tr>
+                    <tr><td><code>String[] args</code></td><td>Ein Array, über das man dem Programm beim Start noch Werte mitgeben könnte. Brauchen wir hier nicht.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Die Kommentare <code>// end of main</code> und
+           <code>// end of class Autohaus</code> musst du nicht schreiben, aber
+           sie helfen dir später enorm. Wenn du fünf verschachtelte Klammern
+           zumachst, siehst du damit sofort welche Klammer zu was gehört.</p>
+
+        <h3 class="schritt-titel">Ein Objekt erzeugen</h3>
+        <p>Jetzt der eigentlich spannende Teil. Bis jetzt hatten wir mit
+           <code>Auto</code> nur den Bauplan. Ein Bauplan kann aber nicht fahren.
+           Mit <code>new</code> bauen wir aus dem Bauplan ein echtes Auto:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">Auto meinAuto = new Auto("WI-AB 123", 50, 6.5);</code></pre>
+            </div>
+        </div>
+
+        <p>Warum genau diese drei Werte? Weil der Konstruktor in der Klasse
+           <code>Auto</code> genau die drei haben will:
+           <code>Auto(String Kennzeichen, double Tankvolumen, double Kraftstoffverbrauch)</code>.
+           Die Reihenfolge ist dabei fest. Wenn du die drehst, meckert der
+           Compiler entweder wegen der Datentypen, oder er meckert nicht und dein
+           Auto hat plötzlich 6,5 Liter Tank und verbraucht 50 Liter auf 100 km.
+           Der Kilometerstand und die Kraftstoffmenge werden wir nicht mitgeben,
+           die setzt der Konstruktor selbst auf 0. Macht ja auch Sinn, ein neues
+           Auto ist leer und ungefahren.</p>
+
+        <p><code>meinAuto</code> ist übrigens nur der Name, den <em>wir</em> uns
+           ausdenken. Du kannst das Ding auch <code>a1</code> nennen. Sprechende
+           Namen sind aber nie verkehrt.</p>
+
+        <h3 class="schritt-titel">Methoden aufrufen und ausgeben</h3>
+        <p>Ab hier arbeiten wir immer über den Punkt. Links vom Punkt steht das
+           Objekt, rechts davon was es machen soll:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">meinAuto.tanken(20);
+meinAuto.fahren(100);
+
+System.out.println("Kilometerstand: " + meinAuto.getKilometerstand());</code></pre>
+            </div>
+        </div>
+
+        <p><code>tanken</code> und <code>fahren</code> sind Prozeduren, die geben
+           nichts zurück. <code>getKilometerstand()</code> ist dagegen eine
+           Funktion, die liefert uns einen <code>double</code> zurück, und den
+           können wir mit dem <code>+</code> direkt an unseren Text dranhängen.
+           Das nennt sich Konkatenation.</p>
+
+        <h3 class="schritt-titel">Warum trotzdem nichts passiert</h3>
+        <p>Und jetzt kommt der Teil, über den in der Stunde die halbe Klasse
+           gestolpert ist. Du führst das Programm aus, es kompiliert sauber, es
+           läuft durch, und dann steht da:</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Kilometerstand: 0.0</code></pre>
+            </div>
+        </div>
+
+        <p>Wir haben getankt und sind 100 km gefahren, und trotzdem steht der
+           Kilometerstand auf 0. Kaputt ist deswegen aber nichts. Schau nochmal
+           in die Klasse <code>Auto</code>: in <code>tanken</code> und
+           <code>fahren</code> steht nur <code>// TODO</code> drin, also nichts.
+           Wir rufen also zwei Methoden auf, die brav aufgerufen werden und dann
+           einfach nichts tun.</p>
+
+        <p>Das ist der Unterschied zwischen einem Syntaxfehler und einem
+           semantischen Fehler. Die Syntax stimmt hier komplett, deshalb
+           beschwert sich der Compiler auch nicht. Der Code macht nur nicht das,
+           was er machen soll. Diese Sorte Fehler ist die fiesere von beiden,
+           weil dir niemand sagt dass was falsch ist, du musst selber drauf
+           kommen :)</p>
+
+        <p>Die beiden Methoden füllen wir in der nächsten Aufgabe.</p>

@@ -1,0 +1,151 @@
+        <p>Die Aufgabe der heutigen Stunde ist die dritte SQL-Lektion, und die ist
+           die wichtigste von allen: <strong>JOIN</strong>. Bisher haben wir immer
+           nur aus einer Tabelle gelesen. Der ganze Sinn einer relationalen
+           Datenbank ist aber, dass die Daten auf mehrere Tabellen verteilt sind –
+           und JOIN führt sie wieder zusammen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>a) Bearbeiten Sie die dritte Lektion und erstellen Sie in ihrem
+               OneNote-Heft eine kompakte übersichtliche Kurzzusammenfassung der
+               SQL-Befehle.<br>
+               b) Bearbeiten Sie die Übung 3</p>
+        </div>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Teil b) der Aufgabe – <em>Bearbeiten Sie die Übung 3</em> – liegt auf der Tutorial-Seite und ist im OneNote nicht abgedruckt. Hier steht die geforderte Zusammenfassung. Zusatzaufgaben gibt es zu dieser Lektion keine.</span>
+        </div>
+
+        <h2>Warum man JOIN braucht</h2>
+        <p>Erinner dich an die Wurstsorten: der Lieferant steht nicht in der
+           Wursttabelle, dort steht nur seine <code>Lieferant_ID</code>. Will man
+           wissen, wie der Lieferant <em>heißt</em>, muss man in die andere Tabelle
+           schauen. Genau das macht JOIN.</p>
+
+        <h2>Die beiden Schreibweisen</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-database" aria-hidden="true"></i> SQL</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="SQL_Lektion3.sql">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Zusammenfassung der dritten SQL-Lektion: JOIN
+-- @MeinInfoKurs.github.io
+
+-- Schreibweise 1: INNER JOIN ... ON     (die modernere, empfohlene)
+SELECT   Wurstsorten.Sorte_Name, Lieferanten.Name
+FROM     Wurstsorten
+INNER JOIN Lieferanten
+       ON  Wurstsorten.Lieferant_ID = Lieferanten.ID;
+
+
+-- Schreibweise 2: beide Tabellen in FROM, Bedingung in WHERE
+SELECT   Wurstsorten.Sorte_Name, Lieferanten.Name
+FROM     Wurstsorten, Lieferanten
+WHERE    Wurstsorten.Lieferant_ID = Lieferanten.ID;</code></pre>
+            </div>
+        </div>
+
+        <p>Beide liefern dasselbe Ergebnis. Die erste Schreibweise ist die bessere,
+           weil man <strong>Verknüpfungsbedingung und Filterbedingung
+           auseinanderhalten</strong> kann: was zusammengehört steht bei
+           <code>ON</code>, was gefiltert wird bei <code>WHERE</code>. Bei der zweiten
+           steht beides vermischt im <code>WHERE</code>.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Vergisst du bei Schreibweise 2 die <code>WHERE</code>-Bedingung,
+            bekommst du das <strong>Kreuzprodukt</strong>: jede Zeile der einen
+            Tabelle wird mit jeder Zeile der anderen kombiniert. Bei 100 Wurstsorten
+            und 20 Lieferanten sind das 2000 Zeilen Unsinn. Bei <code>INNER JOIN</code>
+            kann das nicht passieren, weil ohne <code>ON</code> schon die Syntax
+            meckert.</span>
+        </div>
+
+        <h2>Der Punkt zwischen Tabelle und Spalte</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SELECT Wurstsorten.ID, Lieferanten.ID   -- beide Tabellen haben eine Spalte ID</code></pre>
+            </div>
+        </div>
+
+        <p>Sobald zwei Tabellen im Spiel sind, können Spaltennamen doppelt
+           vorkommen. Dann muss man <code>Tabelle.Spalte</code> schreiben, sonst
+           kommt <code>Column 'ID' in field list is ambiguous</code>. Bei eindeutigen
+           Namen darf man den Punkt weglassen – ich schreibe ihn trotzdem immer hin,
+           weil man dann sofort sieht, woher eine Spalte kommt.</p>
+
+        <h3 class="schritt-titel">Kürzere Namen mit AS</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SELECT   w.Sorte_Name, l.Name AS Lieferant
+FROM     Wurstsorten AS w
+INNER JOIN Lieferanten AS l
+       ON  w.Lieferant_ID = l.ID;</code></pre>
+            </div>
+        </div>
+
+        <p>Das <code>AS</code> kennen wir schon aus Lektion 1 fürs Umbenennen von
+           Spalten. Es funktioniert auch für Tabellen und spart bei langen Namen
+           viel Tipparbeit.</p>
+
+        <h2>Mehr als zwei Tabellen</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Wurstsorte, Lieferant und dessen Ort - ueber drei Tabellen
+SELECT   w.Sorte_Name, l.Name AS Lieferant, o.Ortname
+FROM     Wurstsorten AS w
+INNER JOIN Lieferanten AS l ON w.Lieferant_ID = l.ID
+INNER JOIN Orte        AS o ON l.Postleitzahl = o.Postleitzahl;</code></pre>
+            </div>
+        </div>
+
+        <p>Man hängt einfach einen weiteren <code>INNER JOIN</code> an. Damit löst
+           man die Ketten auf, die bei den Eltern-Kind-Tabellen aufgetaucht sind –
+           etwa vom Schüler über den Ort bis zum Bundesland.</p>
+
+        <h2>Das n:m-Problem</h2>
+        <p>Bei einer Verknüpfungstabelle wie <code>schueler_hat_lehrer</code>
+           braucht man <strong>drei</strong> Tabellen im JOIN, obwohl man nur zwei
+           Sachen sehen will:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SELECT   s.vorname, s.nachname, l.nachname AS Lehrer
+FROM     schueler AS s
+INNER JOIN schueler_hat_lehrer AS shl ON s.id = shl.schueler
+INNER JOIN lehrer              AS l   ON shl.lehrer = l.id;</code></pre>
+            </div>
+        </div>
+
+        <p>Die Verknüpfungstabelle in der Mitte enthält selbst nichts Interessantes
+           – sie ist nur die Brücke. Man muss trotzdem über sie gehen, weil es keine
+           direkte Verbindung zwischen Schülern und Lehrern gibt.</p>
+
+        <h2>Was INNER bedeutet</h2>
+        <p><code>INNER JOIN</code> liefert nur Zeilen, zu denen es auf
+           <strong>beiden</strong> Seiten einen Partner gibt. Eine Wurstsorte ohne
+           eingetragenen Lieferanten fällt raus – lautlos, ohne Fehlermeldung.</p>
+
+        <p>Genau daran hängt der häufigste „aber es fehlen Zeilen"-Fehler. Will man
+           auch die Partnerlosen sehen, nimmt man <code>LEFT JOIN</code>: der behält
+           alle Zeilen der linken Tabelle und füllt die fehlenden Spalten mit NULL.
+           Für den Grundkurs reicht <code>INNER JOIN</code>, aber wissen sollte man
+           es.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>JOIN-Art</th><th>Liefert</th></tr></thead>
+                <tbody>
+                    <tr><td><code>INNER JOIN</code></td><td>nur Zeilen mit Partner auf beiden Seiten</td></tr>
+                    <tr><td><code>LEFT JOIN</code></td><td>alle Zeilen der linken Tabelle, fehlende Partner werden NULL</td></tr>
+                    <tr><td><code>RIGHT JOIN</code></td><td>umgekehrt</td></tr>
+                </tbody>
+            </table>
+        </div>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | SQL Lektion 2: Aggregatfunktionen</title>
+    <meta name="description" content="COUNT, SUM, AVG, MAX und MIN – und warum eine Aggregatfunktion in WHERE nichts zu suchen hat.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q2/datenbanken/sql-lektion-2.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | SQL Lektion 2: Aggregatfunktionen">
+    <meta property="og:description" content="COUNT, SUM, AVG, MAX und MIN – und warum eine Aggregatfunktion in WHERE nichts zu suchen hat.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q2/datenbanken/sql-lektion-2.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | SQL Lektion 2: Aggregatfunktionen">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | SQL Lektion 2: Aggregatfunktionen">
+    <meta name="twitter:description" content="COUNT, SUM, AVG, MAX und MIN – und warum eine Aggregatfunktion in WHERE nichts zu suchen hat.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "SQL Lektion 2: Aggregatfunktionen",
+  "description": "COUNT, SUM, AVG, MAX und MIN – und warum eine Aggregatfunktion in WHERE nichts zu suchen hat.",
+  "url": "https://meininfokurs.cmrg.site/q2/datenbanken/sql-lektion-2.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q2 – Klasse 11 · 2. Halbjahr",
+  "about": "Datenbanken",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q2",
+    "url": "https://meininfokurs.cmrg.site/q2/"
+  },
+  "isBasedOn": "Informatik Q2, OneNote \"Datenbanken mySQL\", Seite 54",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html" aria-current="page"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q2/index.html">Q2</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q2/index.html#datenbanken">Datenbanken</a>
+        </p>
+        <h1 class="titel">SQL Lektion 2: Aggregatfunktionen</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist die zweite SQL-Lektion! Hier kommen
+           die <strong>Aggregatfunktionen</strong> dazu – Befehle, die nicht mehr
+           einzelne Zeilen liefern, sondern aus vielen Zeilen einen Wert
+           ausrechnen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>a) Bearbeiten Sie die zweite Lektion und erstellen Sie in ihrem
+               OneNote-Heft eine kompakte übersichtliche Kurzzusammenfassung der
+               SQL-Befehle.<br>
+               b) Bearbeiten Sie die Übung 2</p>
+            <p><strong>Zusatzaufgabe 1Z:</strong> Gebe von Europa und Asien das pro
+               Kopf Durchschnittseinkommen an.<br>
+               <strong>Zusatzaufgabe 2Z:</strong> Welche Länder liegen über dem
+               durchschnittlichen pro Kopf Einkommen?</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Teil b) der Aufgabe – <em>Bearbeiten Sie die Übung 2</em> – liegt auf der Tutorial-Seite und ist im OneNote nicht abgedruckt. Hier stehen die Zusammenfassung und die beiden Zusatzaufgaben, die im OneNote ausgeschrieben sind.</span>
+        </div>
+
+        <h2>Die fünf Aggregatfunktionen</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Funktion</th><th>Was sie macht</th><th>Beispiel</th></tr></thead>
+                <tbody>
+                    <tr><td><code>COUNT()</code></td><td>zählt Zeilen</td><td><code>COUNT(*)</code></td></tr>
+                    <tr><td><code>SUM()</code></td><td>addiert alle Werte</td><td><code>SUM(WM_Punkte)</code></td></tr>
+                    <tr><td><code>AVG()</code></td><td>Durchschnitt</td><td><code>AVG(WM_Punkte)</code></td></tr>
+                    <tr><td><code>MAX()</code></td><td>größter Wert</td><td><code>MAX(WM_Punkte)</code></td></tr>
+                    <tr><td><code>MIN()</code></td><td>kleinster Wert</td><td><code>MIN(WM_Punkte)</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-database" aria-hidden="true"></i> SQL</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="SQL_Lektion2.sql">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Zusammenfassung der zweiten SQL-Lektion
+-- @MeinInfoKurs.github.io
+
+-- Wie viele Weltmeistertitel gab es insgesamt?
+SELECT COUNT(*) AS Anzahl
+FROM   WMTitel;
+
+-- Wie viele verschiedene Weltmeister waren es?
+SELECT COUNT(DISTINCT Fahrerweltmeister) AS VerschiedeneFahrer
+FROM   WMTitel;
+
+-- Hoechste, niedrigste und durchschnittliche Punktzahl auf einmal
+SELECT MAX(WM_Punkte) AS Bestwert,
+       MIN(WM_Punkte) AS Tiefstwert,
+       AVG(WM_Punkte) AS Durchschnitt,
+       SUM(WM_Punkte) AS Gesamtpunkte
+FROM   WMTitel;</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">COUNT(*) gegen COUNT(spalte)</h3>
+        <p>Der Unterschied ist klein, aber prüfungsrelevant:</p>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Schreibweise</th><th>Zählt</th></tr></thead>
+                <tbody>
+                    <tr><td><code>COUNT(*)</code></td><td>alle Zeilen, auch solche mit NULL-Werten</td></tr>
+                    <tr><td><code>COUNT(spalte)</code></td><td>nur Zeilen, in denen diese Spalte <strong>nicht</strong> NULL ist</td></tr>
+                    <tr><td><code>COUNT(DISTINCT spalte)</code></td><td>verschiedene Werte, ohne Doppelte</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Das gilt auch für die anderen Funktionen: <code>AVG</code> lässt
+           NULL-Werte einfach weg und teilt nur durch die Anzahl der vorhandenen
+           Werte. Das ist meistens genau richtig – man sollte es aber wissen.</p>
+
+        <h3 class="schritt-titel">Die häufigste Falle</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- FALSCH: gemischt geht nicht
+SELECT Fahrerweltmeister, MAX(WM_Punkte)
+FROM   WMTitel;</code></pre>
+            </div>
+        </div>
+
+        <p>Eine Aggregatfunktion fasst <em>alle</em> Zeilen zu einer zusammen. Ein
+           normales Attribut wie <code>Fahrerweltmeister</code> hat aber pro Zeile
+           einen eigenen Wert – welchen sollte die Datenbank nehmen? MySQL lässt das
+           in manchen Einstellungen durchgehen und liefert dann irgendeinen Namen,
+           der gar nicht zum Maximum gehören muss. Richtig löst man das mit
+           <code>ORDER BY … LIMIT 1</code> oder mit <code>GROUP BY</code> aus Lektion 4.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- RICHTIG: wer hatte die meisten Punkte?
+SELECT Fahrerweltmeister, WM_Punkte
+FROM   WMTitel
+ORDER BY WM_Punkte DESC
+LIMIT 1;</code></pre>
+            </div>
+        </div>
+
+        <h2>Die Zusatzaufgaben</h2>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Die Tabelle <code>cia</code> aus dem Tutorial ist im OneNote
+            <strong>nicht</strong> abgedruckt – dort steht nur
+            <code>SELECT * FROM cia</code>. Ich schreibe die Abfragen deshalb gegen
+            die Spaltennamen <code>name</code>, <code>region</code>,
+            <code>einkommen</code> und <code>bevoelkerung</code>. Heißen die Spalten
+            in eurer Datenbank anders, musst du nur die Namen austauschen – die
+            Struktur der Abfrage bleibt gleich.</span>
+        </div>
+
+        <h3 class="schritt-titel">Aufgabe 1Z – Durchschnittseinkommen Europa und Asien</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SELECT region, AVG(einkommen) AS ProKopfDurchschnitt
+FROM   cia
+WHERE  region IN ('Europa', 'Asien')
+GROUP BY region;</code></pre>
+            </div>
+        </div>
+
+        <p>Zwei Bausteine: das <code>IN</code> aus Lektion 1 grenzt auf die beiden
+           Regionen ein, das <code>GROUP BY</code> sorgt dafür, dass man
+           <strong>zwei</strong> Werte bekommt statt einem gemeinsamen Durchschnitt
+           über beide Regionen zusammen.</p>
+
+        <p>Will man wirklich nur eine Zahl für beide zusammen, lässt man das
+           <code>GROUP BY</code> weg:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SELECT AVG(einkommen) AS ProKopfDurchschnitt
+FROM   cia
+WHERE  region IN ('Europa', 'Asien');</code></pre>
+            </div>
+        </div>
+
+        <p>Die Aufgabe sagt „von Europa und Asien" – ich lese das als zwei
+           getrennte Werte, deshalb steht bei mir das <code>GROUP BY</code> drin.
+           Wenn du es anders liest, schreib deine Lesart dazu.</p>
+
+        <h3 class="schritt-titel">Aufgabe 2Z – Länder über dem Durchschnitt</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SELECT name, einkommen
+FROM   cia
+WHERE  einkommen &gt; (SELECT AVG(einkommen) FROM cia)
+ORDER BY einkommen DESC;</code></pre>
+            </div>
+        </div>
+
+        <p>Hier steht zum ersten Mal eine <strong>Abfrage in der Abfrage</strong>.
+           Der Teil in Klammern wird zuerst ausgeführt und liefert genau eine Zahl –
+           den Gesamtdurchschnitt. Mit der wird dann jede Zeile verglichen.</p>
+
+        <p>Warum geht es nicht einfacher? Weil das hier <strong>nicht</strong>
+           funktioniert:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- FALSCH: Aggregatfunktionen sind in WHERE verboten
+SELECT name, einkommen
+FROM   cia
+WHERE  einkommen &gt; AVG(einkommen);</code></pre>
+            </div>
+        </div>
+
+        <p>Der Grund liegt in der Arbeitsreihenfolge der Datenbank:
+           <code>WHERE</code> entscheidet Zeile für Zeile, ob sie überhaupt
+           dazugehört. Zu diesem Zeitpunkt steht der Durchschnitt noch gar nicht
+           fest, denn dafür bräuchte man ja schon alle Zeilen. Deshalb die
+           Unterabfrage, die vorher durchläuft.</p>
+
+        <p>Solche geschachtelten Abfragen sind eigentlich erst Thema von
+           Lektion 5 – die Zusatzaufgabe greift hier also schon vor. Das ist kein
+           Fehler in der Aufgabe, sondern Absicht: man merkt so selbst, wo die
+           Grenzen der bisherigen Mittel liegen.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="sql-lektion-1.html"><small>Vorherige Aufgabe</small>SQL Lektion 1: SELECT und WHERE</a>
+            <a class="weiter" href="sql-lektion-3.html"><small>Nächste Aufgabe</small>SQL Lektion 3: JOIN</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+        <p>Die Aufgabe der heutigen Stunde ist die fünfte SQL-Lektion:
+           <strong>geschachtelte Abfragen</strong>. In den Zusatzaufgaben davor haben
+           wir sie schon benutzt, jetzt schauen wir sie uns richtig an. Eine
+           Unterabfrage ist einfach ein <code>SELECT</code> in Klammern innerhalb
+           eines anderen <code>SELECT</code>.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>a) Bearbeiten Sie die fünfte Lektion und erstellen Sie in ihrem
+               OneNote-Heft eine kompakte übersichtliche Kurzzusammenfassung der
+               SQL-Befehle.<br>
+               b) Bearbeiten Sie die Übung 5</p>
+            <p><strong>Zusatzaufgabe:</strong> Gib alle Regionen und deren
+               durchschnittliches BIP an, deren durchschnittliches BIP über dem
+               BIP-Gesamtdurchschnitt liegt.</p>
+        </div>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Teil b) der Aufgabe – <em>Bearbeiten Sie die Übung 5</em> – liegt auf der Tutorial-Seite und ist im OneNote nicht abgedruckt. Hier stehen die Zusammenfassung und die Zusatzaufgabe.</span>
+        </div>
+
+        <h2>Die zwei Sorten von Unterabfragen</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-database" aria-hidden="true"></i> SQL</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="SQL_Lektion5.sql">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Zusammenfassung der fuenften SQL-Lektion: Unterabfragen
+-- @MeinInfoKurs.github.io
+
+-- Sorte 1: Die Unterabfrage liefert EINEN Wert -> Vergleich mit = < >
+SELECT Fahrerweltmeister, WM_Punkte
+FROM   WMTitel
+WHERE  WM_Punkte &gt; (SELECT AVG(WM_Punkte) FROM WMTitel);
+
+
+-- Sorte 2: Die Unterabfrage liefert MEHRERE Werte -> Vergleich mit IN
+SELECT Saison, Fahrerweltmeister
+FROM   WMTitel
+WHERE  Fahrerweltmeister IN (SELECT Fahrerweltmeister
+                             FROM   WMTitel
+                             WHERE  WM_Punkte &gt; 100);</code></pre>
+            </div>
+        </div>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Unterabfrage liefert</th><th>Passender Operator</th></tr></thead>
+                <tbody>
+                    <tr><td>genau einen Wert</td><td><code>=</code> <code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code> <code>&lt;&gt;</code></td></tr>
+                    <tr><td>mehrere Werte</td><td><code>IN</code> oder <code>NOT IN</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Das ist die häufigste Fehlerquelle: benutzt man <code>=</code> und die
+           Unterabfrage liefert mehr als eine Zeile, bricht die Datenbank mit
+           <code>Subquery returns more than 1 row</code> ab. Dann muss man entweder
+           auf <code>IN</code> wechseln oder die Unterabfrage so bauen, dass sie
+           wirklich nur einen Wert liefert – zum Beispiel mit einer
+           Aggregatfunktion.</p>
+
+        <h2>Wann Unterabfrage, wann JOIN?</h2>
+        <p>Vieles geht mit beidem. Die Faustregel:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Du willst</th><th>Nimm</th></tr></thead>
+                <tbody>
+                    <tr><td>Spalten aus zwei Tabellen <strong>anzeigen</strong></td><td>JOIN</td></tr>
+                    <tr><td>Nur <strong>filtern</strong>, ohne die zweite Tabelle anzuzeigen</td><td>Unterabfrage</td></tr>
+                    <tr><td>Mit einem <strong>berechneten Wert</strong> vergleichen (Durchschnitt, Maximum)</td><td>Unterabfrage – mit JOIN geht das nicht</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Der dritte Fall ist der, für den es keine Alternative gibt, und genau der
+           kommt in der Zusatzaufgabe vor.</p>
+
+        <h2>Die Zusatzaufgabe</h2>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Die Tabelle <code>cia</code> ist im OneNote nicht abgedruckt. Ich
+            schreibe gegen die Spalten <code>region</code> und <code>bip</code> –
+            Namen gegebenenfalls anpassen.</span>
+        </div>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SELECT   region, AVG(bip) AS DurchschnittBIP
+FROM     cia
+GROUP BY region
+HAVING   AVG(bip) &gt; (SELECT AVG(bip) FROM cia)
+ORDER BY DurchschnittBIP DESC;</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Zwei Durchschnitte, die verschieden sind</h3>
+        <p>Der Kern der Aufgabe ist, dass hier <strong>zwei verschiedene
+           Durchschnitte</strong> vorkommen und man sie nicht verwechseln darf:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Wo</th><th>Was gerechnet wird</th></tr></thead>
+                <tbody>
+                    <tr><td><code>AVG(bip)</code> im SELECT und HAVING</td><td>Durchschnitt <strong>innerhalb einer Region</strong>, weil <code>GROUP BY</code> aktiv ist</td></tr>
+                    <tr><td><code>(SELECT AVG(bip) FROM cia)</code></td><td>Durchschnitt über <strong>alle Länder</strong>, unabhängig von der Gruppierung</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Zweimal derselbe Text <code>AVG(bip)</code>, und trotzdem zwei völlig
+           verschiedene Zahlen – der Unterschied entsteht nur dadurch, dass die
+           Unterabfrage ihr eigenes <code>FROM cia</code> hat und vom
+           <code>GROUP BY</code> außen nichts mitbekommt.</p>
+
+        <p>Und es muss <code>HAVING</code> sein, nicht <code>WHERE</code>: der
+           Regionsdurchschnitt existiert erst, nachdem gruppiert wurde. In
+           <code>WHERE</code> könnte man ihn gar nicht ansprechen.</p>
+
+        <h3 class="schritt-titel">Wie die Datenbank das abarbeitet</h3>
+        <ol class="schritte">
+            <li>Die Unterabfrage läuft <strong>einmal</strong> und liefert eine feste Zahl, zum Beispiel 18 500</li>
+            <li>Die äußere Abfrage gruppiert alle Länder nach Region</li>
+            <li>Für jede Region wird der Durchschnitt gebildet</li>
+            <li><code>HAVING</code> wirft alle Regionen raus, deren Durchschnitt unter 18 500 liegt</li>
+            <li><code>ORDER BY</code> sortiert die übrigen</li>
+        </ol>
+
+        <p>Wichtig ist Schritt 1: die Unterabfrage hängt von nichts ab, was außen
+           passiert, also muss sie nur ein einziges Mal ausgeführt werden. Solche
+           Unterabfragen nennt man <em>unkorreliert</em>, und sie sind schnell. Es
+           gibt auch korrelierte, die für jede Zeile neu laufen – die braucht man im
+           Grundkurs aber nicht.</p>

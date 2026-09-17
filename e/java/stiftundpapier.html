@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Stift und Papier</title>
+    <meta name="description" content="Ermittle mit Papier und Bleistift was das folgende Programm ausgibt, indem du die Belegung der Variablen für alle Durchläufe angibst.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/e/java/stiftundpapier.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Stift und Papier">
+    <meta property="og:description" content="Ermittle mit Papier und Bleistift was das folgende Programm ausgibt, indem du die Belegung der Variablen für alle Durchläufe angibst.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/e/java/stiftundpapier.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Stift und Papier">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Stift und Papier">
+    <meta name="twitter:description" content="Ermittle mit Papier und Bleistift was das folgende Programm ausgibt, indem du die Belegung der Variablen für alle Durchläufe angibst.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Stift und Papier",
+  "description": "Ermittle mit Papier und Bleistift was das folgende Programm ausgibt, indem du die Belegung der Variablen für alle Durchläufe angibst.",
+  "url": "https://meininfokurs.cmrg.site/e/java/stiftundpapier.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "E-Phase – Klasse 10 · Grundlagen",
+  "about": "Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – E-Phase",
+    "url": "https://meininfokurs.cmrg.site/e/"
+  },
+  "isBasedOn": "Informatik E-Phase · übernommen aus V2/Seiten/Java/StiftUndPapier.html",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html" aria-current="page"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../e/index.html">E-Phase</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../e/index.html#java">Java</a>
+        </p>
+        <h1 class="titel">Stift und Papier</h1>
+        <p class="status ist-nicht-verifiziert">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>Noch nicht geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist <strong>mit Stift und Papier!</strong> Dazu schauen wir uns mal die Aufgabe genauer an und versuchen durch reine Mathematik die Ausgaben des Programmes zu ermitteln.</p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+            Ermittle mit Papier und Bleistift was das folgende Programm ausgibt, indem du die Belegung der Variablen für alle Durchläufe angibst. Ergänze dazu den folgenden Lösungsansatz.
+          </p></div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <img alt="" loading="lazy" src="../../assets/bilder/StiftUndPapier.png" style="border-radius:8px; position:relative; left:50% !important; transform: translate(-50%, -30%); margin-top: 7%; width: 35%; min-width: 45svh; height: auto;"/>
+        <center>
+<div style="margin-bottom: 10px !important; text-align: left;">
+<span style="color: gray !important; text-decoration: underline;">Durchlauf 1:</span> x=1, total=0, y=1*1=1, total=0+1=1, x=1+1=2, <span style="color: #6a9955 !important">Total ist 1</span> <br/>
+<span style="color: gray !important; text-decoration: underline;">Durchlauf 2:</span> x=2, total=1, y=2⋅2=4, total=1+4=5, x=2+1=3, <p class="antwort comment" role="button" tabindex="0">Total ist 5</p> <br/>
+<span style="color: gray !important; text-decoration: underline;">Durchlauf 3:</span> x=3, total=5, y=3⋅3=9, total=5+9=14, x=3+1=4, <p class="antwort comment" role="button" tabindex="0">Total ist 14</p> <br/>
+<span style="color: gray !important; text-decoration: underline;">Durchlauf 4:</span> x=4, total=14, y=4⋅4=16, total=14+16=30, x=4+1=5, <p class="antwort comment" role="button" tabindex="0">Total ist 30</p> <br/>
+<span style="color: gray !important; text-decoration: underline;">Durchlauf 5:</span> x=5, total=30, y=5⋅5=25, total=30+25=55, x=5+1=6, <p class="antwort comment" role="button" tabindex="0">Total ist 55</p> <br/>
+</div>
+</center>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="ratespiel.html"><small>Vorherige Aufgabe</small>Das Ratespiel</a>
+            <a class="weiter" href="codeluecken.html"><small>Nächste Aufgabe</small>Die Code Lücken</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

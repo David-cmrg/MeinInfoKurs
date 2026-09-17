@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Arbeitsblatt Suchalgorithmen I</title>
+    <meta name="description" content="Unsortiertes Array: warum hier nur die lineare Suche geht und warum der Nicht-gefunden-Fall immer der schlimmste ist.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/algorithmen/ab-suchalgorithmen-1.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Arbeitsblatt Suchalgorithmen I">
+    <meta property="og:description" content="Unsortiertes Array: warum hier nur die lineare Suche geht und warum der Nicht-gefunden-Fall immer der schlimmste ist.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/algorithmen/ab-suchalgorithmen-1.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Arbeitsblatt Suchalgorithmen I">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Arbeitsblatt Suchalgorithmen I">
+    <meta name="twitter:description" content="Unsortiertes Array: warum hier nur die lineare Suche geht und warum der Nicht-gefunden-Fall immer der schlimmste ist.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Arbeitsblatt Suchalgorithmen I",
+  "description": "Unsortiertes Array: warum hier nur die lineare Suche geht und warum der Nicht-gefunden-Fall immer der schlimmste ist.",
+  "url": "https://meininfokurs.cmrg.site/q1/algorithmen/ab-suchalgorithmen-1.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "Suchen und Sortieren",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"Suchen und Sortieren\", Seite 14-16",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#algorithmen">Suchen und Sortieren</a>
+        </p>
+        <h1 class="titel">Arbeitsblatt Suchalgorithmen I</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist das Arbeitsblatt zu Suchalgorithmen
+           I! Ein unsortiertes Array, die Zahl 64 soll gefunden werden. Die
+           eigentliche Frage ist gar nicht, <em>wie</em> man sucht, sondern welches
+           Verfahren hier überhaupt in Frage kommt – und warum die Antwort auf das
+           unsortierte Array zurückgeht.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>1 Einzelarbeit:</strong> In Material 1 finden Sie ein Array,
+               in welchem die Zahl 64 gesucht wird.<br>
+               a) Begründen Sie, welches Suchverfahren Sie verwenden würden und wie
+               dieses vorgeht.<br>
+               b) Nutzen Sie das von Ihnen gewählte Suchverfahren und führen Sie es
+               Schritt-für-Schritt durch. Nutzen Sie hierfür die Vorlage in
+               Material 2.</p>
+            <p><strong>2 Einzelarbeit:</strong> Nun wird die Zahl 63 im Array
+               gesucht. Beschreiben Sie, wie die lineare Suche hier vorgehen würde.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Material 1 – das Array</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Index</th><th>[0]</th><th>[1]</th><th>[2]</th><th>[3]</th><th>[4]</th><th>[5]</th><th>[6]</th><th>[7]</th><th>[8]</th><th>[9]</th><th>[10]</th></tr></thead>
+                <tbody><tr><td>Inhalt</td><td>120</td><td>4</td><td>8</td><td>9</td><td>1</td><td>25</td><td>37</td><td>64</td><td>55</td><td>2</td><td>130</td></tr></tbody>
+            </table>
+        </div>
+
+        <h2>1 a) Welches Verfahren und warum</h2>
+
+        <p>Hier kommt nur die <strong>lineare Suche</strong> in Frage, und der
+           Grund steht direkt im Array: es ist <strong>unsortiert</strong>. Schau
+           dir die Reihenfolge an – 120, dann 4, dann 8, dann 9, dann wieder 1. Da
+           ist keine Ordnung drin.</p>
+
+        <p>Die binäre Suche würde in der Mitte anfangen, bei Index [5] mit dem Wert
+           25. Sie würde feststellen, dass 25 kleiner als 64 ist, und daraus
+           schließen: „dann muss die 64 rechts davon liegen" – und die komplette
+           linke Hälfte wegwerfen. Diese Schlussfolgerung ist aber nur bei
+           sortierten Daten erlaubt. Hier stehen links Werte wie 120, die größer
+           sind als 64. Die binäre Suche würde also zufällig manchmal etwas finden
+           und manchmal nicht. Sie ist schlicht nicht anwendbar.</p>
+
+        <p><strong>Wie die lineare Suche vorgeht:</strong> Sie fängt beim ersten
+           Element an und vergleicht es mit dem Suchwert. Passt es nicht, geht sie
+           ein Feld weiter. Das wiederholt sie, bis sie den Wert findet oder das
+           Array zu Ende ist.</p>
+
+        <h2>1 b) Schritt für Schritt nach der 64</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Durchlauf</th><th>geprüfter Index</th><th>Inhalt</th><th>= 64?</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>[0]</td><td>120</td><td>nein</td></tr>
+                    <tr><td>2</td><td>[1]</td><td>4</td><td>nein</td></tr>
+                    <tr><td>3</td><td>[2]</td><td>8</td><td>nein</td></tr>
+                    <tr><td>4</td><td>[3]</td><td>9</td><td>nein</td></tr>
+                    <tr><td>5</td><td>[4]</td><td>1</td><td>nein</td></tr>
+                    <tr><td>6</td><td>[5]</td><td>25</td><td>nein</td></tr>
+                    <tr><td>7</td><td>[6]</td><td>37</td><td>nein</td></tr>
+                    <tr><td>8</td><td>[7]</td><td><strong>64</strong></td><td><strong>ja → gefunden bei Index 7</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><strong>8 Durchläufe.</strong> Die Suche hört sofort auf, wenn sie
+           fündig wird – die Indizes [8], [9] und [10] schaut sie gar nicht mehr an.
+           Das ist wichtig für die Aufgabe: die lineare Suche braucht
+           <em>höchstens</em> n Vergleiche, nicht immer.</p>
+
+        <h2>2 – Die Suche nach der 63</h2>
+
+        <p>Die 63 steht nicht im Array. Die lineare Suche merkt das aber erst,
+           wenn sie <strong>alle elf Felder</strong> geprüft hat – von [0] bis [10].
+           Erst wenn der Index über das Ende hinausläuft, steht fest: der Wert ist
+           nicht da, Rückgabe „nicht gefunden".</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Fall</th><th>Vergleiche</th></tr></thead>
+                <tbody>
+                    <tr><td>Bester Fall – der Wert steht bei [0]</td><td>1</td></tr>
+                    <tr><td>Durchschnitt – der Wert ist irgendwo drin</td><td>etwa n/2, hier rund 6</td></tr>
+                    <tr><td>Schlimmster Fall – der Wert steht ganz hinten <em>oder ist gar nicht da</em></td><td>n, hier 11</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Genau das ist der Punkt der Aufgabe: <strong>der Nicht-gefunden-Fall
+           ist immer der schlimmste Fall.</strong> Bei einem gefundenen Wert kann man
+           Glück haben, bei einem fehlenden nie. Man muss jedes einzelne Feld
+           ausschließen.</p>
+
+        <h2>Die lineare Suche in Java</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> LineareSuche.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="LineareSuche.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Lineare Suche auf einem unsortierten Array
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class LineareSuche {
+
+    private int[] daten = {120, 4, 8, 9, 1, 25, 37, 64, 55, 2, 130};
+
+    /**
+     * Sucht einen Wert der Reihe nach.
+     *
+     * @param suchwert der gesuchte Wert
+     * @return der Index, oder -1 wenn der Wert nicht vorkommt
+     */
+    public int sucheLinear(int suchwert) {
+        for (int i = 0; i &lt; daten.length; i++) {
+            if (daten[i] == suchwert) {
+                return i;          // gefunden, sofort raus
+            }
+        }
+        return -1;                 // alles durch, nichts gefunden
+    }
+
+    public static void main(String[] args) {
+        LineareSuche s = new LineareSuche();
+        System.out.println("64 steht bei Index: " + s.sucheLinear(64));
+        System.out.println("63 steht bei Index: " + s.sucheLinear(63));
+    } // end of main
+
+} // end of class LineareSuche</code></pre>
+            </div>
+        </div>
+
+        <p>Zwei Sachen zur Umsetzung. Das <code>return i;</code> mitten in der
+           Schleife beendet die Methode sofort – deshalb hören wir bei Index 7 auf
+           und laufen nicht weiter. Und der Rückgabewert <code>-1</code> für „nicht
+           gefunden" ist reine Konvention: es gibt keinen Index -1, also kann man den
+           Wert nicht mit einem echten Treffer verwechseln. Dieselbe Konvention
+           benutzt auch <code>indexOf</code> bei der <code>ArrayList</code>.</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>64 steht bei Index: 7
+63 steht bei Index: -1</code></pre>
+            </div>
+        </div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="suchen-mit-system-3.html"><small>Vorherige Aufgabe</small>Hashing, Kollisionen und Effizienz</a>
+            <a class="weiter" href="ab-suchalgorithmen-2.html"><small>Nächste Aufgabe</small>Arbeitsblatt Suchalgorithmen II</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

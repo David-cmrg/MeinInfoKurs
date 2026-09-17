@@ -1,0 +1,94 @@
+        <p>Die Aufgabe der heutigen Stunde sind Assoziationen und
+           Multiplizitäten! Kein Code diesmal, sondern UML. Es geht um die Frage,
+           <em>wie viele</em> Objekte einer Klasse mit einem Objekt einer anderen
+           Klasse in Beziehung stehen – und die Antwort steht als kleine Zahl am
+           Ende des Strichs.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Übung Multiplizitäten: Tragen Sie die korrekten Multiplizitäten
+               ein. Gegeben ist ein Diagramm mit den Klassen Direktor, Sekretaerin,
+               Lehrer, Schueler und Hausmeister, die durch Assoziationen verbunden
+               sind.</p>
+        </div>
+
+        <h2>Die vier Schreibweisen</h2>
+        <p>Bevor es losgeht – das ist alles, was man kennen muss:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Notation</th><th>Bedeutung</th></tr></thead>
+                <tbody>
+                    <tr><td><code>1</code></td><td>Dem Objekt ist immer <strong>genau ein</strong> anderes Objekt zugeordnet</td></tr>
+                    <tr><td><code>0..1</code></td><td>Immer <strong>kein oder ein</strong> anderes Objekt – die Beziehung ist optional</td></tr>
+                    <tr><td><code>*</code></td><td><strong>Kein, ein oder mehrere</strong> Objekte</td></tr>
+                    <tr><td><code>1..*</code></td><td><strong>Ein oder mehrere</strong>, aber mindestens eins</td></tr>
+                    <tr><td><code>a..b</code></td><td>Mindestens <code>a</code>, höchstens <code>b</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Meine Lösung</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Beziehung</th><th>Multiplizität</th><th>Gelesen als</th></tr></thead>
+                <tbody>
+                    <tr><td>Direktor — Sekretaerin</td><td><code>1</code> … <code>*</code></td><td>Ein Direktor hat keine, eine oder mehrere Sekretärinnen. Jede Sekretärin hat genau einen Direktor.</td></tr>
+                    <tr><td>Direktor — Lehrer</td><td><code>1</code> … <code>1..*</code></td><td>Eine Schule hat genau einen Direktor und mindestens einen Lehrer.</td></tr>
+                    <tr><td>Sekretaerin — Schueler</td><td><code>1..*</code> … <code>*</code></td><td>Das Sekretariat betreut alle Schüler; jeder Schüler hat mindestens eine Ansprechpartnerin.</td></tr>
+                    <tr><td>Lehrer — Schueler</td><td><code>1..*</code> … <code>1..*</code></td><td>Ein Lehrer unterrichtet mehrere Schüler, ein Schüler hat mehrere Lehrer.</td></tr>
+                    <tr><td>Schueler — Hausmeister</td><td><code>*</code> … <code>1</code></td><td>Eine Schule hat einen Hausmeister, der für alle Schüler zuständig ist.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Wie man darauf kommt</h3>
+        <p>Der Trick ist, die Beziehung <strong>in beide Richtungen</strong> als
+           Satz auszusprechen. Nimm Direktor und Sekretärin:</p>
+
+        <ol class="schritte">
+            <li>„Ein Direktor hat … Sekretärinnen." – keine, eine oder mehrere, also <code>*</code></li>
+            <li>„Eine Sekretärin hat … Direktoren." – genau einen, also <code>1</code></li>
+        </ol>
+
+        <p>Und jetzt aufpassen, das ist die Stelle, an der fast alle einen Fehler
+           machen: die Zahl steht <strong>auf der gegenüberliegenden Seite</strong>.
+           Die <code>*</code> gehört an die Seite der Sekretärin, weil es um die
+           Frage geht „wie viele Sekretärinnen hat ein Direktor". Wer die Zahlen
+           vertauscht, hat das Diagramm genau falsch herum gelesen.</p>
+
+        <h3 class="schritt-titel">Der Unterschied zwischen * und 1..*</h3>
+        <p>Beide heißen „mehrere". Der Unterschied ist die Null:</p>
+
+        <ul class="schritte">
+            <li><code>*</code> erlaubt auch <strong>keins</strong>. Ein Direktor ohne Sekretärin ist denkbar.</li>
+            <li><code>1..*</code> verlangt <strong>mindestens eins</strong>. Eine Schule ohne einen einzigen Lehrer gibt es nicht.</li>
+        </ul>
+
+        <p>Das ist keine Haarspalterei, sondern hat später eine direkte Folge im
+           Code. Bei <code>1..*</code> muss der Konstruktor dafür sorgen, dass
+           beim Erzeugen schon ein Objekt dabei ist. Bei <code>*</code> darf die
+           Liste leer anfangen.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Die Multiplizitäten hängen davon ab, worauf ihr euch im Kurs
+            geeinigt habt. Ob „ein Schüler hat mindestens einen Lehrer" oder „genau
+            einen Klassenlehrer" gemeint ist, steht nicht im Diagramm – das ist eine
+            Modellierungsentscheidung. Wichtig in der Klausur ist, dass du deine
+            Wahl <strong>begründen</strong> kannst.</span>
+        </div>
+
+        <h3 class="schritt-titel">Assoziation, gerichtet oder nicht</h3>
+        <p>Der Strich zwischen zwei Klassen ist die Assoziation, also die
+           <strong>kennt-Beziehung</strong>. Hat er an einem Ende eine offene
+           Pfeilspitze, ist er gerichtet und nur in Pfeilrichtung lesbar.</p>
+
+        <p>In der Praxis heißt gerichtet: die eine Klasse hat ein Attribut vom Typ
+           der anderen, umgekehrt aber nicht. Ein Schüler, der ein Auto kennt, hat
+           ein Attribut <code>auto</code>. Das Auto weiß nichts von seinem
+           Schüler – deshalb zeigt der Pfeil nur in eine Richtung. In der
+           objektorientierten Modellierung arbeitet man meistens mit gerichteten
+           Assoziationen, weil sonst beide Klassen voneinander wissen müssten und
+           man sich schnell einen Knoten baut.</p>

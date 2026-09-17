@@ -1,0 +1,363 @@
+        <p>Die Aufgabe der heutigen Stunde ist tanken und fahren! Endlich füllen
+           wir die beiden Methoden, in denen bis jetzt nur <code>// TODO</code>
+           stand. Damit hört unser Auto auf, ein hübsches Möbelstück zu sein, und
+           fängt an tatsächlich was zu tun.</p>
+
+        <p>Die Aufgabe besteht aus vier Teilen und baut aufeinander auf. Nimm sie
+           dir der Reihe nach vor, sonst verhedderst du dich.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>Aufgabe 1:</strong> Implementieren Sie die Methode
+               <code>fahren</code> in die Klasse <code>Auto</code>. Erklären Sie den
+               Ablauf der Methode. Vorgabe: Variablen werden am Anfang einer
+               Methode deklariert, eine Deklarierung mitten im Methodencode ist
+               unschön und wird schnell unübersichtlich.</p>
+            <p><strong>Aufgabe 2:</strong> Implementieren Sie anhand der
+               Beschreibung die Methode <code>tanken</code>. Halten Sie sich an die
+               genaue Abfolge der Beschreibung. Verwenden Sie if- bzw.
+               if-else-Abfragen und sinnvolle Variablennamen.</p>
+            <p><strong>Aufgabe 3:</strong> Aktuell können auch Autos mit einem
+               ungültigen Wert erzeugt werden, zum Beispiel einem negativen
+               Kraftstoffverbrauch. Schreibe den Konstruktor so um, damit dies
+               nicht mehr möglich ist. Vor dem Abbruch soll eine genaue
+               Fehlermeldung ausgegeben werden.</p>
+            <p><strong>Aufgabe 4:</strong> Ersetzen Sie die Ausgabe des
+               Kilometerstandes in der Klasse <code>Autohaus</code> durch den Aufruf
+               der Methode <code>ausgabe</code>. Erweitern Sie die Klasse Autohaus
+               und testen Sie damit die Klasse Auto – insbesondere auch das
+               Erzeugen von Autos mit ungültigen Werten.</p>
+        </div>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Auto.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Auto.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Die fertige Klasse Auto mit tanken, fahren und abgesichertem Konstruktor
+ *
+ * @version 1.0 vom 13.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Auto {
+
+// Anfang Attribute
+private String Kennzeichen;
+private double Kilometerstand;
+private double Tankvolumen;
+private double Kraftstoffverbrauch;
+private double Kraftstoffmenge;
+// Ende Attribute
+
+//Konstruktor - Aufgabe 3: die Werte werden erst geprueft
+public Auto(String Kennzeichen, double Tankvolumen, double Kraftstoffverbrauch) {
+  if (Kennzeichen == null || Kennzeichen.equals("")) {
+    System.out.println("Fehler: Das Kennzeichen darf nicht leer sein.");
+    return;
+  }
+  if (Tankvolumen <= 0) {
+    System.out.println("Fehler: Das Tankvolumen muss groesser als 0 sein.");
+    return;
+  }
+  if (Kraftstoffverbrauch &lt; 0 || Kraftstoffverbrauch &gt; 50) {
+    System.out.println("Fehler: Kraftstoffverbrauch darf nicht negativ sein oder ist zu unrealistisch hoch.");
+    return;
+  }
+
+  this.Kennzeichen = Kennzeichen;
+  this.Tankvolumen = Tankvolumen;
+  this.Kraftstoffverbrauch = Kraftstoffverbrauch;
+  Kilometerstand = 0;
+  Kraftstoffmenge = 0;
+}
+
+// Anfang Methoden
+public String getKennzeichen() {
+  return Kennzeichen;
+}
+
+public double getKilometerstand() {
+  return Kilometerstand;
+}
+
+public double getKraftstoffmenge() {
+  return Kraftstoffmenge;
+}
+
+
+// Aufgabe 2: tanken
+public void tanken(double Menge) {
+double freierPlatz;
+
+  if (Menge &lt;= 0) {
+    System.out.println("Fehler: Die Menge muss positiv sein.");
+    return;
+  }
+
+  freierPlatz = Tankvolumen - Kraftstoffmenge;
+
+  if (freierPlatz &lt;= 0) {
+    System.out.println("Der Tank ist bereits voll.");
+    return;
+  }
+
+  if (Menge &gt; freierPlatz) {
+    Kraftstoffmenge = Tankvolumen;
+    System.out.println("Es passten nur noch " + InOut.format2(freierPlatz)
+        + " l hinein. Der Tank ist jetzt voll.");
+  } else {
+    Kraftstoffmenge += Menge;
+    System.out.println("Getankt: " + InOut.format2(Menge) + " l. Im Tank: "
+        + InOut.format2(Kraftstoffmenge) + " l.");
+  }
+}
+
+
+// Aufgabe 1: fahren
+public void fahren(double Strecke) {
+double benoetigterKraftstoff, moeglicheStrecke, verbraucht;
+
+  if (Strecke &lt;= 0) {
+    System.out.println("Keine Fahrt möglich, die Strecke muss positiv sein.");
+    return;
+  }
+
+  benoetigterKraftstoff = Strecke * Kraftstoffverbrauch / 100.0;
+
+  if (Kraftstoffmenge &gt;= benoetigterKraftstoff) {
+    Kraftstoffmenge -= benoetigterKraftstoff;
+    Kilometerstand += Strecke;
+    System.out.println("Gefahren: " + InOut.format2(Strecke) + " km. "
+        + "Verbrauch: " + InOut.format2(benoetigterKraftstoff) + " l.");
+  } else {
+    moeglicheStrecke = Kraftstoffmenge / Kraftstoffverbrauch * 100.0;
+    Kilometerstand += moeglicheStrecke;
+    verbraucht = Kraftstoffmenge;
+    Kraftstoffmenge = 0;
+    System.out.println("Zu wenig Kraftstoff. Gefahren bis zum Stillstand: "
+        + InOut.format2(moeglicheStrecke) + " km. "
+        + "Verbraucht: " + InOut.format2(verbraucht) + " l.");
+  }
+}
+
+
+public void ausgabe() {
+  String info = "Auto: " + Kennzeichen + "\n"
+              + "  Kilometerstand: " + InOut.format2(Kilometerstand) + " km\n"
+              + "  Tankvolumen: " + Tankvolumen + " l\n"
+              + "  Kraftstoffverbrauch: " + Kraftstoffverbrauch + " l/100km\n"
+              + "  Kraftstoffmenge: " + InOut.format2(Kraftstoffmenge) + " l";
+  System.out.println(info);
+}
+// Ende Methoden
+} // end of class Auto</code></pre>
+            </div>
+        </div>
+
+        <p>In der Aufgabenstellung wird gefordert, dass wir folgende Sachen
+           umsetzen:</p>
+
+        <ol class="schritte">
+            <li><code>fahren</code> implementieren und den Ablauf erklären können</li>
+            <li><code>tanken</code> nach der Beschreibung implementieren</li>
+            <li>Den Konstruktor gegen unsinnige Werte absichern</li>
+            <li>Die Fehlermeldung zum Kraftstoffverbrauch exakt wie gefordert ausgeben</li>
+            <li>Im Autohaus die Ausgabe durch <code>ausgabe()</code> ersetzen und richtig testen</li>
+        </ol>
+
+        <h3 class="schritt-titel">Der Ablauf von fahren</h3>
+        <p>Das ist Teil b) von Aufgabe 1 – du sollst den Ablauf nicht nur
+           hinschreiben, sondern erklären können. Die Methode arbeitet drei Fälle
+           ab:</p>
+
+        <ol class="schritte">
+            <li><strong>Unsinnige Eingabe.</strong> Ist die Strecke 0 oder negativ, gibt es eine Meldung und die Methode ist sofort fertig.</li>
+            <li><strong>Genug Sprit.</strong> Der Kraftstoff reicht für die ganze Strecke: Sprit abziehen, Kilometer draufrechnen, ausgeben.</li>
+            <li><strong>Zu wenig Sprit.</strong> Das Auto fährt, so weit es kommt, bleibt dann stehen. Tank auf 0, aber die gefahrenen Kilometer zählen trotzdem.</li>
+        </ol>
+
+        <p>Der dritte Fall ist der, den man beim Selberschreiben vergisst. Es wäre
+           ja auch einfacher zu sagen „zu wenig Sprit, fahre gar nicht". Nur macht
+           ein echtes Auto das nicht – das fährt bis der Tank leer ist und steht
+           dann irgendwo auf der Landstraße.</p>
+
+        <h3 class="schritt-titel">Die Rechnung mit dem Verbrauch</h3>
+        <p>Der Kraftstoffverbrauch ist in Liter pro <strong>100</strong> Kilometer
+           angegeben. Deshalb steht in beiden Richtungen eine 100 in der Formel:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">// Wie viel Sprit brauche ich fuer eine Strecke?
+benoetigterKraftstoff = Strecke * Kraftstoffverbrauch / 100.0;
+
+// Wie weit komme ich mit dem Sprit, den ich noch habe?
+moeglicheStrecke = Kraftstoffmenge / Kraftstoffverbrauch * 100.0;</code></pre>
+            </div>
+        </div>
+
+        <p>Schreib die <code>100.0</code> mit Nachkommastelle, nicht als
+           <code>100</code>. Bei <code>double</code> ist das hier zwar egal, weil
+           schon andere Werte <code>double</code> sind – wenn du aber mal nur mit
+           <code>int</code> rechnest, schneidet Java gnadenlos alles nach dem Komma
+           ab und du wunderst dich, warum 0 rauskommt. Angewöhnen lohnt sich.</p>
+
+        <h3 class="schritt-titel">tanken: die Reihenfolge ist die Aufgabe</h3>
+        <p>Bei <code>tanken</code> gibt die Aufgabe keinen Code vor, sondern einen
+           Text – und der beschreibt eine ganz bestimmte Reihenfolge. Die musst du
+           einhalten, sonst kommen falsche Meldungen raus:</p>
+
+        <ol class="schritte">
+            <li>Erst prüfen, ob die Menge überhaupt positiv ist</li>
+            <li>Dann den freien Platz ausrechnen: <code>Tankvolumen - Kraftstoffmenge</code></li>
+            <li>Ist kein Platz mehr da, ist der Tank voll – raus hier</li>
+            <li>Passt die gewünschte Menge nicht ganz rein, nur den Rest nachfüllen</li>
+            <li>Sonst ganz normal tanken</li>
+        </ol>
+
+        <p>Denk an Schritt 4. Wenn dein Tank 50 Liter fasst, 45 drin sind und du
+           20 tankst, dürfen danach nicht 65 Liter drin sein. Passiert aber genau
+           das, wenn du einfach <code>Kraftstoffmenge += Menge;</code> schreibst
+           ohne vorher zu gucken.</p>
+
+        <h3 class="schritt-titel">Der abgesicherte Konstruktor</h3>
+        <p>Aufgabe 3 ist die, bei der man am meisten lernt. Bisher konnte man ein
+           Auto mit <code>-3</code> Liter Verbrauch bauen. Das Programm lief, das
+           Auto fuhr, und der Tank wurde beim Fahren <em>voller</em>. Prüfen wir
+           die Werte vorher, kann das nicht mehr passieren:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">if (Kraftstoffverbrauch &lt; 0 || Kraftstoffverbrauch &gt; 50) {
+  System.out.println("Fehler: Kraftstoffverbrauch darf nicht negativ sein oder ist zu unrealistisch hoch.");
+  return;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Den Text für die Zusatzaufgabe musst du <strong>genau so</strong>
+           übernehmen, mit dem Punkt am Ende. Das <code>||</code> heißt „oder" –
+           es reicht, wenn eine der beiden Bedingungen zutrifft.</p>
+
+        <h3 class="schritt-titel">Was return im Konstruktor wirklich macht</h3>
+        <p>Auf dem Aufgabenblatt steht „Mit return; wird das Programm
+           abgebrochen". Das ist etwas zu großzügig formuliert, und der
+           Unterschied ist wichtig genug, dass ich ihn hier hinschreibe:
+           <code>return</code> beendet die <strong>Methode</strong>, nicht das
+           Programm. Der Rest deines <code>main</code> läuft ganz normal weiter.</p>
+
+        <p>Für den Konstruktor heißt das: das Objekt wird trotzdem erzeugt. Es
+           existiert, es ist nur nicht befüllt – Kennzeichen ist
+           <code>null</code>, alle Zahlen sind 0. Wenn du danach
+           <code>kaputtesAuto.fahren(100)</code> aufrufst, passiert nichts
+           Sinnvolles, aber es kracht auch nicht. Genau deshalb ist die
+           Fehlermeldung so wichtig: sie ist das Einzige, woran du merkst, dass
+           etwas schiefgelaufen ist.</p>
+
+        <p>Richtig aufräumen würde man das später mit Exceptions. Die hatten wir
+           noch nicht, also bleibt es beim <code>return</code> mit Meldung – so
+           will es die Aufgabe auch.</p>
+
+        <h3 class="schritt-titel">Testen im Autohaus</h3>
+        <p>Aufgabe 4 will, dass du das Autohaus zur richtigen Testumgebung
+           ausbaust. „Testen" heißt hier ausdrücklich auch: die Fälle
+           ausprobieren, die schiefgehen sollen.</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Autohaus.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Autohaus.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld">
+                <pre><code class="language-java">/**
+ *
+ * Das Autohaus als Testumgebung fuer die Klasse Auto
+ *
+ * @version 2.0 vom 13.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Autohaus {
+
+  public static void main(String[] args) {
+
+    // --- normaler Ablauf ---
+    Auto meinAuto = new Auto("WI-AB 123", 50, 6.5);
+    meinAuto.tanken(20);
+    meinAuto.fahren(100);
+    meinAuto.ausgabe();
+
+    // --- mehr tanken als reinpasst ---
+    System.out.println("");
+    meinAuto.tanken(100);
+    meinAuto.ausgabe();
+
+    // --- weiter fahren als der Sprit reicht ---
+    System.out.println("");
+    meinAuto.fahren(2000);
+    meinAuto.ausgabe();
+
+    // --- unsinnige Eingaben ---
+    System.out.println("");
+    meinAuto.tanken(-5);
+    meinAuto.fahren(0);
+
+    // --- ungueltige Autos: hier kommen die Fehlermeldungen ---
+    System.out.println("");
+    Auto negativ = new Auto("WI-XX 1", 50, -3);
+    Auto durstig = new Auto("WI-XX 2", 50, 80);
+    Auto ohneTank = new Auto("WI-XX 3", 0, 6.5);
+    Auto ohneNamen = new Auto("", 50, 6.5);
+
+  } // end of main
+
+} // end of class Autohaus</code></pre>
+            </div>
+        </div>
+
+        <p>Und das kommt dabei raus:</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Getankt: 20,00 l. Im Tank: 20,00 l.
+Gefahren: 100,00 km. Verbrauch: 6,50 l.
+Auto: WI-AB 123
+  Kilometerstand: 100,00 km
+  Tankvolumen: 50.0 l
+  Kraftstoffverbrauch: 6.5 l/100km
+  Kraftstoffmenge: 13,50 l
+
+Es passten nur noch 36,50 l hinein. Der Tank ist jetzt voll.
+
+Zu wenig Kraftstoff. Gefahren bis zum Stillstand: 769,23 km. Verbraucht: 50,00 l.
+
+Fehler: Die Menge muss positiv sein.
+Keine Fahrt möglich, die Strecke muss positiv sein.
+
+Fehler: Kraftstoffverbrauch darf nicht negativ sein oder ist zu unrealistisch hoch.
+Fehler: Kraftstoffverbrauch darf nicht negativ sein oder ist zu unrealistisch hoch.
+Fehler: Das Tankvolumen muss groesser als 0 sein.
+Fehler: Das Kennzeichen darf nicht leer sein.</code></pre>
+            </div>
+        </div>
+
+        <p>Rechne die 769,23 km ruhig nach: 50 Liter im Tank, 6,5 Liter auf
+           100 km, also 50 / 6,5 · 100. Kommt hin. Wenn bei dir eine andere Zahl
+           steht, hast du wahrscheinlich die 100 in der Formel vergessen.</p>

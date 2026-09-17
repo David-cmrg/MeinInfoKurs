@@ -1,0 +1,28 @@
+# Quellmaterial der Schule. Gehoert nicht ins oeffentliche Repo und waere
+# unter meininfokurs.cmrg.site/Q2.pdf sonst frei abrufbar.
+Q1.1.pdf
+Q1.2.pdf
+Q2.pdf
+Q3.pdf
+
+# Die Handreichung fuer mich selbst. Der Dateiname sagt es ja schon.
+Readme_GITIGNORE!!.md
+
+# Nur lokal: die Scratch-Projekte und der V1-Stub.
+Archiv/
+V1/
+
+# Das importierte alte Repo, nachdem .git und CNAME hochgeholt wurden.
+gitRepo/
+
+# Vom Archiv ausgenommen: 13 MB 3D-Modelle und die Seite, die sie braucht.
+V2/Modelle/
+V2/startseite-3d.html
+V2/Seiten/Scratch/
+# Weiterleitungs-Stubs, die alle auf die entfernte Scratch-Seite zeigen.
+V2/weiterleiten/
+
+# Kram
+.DS_Store
+Thumbs.db
+*.swp

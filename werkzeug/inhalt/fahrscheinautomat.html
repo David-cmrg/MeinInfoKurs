@@ -1,0 +1,122 @@
+        <p>Die Aufgabe der heutigen Stunde ist <strong>der Fahrscheinautomat!</strong> Dazu schauen wir uns mal die Aufgabe genauer an und versuchen durch intelligentes Lösen ein vollfunktionsfähiges Programm zu erstellen. <br/></p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+                    Ein Fahrscheinautomat gibt Wechselgeld in Münzen zurück und soll dabei möglichst wenige Münzen benutzen.
+                    Bei einem Fahrpreis von 13.20$ und einer Eingabe von 20$ gibt er als Wechselgeld drei 2$-Münzen, eine 50 Cent,
+                    eine 20 Cent und eine 10 Cent Münze zurück. Mit dem vorgegebenen Programm, welches du in deinem Heft finden kannst,
+                    kann der Fahrscheinautomat simuliert werden. <br/>
+
+                    Analysiere die Funktionsweise des Programms und vervollständige das Programm.
+                </p></div>
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="FahrscheinAutomat.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+  *
+  * Das fertige Java Programm des Fahrscheinautomats
+  *
+  * @version 1.0 vom 2.07.2025
+  * @MeinInfoKurs.github.io
+  */
+
+  public class FahrscheinAutomat {
+      public static void main(String[] args) {
+          double Fahrscheinpreis, Gezahlt, Wechselgeld;
+
+          Fahrscheinpreis = InOut.readDouble("Fahrscheinpreis: ");
+          Gezahlt = InOut.readDouble("Gezahlt: ");
+
+          while (Gezahlt &lt; Fahrscheinpreis) {
+              double ZuZahlen = Fahrscheinpreis - Gezahlt;
+              System.out.println("Noch " + ZuZahlen + " zu zahlen!");
+              Gezahlt = Gezahlt + InOut.readDouble("Zahle: ");
+          } // end of while
+
+          Wechselgeld = Gezahlt - Fahrscheinpreis;
+
+          if (Wechselgeld &gt; 0) {
+              System.out.println("Wechselgeld " + InOut.format2(Wechselgeld));
+              System.out.print("Rückgabe: ");
+
+              while (Wechselgeld &gt;= 2) {
+                  System.out.print("2 Euro ");
+                  Wechselgeld = Wechselgeld - 2;
+              } // end of while
+
+              // Am Ende dieses IFs Statements kommt keine schließende Klammer hin. Das ist aus folgenden Gründen:
+              // 1. Wir überprüfen ob der gezahlte Preis &gt; 0 ist;
+              // 2. Wir geben die Anzahl des Wechselgeldes aus und "print" (nicht "println") die Rückgabe der Münzen
+              // 3. Wir müssen jetzt noch die Rückgabe der Münzen ausrechnen
+              // -&gt; Diese Berechnung muss im IF laufen, weil wenn sie außerhalb wäre, würde sie Konditionslos (also bei jeder ausführung)
+              //  laufen. Doch wenn der Nutzer passend zahlt, brauchen wir diese Rechnungen garnicht. Also nutzen wir hier ein IF-ELSE
+              //  So vergleichen wir die Bedingungen und es wird nur der Code ausgeführt, welcher wirklich ausgeführt werden muss
+
+              if (Wechselgeld &gt;= 1) {
+                  System.out.print("1 Euro ");
+                  Wechselgeld = Wechselgeld - 1;
+              } // end of if
+
+              if (Wechselgeld &gt;= 0.50) {
+                  System.out.print("50 Cent ");
+                  Wechselgeld = Wechselgeld - 0.50;
+              } // end of if
+
+              if (Wechselgeld &gt;= 0.20) {
+                  System.out.print("20 Cent ");
+                  Wechselgeld = Wechselgeld - 0.20;
+              } // end of if
+
+              if (Wechselgeld &gt;= 0.10) {
+                  System.out.println("10 Cent ");
+                  Wechselgeld = Wechselgeld - 0.10;
+              } // end of if
+
+              if (Wechselgeld &gt;= 0.05) {
+                  System.out.print("5 Cent ");
+                  Wechselgeld = Wechselgeld - 0.05;
+              } // end of if
+
+              while (Wechselgeld &gt;= 0.01) {
+                  System.out.print("2 Cent ");
+                  Wechselgeld = Wechselgeld - 0.02;
+              } // end of while
+
+              if (Wechselgeld &gt; 0.0) {
+                  System.out.println("1 Cent");
+                  Wechselgeld = Wechselgeld - 0.01;
+              } // end of if
+          } else {
+              System.out.println("Passend bezahlt!");
+          } // end of if-else
+      } // end of main
+  } // end of class FahrscheinAutomat</code></pre></div></div>
+        <p>
+                    In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>Nutzereingabe des Fahrscheinpreises</li>
+<li>Nutzereingabe des Gezahlten</li>
+<br/>
+<li>Ermittlung des Wechselgeldes</li>
+<li>Rückgabe in möglichst wenig Münzen</li>
+<br/>
+<li>Ausgabe des Wechselgeldes</li>
+</ol>
+        <h3 class="schritt-titel">Berechnung des Wechselgeldes</h3>
+        <p>
+                    Da wir bereits wissen wie man eine Eingabe vom Nutzer erfordern kann und eine Konsolenausgabe erstellen können, gehen
+                    wir direkt zur Berechnung über. Als erstes Überprüfen wir ob wir überhaupt Wechselgeld ausgeben müssen indem wir den vom
+                    Nutzer gezahlten Betrag minus den Fahrscheinpreis rechnen. Wenn zu viel Geld gezahlt wurde, muss Wechselgeld gegeben werden.
+                    Wir nutzen also ein IF-ELSE Statement um zu prüfen ob Wechselgeld ausgegeben werden muss oder nicht. Wir nutzen das IF-ELSE um
+                    verschiedene Rückmeldung in der Konsole ausgeben zu können (je nach szenario).
+
+                </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">Wechselgeld = Gezahlt - Fahrscheinpreis;  // Beispiel: 08.01$ = 20.00$ - 11.99$
+
+if (Wechselgeld &gt; 0) {  // 08.01 &gt; 00.00 = true -&gt; IF Code wird ausgeführt
+    System.out.println("Wechselgeld " + InOut.format2(Wechselgeld)); // Konsolenausgabe
+    System.out.print("Rückgabe: "); // Konsolenausgabe
+
+    // Hier die Berechnung der genauen Münzen
+
+} else { // 08.01 &gt; 00.00 = true -&gt; ELSE Code wird NICHT ausgeführt
+    System.out.println("Passend bezahlt!"); // Keine Konsolenausgabe
+}</code></pre></div></div>

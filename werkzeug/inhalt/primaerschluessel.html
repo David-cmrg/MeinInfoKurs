@@ -1,0 +1,120 @@
+        <p>Die Aufgabe der heutigen Stunde ist der Primärschlüssel! Jede Tabelle
+           braucht ein Attribut, mit dem sich jede Zeile <strong>eindeutig</strong>
+           identifizieren lässt. Klingt einfach, ist es aber nicht immer – bei einer
+           der Tabellen gibt es nämlich gar keinen brauchbaren.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>DB_01-2:</strong> Welches Attribut wäre ein geeigneter
+               Primärschlüssel?<br>
+               LAGERBESTAND: Artikelpreis, Artikelname, Artikelnummer, Regalnummer<br>
+               KUNDEN: LaufendeNummer, Kundename, Kundevorname, Kundegeburtsdatum</p>
+            <p><strong>DB_01-3:</strong> Welche Attribute wären ein geeigneter
+               ZUSAMMENGESETZTER PRIMÄRSCHLÜSSEL?<br>
+               „Flüge der Lufthansa": Pilotvorname, Pilotnachname, Flugzeuggewicht,
+               Flugzeugnummer, Datum, AusweisnummerPilot<br>
+               „Ausleihvorgänge" DVD-Verleih: DVD-Nummer, Filiale,
+               DVD-Erscheinungsjahr, Kundennummer, Kundenachname, Rueckgabedatum,
+               Ausleihdatum</p>
+            <p><strong>DB_01-4:</strong> Bestimmen Sie den Primärschlüssel (einfach
+               oder zusammengesetzt) für sechs gegebene Tabellen.</p>
+        </div>
+
+        <h2>Was ein Primärschlüssel leisten muss</h2>
+        <ol class="schritte">
+            <li><strong>Eindeutig:</strong> Kein Wert darf zweimal vorkommen.</li>
+            <li><strong>Immer vorhanden:</strong> Er darf nie leer (NULL) sein.</li>
+            <li><strong>Unveränderlich:</strong> Er sollte sich nie ändern, denn andere Tabellen verweisen darauf.</li>
+        </ol>
+
+        <h2>DB_01-2 – Einfache Primärschlüssel</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Tabelle</th><th>Primärschlüssel</th><th>Warum die anderen nicht taugen</th></tr></thead>
+                <tbody>
+                    <tr><td>LAGERBESTAND</td><td><strong>Artikelnummer</strong></td><td>Preise wiederholen sich ständig, zwei Artikel können gleich heißen, und in einem Regal liegen viele Artikel.</td></tr>
+                    <tr><td>KUNDEN</td><td><strong>LaufendeNummer</strong></td><td>Namen und Vornamen sind nicht eindeutig – zwei Kunden können Peter Müller heißen. Auch Name plus Geburtsdatum ist nicht sicher.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Bei den Kunden sieht man den wichtigsten Grundsatz: <strong>echte Daten
+           taugen fast nie als Schlüssel.</strong> Namen wiederholen sich, Leute
+           heiraten und ändern ihren Nachnamen, Adressen ändern sich. Deshalb nimmt
+           man eine künstliche, durchlaufende Nummer.</p>
+
+        <h2>DB_01-3 – Zusammengesetzte Primärschlüssel</h2>
+
+        <h3 class="schritt-titel">Flüge der Lufthansa</h3>
+        <p><strong>Flugzeugnummer + Datum</strong></p>
+        <p>Eine Flugzeugnummer allein reicht nicht – dasselbe Flugzeug fliegt an
+           vielen Tagen. Ein Datum allein reicht auch nicht, an einem Tag starten
+           hunderte Flüge. Erst beides zusammen macht die Zeile eindeutig.</p>
+        <p>Das gilt allerdings nur unter der Annahme, dass ein Flugzeug pro Tag
+           genau einen Flug macht. Fliegt es morgens und abends, bräuchte man noch die
+           Uhrzeit dazu. Solche Annahmen sollte man in der Antwort dazuschreiben.</p>
+
+        <h3 class="schritt-titel">Ausleihvorgänge im DVD-Verleih</h3>
+        <p><strong>DVD-Nummer + Ausleihdatum</strong></p>
+        <p>Dieselbe DVD wird über die Jahre oft ausgeliehen, aber an einem
+           bestimmten Tag nur einmal. Die Kundennummer braucht man nicht dazu – wenn
+           DVD und Datum feststehen, steht der Kunde sowieso fest.</p>
+        <p><code>Rueckgabedatum</code> taugt nicht, weil es beim Ausleihen noch leer
+           ist. Und ein Primärschlüssel darf nie leer sein.</p>
+
+        <h2>DB_01-4 – Die sechs Tabellen</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>Tabelle</th><th>Primärschlüssel</th><th>Begründung</th></tr></thead>
+                <tbody>
+                    <tr><td>A</td><td>Kunden</td><td><code>kunde_id</code></td><td>Eindeutige Nummer, genau dafür gedacht</td></tr>
+                    <tr><td>B</td><td>Lagerbestand</td><td><code>artikel_nummer</code></td><td>Regalnummer und Anzahl sind nicht eindeutig</td></tr>
+                    <tr><td>C</td><td>Ausleihvorgänge</td><td><code>dvd_id</code> + <code>ausleihdatum</code> <em>(zusammengesetzt)</em></td><td>Wie oben: eine DVD an einem Tag nur einmal</td></tr>
+                    <tr><td>D</td><td>Fahrräder</td><td><code>fahrrad_id</code></td><td>Farbe, Hersteller und Gangschaltung wiederholen sich</td></tr>
+                    <tr><td>E</td><td>Bestellungen</td><td><code>kunde_id</code> + <code>bestelldatum</code> <em>(zusammengesetzt)</em></td><td>Es gibt keine Bestellnummer. Gilt nur, solange ein Kunde pro Tag höchstens einmal bestellt.</td></tr>
+                    <tr><td>F</td><td>Bücher</td><td><strong>keiner geeignet!</strong></td><td>siehe unten</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">F) Bücher – die Falle</h3>
+        <p>Die Tabelle hat <code>buchtitel</code>, <code>erscheinungsjahr</code>,
+           <code>autor_name</code>, <code>preis</code> und <code>seitenzahl</code>.
+           Kein einziges davon ist eindeutig:</p>
+
+        <ul class="schritte">
+            <li>Buchtitel wiederholen sich – „Die Verwandlung" gibt es in vielen Ausgaben</li>
+            <li>Ein Autor schreibt mehrere Bücher</li>
+            <li>Preis und Seitenzahl sowieso nicht</li>
+            <li>Auch Titel + Autor + Jahr ist unsicher: Neuauflagen im selben Jahr, Sammelbände</li>
+        </ul>
+
+        <p>Die richtige Antwort ist deshalb: <strong>Hier gibt es keinen geeigneten
+           Primärschlüssel. Man muss einen hinzufügen</strong> – entweder eine
+           künstliche <code>buch_id</code> oder die <strong>ISBN</strong>, die es für
+           genau diesen Zweck gibt.</p>
+
+        <p>Genau darauf zielt die Aufgabe ab. Es ist völlig normal, dass eine
+           gegebene Tabelle keinen brauchbaren Schlüssel enthält – dann ist das eine
+           Erkenntnis und kein Fehler.</p>
+
+        <h2>Einfach oder zusammengesetzt – wann was?</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>Einfach</th><th>Zusammengesetzt</th></tr></thead>
+                <tbody>
+                    <tr><td>Besteht aus</td><td>einem Attribut</td><td>zwei oder mehr Attributen</td></tr>
+                    <tr><td>Typisch bei</td><td>Tabellen mit eigener ID</td><td>Verknüpfungstabellen und Vorgängen (Ausleihe, Bestellung, Flug)</td></tr>
+                    <tr><td>Vorteil</td><td>kurz, einfach zu referenzieren</td><td>kommt ohne künstliche ID aus</td></tr>
+                    <tr><td>Nachteil</td><td>braucht ein zusätzliches Attribut</td><td>Fremdschlüssel darauf werden umständlich</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>In der Praxis gibt man fast jeder Tabelle eine einfache
+           <code>id</code>, auch wenn ein zusammengesetzter Schlüssel möglich wäre.
+           Das macht alles Weitere einfacher. In der Klausur wird aber genau das
+           abgefragt, was in den gegebenen Spalten steht – also ohne eigene Erfindung
+           antworten und stattdessen dazuschreiben, dass eine ID fehlt.</p>

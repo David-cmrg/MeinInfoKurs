@@ -1,0 +1,238 @@
+        <p>Die Aufgabe der heutigen Stunde ist das Überladen von Konstruktoren!
+           Beim Dreieck haben wir das eben schon nebenbei gemacht, jetzt schauen
+           wir uns an, warum das überhaupt geht und wo die Fallstricke liegen.</p>
+
+        <p>Die Idee dahinter ist simpel: eine Klasse darf mehrere Konstruktoren
+           haben, solange sich deren Parameterlisten unterscheiden – in der
+           Anzahl, in den Typen oder in der Reihenfolge. Java sucht sich beim
+           <code>new</code> selbst den passenden raus.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>a)</strong> Beschreiben (nicht programmieren) Sie ein
+               weiteres sinnvolles Beispiel zur Konstruktor-Überladung mit
+               Datentypen.</p>
+            <p><strong>b)</strong> Programmieren Sie das sinnvolle Beispiel für die
+               Überladung von einem Konstruktor.</p>
+        </div>
+
+        <h2>Was vorgegeben ist</h2>
+        <p>Als Beispiel dient ein Rechteck mit drei Konstruktoren:</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Rechteck.java (vorgegeben)</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld">
+                <pre><code class="language-java">public class Rechteck {
+    // Defaultwerte
+    private double breite = 1;
+    private double hoehe  = 1;
+
+    // Konstuktor 1 Parameter: double, double
+    public Rechteck(double breite, double hoehe) {
+        if (breite &gt;= 0 &amp;&amp; hoehe &gt;= 0) {
+            this.breite = breite;
+            this.hoehe  = hoehe;
+        }
+    }
+
+    // Konstuktor 2 Parameter: double, double
+    public Rechteck(int breite, int hoehe) {
+        if (breite &gt;= 0 &amp;&amp; hoehe &gt;= 0) {
+            this.breite = breite;
+            this.hoehe  = hoehe;
+        }
+    }
+
+    // Konstuktor 3 Parameter: double
+    public Rechteck(double seite) {
+        if (seite &gt;= 0) {
+            this.breite = seite;
+            this.hoehe  = seite;
+        }
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Konstruktor 3 ist der interessanteste: ein Rechteck mit nur einer
+           Seitenangabe ist ein Quadrat. Man spart sich also eine eigene Klasse.</p>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Konto.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Konto.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Konstruktor-Ueberladung am Beispiel eines Bankkontos
+ *
+ * @version 1.0 vom 25.08.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Konto {
+
+    // Defaultwerte, falls ein Konstruktor nichts setzt
+    private String inhaber = "Unbekannt";
+    private double kontostand = 0;
+    private double dispo = 0;
+
+    // Konstruktor 1 - Parameter: String
+    // Neues Konto, nur der Name ist bekannt. Startet bei 0 Euro.
+    public Konto(String inhaber) {
+        if (inhaber != null &amp;&amp; !inhaber.equals("")) {
+            this.inhaber = inhaber;
+        }
+    }
+
+    // Konstruktor 2 - Parameter: String, double
+    // Konto mit Startguthaben, zum Beispiel bei einem Bankwechsel.
+    public Konto(String inhaber, double kontostand) {
+        if (inhaber != null &amp;&amp; !inhaber.equals("")) {
+            this.inhaber = inhaber;
+        }
+        this.kontostand = kontostand;
+    }
+
+    // Konstruktor 3 - Parameter: String, double, double
+    // Konto mit Startguthaben und eingeraeumtem Dispo.
+    public Konto(String inhaber, double kontostand, double dispo) {
+        if (inhaber != null &amp;&amp; !inhaber.equals("")) {
+            this.inhaber = inhaber;
+        }
+        this.kontostand = kontostand;
+        if (dispo &gt;= 0) {
+            this.dispo = dispo;
+        }
+    }
+
+    public double getKontostand() {
+        return kontostand;
+    }
+
+    public void einzahlen(double betrag) {
+        if (betrag &lt;= 0) {
+            System.out.println("Fehler: Der Betrag muss positiv sein.");
+            return;
+        }
+        kontostand += betrag;
+    }
+
+    public void abheben(double betrag) {
+        if (betrag &lt;= 0) {
+            System.out.println("Fehler: Der Betrag muss positiv sein.");
+            return;
+        }
+        if (kontostand - betrag &lt; -dispo) {
+            System.out.println("Fehler: Das ueberzieht den Dispo.");
+            return;
+        }
+        kontostand -= betrag;
+    }
+
+    public void ausgabe() {
+        String info = "Konto von " + inhaber + "\n"
+                    + "  Kontostand: " + InOut.format2(kontostand) + " Euro\n"
+                    + "  Dispo: " + InOut.format2(dispo) + " Euro";
+        System.out.println(info);
+    }
+
+} // end of class Konto</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Teil a) – das Beispiel beschreiben</h3>
+        <p>Gefragt ist erstmal Text, kein Code. Mein Beispiel ist ein
+           <strong>Bankkonto</strong>, und zwar aus folgendem Grund: es gibt
+           wirklich drei verschiedene Situationen, in denen ein Konto entsteht,
+           und in jeder weiß man unterschiedlich viel.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Konstruktor</th><th>Parameter</th><th>Wann man ihn braucht</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td><code>String</code></td><td>Konto frisch eröffnet, es liegt noch kein Geld drauf</td></tr>
+                    <tr><td>2</td><td><code>String, double</code></td><td>Bankwechsel – das Guthaben kommt mit</td></tr>
+                    <tr><td>3</td><td><code>String, double, double</code></td><td>Konto mit eingeräumtem Dispo</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Alle drei unterscheiden sich in der <strong>Anzahl</strong> der
+           Parameter. Das ist die einfachste und sicherste Art zu überladen, da
+           kann sich Java nicht vertun.</p>
+
+        <h3 class="schritt-titel">Die Defaultwerte oben</h3>
+        <p>Der Trick aus dem Rechteck-Beispiel funktioniert hier genauso: die
+           Attribute bekommen schon bei der Deklaration einen sinnvollen Wert.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">private String inhaber = "Unbekannt";
+private double kontostand = 0;
+private double dispo = 0;</code></pre>
+            </div>
+        </div>
+
+        <p>Dadurch muss nicht jeder Konstruktor jedes Attribut setzen. Konstruktor
+           1 kümmert sich nur um den Namen, Kontostand und Dispo bleiben
+           automatisch bei 0. Ohne Defaultwerte müsstest du in jedem Konstruktor
+           alles nochmal hinschreiben – und vergisst dann garantiert eins.</p>
+
+        <h3 class="schritt-titel">Die zwei Regeln, die man wissen muss</h3>
+        <p><strong>Erstens: der Rückgabetyp zählt nicht.</strong> Zwei Methoden,
+           die sich nur im Rückgabetyp unterscheiden, sind für Java dieselbe
+           Methode und das ist ein Fehler. Bei Konstruktoren ist das sowieso egal,
+           die haben gar keinen – bei normalen Methoden ist es aber eine beliebte
+           Falle.</p>
+
+        <p><strong>Zweitens: sobald du selbst einen Konstruktor schreibst, ist der
+           automatische weg.</strong> Solange eine Klasse gar keinen Konstruktor
+           hat, spendiert Java stillschweigend einen parameterlosen:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public Rechteck() {}   // macht Java selbst - aber nur, solange du keinen eigenen schreibst</code></pre>
+            </div>
+        </div>
+
+        <p>Der erzeugt nur das Objekt und initialisiert nichts. Schreibst du einen
+           eigenen Konstruktor, verschwindet der. Wenn du dann irgendwo
+           <code>new Konto()</code> ohne Argumente schreibst, meckert der Compiler –
+           und die Fehlermeldung ist ziemlich unverständlich, wenn man nicht weiß
+           woran es liegt. Willst du beides haben, musst du den leeren Konstruktor
+           selbst dazuschreiben.</p>
+
+        <h3 class="schritt-titel">Vorsicht bei int und double</h3>
+        <p>Im vorgegebenen Rechteck stehen Konstruktor 1 mit
+           <code>(double, double)</code> und Konstruktor 2 mit
+           <code>(int, int)</code>. Das ist erlaubt, aber es ist auch das Beispiel,
+           bei dem man am ehesten ins Grübeln kommt. Was passiert bei
+           <code>new Rechteck(3, 4)</code>?</p>
+
+        <p>Da <code>3</code> und <code>4</code> Ganzzahlen sind, nimmt Java
+           Konstruktor 2. Erst wenn kein <code>int</code>-Konstruktor da wäre,
+           würde Java die Werte automatisch in <code>double</code> umwandeln und
+           Konstruktor 1 nehmen. Schreibst du dagegen
+           <code>new Rechteck(3.0, 4.0)</code>, ist Konstruktor 1 dran.</p>
+
+        <p>Deshalb habe ich das in meinem Konto-Beispiel bewusst nicht gemacht.
+           Überladen über die Anzahl der Parameter ist eindeutig; überladen über
+           ähnliche Zahlentypen sieht clever aus, sorgt aber für Code, bei dem man
+           zweimal hinschauen muss. Und der Kommentar über Konstruktor 2 im
+           Rechteck ist übrigens falsch – da steht „Parameter: double, double",
+           obwohl <code>int, int</code> gemeint ist. Genau so entstehen Missverständnisse.</p>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Die Klasse Auto</title>
+    <meta name="description" content="Unsere erste eigene Klasse: fünf Attribute, ein Konstruktor und zwei Methoden, die erstmal noch leer bleiben.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/oop/klasse-auto.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Die Klasse Auto">
+    <meta property="og:description" content="Unsere erste eigene Klasse: fünf Attribute, ein Konstruktor und zwei Methoden, die erstmal noch leer bleiben.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/oop/klasse-auto.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Die Klasse Auto">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Die Klasse Auto">
+    <meta name="twitter:description" content="Unsere erste eigene Klasse: fünf Attribute, ein Konstruktor und zwei Methoden, die erstmal noch leer bleiben.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Die Klasse Auto",
+  "description": "Unsere erste eigene Klasse: fünf Attribute, ein Konstruktor und zwei Methoden, die erstmal noch leer bleiben.",
+  "url": "https://meininfokurs.cmrg.site/q1/oop/klasse-auto.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "OOP in Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"OOP in Java\", Seite 35-41",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#oop">OOP in Java</a>
+        </p>
+        <h1 class="titel">Die Klasse Auto</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist unsere erste eigene Klasse! Bis
+           jetzt haben wir alles in eine einzige Datei geschrieben und von oben
+           nach unten abgearbeitet. Damit ist jetzt Schluss. Ab hier bauen wir
+           Baupläne und machen daraus Objekte.</p>
+
+        <p>Bevor wir irgendwas tippen: was wollen wir überhaupt modellieren?
+           Modellieren heißt, von den ganzen Details eines echten Autos
+           wegzugehen und nur das aufzuschreiben, was für unseren Zweck wichtig
+           ist. Unsere Autos sollen betankt werden und fahren können, mehr nicht.
+           Also brauchen wir auch nur das, was dafür nötig ist: Kennzeichen,
+           Kilometerstand, Tankvolumen, Kraftstoffverbrauch und Kraftstoffmenge.
+           Die Farbe interessiert uns nicht, die Anzahl der Türen auch nicht.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Schreibe den Code mit dem Java-Editor und speichere die Datei
+               hier ab.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Auto.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Auto.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Die Klasse Auto
+ *
+ * @version 1.0 vom 13.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Auto {
+
+// Anfang Attribute
+private String Kennzeichen;
+private double Kilometerstand;
+private double Tankvolumen;
+private double Kraftstoffverbrauch;
+private double Kraftstoffmenge;
+// Ende Attribute
+
+//Konstruktor
+public Auto(String Kennzeichen, double Tankvolumen, double Kraftstoffverbrauch) {
+  this.Kennzeichen = Kennzeichen;
+  this.Tankvolumen = Tankvolumen;
+  this.Kraftstoffverbrauch = Kraftstoffverbrauch;
+  Kilometerstand = 0;
+  Kraftstoffmenge = 0;
+}
+
+// Anfang Methoden
+public String getKennzeichen() {
+  return Kennzeichen;
+}
+
+public double getKilometerstand() {
+  return Kilometerstand;
+}
+
+public double getKraftstoffmenge() {
+  return Kraftstoffmenge;
+}
+
+public void tanken(double Menge) {
+  // TODO
+}
+
+public void fahren(double Strecke) {
+  // TODO
+}
+// Ende Methoden
+}</code></pre>
+            </div>
+        </div>
+
+        <p>In der Aufgabenstellung wird gefordert, dass wir folgende Sachen
+           umsetzen:</p>
+
+        <ol class="schritte">
+            <li>Eine Klasse <code>Auto</code> anlegen</li>
+            <li>Die fünf Attribute deklarieren und auf <code>private</code> setzen</li>
+            <li>Einen Konstruktor schreiben, der Kennzeichen, Tankvolumen und Kraftstoffverbrauch entgegennimmt</li>
+            <li>Getter für die Werte schreiben, die man von außen lesen können soll</li>
+            <li>Die beiden Methoden <code>tanken</code> und <code>fahren</code> anlegen – erstmal leer</li>
+        </ol>
+
+        <h3 class="schritt-titel">Die Attribute</h3>
+        <p>Die fünf Attribute stehen ganz oben und beschreiben, was ein Auto bei
+           uns überhaupt ausmacht. Jedes Objekt, das wir später aus dieser Klasse
+           bauen, bekommt seinen eigenen Satz dieser Werte. Zwei Autos teilen
+           sich also keinen Kilometerstand, jedes hat seinen eigenen.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">private String Kennzeichen;
+private double Kilometerstand;
+private double Tankvolumen;
+private double Kraftstoffverbrauch;
+private double Kraftstoffmenge;</code></pre>
+            </div>
+        </div>
+
+        <p>Warum überall <code>private</code>? Weil von außen niemand einfach so
+           an diesen Werten rumschrauben soll. Wenn der Kilometerstand
+           <code>public</code> wäre, könnte jeder von außen
+           <code>meinAuto.Kilometerstand = 1000000;</code> schreiben, ohne je
+           gefahren zu sein. Genau das wollen wir nicht. Wer den Kilometerstand
+           ändern will, muss gefälligst <code>fahren</code> benutzen. Das nennt
+           sich Kapselung und ist einer der Gründe, warum man überhaupt
+           objektorientiert programmiert.</p>
+
+        <p><code>Kennzeichen</code> ist ein <code>String</code>, weil da Buchstaben
+           drin vorkommen. Alles andere ist <code>double</code>, weil ein
+           Kilometerstand oder eine Tankfüllung durchaus Nachkommastellen haben
+           kann.</p>
+
+        <h3 class="schritt-titel">Der Konstruktor</h3>
+        <p>Der Konstruktor ist die Methode, die läuft, wenn wir mit
+           <code>new</code> ein neues Auto bauen. Er heißt <strong>genau so wie
+           die Klasse</strong> und hat keinen Rückgabetyp – kein
+           <code>void</code>, gar nichts. Das ist das Erkennungszeichen eines
+           Konstruktors.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public Auto(String Kennzeichen, double Tankvolumen, double Kraftstoffverbrauch) {
+  this.Kennzeichen = Kennzeichen;
+  this.Tankvolumen = Tankvolumen;
+  this.Kraftstoffverbrauch = Kraftstoffverbrauch;
+  Kilometerstand = 0;
+  Kraftstoffmenge = 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Hier stolpern erfahrungsgemäß die meisten: der Parameter heißt
+           <code>Kennzeichen</code> und das Attribut heißt auch
+           <code>Kennzeichen</code>. Woher weiß Java, welches gemeint ist?</p>
+
+        <p>Gar nicht – deshalb gibt es <code>this</code>. Innerhalb der Methode
+           gewinnt immer der Parameter, der ist näher dran. <code>this.Kennzeichen</code>
+           heißt ausdrücklich „das Attribut von diesem Objekt hier".
+           <code>this.Kennzeichen = Kennzeichen;</code> liest sich also als:
+           schreib den übergebenen Wert in mein eigenes Attribut. Ohne
+           <code>this</code> würdest du den Parameter sich selbst zuweisen und das
+           Attribut bliebe leer. Der Compiler meckert dabei nicht mal, das
+           Programm tut nur nichts.</p>
+
+        <p>Kilometerstand und Kraftstoffmenge werden nicht mitgegeben, die setzt
+           der Konstruktor selbst auf 0. Ein frisch gebautes Auto ist eben leer
+           und ungefahren.</p>
+
+        <h3 class="schritt-titel">Die Getter</h3>
+        <p>Weil die Attribute <code>private</code> sind, kommt von außen niemand
+           ran. Wir wollen den Kilometerstand aber später ausgeben können. Dafür
+           gibt es Getter – kleine Methoden, die nichts weiter tun als den Wert
+           zurückzugeben:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public double getKilometerstand() {
+  return Kilometerstand;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Das sieht nach unnötiger Tipparbeit aus, ist es aber nicht. Der Punkt
+           ist, dass <em>wir</em> entscheiden, was nach außen geht. Für
+           Tankvolumen und Kraftstoffverbrauch gibt es hier absichtlich keinen
+           Getter – die braucht von außen gerade niemand.</p>
+
+        <h3 class="schritt-titel">Die beiden leeren Methoden</h3>
+        <p>Ganz unten stehen <code>tanken</code> und <code>fahren</code>, und in
+           beiden steht nur <code>// TODO</code>. Das ist Absicht. Die Gerüste
+           sind schon da, damit die Klasse durchkompiliert und wir sie benutzen
+           können – gefüllt werden sie erst in einer späteren Aufgabe.</p>
+
+        <p>Beide sind <code>void</code>, geben also nichts zurück. Sie ändern nur
+           den Zustand des Objekts. So etwas nennt man Prozedur, im Gegensatz zu
+           einer Funktion wie <code>getKilometerstand()</code>, die einen Wert
+           liefert. In Java heißt beides Methode.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="weiter" href="einstiegstext-analyse.html"><small>Nächste Aufgabe</small>Einstiegstext-Analyse</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+        <p>Die Aufgabe der heutigen Stunde ist die sechste SQL-Lektion:
+           <strong>DML</strong>, also Data Manipulation Language. Bis jetzt haben wir
+           nur gelesen. Jetzt schreiben wir – einfügen, ändern, löschen und Tabellen
+           anlegen. Ab hier kann man auch echt was kaputt machen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>a) Bearbeiten Sie die sechste Lektion und erstellen Sie in ihrem
+               OneNote-Heft eine kompakte übersichtliche Kurzzusammenfassung der
+               SQL-Befehle.<br>
+               b) Bearbeiten Sie die Übung 6</p>
+            <p><strong>Zusatzaufgabe</strong></p>
+            <ul>
+                <li>Erzeuge einen neuen Kurs.</li>
+                <li>Füge diesem Kurs zwei Teilnehmer hinzu.</li>
+                <li>Der Kurs wird gestrichen, lösche ihn aus der Datenbank.</li>
+            </ul>
+        </div>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Teil b) der Aufgabe – <em>Bearbeiten Sie die Übung 6</em> – liegt auf der Tutorial-Seite und ist im OneNote nicht abgedruckt. Hier stehen die Zusammenfassung und die Zusatzaufgabe.</span>
+        </div>
+
+        <h2>Die vier Befehle</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-database" aria-hidden="true"></i> SQL</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="SQL_Lektion6.sql">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Zusammenfassung der sechsten SQL-Lektion: DML
+-- @MeinInfoKurs.github.io
+
+-- INSERT: neue Zeile einfuegen
+INSERT INTO tabellen_name VALUES ('x', 'y', 'z');
+
+-- Besser: mit Spaltennamen, dann ist die Reihenfolge egal
+INSERT INTO kurse (id, name, raum) VALUES (12, 'Informatik GK', 'B204');
+
+-- UPDATE: vorhandene Zeilen aendern
+UPDATE kurse
+SET    raum = 'C101'
+WHERE  id = 12;
+
+-- DELETE: Zeilen loeschen
+DELETE FROM kurse
+WHERE  id = 12;
+
+-- CREATE TABLE: neue Tabelle anlegen
+CREATE TABLE kurse (
+    id      INT          NOT NULL,
+    name    VARCHAR(50)  NOT NULL,
+    raum    VARCHAR(10),
+    beginn  DATE,
+    typ     ENUM('GK', 'LK'),
+    PRIMARY KEY (id)
+);</code></pre>
+            </div>
+        </div>
+
+        <h2>Die Datentypen</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Typ</th><th>Wofür</th><th>Beispiel</th></tr></thead>
+                <tbody>
+                    <tr><td><code>INT(n)</code></td><td>ganze Zahlen</td><td><code>id INT</code></td></tr>
+                    <tr><td><code>VARCHAR(n)</code></td><td>Text bis n Zeichen</td><td><code>name VARCHAR(50)</code></td></tr>
+                    <tr><td><code>DATE</code></td><td>Datum im Format JJJJ-MM-TT</td><td><code>'2026-09-17'</code></td></tr>
+                    <tr><td><code>ENUM(…)</code></td><td>feste Auswahl an Werten</td><td><code>ENUM('GK','LK')</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><code>ENUM</code> ist genau dasselbe Prinzip wie das <code>enum</code> in
+           Java bei der Klasse <code>Termin</code>: eine feste, begrenzte Auswahl.
+           Schreibt man etwas anderes hinein, lehnt die Datenbank es ab, statt es
+           stillschweigend zu speichern.</p>
+
+        <p>Bei <code>VARCHAR</code> gibt die Zahl die Höchstlänge an. Zu knapp
+           gewählt, und lange Namen werden abgeschnitten – bei <code>VARCHAR(10)</code>
+           passt „Informatik GK" schon nicht mehr rein.</p>
+
+        <h2>Das WHERE bei UPDATE und DELETE</h2>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">DELETE FROM kurse;            -- loescht ALLE Kurse. Ohne Nachfrage.
+UPDATE kurse SET raum = 'C101';  -- setzt ALLE Kurse auf C101.</code></pre>
+            </div>
+        </div>
+
+        <p>Das ist der Befehl, mit dem man sich richtig Ärger einhandelt. Ein
+           vergessenes <code>WHERE</code> ist syntaktisch völlig korrekt – die
+           Datenbank fragt nicht nach und es gibt kein Rückgängig.</p>
+
+        <p>Angewöhnen kann man sich das hier: <strong>schreib die Anweisung erst
+           als <code>SELECT</code></strong> und schau dir an, welche Zeilen
+           betroffen wären.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- 1. Erst gucken, was getroffen wird
+SELECT * FROM kurse WHERE id = 12;
+
+-- 2. Wenn das stimmt, dasselbe WHERE fuers Loeschen benutzen
+DELETE FROM kurse WHERE id = 12;</code></pre>
+            </div>
+        </div>
+
+        <h2>Die Zusatzaufgabe</h2>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Die Kurs-Datenbank aus Übung 6 ist im OneNote nicht abgedruckt.
+            Ich rechne mit <code>kurse(id, name)</code>,
+            <code>teilnehmer(id, vorname, nachname)</code> und der
+            Verknüpfungstabelle <code>kurs_hat_teilnehmer(kurs_id, teilnehmer_id)</code>.
+            Namen gegebenenfalls anpassen.</span>
+        </div>
+
+        <h3 class="schritt-titel">Schritt 1 – Einen neuen Kurs erzeugen</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">INSERT INTO kurse (id, name) VALUES (12, 'Informatik GK Q2');</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Schritt 2 – Zwei Teilnehmer hinzufügen</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Erst die Personen selbst, falls es sie noch nicht gibt
+INSERT INTO teilnehmer (id, vorname, nachname) VALUES (101, 'Anna', 'Berger');
+INSERT INTO teilnehmer (id, vorname, nachname) VALUES (102, 'Ben',  'Klein');
+
+-- Dann die Zuordnung zum Kurs
+INSERT INTO kurs_hat_teilnehmer (kurs_id, teilnehmer_id) VALUES (12, 101);
+INSERT INTO kurs_hat_teilnehmer (kurs_id, teilnehmer_id) VALUES (12, 102);</code></pre>
+            </div>
+        </div>
+
+        <p>Genau hier zahlt sich das Kapitel über Eltern- und Kindtabellen aus. Die
+           Reihenfolge ist nicht beliebig: erst der Kurs und die Teilnehmer, dann die
+           Zuordnung. Wer zuerst in <code>kurs_hat_teilnehmer</code> schreibt,
+           bekommt einen Fremdschlüsselfehler, weil es Kurs 12 noch gar nicht gibt.</p>
+
+        <h3 class="schritt-titel">Schritt 3 – Den Kurs löschen</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Erst die Zuordnungen, sonst verweisen sie ins Leere
+DELETE FROM kurs_hat_teilnehmer WHERE kurs_id = 12;
+
+-- Dann den Kurs selbst
+DELETE FROM kurse WHERE id = 12;</code></pre>
+            </div>
+        </div>
+
+        <p>Beim Löschen ist die Reihenfolge <strong>genau umgekehrt</strong> zum
+           Einfügen: von innen nach außen, vom Kind zum Elternteil. Versucht man
+           zuerst den Kurs zu löschen, verhindert die referenzielle Integrität das –
+           es gibt ja noch Zeilen, die auf ihn zeigen.</p>
+
+        <p>Und die Teilnehmer bleiben stehen. Der Kurs wurde gestrichen, die
+           Personen gibt es aber weiterhin und sie sind vermutlich in anderen Kursen.
+           Das war in der Aufgabe auch nicht gefordert.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Man kann beim <code>CREATE TABLE</code> auch
+            <code>ON DELETE CASCADE</code> angeben – dann räumt die Datenbank die
+            Kindzeilen von selbst mit weg. Bequem, aber gefährlich: ein
+            <code>DELETE</code> löscht dann unter Umständen viel mehr, als man
+            wollte.</span>
+        </div>

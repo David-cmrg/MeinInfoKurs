@@ -1,0 +1,154 @@
+        <p>Die Aufgabe der heutigen Stunde ist der Fremdschlüssel! Der
+           Primärschlüssel macht eine Zeile eindeutig – der Fremdschlüssel ist das,
+           was Tabellen überhaupt erst miteinander verbindet. Ohne ihn hätte man
+           lauter einzelne Tabellen, die nichts voneinander wissen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>Übung 1:</strong> T1 „Fahrzeuge" mit den Attributen
+               Fahrzeug_ID, Marke_ID, Anzahl_Tueren, PS. T2 „Marken" mit den
+               Attributen Marke_ID, Marke_Name, Hersteller_Land, Gruendungsdatum. Wo
+               finden Sie einen Fremdschlüssel?</p>
+            <p><strong>DB_02-2 Fremdschlüssel bestimmen (einfach):</strong> Füllen
+               Sie alle Tabellen mit sinnvollen Datensätzen. Markieren Sie die
+               Primärschlüssel wie gelernt; markieren Sie die Fremdschlüssel mit einer
+               Farbe. Gegeben sind die Tabellen „Wurstsorten", „Farbstoffe",
+               „Lieferanten" und „Orte".</p>
+        </div>
+
+        <h2>Übung 1 – Fahrzeuge und Marken</h2>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Fahrzeuge(Fahrzeug_ID, Marke_ID, Anzahl_Tueren, PS)
+          ^^^^^^^^^^  ^^^^^^^^
+          PK          FK -> Marken.Marke_ID
+
+Marken(Marke_ID, Marke_Name, Hersteller_Land, Gruendungsdatum)
+       ^^^^^^^^
+       PK</code></pre>
+            </div>
+        </div>
+
+        <p><strong>Der Fremdschlüssel ist <code>Marke_ID</code> in der Tabelle
+           Fahrzeuge.</strong> Dort ist es ein Fremdschlüssel, in der Tabelle Marken
+           ist dasselbe Attribut der Primärschlüssel.</p>
+
+        <h3 class="schritt-titel">Woran man ihn erkennt</h3>
+        <p>Ein Attribut ist ein Fremdschlüssel, wenn es in einer <em>anderen</em>
+           Tabelle der Primärschlüssel ist. Praktischer Trick: <strong>ein Attribut,
+           das auf <code>_ID</code> endet und nicht der eigene Primärschlüssel ist,
+           ist fast immer ein Fremdschlüssel.</strong></p>
+
+        <p>Und die Richtung stimmt so herum und nicht andersherum. Man könnte ja
+           fragen, warum die Marke nicht die Fahrzeuge kennt. Antwort: eine Marke hat
+           viele Fahrzeuge, ein Fahrzeug hat aber genau eine Marke. Der Fremdschlüssel
+           steht immer auf der Seite, wo <strong>„viele"</strong> steht – sonst
+           müsste man in eine Zelle mehrere Werte schreiben, und das ist verboten.</p>
+
+        <h2>DB_02-2 – Die Wurstsorten</h2>
+
+        <p>Vier Tabellen, und die Fremdschlüssel bilden eine Kette.</p>
+
+        <h3 class="schritt-titel">Tabelle 1: Wurstsorten</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>ID <small>(PK)</small></th><th>Sorte_Name</th><th>Lieferant_ID <small>(FK)</small></th><th>Mehrwertsteuersatz</th><th>Einkaufspreis</th><th>Farbstoff_ID <small>(FK)</small></th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>Fleischwurst</td><td>1</td><td>7</td><td>3,49</td><td>2</td></tr>
+                    <tr><td>2</td><td>Salami</td><td>2</td><td>7</td><td>5,20</td><td>1</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Tabelle 2: Farbstoffe</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>ID <small>(PK)</small></th><th>Name</th><th>Gefaehrlichkeitsstufe</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>Echtes Karmin (E120)</td><td>2</td></tr>
+                    <tr><td>2</td><td>Rote Bete Rot (E162)</td><td>1</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Tabelle 3: Lieferanten</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>ID <small>(PK)</small></th><th>Name</th><th>Postleitzahl <small>(FK)</small></th><th>Status</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>Metzgerei Krause</td><td>65183</td><td>aktiv</td></tr>
+                    <tr><td>2</td><td>Wurstwaren Nord</td><td>20095</td><td>aktiv</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Tabelle 4: Orte</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Postleitzahl <small>(PK)</small></th><th>Ortname</th><th>Tel-Vorwahl</th></tr></thead>
+                <tbody>
+                    <tr><td>65183</td><td>Wiesbaden</td><td>0611</td></tr>
+                    <tr><td>20095</td><td>Hamburg</td><td>040</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>In Relationenschreibweise</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Wurstsorten(ID, Sorte_Name, Lieferant_ID, Mehrwertsteuersatz,
+            Einkaufspreis, Farbstoff_ID)
+             PK             FK->Lieferanten.ID        FK->Farbstoffe.ID
+
+Farbstoffe(ID, Name, Gefaehrlichkeitsstufe)
+            PK
+
+Lieferanten(ID, Name, Postleitzahl, Status)
+             PK        FK->Orte.Postleitzahl
+
+Orte(Postleitzahl, Ortname, Tel-Vorwahl)
+      PK</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Die Kette</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Wurstsorten ---> Lieferanten ---> Orte
+     |
+     +---------> Farbstoffe</code></pre>
+            </div>
+        </div>
+
+        <p>Zwei Sachen fallen dabei auf. Erstens verweist <code>Wurstsorten</code>
+           auf <strong>zwei</strong> Tabellen gleichzeitig – eine Tabelle darf
+           beliebig viele Fremdschlüssel haben. Zweitens ist
+           <code>Lieferanten</code> gleichzeitig Kind (verweist auf Orte) und
+           Elterntabelle (Wurstsorten verweist darauf). Das ist völlig normal und
+           kommt in der nächsten Aufgabe nochmal ausführlich dran.</p>
+
+        <h3 class="schritt-titel">Warum der Ort nicht direkt in die Lieferanten gehört</h3>
+        <p>Man könnte ja einfach <code>Ortname</code> und <code>Vorwahl</code> in
+           die Lieferanten-Tabelle schreiben. Drei Gründe, warum man das nicht macht:</p>
+
+        <ul class="schritte">
+            <li><strong>Redundanz:</strong> Bei fünfzig Lieferanten in Wiesbaden steht „Wiesbaden" fünfzigmal da.</li>
+            <li><strong>Änderungsanomalie:</strong> Ändert sich die Vorwahl, muss man sie an fünfzig Stellen ändern – und vergisst garantiert eine.</li>
+            <li><strong>Tippfehler:</strong> Einmal „Wiesbaden", einmal „Wiesbaden " mit Leerzeichen – und schon findet die Abfrage nur die Hälfte.</li>
+        </ul>
+
+        <p>Das ist schon die halbe Normalisierung, die später als eigenes Thema
+           drankommt. Hier sieht man den Grund dafür zum ersten Mal.</p>
+
+        <h3 class="schritt-titel">Und die referenzielle Integrität</h3>
+        <p>Ein Fremdschlüssel ist nicht nur Dokumentation. Die Datenbank passt
+           aktiv darauf auf:</p>
+
+        <ul class="schritte">
+            <li>Man kann keine Wurstsorte mit <code>Lieferant_ID = 99</code> eintragen, wenn es keinen Lieferanten 99 gibt</li>
+            <li>Man kann keinen Lieferanten löschen, solange noch Wurstsorten auf ihn verweisen</li>
+        </ul>
+
+        <p>Deshalb heißt es <strong>referenzielle Integrität</strong>: die Verweise
+           bleiben immer gültig, die Datenbank lässt gar nichts anderes zu.</p>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Das Ratespiel</title>
+    <meta name="description" content="Es handelt sich um eine einfache Konsolenanwendung, die eine Zufallszahl generiert und den Nutzer auffordert, diese zu erraten.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/e/java/ratespiel.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Das Ratespiel">
+    <meta property="og:description" content="Es handelt sich um eine einfache Konsolenanwendung, die eine Zufallszahl generiert und den Nutzer auffordert, diese zu erraten.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/e/java/ratespiel.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Das Ratespiel">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Das Ratespiel">
+    <meta name="twitter:description" content="Es handelt sich um eine einfache Konsolenanwendung, die eine Zufallszahl generiert und den Nutzer auffordert, diese zu erraten.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Das Ratespiel",
+  "description": "Es handelt sich um eine einfache Konsolenanwendung, die eine Zufallszahl generiert und den Nutzer auffordert, diese zu erraten.",
+  "url": "https://meininfokurs.cmrg.site/e/java/ratespiel.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "E-Phase – Klasse 10 · Grundlagen",
+  "about": "Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – E-Phase",
+    "url": "https://meininfokurs.cmrg.site/e/"
+  },
+  "isBasedOn": "Informatik E-Phase · übernommen aus V2/Seiten/Java/Ratespiel.html",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html" aria-current="page"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../e/index.html">E-Phase</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../e/index.html#java">Java</a>
+        </p>
+        <h1 class="titel">Das Ratespiel</h1>
+        <p class="status ist-nicht-verifiziert">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>Noch nicht geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist <strong>das Ratespiel!</strong> Es handelt sich um eine einfache
+            Konsolenanwendung, die eine Zufallszahl generiert und den Nutzer auffordert, diese zu erraten. Das Programm
+            folgt dem <a href="docs.html#Eingabe-Ausgabe">EVA-Prinzip (Eingabe, Verarbeitung, Ausgabe)</a> und zählt die
+            Versuche des Nutzers.</p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+            In dieser Form ist das Ratespiel etwas langweilig. Besser wird es, wenn man in der Schleife ausgibt, ob die
+            geratene Zahl kleiner oder größer als die gesuchte Zahl ist.
+            Ergänze eine entsprechende Fallunterscheidung. Durch intelligentes Fragen kann man jetzt viel schneller die
+            Zahl erraten, auch wenn du den Zahlbereich von 10 auf 100 vergrößerst.
+        </p></div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="Ratespiel.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+ *
+ * Das fertige Ratespiel Programm
+ *
+ * @version 1.0 vom 04.06.2025
+ * @MeinInfoKurs.github.io
+ */
+public class RateSpiel {
+  public static void main(String[] args) {
+    int GesuchteZahl = (int) (Math.random() * 10); // Zufallszahl zwischen 0 und 9
+    int GerateneZahl = -1; // Initialwert, um Schleife zu starten
+    int Rateversuche = 0; // Zähler für Versuche
+    while (GerateneZahl != GesuchteZahl) {
+      System.out.println("");
+      GerateneZahl = InOut.readInt("Gib eine Zahl ein: ");
+      Rateversuche++; // Zählt die Versuche hoch
+    }
+    System.out.println("Du hast die gesuchte Zahl " + GesuchteZahl + " nach " + Rateversuche + " Versuchen gefunden.");
+  } // end of main
+} // end of class RateSpiel</code></pre></div></div>
+        <p>
+            In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren:
+            <br/><br/>
+</p>
+        <ol class="schritte">
+<li>Generierung einer Zufallszahl</li>
+<li>Nutzereingabe einer Zahl für jeden Rateversuch</li>
+<li>Zählung der Versuche, bis die gesuchte Zahl gefunden wird</li>
+<li>Ausgabe der gesuchten Zahl und die Anzahl der Versuche</li>
+</ol>
+        <h3 class="schritt-titel">Nutzereingabe und Zufallszahl</h3>
+        <p>
+            Das Programm generiert eine Zufallszahl zwischen 0 und 9 mit <kbd>Math.random() *
+                10</kbd>, die in der INT Variable <kbd>GesuchteZahl</kbd> gespeichert wird.
+            Die Variable GerateneZahl wird auf -1 initialisiert, um sicherzustellen, dass die Schleife startet, da -1
+            nicht im Bereich der Zufallszahl liegt. Das heißt egal welche (positive) Zahl generiert wird, dass Programm
+            wird weiterhin funktionieren, da die -1 <a href="docs.html"> != (Ungleich)</a> der generierten
+            positiven Zahl ist. Die Eingaben erfolgen über die Methode <a href="docs.html#Eingabe-Ausgabe">InOut.readInt</a>, die den Nutzer in der Konsole nach einer Zahl fragt.
+            Der Code dafür sieht so aus:
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">int GesuchteZahl = (int) (Math.random() * 10); // Zufallszahl zwischen 0 und 9
+int GerateneZahl = -1; // -1 Damit die initialisierung der Variable das Spiel nicht versehentlich beendet
+int Rateversuche = 0; // Zähler für Versuche
+System.out.println("");
+GerateneZahl = InOut.readInt("Gib eine Zahl ein: "); // Die Eingabe des Nutzers wird unter der Variable "GerateneZahl" gespeichert</code></pre></div></div>
+        <h3 class="schritt-titel">Verarbeitung und Zählung der Versuche</h3>
+        <p>
+            Eine <a href="docs.html#Schleifen">While-Schleife</a> vergleicht die geratene Zahl mit der gesuchten Zahl.
+            Solange sie nicht übereinstimmen, wird der Nutzer aufgefordert eine neue Zahl einzugeben und die Variable
+            "Rateversuche" wird inkrementiert. Sobald die richtige Zahl geraten wird, endet die Schleife, und die
+            Ergebnisse werden ausgegeben. Hier ist ein Beispiel, wie die Verarbeitung funktioniert:
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">/* Beispiel: GesuchteZahl = 7 */
+int GesuchteZahl = 7;
+int GerateneZahl = -1;
+int Rateversuche = 0;
+while (GerateneZahl != GesuchteZahl) {
+  System.out.println("");
+  GerateneZahl = InOut.readInt("Gib eine Zahl ein: "); /* Nutzereingaben: 3, 8, 7 */
+  Rateversuche++; /* Rateversuche: 1, 2, 3 */
+}
+System.out.println("Du hast die gesuchte Zahl 7 nach 3 Versuchen gefunden.");</code></pre></div></div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="millionaere.html"><small>Vorherige Aufgabe</small>Club der Millionäre</a>
+            <a class="weiter" href="stiftundpapier.html"><small>Nächste Aufgabe</small>Stift und Papier</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

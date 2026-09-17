@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Formulare: HTML und PHP</title>
+    <meta name="description" content="GET gegen POST, das $_POST-Array und eine Suchabfrage, die dank Prepared Statement nicht die ganze Tabelle verrät.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q2/datenbanken/php-html-formulare.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Formulare: HTML und PHP">
+    <meta property="og:description" content="GET gegen POST, das $_POST-Array und eine Suchabfrage, die dank Prepared Statement nicht die ganze Tabelle verrät.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q2/datenbanken/php-html-formulare.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Formulare: HTML und PHP">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Formulare: HTML und PHP">
+    <meta name="twitter:description" content="GET gegen POST, das $_POST-Array und eine Suchabfrage, die dank Prepared Statement nicht die ganze Tabelle verrät.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Formulare: HTML und PHP",
+  "description": "GET gegen POST, das $_POST-Array und eine Suchabfrage, die dank Prepared Statement nicht die ganze Tabelle verrät.",
+  "url": "https://meininfokurs.cmrg.site/q2/datenbanken/php-html-formulare.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q2 – Klasse 11 · 2. Halbjahr",
+  "about": "Datenbanken",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q2",
+    "url": "https://meininfokurs.cmrg.site/q2/"
+  },
+  "isBasedOn": "Informatik Q2, OneNote \"Datenbanken mySQL\", Seite 165-167",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html" aria-current="page"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q2/index.html">Q2</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q2/index.html#datenbanken">Datenbanken</a>
+        </p>
+        <h1 class="titel">Formulare: HTML und PHP</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist die Kommunikation zwischen HTML und
+           PHP! Bis jetzt stand die Abfrage fest im Code. Jetzt soll der Benutzer
+           selbst eingeben können, wonach gesucht wird – und dafür braucht es ein
+           Webformular.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>Aufgabe 3: Erzeugung einer Testausgabe von $_POST.</strong>
+               Die Kommunikation erfolgt über Webformulare. Es gibt zwei Methoden zur
+               Übertragung der Eingaben aus HTML-Formen: GET und POST. Bei der
+               GET-Methode werden die Parameter an den Pfad drangehängt. Die Daten
+               werden im Klartext übertragen und in Log-Files abgespeichert. Die Daten
+               werden im Array <code>$_GET</code> gespeichert. Bei der POST-Methode
+               sind die Eingaben nur im Array <code>$_POST</code> gespeichert. Für
+               sensible Daten darf nur die Post-Methode verwendet werden.</p>
+            <p>Erzeugen Sie eine HTML-STRICT-1.0-Datei <code>posttest.html</code> mit
+               Scriptly. Erzeugen Sie eine Datei <code>posttest.php</code>. Führen Sie
+               einen Test durch.</p>
+            <p><strong>Aufgabe 4: Erstellung einer Suchabfrage.</strong> Öffnen Sie
+               die Datei <code>posttest.html</code> und speichern Sie sie unter
+               <code>suchanfrage.html</code>. Erzeugen Sie eine Datei
+               <code>abfrage.php</code>. Führen Sie einen Test durch.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>GET oder POST?</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>GET</th><th>POST</th></tr></thead>
+                <tbody>
+                    <tr><td>Wo stehen die Daten</td><td>hinten in der URL: <code>seite.php?name=Ritter</code></td><td>im Rumpf der Anfrage, unsichtbar</td></tr>
+                    <tr><td>In PHP</td><td><code>$_GET['name']</code></td><td><code>$_POST['name']</code></td></tr>
+                    <tr><td>Sichtbar für den Benutzer</td><td>ja, in der Adresszeile</td><td>nein</td></tr>
+                    <tr><td>Landet im Verlauf und in Logdateien</td><td><strong>ja</strong></td><td>nein</td></tr>
+                    <tr><td>Als Lesezeichen speicherbar</td><td>ja</td><td>nein</td></tr>
+                    <tr><td>Für sensible Daten</td><td><strong>nie</strong></td><td>ja</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Der entscheidende Satz aus der Aufgabe: <strong>für sensible Daten darf
+           nur POST verwendet werden.</strong> Ein Passwort per GET zu schicken heißt,
+           dass es im Browserverlauf, in den Server-Logdateien und in jedem Proxy
+           dazwischen im Klartext steht – und dort bleibt es auch.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>POST ist trotzdem <strong>nicht verschlüsselt</strong>. Die Daten
+            sind nur nicht in der URL sichtbar; wer den Netzwerkverkehr mitliest, sieht
+            sie genauso. Verschlüsselt wird erst durch HTTPS. POST ist also die
+            Mindestanforderung, nicht die Lösung.</span>
+        </div>
+
+        <h2>Aufgabe 3 – Der POST-Test</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-brands fa-html5" aria-hidden="true"></i> posttest.html</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="posttest.html">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-markup">&lt;body&gt;
+
+  &lt;form action="posttest.php" method="post"&gt;
+    &lt;p&gt;
+      &lt;label for="suchbegriff"&gt;Suchbegriff:&lt;/label&gt;
+      &lt;input type="text" name="suchbegriff" id="suchbegriff" /&gt;
+      &lt;input type="submit" value="Abschicken" /&gt;
+    &lt;/p&gt;
+  &lt;/form&gt;
+
+&lt;/body&gt;</code></pre>
+            </div>
+        </div>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> posttest.php</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="posttest.php">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-php">&lt;body&gt;
+&lt;?php
+/**
+ * Testausgabe des $_POST-Arrays
+ * @MeinInfoKurs.github.io
+ */
+
+echo "Das komplette POST-Array:&lt;br /&gt;";
+print_r($_POST);
+
+echo "&lt;br /&gt;&lt;br /&gt;Nur der Suchbegriff:&lt;br /&gt;";
+echo $_POST['suchbegriff'];
+?&gt;
+&lt;/body&gt;</code></pre>
+            </div>
+        </div>
+
+        <p>Zwei Stellen müssen zusammenpassen, sonst kommt nichts an:</p>
+        <ol class="schritte">
+            <li><code>action="posttest.php"</code> im Formular sagt, welche Datei die Daten bekommt</li>
+            <li><code>name="suchbegriff"</code> im Eingabefeld bestimmt den Schlüssel – in PHP heißt es dann genau so: <code>$_POST['suchbegriff']</code></li>
+        </ol>
+
+        <p>Das <code>name</code>-Attribut ist der wichtigste Teil. Ohne
+           <code>name</code> wird das Feld beim Abschicken einfach ignoriert, und
+           <code>$_POST</code> bleibt leer – ohne jede Fehlermeldung. Das
+           <code>id</code>-Attribut hat damit nichts zu tun, das ist nur für das
+           <code>&lt;label&gt;</code> und für CSS da.</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Browser nach dem Abschicken</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Das komplette POST-Array:
+Array ( [suchbegriff] => Ritter )
+
+Nur der Suchbegriff:
+Ritter</code></pre>
+            </div>
+        </div>
+
+        <h2>Aufgabe 4 – Die Suchabfrage</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-brands fa-html5" aria-hidden="true"></i> suchanfrage.html</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="suchanfrage.html">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-markup">&lt;body&gt;
+
+  &lt;h1&gt;Schülersuche&lt;/h1&gt;
+
+  &lt;form action="abfrage.php" method="post"&gt;
+    &lt;p&gt;
+      &lt;label for="nachname"&gt;Nachname:&lt;/label&gt;
+      &lt;input type="text" name="nachname" id="nachname" /&gt;
+      &lt;input type="submit" value="Suchen" /&gt;
+    &lt;/p&gt;
+  &lt;/form&gt;
+
+&lt;/body&gt;</code></pre>
+            </div>
+        </div>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> abfrage.php</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="abfrage.php">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-php">&lt;body&gt;
+&lt;?php
+/**
+ *
+ * Suchabfrage mit Prepared Statement
+ *
+ * @version 1.0 vom 23.05.2019
+ * @MeinInfoKurs.github.io
+ */
+
+$pdo = new PDO('mysql:host=localhost;dbname=schule', 'root', '',
+       array(PDO::MYSQL_ATTR_INIT_COMMAND =&gt; "SET NAMES utf8"));
+
+$nachname = $_POST['nachname'];
+
+// Prepared Statement: der Suchbegriff wird NICHT in den SQL-Text geklebt,
+// sondern getrennt uebergeben. Der Platzhalter ist das Fragezeichen.
+$sth = $pdo-&gt;prepare("SELECT * FROM schüler WHERE nachname = ?");
+$sth-&gt;execute(array($nachname));
+
+$treffer = $sth-&gt;fetchAll();
+
+if (count($treffer) == 0) {
+    echo "Kein Schüler mit dem Nachnamen &lt;b&gt;".htmlspecialchars($nachname)."&lt;/b&gt; gefunden.";
+} else {
+    echo "&lt;table border='1'&gt;";
+    echo "&lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Nachname&lt;/th&gt;&lt;th&gt;Vorname&lt;/th&gt;&lt;th&gt;Ort&lt;/th&gt;&lt;/tr&gt;";
+    foreach ($treffer as $row) {
+        echo "&lt;tr&gt;";
+        echo "&lt;td&gt;".$row['id']."&lt;/td&gt;";
+        echo "&lt;td&gt;".$row['nachname']."&lt;/td&gt;";
+        echo "&lt;td&gt;".$row['vorname']."&lt;/td&gt;";
+        echo "&lt;td&gt;".$row['ort']."&lt;/td&gt;";
+        echo "&lt;/tr&gt;";
+    }
+    echo "&lt;/table&gt;";
+}
+?&gt;
+&lt;/body&gt;</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Warum das Fragezeichen und nicht die Variable</h3>
+        <p>Die naheliegende Schreibweise wäre diese – und sie ist die gefährlichste
+           Zeile, die man in PHP schreiben kann:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-php">// NIEMALS so schreiben
+$sql = "SELECT * FROM schüler WHERE nachname = '".$_POST['nachname']."'";</code></pre>
+            </div>
+        </div>
+
+        <p>Hier wird die Benutzereingabe direkt in den SQL-Text geklebt. Gibt jemand
+           statt eines Namens <code>' OR '1'='1</code> ein, steht am Ende
+           <code>WHERE nachname = '' OR '1'='1'</code> da – und das ist für jede
+           Zeile wahr. Die Abfrage liefert die komplette Tabelle. Das nennt sich
+           <strong>SQL-Injection</strong> und ist das Thema der nächsten Stunden.</p>
+
+        <p>Mit <code>prepare()</code> und dem Fragezeichen kann das nicht passieren:
+           die Datenbank bekommt erst die Anfrage und danach getrennt den Wert. Was
+           der Benutzer eintippt, wird immer als <em>Text</em> behandelt und nie als
+           SQL-Befehl – selbst wenn ein Anführungszeichen drinsteht.</p>
+
+        <h3 class="schritt-titel">htmlspecialchars bei der Ausgabe</h3>
+        <p>Beim Zurückschreiben der Eingabe steht <code>htmlspecialchars(...)</code>
+           drumherum. Das wandelt <code>&lt;</code> und <code>&gt;</code> in
+           harmlosen Text um. Sonst könnte jemand <code>&lt;script&gt;</code> in das
+           Suchfeld tippen, und der Browser würde es als Programm ausführen – das
+           wäre eine Cross-Site-Scripting-Lücke.</p>
+
+        <p>Merksatz für beides: <strong>Beim Hineingeben in die Datenbank schützt
+           das Prepared Statement, beim Herausgeben auf die Seite schützt
+           htmlspecialchars.</strong> Man braucht beides, sie ersetzen sich nicht
+           gegenseitig.</p>
+
+        <h3 class="schritt-titel">Das Ergebnis</h3>
+        <p>Sucht man nach „Ritter", kommen zwei Zeilen:</p>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-table" aria-hidden="true"></i> Browser</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>+----+----------+---------+---------+
+| ID | Nachname | Vorname | Ort     |
++----+----------+---------+---------+
+|  3 | Jörg     | Ritter  | Alsbach |
+|  4 | Miriam   | Ritter  | Alsbach |
++----+----------+---------+---------+</code></pre>
+            </div>
+        </div>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>In der Testdatenbank stehen Vor- und Nachname vertauscht in den
+            Spalten – in <code>nachname</code> steht „Jörg" und in
+            <code>vorname</code> steht „Ritter". Die Suche funktioniert trotzdem, man
+            muss nur wissen, in welcher Spalte wirklich was steht. Ein gutes Beispiel
+            dafür, dass man die Daten anschauen sollte und nicht nur die
+            Spaltennamen.</span>
+        </div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="php-tabellarische-ausgabe.html"><small>Vorherige Aufgabe</small>Tabellarische Ausgabe</a>
+            <a class="weiter" href="php-indizes-count.html"><small>Nächste Aufgabe</small>Ausgabe ohne assoziierte Arrays</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

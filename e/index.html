@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | E-Phase – Übersicht</title>
+    <meta name="description" content="Die Aufgaben aus der Einführungsphase: der Einstieg in Java und HTML.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/e/">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | E-Phase – Übersicht">
+    <meta property="og:description" content="Die Aufgaben aus der Einführungsphase: der Einstieg in Java und HTML.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/e/">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | E-Phase – Übersicht">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | E-Phase – Übersicht">
+    <meta name="twitter:description" content="Die Aufgaben aus der Einführungsphase: der Einstieg in Java und HTML.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/stil.css">
+    <link rel="stylesheet" href="../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "MeinInfoKurs – E-Phase",
+  "description": "Die Aufgaben aus der Einführungsphase: der Einstieg in Java und HTML.",
+  "url": "https://meininfokurs.cmrg.site/e/",
+  "inLanguage": "de",
+  "provider": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  }
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../e/index.html" aria-current="page"><span class="beschriftung">E</span></a>
+        <a href="../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite weit" data-verlauf="nein">
+        <p class="brotkrumen">Klasse 10 · Grundlagen</p>
+        <h1 class="titel">E-Phase</h1>
+        <p>Die Aufgaben aus der Einführungsphase: der Einstieg in Java und HTML.</p>
+
+        <h2 id="java">Java</h2>
+        <div class="raster">
+            <a class="karte" href="java/helloworld.html">
+                <span class="marke">Konsole 1</span>
+                <span class="name">Hello World</span>
+                <span class="zusatz">Hello World ist ein standart Programm, welches man in jeder Programmiersprache als erstes schreibt.</span>
+            </a>
+            <a class="karte" href="java/meinnameist.html">
+                <span class="marke">Konsole 2</span>
+                <span class="name">Mein Name ist..</span>
+                <span class="zusatz">Diese Aufgabe ist ein genaues replikat der Aufgabe HelloWorld . Hier müssen wir erneut einen Text ausgeben, nur mit etwas mehr Personalisierung.</span>
+            </a>
+            <a class="karte" href="java/diewahldesburgermeisters.html">
+                <span class="marke">Konsole 3</span>
+                <span class="name">Die Wahl des Bürgermeisters</span>
+                <span class="zusatz">Das Programm der Bürgermeisterwahl ist ein recht einfach gehaltenes Programm, durch welches wir einen guten Einblick in EVA Programme erhalten.</span>
+            </a>
+            <a class="karte" href="java/bewaehrungsfragen.html">
+                <span class="marke">Konsole 4</span>
+                <span class="name">Die 10 Bewährungsfragen</span>
+                <span class="zusatz">Gib an, wie die Angabe des Datentyps und des Namens einer Variablen in Java genannt wird.</span>
+            </a>
+            <a class="karte" href="java/schulsprecherwahl.html">
+                <span class="marke">Konsole 5</span>
+                <span class="name">Die Schulsprecherwahl</span>
+                <span class="zusatz">Das folgende Programm soll nach dem EVA-Prinzip funktionieren. Die Schulsprecherwahl steht an.</span>
+            </a>
+            <a class="karte" href="java/immobilienpreis.html">
+                <span class="marke">Konsole 6</span>
+                <span class="name">Der Immobilienpreiskalkulator</span>
+                <span class="zusatz">A. Herr Rich möchte, dass Grundstücke, die aus zusammengesetzten Flächen (Rechteck, Trapez, Raute, Dreieck) bestehen mit dem Immobilienkalkulator berechnen lassen.</span>
+            </a>
+            <a class="karte" href="java/variablenraetsel.html">
+                <span class="marke">Konsole 7</span>
+                <span class="name">Das Variablenrätsel</span>
+                <span class="zusatz">Wertzuweisungen sind wichtig um Daten abzuspeichern. Das Variablenrätsel soll sicherstellen, dass du Wertzuweisungen richtig verstanden hast.</span>
+            </a>
+            <a class="karte" href="java/wassergebuehren.html">
+                <span class="marke">Konsole 8</span>
+                <span class="name">Wassergebührenbescheid</span>
+                <span class="zusatz">Der automatisierte Wassergebührenbescheid!</span>
+            </a>
+            <a class="karte kommt-noch" href="java/fibonaccizahlen.html">
+                <span class="marke">Konsole 9</span>
+                <span class="name">Fibonnaci Zahlen und Quotienten</span>
+                <span class="zusatz">Konsole – die Lösung fehlt hier noch.</span>
+            </a>
+            <a class="karte" href="java/marklerfirma.html">
+                <span class="marke">Konsole 10</span>
+                <span class="name">Die Maklerfirma</span>
+                <span class="zusatz">Herr Rich benötigt eine Konsolenanwendung für seine Maklerfirma, um die Kosten und den zukünftigen Wert von Grundstücken zu berechnen.</span>
+            </a>
+            <a class="karte" href="java/onlinekaufhaus.html">
+                <span class="marke">Konsole 11</span>
+                <span class="name">Das online Kaufhaus</span>
+                <span class="zusatz">Das OnlineKaufhaus! Wir werden ein Programm erstellen, das die Kosten eines Einkaufs berechnet, wobei Rabatte und Versandkosten berücksichtigt werden.</span>
+            </a>
+            <a class="karte" href="java/parkscheinautomat.html">
+                <span class="marke">Konsole 12</span>
+                <span class="name">Der Parkscheinautomat</span>
+                <span class="zusatz">Dieses Programm ist recht einfach gehalten und besteht aus einem einfachen EVA prinzip.</span>
+            </a>
+            <a class="karte" href="java/bodymassindex.html">
+                <span class="marke">Konsole 13</span>
+                <span class="name">Body Mass Index</span>
+                <span class="zusatz">Mithilfe des Body Mass Indexes (auch BMI) kann man berechnen, ob man für seine Größe und sein Gewicht Untergewichtig, Übergewichtig oder ob man ein Normalgewicht hat.</span>
+            </a>
+            <a class="karte" href="java/bahnreise.html">
+                <span class="marke">Konsole 14</span>
+                <span class="name">Die Bahnreise</span>
+                <span class="zusatz">Die Bürger von Java sollen mit der Bahn fahren, damit die Umwelt geschont wird, deshalb bietet die Bahn Gruppenreisen ab 6 Personen im Tarif Gruppe&amp;Spar 70 an.</span>
+            </a>
+            <a class="karte" href="java/notenprogramm.html">
+                <span class="marke">Konsole 15</span>
+                <span class="name">Das Notenprogramm</span>
+                <span class="zusatz">Das Programm zur Eingabe der Noten soll für die Oberstufe erweitert werden.</span>
+            </a>
+            <a class="karte" href="java/millionaere.html">
+                <span class="marke">Konsole 16</span>
+                <span class="name">Club der Millionäre</span>
+                <span class="zusatz">Mag auf erstem Blick schwer erscheinen, aber bei genauerer Betrachtung ist das Programm nicht so schwierig wie es scheint.</span>
+            </a>
+            <a class="karte" href="java/ratespiel.html">
+                <span class="marke">Konsole 17</span>
+                <span class="name">Das Ratespiel</span>
+                <span class="zusatz">Es handelt sich um eine einfache Konsolenanwendung, die eine Zufallszahl generiert und den Nutzer auffordert, diese zu erraten.</span>
+            </a>
+            <a class="karte" href="java/stiftundpapier.html">
+                <span class="marke">Konsole 18</span>
+                <span class="name">Stift und Papier</span>
+                <span class="zusatz">Ermittle mit Papier und Bleistift was das folgende Programm ausgibt, indem du die Belegung der Variablen für alle Durchläufe angibst.</span>
+            </a>
+            <a class="karte" href="java/codeluecken.html">
+                <span class="marke">Konsole 19</span>
+                <span class="name">Die Code Lücken</span>
+                <span class="zusatz">Die folgende Schleife soll die Ausgabe &quot;121 81 49 25 9 1&quot; erzeugen. Ergänze den fehlenden Programmcode:</span>
+            </a>
+            <a class="karte" href="java/fahrscheinautomat.html">
+                <span class="marke">Konsole 20</span>
+                <span class="name">Der Fahrscheinautomat</span>
+                <span class="zusatz">Ein Fahrscheinautomat gibt Wechselgeld in Münzen zurück und soll dabei möglichst wenige Münzen benutzen.</span>
+            </a>
+            <a class="karte" href="java/simulationpopulation.html">
+                <span class="marke">Konsole 21</span>
+                <span class="name">Die Simulation der Population</span>
+                <span class="zusatz">Simulation der Population</span>
+            </a>
+            <a class="karte kommt-noch" href="java/gui-einfuehrung.html">
+                <span class="marke">GUI 22</span>
+                <span class="name">GUI: Einführung</span>
+                <span class="zusatz">GUI – diese Seite gab es in V2 noch nicht.</span>
+            </a>
+            <a class="karte" href="java/gui-smsrechner.html">
+                <span class="marke">GUI 23</span>
+                <span class="name">Der GUI SMSRechner</span>
+                <span class="zusatz">Aber Vorsicht, diese Aufgabe ist anders als alle bisherigen!</span>
+            </a>
+            <a class="karte" href="java/gui-bmirechner.html">
+                <span class="marke">GUI 24</span>
+                <span class="name">Der GUI BMIRechner</span>
+                <span class="zusatz">Der GUI-BMIRechner! Dazu schauen wir uns mal die Aufgabe genauer an und versuchen durch intelligentes Lösen ein vollfunktionsfähiges Programm zu erstellen.</span>
+            </a>
+            <a class="karte kommt-noch" href="java/gui-taschenrechner.html">
+                <span class="marke">GUI 25</span>
+                <span class="name">Der GUI Taschenrechner</span>
+                <span class="zusatz">GUI – die Lösung fehlt hier noch.</span>
+            </a>
+            <a class="karte kommt-noch" href="java/gui-parkscheinautomat.html">
+                <span class="marke">GUI 26</span>
+                <span class="name">Der GUI Parkscheinautomat</span>
+                <span class="zusatz">GUI – die Lösung fehlt hier noch.</span>
+            </a>
+            <a class="karte kommt-noch" href="java/gui-betrunkener.html">
+                <span class="marke">GUI 27</span>
+                <span class="name">Der Weg des Betrunkenen</span>
+                <span class="zusatz">GUI – die Lösung fehlt hier noch.</span>
+            </a>
+            <a class="karte kommt-noch" href="java/gui-wuerfelsimulation.html">
+                <span class="marke">GUI 28</span>
+                <span class="name">Würfelsimulation</span>
+                <span class="zusatz">GUI – diese Seite gab es in V2 noch nicht.</span>
+            </a>
+            <a class="karte kommt-noch" href="java/konsolenbilder.html">
+                <span class="marke">Konsole 29</span>
+                <span class="name">Konsolenbilder</span>
+                <span class="zusatz">Konsole – diese Seite gab es in V2 noch nicht.</span>
+            </a>
+            <a class="karte kommt-noch" href="java/streichholz.html">
+                <span class="marke">Konsole 30</span>
+                <span class="name">Das Streichholzspiel</span>
+                <span class="zusatz">Konsole – diese Seite gab es in V2 noch nicht.</span>
+            </a>
+            <a class="karte kommt-noch" href="java/arrays.html">
+                <span class="marke">Array 31</span>
+                <span class="name">Array: Einführung</span>
+                <span class="zusatz">Array – die Lösung fehlt hier noch.</span>
+            </a>
+            <a class="karte kommt-noch" href="java/aktienanalyse.html">
+                <span class="marke">Array 32</span>
+                <span class="name">Aktienanalyse</span>
+                <span class="zusatz">Arrays – diese Seite gab es in V2 noch nicht.</span>
+            </a>
+            <a class="karte" href="java/docs.html">
+                <span class="marke">Nachschlagen 33</span>
+                <span class="name">Java Editor – Die Dokumentation für Anfänger</span>
+                <span class="zusatz">Das hier ist die Java Dokumentation Seite.</span>
+            </a>
+            <a class="karte" href="java/fehlersuche.html">
+                <span class="marke">Nachschlagen 34</span>
+                <span class="name">Fehler in Java</span>
+                <span class="zusatz">Fehler sind scheiße . Man schreibt ein Programm und will es ausführen, jedoch bekommt man einen Fehler.</span>
+            </a>
+        </div>
+
+        <h2 id="html">HTML</h2>
+        <div class="raster">
+            <a class="karte" href="html/grundgeruest.html">
+                <span class="marke">HTML 1</span>
+                <span class="name">Das Grundgerüst</span>
+                <span class="zusatz">Heute beschäftigen wir uns mit HMTL, welches die kurzform von H yper T ext M arkup L anguage ist.</span>
+            </a>
+        </div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+    </main>
+
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

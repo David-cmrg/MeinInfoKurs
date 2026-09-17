@@ -1,0 +1,477 @@
+        <p>Die Aufgabe der heutigen Stunde ist das Account-System! Das ist die
+           größte PHP-Aufgabe des Halbjahres: Registrierung, Login, geschützter
+           Bereich und Accountverwaltung. Alles, was wir über PDO, Formulare und
+           Prepared Statements gelernt haben, kommt hier zusammen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <ul>
+                <li>Code verstehen</li>
+                <li>Datenbank implementieren in XAMPP</li>
+                <li>Form erstellen für die Eingabe des Benutzernamens und Passworts</li>
+                <li>Form erstellen zum Editieren, Löschen und Anlegen eines Accounts</li>
+                <li>Eine HTML-Seite, auf der die gesammelten Daten zum aktuellen Account und der Session ausgegeben werden</li>
+            </ul>
+        </div>
+
+        <h2>Die Datenbank</h2>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-database" aria-hidden="true"></i> users.sql</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="users.sql">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Datenbank users mit Kodierung utf8_unicode_ci anlegen
+CREATE DATABASE users CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+USE users;
+
+CREATE TABLE user (
+    id       INT          NOT NULL AUTO_INCREMENT,
+    email    VARCHAR(100) NOT NULL,
+    passwort VARCHAR(255) NOT NULL,
+    vorname  VARCHAR(50),
+    nachname VARCHAR(50),
+    PRIMARY KEY (id),
+    UNIQUE (email)
+);</code></pre>
+            </div>
+        </div>
+
+        <p>Zwei Entscheidungen in diesem <code>CREATE TABLE</code> sind wichtig:</p>
+
+        <p><strong><code>VARCHAR(255)</code> für das Passwort.</strong> Da steht nie
+           das Passwort selbst drin, sondern ein Hash. Der von
+           <code>password_hash()</code> ist aktuell 60 Zeichen lang, kann in
+           künftigen PHP-Versionen aber länger werden. 255 ist die Empfehlung, damit
+           nichts abgeschnitten wird – und ein abgeschnittener Hash bedeutet, dass
+           sich der Benutzer nie wieder einloggen kann.</p>
+
+        <p><strong><code>UNIQUE (email)</code>.</strong> Damit verhindert die
+           Datenbank selbst, dass sich dieselbe E-Mail zweimal registriert. Auf die
+           Prüfung im PHP-Code allein sollte man sich nicht verlassen: klickt jemand
+           zweimal schnell hintereinander auf Absenden, können beide Anfragen die
+           Prüfung passieren, bevor die erste gespeichert hat.</p>
+
+        <h2>Registrierung</h2>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> registrieren.php</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="registrieren.php">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-php">&lt;?php
+/**
+ *
+ * Registrierung eines neuen Accounts
+ *
+ * @version 1.0 vom 13.06.2019
+ * @MeinInfoKurs.github.io
+ */
+
+session_start();
+
+$pdo = new PDO('mysql:host=localhost;dbname=users', 'root', '',
+       array(PDO::MYSQL_ATTR_INIT_COMMAND =&gt; "SET NAMES utf8"));
+
+$showFormular = true;
+$meldung = "";
+
+if (isset($_POST['register'])) {
+
+    $email    = $_POST['email'];
+    $passwort = $_POST['passwort'];
+
+    // 1. Eingaben pruefen
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $meldung = "Bitte eine gültige E-Mail-Adresse angeben.";
+    } else if (strlen($passwort) &lt; 8) {
+        $meldung = "Das Passwort muss mindestens 8 Zeichen lang sein.";
+    } else {
+
+        // 2. Gibt es die E-Mail schon?
+        $sth = $pdo-&gt;prepare("SELECT id FROM user WHERE email = ?");
+        $sth-&gt;execute(array($email));
+
+        if ($sth-&gt;rowCount() &gt; 0) {
+            $meldung = "Diese E-Mail ist bereits registriert.";
+        } else {
+
+            // 3. Passwort hashen - NIEMALS im Klartext speichern
+            $hash = password_hash($passwort, PASSWORD_DEFAULT);
+
+            $sth = $pdo-&gt;prepare(
+                "INSERT INTO user (email, passwort) VALUES (?, ?)");
+            $sth-&gt;execute(array($email, $hash));
+
+            $meldung = "Registrierung erfolgreich. Du kannst dich jetzt einloggen.";
+            $showFormular = false;
+        }
+    }
+}
+?&gt;
+
+&lt;body&gt;
+  &lt;h1&gt;Registrierung&lt;/h1&gt;
+  &lt;p&gt;&lt;?php echo htmlspecialchars($meldung); ?&gt;&lt;/p&gt;
+
+  &lt;?php if ($showFormular) { ?&gt;
+  &lt;form action="registrieren.php" method="post"&gt;
+    &lt;p&gt;
+      &lt;label for="email"&gt;E-Mail:&lt;/label&gt;
+      &lt;input type="email" name="email" id="email" /&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+      &lt;label for="passwort"&gt;Passwort:&lt;/label&gt;
+      &lt;input type="password" name="passwort" id="passwort" /&gt;
+    &lt;/p&gt;
+    &lt;input type="submit" name="register" value="Registrieren" /&gt;
+  &lt;/form&gt;
+  &lt;?php } ?&gt;
+&lt;/body&gt;</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">password_hash – warum kein Klartext</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-php">$hash = password_hash($passwort, PASSWORD_DEFAULT);
+// ergibt z.B. $2y$10$qCgb4MKzbMKAqUU2LOFBQ.wGoAD6yBElFA7V7EPwK.QGCViJjx4mu</code></pre>
+            </div>
+        </div>
+
+        <p>Ein Hash ist eine Einbahnstraße: aus dem Passwort wird der Hash, aus dem
+           Hash aber nicht wieder das Passwort. Wird die Datenbank gestohlen, hat der
+           Angreifer damit erstmal nichts anfangen können.</p>
+
+        <p>Das ist auch der Grund, warum seriöse Seiten dir dein Passwort nie
+           zuschicken können, sondern immer nur einen Link zum Zurücksetzen. Wer dir
+           dein altes Passwort per Mail schickt, speichert es im Klartext – und da
+           sollte man sofort misstrauisch werden.</p>
+
+        <p><code>password_hash</code> würfelt bei jedem Aufruf einen zufälligen
+           <em>Salt</em> dazu. Zwei Benutzer mit demselben Passwort bekommen deshalb
+           unterschiedliche Hashes, und an den Hashes kann man nicht ablesen, wer
+           dasselbe Passwort hat.</p>
+
+        <h2>Login</h2>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> login.php</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="login.php">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-php">&lt;?php
+/**
+ *
+ * Login
+ *
+ * @version 1.0 vom 13.06.2019
+ * @MeinInfoKurs.github.io
+ */
+
+session_start();
+
+$pdo = new PDO('mysql:host=localhost;dbname=users', 'root', '',
+       array(PDO::MYSQL_ATTR_INIT_COMMAND =&gt; "SET NAMES utf8"));
+
+$meldung = "";
+
+if (isset($_POST['login'])) {
+
+    $email    = $_POST['email'];
+    $passwort = $_POST['passwort'];
+
+    $sth = $pdo-&gt;prepare("SELECT id, email, passwort FROM user WHERE email = ?");
+    $sth-&gt;execute(array($email));
+    $user = $sth-&gt;fetch();
+
+    // password_verify vergleicht Eingabe mit dem gespeicherten Hash
+    if ($user !== false &amp;&amp; password_verify($passwort, $user['passwort'])) {
+
+        // Session-ID erneuern - schuetzt vor Session-Fixation
+        session_regenerate_id(true);
+
+        $_SESSION['userid'] = $user['id'];
+        $_SESSION['email']  = $user['email'];
+
+        header("Location: geheim.php");
+        exit;
+
+    } else {
+        // Bewusst keine Angabe, WAS falsch war
+        $meldung = "E-Mail oder Passwort ist falsch.";
+    }
+}
+?&gt;
+
+&lt;body&gt;
+  &lt;h1&gt;Login&lt;/h1&gt;
+  &lt;p&gt;&lt;?php echo htmlspecialchars($meldung); ?&gt;&lt;/p&gt;
+
+  &lt;form action="login.php" method="post"&gt;
+    &lt;p&gt;
+      &lt;label for="email"&gt;E-Mail:&lt;/label&gt;
+      &lt;input type="email" name="email" id="email" /&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+      &lt;label for="passwort"&gt;Passwort:&lt;/label&gt;
+      &lt;input type="password" name="passwort" id="passwort" /&gt;
+    &lt;/p&gt;
+    &lt;input type="submit" name="login" value="Einloggen" /&gt;
+  &lt;/form&gt;
+&lt;/body&gt;</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Warum die Fehlermeldung so unpräzise ist</h3>
+        <p>„E-Mail oder Passwort ist falsch" statt „Diese E-Mail gibt es nicht" ist
+           <strong>Absicht</strong>. Die zweite Meldung würde verraten, welche
+           E-Mail-Adressen registriert sind. Jemand könnte damit durchprobieren, wer
+           bei euch einen Account hat – und das ist schon eine Information, die
+           niemanden angeht.</p>
+
+        <h2>Der geschützte Bereich</h2>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> geheim.php</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="geheim.php">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-php">&lt;?php
+/**
+ *
+ * Geschuetzter Bereich mit Account- und Session-Daten
+ *
+ * @version 1.0 vom 13.06.2019
+ * @MeinInfoKurs.github.io
+ */
+
+session_start();
+
+// Die wichtigste Zeile der ganzen Datei:
+// wer nicht eingeloggt ist, fliegt sofort raus
+if (!isset($_SESSION['userid'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$pdo = new PDO('mysql:host=localhost;dbname=users', 'root', '',
+       array(PDO::MYSQL_ATTR_INIT_COMMAND =&gt; "SET NAMES utf8"));
+
+$sth = $pdo-&gt;prepare("SELECT * FROM user WHERE id = ?");
+$sth-&gt;execute(array($_SESSION['userid']));
+$user = $sth-&gt;fetch(PDO::FETCH_ASSOC);
+?&gt;
+
+&lt;body&gt;
+  &lt;h1&gt;Willkommen, &lt;?php echo htmlspecialchars($user['email']); ?&gt;&lt;/h1&gt;
+
+  &lt;h2&gt;Daten zum Account&lt;/h2&gt;
+  &lt;table border="1"&gt;
+  &lt;?php
+  foreach ($user as $spalte =&gt; $wert) {
+      if ($spalte == 'passwort') {
+          $wert = '(Hash wird nicht angezeigt)';
+      }
+      echo "&lt;tr&gt;&lt;th&gt;".htmlspecialchars($spalte)."&lt;/th&gt;"
+          ."&lt;td&gt;".htmlspecialchars($wert)."&lt;/td&gt;&lt;/tr&gt;";
+  }
+  ?&gt;
+  &lt;/table&gt;
+
+  &lt;h2&gt;Daten zur Session&lt;/h2&gt;
+  &lt;table border="1"&gt;
+    &lt;tr&gt;&lt;th&gt;Session-ID&lt;/th&gt;&lt;td&gt;&lt;?php echo session_id(); ?&gt;&lt;/td&gt;&lt;/tr&gt;
+  &lt;?php
+  foreach ($_SESSION as $schluessel =&gt; $wert) {
+      echo "&lt;tr&gt;&lt;th&gt;".htmlspecialchars($schluessel)."&lt;/th&gt;"
+          ."&lt;td&gt;".htmlspecialchars($wert)."&lt;/td&gt;&lt;/tr&gt;";
+  }
+  ?&gt;
+  &lt;/table&gt;
+
+  &lt;p&gt;&lt;a href="bearbeiten.php"&gt;Account bearbeiten&lt;/a&gt;
+     | &lt;a href="logout.php"&gt;Abmelden&lt;/a&gt;&lt;/p&gt;
+&lt;/body&gt;</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Wie eine Session funktioniert</h3>
+        <ol class="schritte">
+            <li><code>session_start()</code> muss in <strong>jeder</strong> Datei ganz oben stehen, die <code>$_SESSION</code> benutzt</li>
+            <li>PHP schickt dem Browser eine zufällige Session-ID als Cookie</li>
+            <li>Die eigentlichen Daten bleiben auf dem <strong>Server</strong>; der Browser hat nur die ID</li>
+            <li>Bei jedem Aufruf schickt der Browser die ID mit, und PHP findet die passenden Daten wieder</li>
+        </ol>
+
+        <p>Deshalb ist es ungefährlich, die <code>userid</code> in die Session zu
+           legen: der Benutzer kann sie nicht verändern, sie liegt ja gar nicht bei
+           ihm. Ein verstecktes Formularfeld mit der ID wäre dagegen fatal – das
+           könnte jeder im Browser umschreiben und wäre plötzlich als jemand anders
+           eingeloggt.</p>
+
+        <h3 class="schritt-titel">Die drei Zeilen, die den Schutz ausmachen</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-php">if (!isset($_SESSION['userid'])) {
+    header("Location: login.php");
+    exit;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Das <code>exit;</code> darf man auf keinen Fall vergessen.
+           <code>header()</code> schickt nur eine Weiterleitung <em>mit</em> – das
+           Skript läuft danach ganz normal weiter und gibt den geheimen Inhalt trotzdem
+           aus. Ein Browser folgt der Weiterleitung, aber jemand, der die Antwort
+           direkt anschaut, bekommt alles zu sehen. Ohne <code>exit</code> ist der
+           Schutz also nur Dekoration.</p>
+
+        <h2>Account bearbeiten und löschen</h2>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> bearbeiten.php</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="bearbeiten.php">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-php">&lt;?php
+/**
+ * Account bearbeiten und loeschen
+ * @MeinInfoKurs.github.io
+ */
+
+session_start();
+
+if (!isset($_SESSION['userid'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$pdo = new PDO('mysql:host=localhost;dbname=users', 'root', '',
+       array(PDO::MYSQL_ATTR_INIT_COMMAND =&gt; "SET NAMES utf8"));
+
+$meldung = "";
+
+// --- Aendern ---
+if (isset($_POST['aendern'])) {
+    $sth = $pdo-&gt;prepare(
+        "UPDATE user SET vorname = ?, nachname = ? WHERE id = ?");
+    $sth-&gt;execute(array($_POST['vorname'], $_POST['nachname'],
+                        $_SESSION['userid']));
+    $meldung = "Daten gespeichert.";
+}
+
+// --- Loeschen ---
+if (isset($_POST['loeschen'])) {
+    $sth = $pdo-&gt;prepare("DELETE FROM user WHERE id = ?");
+    $sth-&gt;execute(array($_SESSION['userid']));
+
+    session_destroy();
+    header("Location: login.php");
+    exit;
+}
+
+$sth = $pdo-&gt;prepare("SELECT * FROM user WHERE id = ?");
+$sth-&gt;execute(array($_SESSION['userid']));
+$user = $sth-&gt;fetch(PDO::FETCH_ASSOC);
+?&gt;
+
+&lt;body&gt;
+  &lt;h1&gt;Account bearbeiten&lt;/h1&gt;
+  &lt;p&gt;&lt;?php echo htmlspecialchars($meldung); ?&gt;&lt;/p&gt;
+
+  &lt;form action="bearbeiten.php" method="post"&gt;
+    &lt;p&gt;
+      &lt;label for="vorname"&gt;Vorname:&lt;/label&gt;
+      &lt;input type="text" name="vorname" id="vorname"
+             value="&lt;?php echo htmlspecialchars($user['vorname']); ?&gt;" /&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+      &lt;label for="nachname"&gt;Nachname:&lt;/label&gt;
+      &lt;input type="text" name="nachname" id="nachname"
+             value="&lt;?php echo htmlspecialchars($user['nachname']); ?&gt;" /&gt;
+    &lt;/p&gt;
+    &lt;input type="submit" name="aendern" value="Speichern" /&gt;
+  &lt;/form&gt;
+
+  &lt;form action="bearbeiten.php" method="post"&gt;
+    &lt;input type="submit" name="loeschen" value="Account endgültig löschen" /&gt;
+  &lt;/form&gt;
+&lt;/body&gt;</code></pre>
+            </div>
+        </div>
+
+        <p>Beachte das <code>WHERE id = ?</code> mit der ID
+           <strong>aus der Session</strong> und nicht aus dem Formular. Käme die ID
+           aus einem Formularfeld, könnte jeder eingeloggte Benutzer die Nummer
+           ändern und damit fremde Accounts bearbeiten oder löschen. Die Session ist
+           die einzige Quelle, der man hier trauen darf.</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> logout.php</span>
+            </div>
+            <div class="code-feld">
+                <pre><code class="language-php">&lt;?php
+session_start();
+$_SESSION = array();
+session_destroy();
+header("Location: login.php");
+exit;
+?&gt;</code></pre>
+            </div>
+        </div>
+
+        <h2>Warum überall Prepared Statements stehen</h2>
+        <p>In der ganzen Datei kommt kein einziges Mal eine Variable direkt im
+           SQL-Text vor. Der Grund steht im Kapitel über SQL-Injection: sobald man
+           Benutzereingaben in den Text klebt, kann man die Abfrage von außen
+           umschreiben.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-php">// So NICHT - der Klassiker aus dem Unterrichtsmaterial
+$sql = "SELECT * FROM user WHERE id = ".$_GET['id'];
+
+// Ruft jemand seite.php?id=1 OR id > 1 auf, bekommt er alle Benutzer.</code></pre>
+            </div>
+        </div>
+
+        <p>Bei einem Login-Formular wäre das besonders bitter, weil dort die
+           Passwort-Hashes liegen. Mit <code>prepare()</code> und
+           <code>execute(array(...))</code> passiert das nicht: die Eingabe wird
+           immer als <strong>Wert</strong> behandelt, nie als Teil des Befehls – egal
+           was drinsteht.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Für den Unterricht in XAMPP reicht das so. Für eine Seite, die
+            wirklich im Netz steht, kämen noch dazu: HTTPS, damit das Passwort nicht
+            im Klartext übertragen wird, eine Begrenzung der Login-Versuche gegen
+            automatisches Durchprobieren, und CSRF-Tokens in den Formularen.</span>
+        </div>

@@ -1,0 +1,109 @@
+        <p>Die Aufgabe der heutigen Stunde ist die allererste zu Datenbanken! Es
+           geht noch um kein SQL, sondern um die Frage davor: <strong>was gehört
+           überhaupt in eine Datenbank?</strong> Und die Antwort ist nicht „alles",
+           sondern hängt davon ab, wofür man sie braucht.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>DB_00-1: Welche Informationen gehören in eine Datenbank?</strong></p>
+            <p>Stellen Sie sich verschiedene Gemüsesorten vor, die Sie in eine
+               Datenbank einpflegen wollen. Für jedes Szenario finden Sie bitte
+               jeweils vier Eigenschaften/Attribute, die von Bedeutung oder nicht von
+               Bedeutung sind.</p>
+            <p><strong>Szenario 1:</strong> Supermarktbesitzer möchte die
+               Informationen über das Gemüse speichern, um das Gemüse mit Gewinn zu
+               verkaufen.<br>
+               <strong>Szenario 2:</strong> Oma möchte Gemüsebreie machen (Apfelmus,
+               Birnenmus usw.).<br>
+               <strong>Szenario 3:</strong> Landwirt möchte die Informationen über das
+               Gemüse speichern, um abrufen zu können, welche Sorte unter welchen
+               Umständen und in welcher Jahreszeit am besten wächst.</p>
+        </div>
+
+        <h2>Szenario 1 – Der Supermarktbesitzer</h2>
+        <p>Sein Ziel ist Gewinn. Alles, was nicht mit Geld oder Ware zu tun hat,
+           interessiert ihn nicht.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Wichtig</th><th>Unwichtig</th></tr></thead>
+                <tbody>
+                    <tr><td>Einkaufspreis</td><td>Bodenart beim Anbau</td></tr>
+                    <tr><td>Verkaufspreis</td><td>Wasserbedarf der Pflanze</td></tr>
+                    <tr><td>Haltbarkeitsdatum</td><td>Wachstumsdauer in Wochen</td></tr>
+                    <tr><td>Lagerbestand</td><td>Zuckergehalt</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Das Haltbarkeitsdatum ist für ihn direkt Geld: was verdirbt, muss er
+           wegwerfen. Wie lange die Pflanze zum Wachsen gebraucht hat, ändert an
+           seinem Gewinn dagegen gar nichts.</p>
+
+        <h2>Szenario 2 – Oma und ihre Breie</h2>
+        <p>Oma kocht. Sie will wissen, was zusammenpasst und wie es schmeckt.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Wichtig</th><th>Unwichtig</th></tr></thead>
+                <tbody>
+                    <tr><td>Sorte</td><td>Einkaufspreis</td></tr>
+                    <tr><td>Zuckergehalt / Süße</td><td>Regalnummer im Supermarkt</td></tr>
+                    <tr><td>Reifegrad</td><td>Mehrwertsteuersatz</td></tr>
+                    <tr><td>Menge für ein Glas Brei</td><td>Lieferant</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Der Zuckergehalt taucht hier auf, obwohl er beim Supermarktbesitzer in
+           der Spalte „unwichtig" stand. Das ist genau der Punkt der Aufgabe.</p>
+
+        <h2>Szenario 3 – Der Landwirt</h2>
+        <p>Er will wissen, was wann und wo am besten wächst.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Wichtig</th><th>Unwichtig</th></tr></thead>
+                <tbody>
+                    <tr><td>Aussaatzeit / Jahreszeit</td><td>Verkaufspreis im Laden</td></tr>
+                    <tr><td>Bodenart</td><td>Regalplatz</td></tr>
+                    <tr><td>Wasserbedarf</td><td>Mehrwertsteuersatz</td></tr>
+                    <tr><td>Erntezeitpunkt</td><td>Verpackungsgröße</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Worauf die Aufgabe hinauswill</h2>
+
+        <p>Dreimal dasselbe Gemüse, dreimal völlig verschiedene Datenbanken. Keine
+           einzige Eigenschaft steht bei allen drei in der Spalte „wichtig".</p>
+
+        <p>Daraus folgt der Merksatz für die ganze Einheit: <strong>Eine Datenbank
+           speichert nicht alles, was man über etwas wissen könnte, sondern genau
+           das, was für ihren Zweck gebraucht wird.</strong> Wer das umdreht und
+           einfach jede denkbare Spalte anlegt, bekommt eine Tabelle mit fünfzig
+           Attributen, von denen achtundvierzig leer bleiben.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Zu wenig gespeichert</th><th>Zu viel gespeichert</th></tr></thead>
+                <tbody>
+                    <tr><td>Fragen lassen sich nicht beantworten, man muss nachträglich Spalten hinzufügen</td><td>Speicherplatz verschwendet, Abfragen werden langsam, viele Felder bleiben leer</td></tr>
+                    <tr><td>Beispiel: Supermarkt ohne Haltbarkeitsdatum merkt nicht, was verdirbt</td><td>Beispiel: Supermarkt mit Bodenart – niemand pflegt das je ein</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Wer das Kapitel OOP hinter sich hat, kennt das Prinzip übrigens schon:
+           genau so haben wir beim Auto entschieden, dass Kennzeichen und Tankvolumen
+           wichtig sind und die Farbe nicht. Das heißt dort wie hier
+           <strong>Abstraktion</strong> – nur dass es jetzt Tabellenspalten sind
+           statt Attribute.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Es gibt hier keine einzig richtige Lösung. Bewertet wird, ob deine
+            Zuordnung zum jeweiligen Zweck passt und ob du sie begründen kannst. „Der
+            Einkaufspreis ist für Oma unwichtig, weil sie nicht weiterverkauft" ist
+            eine vollständige Antwort.</span>
+        </div>

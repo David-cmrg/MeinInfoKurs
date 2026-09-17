@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Das Autohaus</title>
+    <meta name="description" content="Die Klasse Auto endlich benutzen: ein Objekt erzeugen, betanken, fahren lassen - und verstehen, warum der Kilometerstand trotzdem auf 0 bleibt.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/oop/autohaus.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Das Autohaus">
+    <meta property="og:description" content="Die Klasse Auto endlich benutzen: ein Objekt erzeugen, betanken, fahren lassen - und verstehen, warum der Kilometerstand trotzdem auf 0 bleibt.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/oop/autohaus.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Das Autohaus">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Das Autohaus">
+    <meta name="twitter:description" content="Die Klasse Auto endlich benutzen: ein Objekt erzeugen, betanken, fahren lassen - und verstehen, warum der Kilometerstand trotzdem auf 0 bleibt.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Das Autohaus",
+  "description": "Die Klasse Auto endlich benutzen: ein Objekt erzeugen, betanken, fahren lassen - und verstehen, warum der Kilometerstand trotzdem auf 0 bleibt.",
+  "url": "https://meininfokurs.cmrg.site/q1/oop/autohaus.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "OOP in Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"OOP in Java\", Seite 47-55",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#oop">OOP in Java</a>
+        </p>
+        <h1 class="titel">Das Autohaus</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist das Autohaus! Wir haben jetzt eine
+           fertige Klasse <code>Auto</code> vor uns liegen und wollen sie auch
+           endlich mal benutzen. Genau dafür ist das Autohaus da: es ist unsere
+           Spielwiese, auf der wir Autos erzeugen, betanken und fahren lassen.</p>
+
+        <p>Wenn du aus der E-Phase kommst, sieht das hier erstmal komisch aus. Wir
+           schreiben nämlich zwei Dateien statt einer. Das ist aber genau der
+           Punkt bei der OOP und garnicht so wild, wenn man es einmal gemacht hat.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Erzeuge eine neue Klasse <code>Autohaus</code> im JavaEditor über
+               <em>Datei &gt; Neu &gt; Console</em>. Speichere die Klasse im gleichen
+               Ordner, wie die Klasse <code>Auto</code>. Nenne die Datei
+               <code>Autohaus.java</code>. Trage deinen Namen als Autor ein.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <p>Dazu kam in der Stunde noch das Beispiel an der Tafel: in
+           <code>main</code> ein Auto erzeugen, es betanken und fahren lassen, und
+           am Ende den Kilometerstand ausgeben. Genau das bauen wir jetzt.</p>
+
+        <h2>Was wir schon haben</h2>
+        <p>Die Klasse <code>Auto</code> ist vorgegeben. Wichtig sind für uns vor
+           allem zwei Stellen: der Konstruktor, weil der uns sagt was wir beim
+           Erzeugen angeben müssen, und die beiden Methoden <code>tanken</code>
+           und <code>fahren</code> ganz unten, in denen noch <code>// TODO</code>
+           steht.</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Auto.java (vorgegeben)</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld">
+                <pre><code class="language-java">public class Auto {
+
+// Anfang Attribute
+private String Kennzeichen;
+private double Kilometerstand;
+private double Tankvolumen;
+private double Kraftstoffverbrauch;
+private double Kraftstoffmenge;
+// Ende Attribute
+
+//Konstruktor
+public Auto(String Kennzeichen, double Tankvolumen, double Kraftstoffverbrauch) {
+  this.Kennzeichen = Kennzeichen;
+  this.Tankvolumen = Tankvolumen;
+  this.Kraftstoffverbrauch = Kraftstoffverbrauch;
+  Kilometerstand = 0;
+  Kraftstoffmenge = 0;
+}
+
+// Anfang Methoden
+public String getKennzeichen() {
+  return Kennzeichen;
+}
+
+public double getKilometerstand() {
+  return Kilometerstand;
+}
+
+public double getKraftstoffmenge() {
+  return Kraftstoffmenge;
+}
+
+public void tanken(double Menge) {
+  // TODO
+}
+
+public void fahren(double Strecke) {
+  // TODO
+}
+// Ende Methoden
+}</code></pre>
+            </div>
+        </div>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Autohaus.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Autohaus.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Das fertige Java Programm des Autohauses
+ *
+ * @version 1.0 vom 13.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Autohaus {
+
+  public static void main(String[] args) {
+
+    // Ein neues Auto. Die drei Werte gehen an den Konstruktor:
+    // Kennzeichen, Tankvolumen (Liter), Kraftstoffverbrauch (L pro 100 km)
+    Auto meinAuto = new Auto("WI-AB 123", 50, 6.5);
+
+    meinAuto.tanken(20);    // 20 Liter in den Tank
+    meinAuto.fahren(100);   // 100 Kilometer fahren
+
+    System.out.println("Kilometerstand: " + meinAuto.getKilometerstand());
+
+  } // end of main
+
+} // end of class Autohaus</code></pre>
+            </div>
+        </div>
+
+        <p>In der Aufgabenstellung wird gefordert, dass wir folgende Sachen
+           umsetzen:</p>
+
+        <ol class="schritte">
+            <li>Eine neue Konsolen-Klasse <code>Autohaus</code> anlegen, im selben Ordner wie <code>Auto.java</code></li>
+            <li>Den Kommentarkopf ausfüllen und den eigenen Namen als Autor eintragen</li>
+            <li>Die <code>main</code>-Methode als Startpunkt schreiben</li>
+            <li>Ein Objekt der Klasse <code>Auto</code> erzeugen</li>
+            <li>Das Auto betanken und fahren lassen</li>
+            <li>Den Kilometerstand in der Konsole ausgeben</li>
+            <li>Verstehen, warum der Kilometerstand trotzdem 0 bleibt</li>
+        </ol>
+
+        <h3 class="schritt-titel">Die Klasse anlegen</h3>
+        <p>Im JavaEditor gehst du auf <em>Datei &gt; Neu &gt; Console</em> und
+           speicherst die Datei als <code>Autohaus.java</code>. Achte wirklich
+           darauf, dass sie im <strong>gleichen Ordner</strong> liegt wie
+           <code>Auto.java</code>. Wenn die beiden Dateien in verschiedenen Ordnern
+           liegen, findet Java die Klasse <code>Auto</code> nicht und du bekommst
+           beim Kompilieren ein <code>cannot find symbol</code> um die Ohren
+           gehauen. Das ist einer der häufigsten Fehler bei dieser Aufgabe.</p>
+
+        <h3 class="schritt-titel">Der Kommentarkopf</h3>
+        <p>Ganz oben steht ein mehrzeiliger Kommentar. Der fängt mit
+           <code>/*</code> an und hört mit <code>*/</code> auf, und dazwischen
+           gehört in jede Zeile ein Stern an den Anfang. Alles was dadrin steht
+           wird beim Ausführen komplett ignoriert, es ist also nur für uns
+           Menschen da. Hinter <code>@author</code> kommt dein Name.</p>
+
+        <h3 class="schritt-titel">Die main-Methode</h3>
+        <p>Die <code>main</code>-Methode ist der Startpunkt von jedem Java
+           Programm. Ohne sie passiert beim Ausführen einfach nichts. Die vier
+           Wörter davor sehen nach viel aus, jedes hat aber seinen Grund:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead>
+                    <tr><th>Wort</th><th>Was es bedeutet</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>public</code></td><td>Die Methode ist von überall aufrufbar.</td></tr>
+                    <tr><td><code>static</code></td><td>Sie gehört zur Klasse selbst und nicht zu einem Objekt. Nur deshalb kann die JVM sie starten, ohne vorher ein Autohaus-Objekt zu bauen.</td></tr>
+                    <tr><td><code>void</code></td><td>Sie gibt keinen Wert zurück.</td></tr>
+                    <tr><td><code>String[] args</code></td><td>Ein Array, über das man dem Programm beim Start noch Werte mitgeben könnte. Brauchen wir hier nicht.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Die Kommentare <code>// end of main</code> und
+           <code>// end of class Autohaus</code> musst du nicht schreiben, aber
+           sie helfen dir später enorm. Wenn du fünf verschachtelte Klammern
+           zumachst, siehst du damit sofort welche Klammer zu was gehört.</p>
+
+        <h3 class="schritt-titel">Ein Objekt erzeugen</h3>
+        <p>Jetzt der eigentlich spannende Teil. Bis jetzt hatten wir mit
+           <code>Auto</code> nur den Bauplan. Ein Bauplan kann aber nicht fahren.
+           Mit <code>new</code> bauen wir aus dem Bauplan ein echtes Auto:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">Auto meinAuto = new Auto("WI-AB 123", 50, 6.5);</code></pre>
+            </div>
+        </div>
+
+        <p>Warum genau diese drei Werte? Weil der Konstruktor in der Klasse
+           <code>Auto</code> genau die drei haben will:
+           <code>Auto(String Kennzeichen, double Tankvolumen, double Kraftstoffverbrauch)</code>.
+           Die Reihenfolge ist dabei fest. Wenn du die drehst, meckert der
+           Compiler entweder wegen der Datentypen, oder er meckert nicht und dein
+           Auto hat plötzlich 6,5 Liter Tank und verbraucht 50 Liter auf 100 km.
+           Der Kilometerstand und die Kraftstoffmenge werden wir nicht mitgeben,
+           die setzt der Konstruktor selbst auf 0. Macht ja auch Sinn, ein neues
+           Auto ist leer und ungefahren.</p>
+
+        <p><code>meinAuto</code> ist übrigens nur der Name, den <em>wir</em> uns
+           ausdenken. Du kannst das Ding auch <code>a1</code> nennen. Sprechende
+           Namen sind aber nie verkehrt.</p>
+
+        <h3 class="schritt-titel">Methoden aufrufen und ausgeben</h3>
+        <p>Ab hier arbeiten wir immer über den Punkt. Links vom Punkt steht das
+           Objekt, rechts davon was es machen soll:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">meinAuto.tanken(20);
+meinAuto.fahren(100);
+
+System.out.println("Kilometerstand: " + meinAuto.getKilometerstand());</code></pre>
+            </div>
+        </div>
+
+        <p><code>tanken</code> und <code>fahren</code> sind Prozeduren, die geben
+           nichts zurück. <code>getKilometerstand()</code> ist dagegen eine
+           Funktion, die liefert uns einen <code>double</code> zurück, und den
+           können wir mit dem <code>+</code> direkt an unseren Text dranhängen.
+           Das nennt sich Konkatenation.</p>
+
+        <h3 class="schritt-titel">Warum trotzdem nichts passiert</h3>
+        <p>Und jetzt kommt der Teil, über den in der Stunde die halbe Klasse
+           gestolpert ist. Du führst das Programm aus, es kompiliert sauber, es
+           läuft durch, und dann steht da:</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Kilometerstand: 0.0</code></pre>
+            </div>
+        </div>
+
+        <p>Wir haben getankt und sind 100 km gefahren, und trotzdem steht der
+           Kilometerstand auf 0. Kaputt ist deswegen aber nichts. Schau nochmal
+           in die Klasse <code>Auto</code>: in <code>tanken</code> und
+           <code>fahren</code> steht nur <code>// TODO</code> drin, also nichts.
+           Wir rufen also zwei Methoden auf, die brav aufgerufen werden und dann
+           einfach nichts tun.</p>
+
+        <p>Das ist der Unterschied zwischen einem Syntaxfehler und einem
+           semantischen Fehler. Die Syntax stimmt hier komplett, deshalb
+           beschwert sich der Compiler auch nicht. Der Code macht nur nicht das,
+           was er machen soll. Diese Sorte Fehler ist die fiesere von beiden,
+           weil dir niemand sagt dass was falsch ist, du musst selber drauf
+           kommen :)</p>
+
+        <p>Die beiden Methoden füllen wir in der nächsten Aufgabe.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="einstiegstext-analyse.html"><small>Vorherige Aufgabe</small>Einstiegstext-Analyse</a>
+            <a class="weiter" href="ausgabemethode.html"><small>Nächste Aufgabe</small>Die Ausgabemethode</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

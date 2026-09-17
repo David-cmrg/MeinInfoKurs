@@ -1,0 +1,63 @@
+        <p>
+            Die Aufgabe der heutigen Stunde ist <strong>der Body Mass Index!</strong> Mithilfe des Body Mass Indexes (auch BMI) kann man berechnen, ob man für seine Größe und sein Gewicht
+            Untergewichtig, Übergewichtig oder ob man ein Normalgewicht hat.</p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+            Informiere dich in der Wikipedia über den Body-Mass-Index.
+            Entwickle ein Struktogramm zur Ermittlung der Gewichtskategorien: Untergewicht, Normalgewicht und Übergewicht. Nenne den Algorithmus BMIkonsole.
+            Erzeuge aus dem Struktogramm ein Java-Programm und speichere es in der Tabelle ab. 
+        </p></div>
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="BMIkonsole.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+*
+* Das fertige Java Programm "BMIkonsole.java"
+*
+* @version 1.0 vom 25.02.2024
+* @MeinInfoKurs.github.io
+*/
+
+public class BMIkonsole {
+
+    public static void main(String[] args) {
+        int Gewicht;
+        double  Groesse, Bodymassindex;
+
+        Groesse= InOut.readDouble("Wie groß sind sie in Meter: ");
+        Gewicht= InOut.readInt("Wie viel wiegen sie in Kilogramm: ");
+
+        Bodymassindex=Gewicht/(Groesse*Groesse);
+
+        if (Bodymassindex&gt;=25) {
+            System.out.println("Sie sind Übergewichtig und haben einen BMI von: " + InOut.format2(Bodymassindex));
+          }
+        if (Bodymassindex&lt;=18.4) {
+            System.out.println("Sie sind Untergewichtig und haben ein BMI von: " + InOut.format2(Bodymassindex));
+          } // end of if
+          else {
+            System.out.println("Sie sind im Normalbereich und haben einen BMI von: " + InOut.format2(Bodymassindex));
+          } // end of if-else
+    } // end of main
+  } // end of class BMIkonsole</code></pre></div></div>
+        <p>
+            In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren: <br/><br/>
+</p>
+        <ol class="schritte">
+<li><a href="https://de.wikipedia.org/wiki/Body-Mass-Index" target="_blank">Recherche über den BMI</a></li>
+<li>Struktogrammerstellung (Derzeitig nicht verfügbar)</li>
+<li>Java Programm</li>
+</ol>
+        <h3 class="schritt-titel">Java Programm Erstellung</h3>
+        <p>
+            Um einen BMI-Rechner programmieren zu können, müssen wir erstmal verstehen wie der BMI-Rechner funktioniert. <br/>
+            Durch unsere Recherche wissen wir das man mit einem BMI von 18.4&lt; untergewichtig ist. Mit einem BMI von &gt;25 ist man übergewichtig. Liegt man dazwischen hat man ein Normalgewicht. <br/>
+            Um dies zu implementieren, erstellen wir ein Java-Programm, das die Größe und das Gewicht von einem Benutzer eingeben kann und dann den BMI berechnet.
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">int Gewicht;
+double  Groesse, Bodymassindex;
+
+Groesse= InOut.readDouble("Wie groß sind sie in Meter: ");
+Gewicht= InOut.readInt("Wie viel wiegen sie in Kilogramm: ");</code></pre></div></div>
+        <p style="margin-bottom: 30px;">
+            Nach der Eingabe können wir diese Werte nun mithilfe der uns, durch die Recherche, bekannte Formel<kbd> Bodymassindex=Gewicht/(Groesse*Groesse); </kbd> 
+            berechnen und erhalten unser Ergebnis. Dieses lassen wir nun durch 2 IF-Bedingungen laufen, um auch die richtige Ausgabe für den Nutzer zu finden.
+        </p>

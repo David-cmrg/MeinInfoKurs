@@ -1,0 +1,311 @@
+        <p>Die Aufgabe der heutigen Stunde ist Suchen – iterativ und rekursiv!
+           Fünf Teilaufgaben, und diesmal geht es nicht mehr nur um Arrays, sondern
+           auch um die <strong>lineare Liste</strong> mit ihren
+           <code>toFirst()</code>-, <code>hasAccess()</code>- und
+           <code>next()</code>-Methoden. Die kommt im Abi ständig vor, deshalb lohnt
+           es sich, das Muster einmal richtig zu verstehen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>1</strong> In einem Musikverwaltungsprogramm können
+               Musiktitel organisiert und abgespielt werden. Die Musiktitel werden in
+               einer linearen Liste gespeichert. a) Implementieren Sie die Methode
+               <code>boolean titelVorhanden(String pTitel, String pInterpret)</code>,
+               die <em>true</em> zurückgibt, falls der durch die Parameter gegebene
+               Musiktitel in der Liste vorkommt. b) Analysieren Sie die Methode
+               <em>methode1</em>, indem Sie ihre Funktionsweise beschreiben.</p>
+            <p><strong>2 Rechnerarbeit</strong> Implementieren Sie die gegebene
+               Methodendokumentation: <code>boolean pruefe(boolean[] ergebnisse)</code>.
+               Return: <em>true</em>, falls mindestens ein positives Testergebnis im
+               Array vorkommt. Ansonsten <em>false</em>.</p>
+            <p><strong>3</strong> Ein Logistikunternehmen verfügt über zwei Lager.
+               Beim Zusammenstellen einer Bestellung wird die Ware aus einem der Lager
+               entnommen. Anhand der Artikelnummer sind die Waren eindeutig zu
+               identifizieren. Implementieren Sie
+               <code>suche(Artikelnummer : int) : boolean</code>.</p>
+            <p><strong>4</strong> Gegeben ist die Liste von Quadratzahlen: 1, 4, 9,
+               16, 25, 36, 49, 64, 81, 100, 121, 144. Führen Sie den Algorithmus der
+               binären Suche auf der Zahlenreihe aus, indem Sie dokumentieren, wie sich
+               <em>links</em>, <em>rechts</em> und <em>mitte</em> ändern. Notieren Sie
+               auch die Methodenaufrufe mit Parametern. a) Suchen Sie nach der Zahl
+               100. b) Suchen Sie nach der Zahl 10.</p>
+            <p><strong>5</strong> Der Algorithmus der binären Suche lässt sich auch
+               iterativ implementieren. Die Anweisungen innerhalb der
+               Wiederholungsschleife sind durcheinandergeraten. Bringen Sie den
+               Quelltext in die richtige Reihenfolge und ergänzen Sie gegebenenfalls
+               Klammerungen.</p>
+        </div>
+
+        <h2>Aufgabe 1 – Das Musikverwaltungsprogramm</h2>
+
+        <h3 class="schritt-titel">Das Muster für lineare Listen</h3>
+        <p>Bevor es losgeht: fast jede Aufgabe mit einer linearen Liste sieht
+           gleich aus. Man merkt sich diese vier Zeilen und kommt damit sehr weit:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">liste.toFirst();                   // an den Anfang springen
+while (liste.hasAccess()) {        // solange man auf einem Element steht
+    Musiktitel mt = liste.getContent();   // aktuelles Element holen
+    // ... hier passiert die eigentliche Arbeit ...
+    liste.next();                  // ein Element weiter
+}</code></pre>
+            </div>
+        </div>
+
+        <p><code>hasAccess()</code> ist dabei das Entscheidende: es sagt, ob der
+           Zeiger überhaupt auf einem Element steht. Ist man hinten rausgelaufen,
+           liefert es <code>false</code> und die Schleife endet. Vergisst man
+           <code>liste.next()</code>, läuft die Schleife ewig – das ist der
+           häufigste Fehler bei diesen Aufgaben.</p>
+
+        <h3 class="schritt-titel">a) titelVorhanden</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Musikverwaltungsprogramm.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Musikverwaltungsprogramm.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Suche in einer linearen Liste
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public boolean titelVorhanden(String pTitel, String pInterpret) {
+    liste.toFirst();
+
+    while (liste.hasAccess()) {
+        Musiktitel mt = liste.getContent();
+
+        if (mt.getTitel().equals(pTitel)
+                &amp;&amp; mt.getInterpret().equals(pInterpret)) {
+            return true;              // gefunden, sofort raus
+        }
+
+        liste.next();
+    }
+
+    return false;                     // ganze Liste durch, nichts gefunden
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Das ist eine <strong>lineare Suche auf einer Liste</strong> – man muss
+           von vorne durchgehen, weil es bei einer Liste keinen Index gibt, mit dem
+           man in die Mitte springen könnte. Binäre Suche ist auf einer linearen
+           Liste also gar nicht möglich, selbst wenn sie sortiert wäre.</p>
+
+        <p><strong>Wichtig:</strong> Strings vergleicht man mit
+           <code>.equals()</code> und <strong>nicht</strong> mit <code>==</code>.
+           Das <code>==</code> prüft bei Objekten, ob es dasselbe Objekt im Speicher
+           ist – nicht, ob derselbe Text drinsteht. Bei Strings aus Benutzereingaben
+           geht das fast immer schief, und zwar ohne Fehlermeldung. Das Programm
+           findet dann einfach nie etwas.</p>
+
+        <h3 class="schritt-titel">b) Was methode1 macht</h3>
+        <p><code>methode1(String pGenre)</code> geht die ganze Liste durch und
+           sammelt alle Musiktitel ein, deren Genre mit dem übergebenen Genre
+           übereinstimmt. Diese hängt sie an eine neue Liste
+           <code>liste2</code> an und gibt sie am Ende zurück.</p>
+
+        <p>Mit anderen Worten: sie <strong>filtert</strong> die Musiksammlung nach
+           Genre. Ein besserer Name wäre <code>titelNachGenre</code> oder
+           <code>filterGenre</code> – und genau darauf zielt die Aufgabe ab. Man soll
+           merken, dass <code>methode1</code> ein nichtssagender Name ist und dass
+           man die Funktion trotzdem aus dem Code herauslesen kann.</p>
+
+        <p>Zwei Details, die man beim Analysieren erwähnen sollte: die
+           Originalliste wird <strong>nicht verändert</strong>, es entsteht eine
+           zweite. Und wenn kein Titel passt, kommt eine leere Liste zurück – nicht
+           <code>null</code>. Das ist gut so, weil der Aufrufer dann ohne
+           Sonderprüfung damit weiterarbeiten kann.</p>
+
+        <h2>Aufgabe 2 – pruefe</h2>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">/**
+ * Die Testergebnisse im Array ergebnisse sollen ueberprueft werden.
+ *
+ * @param ergebnisse ein Array vom Typ boolean
+ * @return true, falls mindestens ein positives Testergebnis vorkommt,
+ *         ansonsten false
+ */
+public boolean pruefe(boolean[] ergebnisse) {
+    for (int i = 0; i &lt; ergebnisse.length; i++) {
+        if (ergebnisse[i]) {
+            return true;
+        }
+    }
+    return false;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Wieder das Muster der linearen Suche: beim ersten Treffer sofort
+           <code>true</code> zurückgeben, und erst wenn alles durchlaufen ist,
+           <code>false</code>.</p>
+
+        <p>Beachte <code>if (ergebnisse[i])</code> ohne Vergleich. Der Eintrag
+           <em>ist</em> schon ein <code>boolean</code>, man muss ihn nicht erst mit
+           <code>true</code> vergleichen. <code>if (ergebnisse[i] == true)</code>
+           funktioniert zwar auch, ist aber umständlich – und wer sich dabei vertippt
+           und <code>=</code> statt <code>==</code> schreibt, hat einen Fehler, den
+           man schwer sieht.</p>
+
+        <h2>Aufgabe 3 – Die Logistik mit zwei Lagern</h2>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public boolean suche(int Artikelnummer) {
+    if (sucheInLager(lager1, Artikelnummer)) {
+        return true;
+    }
+    return sucheInLager(lager2, Artikelnummer);
+}
+
+// Hilfsmethode, damit der Code nicht zweimal dasteht
+private boolean sucheInLager(List&lt;Artikel&gt; lager, int Artikelnummer) {
+    lager.toFirst();
+    while (lager.hasAccess()) {
+        if (lager.getContent().getArtikelnummer() == Artikelnummer) {
+            return true;
+        }
+        lager.next();
+    }
+    return false;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Der Kniff hier ist die <strong>Hilfsmethode</strong>. Man könnte die
+           Suchschleife zweimal hinschreiben, einmal für <code>lager1</code> und
+           einmal für <code>lager2</code> – das wären dann zwei fast identische
+           Blöcke, und wenn man später einen Fehler findet, muss man ihn an zwei
+           Stellen beheben.</p>
+
+        <p>Möglich ist das, weil <code>lager1</code> und <code>lager2</code>
+           denselben Typ haben. Die Hilfsmethode bekommt einfach die Liste als
+           Parameter übergeben.</p>
+
+        <p>Und hier steht <code>==</code> statt <code>.equals()</code> – das ist
+           richtig so, weil die Artikelnummer ein <code>int</code> ist und kein
+           String. Bei einfachen Datentypen vergleicht <code>==</code> tatsächlich
+           die Werte.</p>
+
+        <h2>Aufgabe 4 – Binäre Suche auf den Quadratzahlen</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Index</th><th>[0]</th><th>[1]</th><th>[2]</th><th>[3]</th><th>[4]</th><th>[5]</th><th>[6]</th><th>[7]</th><th>[8]</th><th>[9]</th><th>[10]</th><th>[11]</th></tr></thead>
+                <tbody><tr><td>Wert</td><td>1</td><td>4</td><td>9</td><td>16</td><td>25</td><td>36</td><td>49</td><td>64</td><td>81</td><td>100</td><td>121</td><td>144</td></tr></tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">a) Die Suche nach der 100</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Aufruf</th><th>links</th><th>mitte</th><th>rechts</th><th>a[mitte]</th><th>Folge</th></tr></thead>
+                <tbody>
+                    <tr><td><code>binaereSuche(100, 0, 11)</code></td><td>0</td><td>5</td><td>11</td><td>36</td><td>36 &lt; 100 → rechts bleibt, links = 6</td></tr>
+                    <tr><td><code>binaereSuche(100, 6, 11)</code></td><td>6</td><td>8</td><td>11</td><td>81</td><td>81 &lt; 100 → links = 9</td></tr>
+                    <tr><td><code>binaereSuche(100, 9, 11)</code></td><td>9</td><td>10</td><td>11</td><td>121</td><td>121 &gt; 100 → rechts = 9</td></tr>
+                    <tr><td><code>binaereSuche(100, 9, 9)</code></td><td>9</td><td>9</td><td>9</td><td><strong>100</strong></td><td><strong>gefunden → true</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Vier Aufrufe. Der letzte ist der wichtige: <code>links</code> und
+           <code>rechts</code> sind beide 9, der Bereich besteht also nur noch aus
+           einem Element – und das ist der gesuchte Wert.</p>
+
+        <h3 class="schritt-titel">b) Die Suche nach der 10</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Aufruf</th><th>links</th><th>mitte</th><th>rechts</th><th>a[mitte]</th><th>Folge</th></tr></thead>
+                <tbody>
+                    <tr><td><code>binaereSuche(10, 0, 11)</code></td><td>0</td><td>5</td><td>11</td><td>36</td><td>36 &gt; 10 → rechts = 4</td></tr>
+                    <tr><td><code>binaereSuche(10, 0, 4)</code></td><td>0</td><td>2</td><td>4</td><td>9</td><td>9 &lt; 10 → links = 3</td></tr>
+                    <tr><td><code>binaereSuche(10, 3, 4)</code></td><td>3</td><td>3</td><td>4</td><td>16</td><td>16 &gt; 10 → rechts = 2</td></tr>
+                    <tr><td colspan="6">links (3) &gt; rechts (2) → Bereich leer, <strong>return false</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Die 10 ist keine Quadratzahl, also kann sie gar nicht drin sein. Der
+           Algorithmus engt trotzdem sauber ein und landet genau in der Lücke
+           zwischen 9 und 16.</p>
+
+        <h2>Aufgabe 5 – Die Zeilen sortieren</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="BinaereSuche.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Binaere Suche, iterativ - die Zeilen in der richtigen Reihenfolge
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public boolean binaereSuche_iterativ(int[] a, int i) {
+    int links, mitte, rechts;
+    links = 0;
+    rechts = a.length - 1;
+
+    while (links &lt;= rechts) {
+        mitte = (int)((rechts + links) / 2);
+
+        if (a[mitte] == i) {
+            return true;
+        }
+        if (a[mitte] &lt; i) {
+            links = mitte + 1;
+        }
+        if (a[mitte] &gt; i) {
+            rechts = mitte - 1;
+        }
+    }
+
+    return false;
+}</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Warum genau diese Reihenfolge</h3>
+        <ol class="schritte">
+            <li><code>mitte = (int)((rechts + links) / 2);</code> muss <strong>ganz oben</strong> in der Schleife stehen. Erst wenn die Mitte für den aktuellen Bereich berechnet ist, kann man dort hineinschauen.</li>
+            <li><code>if (a[mitte] == i) return true;</code> kommt als Nächstes. Trifft man den Wert, ist man fertig und braucht die anderen Vergleiche nicht mehr.</li>
+            <li><code>if (a[mitte] &lt; i) links = mitte + 1;</code> – der gesuchte Wert liegt rechts, also rückt die linke Grenze nach.</li>
+            <li><code>if (a[mitte] &gt; i) rechts = mitte - 1;</code> – umgekehrt.</li>
+        </ol>
+
+        <p>Die ergänzten Klammerungen sind die geschweiften Klammern nach jedem
+           <code>if</code> und die Klammern um den ganzen Schleifenrumpf. Bei
+           einzeiligen <code>if</code>-Anweisungen darf man sie in Java weglassen,
+           aber genau dann passiert der Klassiker: man fügt später eine zweite Zeile
+           hinzu und die gehört plötzlich nicht mehr zum <code>if</code>.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Das <code>(int)</code> vor der Division ist überflüssig, weil
+            <code>rechts</code> und <code>links</code> beide <code>int</code> sind und
+            die Division damit sowieso abschneidet. Es steht so in der Vorlage, schadet
+            nicht und macht die Absicht sogar deutlicher.</span>
+        </div>

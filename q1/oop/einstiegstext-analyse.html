@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Einstiegstext-Analyse</title>
+    <meta name="description" content="Klasse, Objekt, Attribut, Methode, Konstruktor – die fünf Begriffe, die in der Klausur als Erstes drankommen.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/oop/einstiegstext-analyse.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Einstiegstext-Analyse">
+    <meta property="og:description" content="Klasse, Objekt, Attribut, Methode, Konstruktor – die fünf Begriffe, die in der Klausur als Erstes drankommen.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/oop/einstiegstext-analyse.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Einstiegstext-Analyse">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Einstiegstext-Analyse">
+    <meta name="twitter:description" content="Klasse, Objekt, Attribut, Methode, Konstruktor – die fünf Begriffe, die in der Klausur als Erstes drankommen.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Einstiegstext-Analyse",
+  "description": "Klasse, Objekt, Attribut, Methode, Konstruktor – die fünf Begriffe, die in der Klausur als Erstes drankommen.",
+  "url": "https://meininfokurs.cmrg.site/q1/oop/einstiegstext-analyse.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "OOP in Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"OOP in Java\", Seite 42-46",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#oop">OOP in Java</a>
+        </p>
+        <h1 class="titel">Einstiegstext-Analyse</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist die Einstiegstext-Analyse! Keine
+           Zeile Code diesmal, sondern fünf Fragen zum Text über
+           objektorientierte Programmierung. Das sieht nach wenig aus, ist aber
+           genau der Stoff, der in der Klausur als Begriffserklärung drankommt.</p>
+
+        <p>Wichtig ist der Hinweis in der Aufgabe: du sollst bei jeder Antwort
+           einen Bezug zum Autohaus-Beispiel herstellen. Eine auswendig gelernte
+           Definition reicht also nicht, du musst sie an unserem Auto festmachen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Analysieren Sie den Einstiegstext und beantworten Sie die folgenden
+               Fragen: Was ist eine Klasse? Was ist ein Objekt? Was ist ein
+               Attribut? Was ist eine Methode (Funktion/Prozedur)? Wozu dient ein
+               „Konstruktor"?</p>
+            <p><strong>Hinweis:</strong> Verwenden Sie bei der Beantwortung
+               passende Verweise zum Autohaus-Beispiel. Schreiben Sie zu jedem
+               Punkt mindestens einen vollständigen Satz.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Meine Antworten</h2>
+        <p>Klick auf eine Antwort, um sie aufzudecken. Versuch es vorher selbst,
+           das bringt dir mehr.</p>
+
+        <ol class="frageliste">
+            <li>
+                <p class="frage">Was ist eine Klasse?</p>
+                <p class="antwort" tabindex="0" role="button">Eine Klasse ist eine Art Vorgabe für Objekte. Sie definiert welche Attribute einem Objekt zugewiesen werden. Hier zum Beispiel die Klasse "Auto"</p>
+            </li>
+            <li>
+                <p class="frage">Was ist ein Objekt?</p>
+                <p class="antwort" tabindex="0" role="button">Ein Objekt ist an seine Klasse gebunden und enthält Werte für alle von der Klasse definierten und im Objekt initialisierten Attribute. Hier zb alle von "Auto" generierten Objekte</p>
+            </li>
+            <li>
+                <p class="frage">Was ist ein Attribut?</p>
+                <p class="antwort" tabindex="0" role="button">Ein Attribut ist ein Datenwert der das Objekt "charakterisiert". Beispielweise Kennzeichen, Kilometerstand oder TankVolumen</p>
+            </li>
+            <li>
+                <p class="frage">Was ist eine Methode (Funktion/Prozedur)?</p>
+                <p class="antwort" tabindex="0" role="button">Eine Funktion wird verwendet wenn ein Wert zurückgegeben werden soll. Integer, String, Double, Void (keinen Wert), und weitere. Beispielsweise rufen wir eine Funktion und erhalten einen Wert zurück. Eine Prozedur hingegen ist Code der ausgeführt wird und keinen Rückgabewert hat. Also eine Aktion ohne Rückgabewert. Diese beiden werden in Java als Methode zusammengefasst. Beispielsweise die getX() oder setX() Methoden. Im Falle des AutoHauses ist "getKennzeichen()" eine Methode</p>
+            </li>
+            <li>
+                <p class="frage">Wozu dient ein „Konstruktor"?</p>
+                <p class="antwort" tabindex="0" role="button">Der Konstruktor initalisiert die Objekte und Attribute der Klasse. Man kann einen eigenen Konstruktor in den Code programmieren. Falls doch keiner vorhanden ist übernimmt das der Kompiler.</p>
+            </li>
+        </ol>
+
+        <h2>Warum das die richtigen Antworten sind</h2>
+
+        <h3 class="schritt-titel">Klasse und Objekt nicht verwechseln</h3>
+        <p>Das ist die Unterscheidung, an der in der Klausur die meisten Punkte
+           hängen. Die <strong>Klasse</strong> ist der Bauplan, das
+           <strong>Objekt</strong> ist das fertige Ding. In unserem Code steht die
+           Klasse einmal in <code>Auto.java</code> – und daraus können wir
+           beliebig viele Autos bauen:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">Auto auto1 = new Auto("WI-AB 123", 50, 6.5);
+Auto auto2 = new Auto("F-XY 999", 40, 5.0);</code></pre>
+            </div>
+        </div>
+
+        <p>Eine Klasse, zwei Objekte. Beide haben ein Kennzeichen, aber jedes hat
+           sein eigenes. Wenn du <code>auto1</code> fahren lässt, ändert sich der
+           Kilometerstand von <code>auto2</code> nicht. Der Bauplan sagt nur, dass
+           es einen Kilometerstand <em>gibt</em> – welchen Wert er hat, steht im
+           Objekt.</p>
+
+        <h3 class="schritt-titel">Attribut = Daten, Methode = Verhalten</h3>
+        <p>Ein Objekt besteht immer aus diesen zwei Sorten von Zeug. Die
+           Attribute sind die Daten, also was das Objekt <em>ist</em>. Die
+           Methoden sind, was es <em>kann</em>.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead>
+                    <tr><th>Im Auto</th><th>Was es ist</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>Kennzeichen</code></td><td>Attribut – ein Datenwert, der das Objekt beschreibt</td></tr>
+                    <tr><td><code>Kilometerstand</code></td><td>Attribut – ändert sich über die Lebenszeit des Objekts</td></tr>
+                    <tr><td><code>getKennzeichen()</code></td><td>Methode mit Rückgabewert, also eine Funktion</td></tr>
+                    <tr><td><code>fahren(100)</code></td><td>Methode ohne Rückgabewert, also eine Prozedur</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Der Unterschied zwischen Funktion und Prozedur ist rein der
+           Rückgabewert. Steht <code>void</code> davor, kommt nichts zurück –
+           Prozedur. Steht ein Datentyp davor, kommt ein Wert zurück – Funktion.
+           Java nennt beides Methode, deshalb hört man die beiden Wörter im
+           Java-Unterricht selten. In der Klausur werden sie aber abgefragt.</p>
+
+        <h3 class="schritt-titel">Der Konstruktor</h3>
+        <p>Der Konstruktor ist die Methode, die beim <code>new</code> läuft. Seine
+           Aufgabe ist, das frische Objekt in einen sinnvollen Anfangszustand zu
+           bringen. Ohne ihn hätte unser Auto weder Kennzeichen noch Tankgröße,
+           es wäre einfach ein leeres Etwas.</p>
+
+        <p>Und der Nachsatz in der Antwort stimmt tatsächlich: schreibst du gar
+           keinen Konstruktor, legt der Compiler selbst einen an – den
+           parameterlosen Default-Konstruktor. Der macht aber auch nichts weiter
+           als das Objekt zu erzeugen. Sobald du selbst einen schreibst, ist der
+           automatische weg. Das wird später beim Überladen von Konstruktoren
+           nochmal wichtig.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="klasse-auto.html"><small>Vorherige Aufgabe</small>Die Klasse Auto</a>
+            <a class="weiter" href="autohaus.html"><small>Nächste Aufgabe</small>Das Autohaus</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

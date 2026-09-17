@@ -1,0 +1,321 @@
+        <p>Die Aufgabe der heutigen Stunde ist die Normalisierung! Neun
+           Teilaufgaben zu den ersten drei Normalformen. Das ist das Thema, bei dem
+           es am meisten Punkte in der Klausur gibt und bei dem sich am meisten Leute
+           unnötig schwertun – dabei steckt hinter allen drei Normalformen dieselbe
+           Idee: <strong>jede Information soll genau einmal gespeichert werden, und
+           zwar dort, wo sie hingehört.</strong></p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>1</strong> Erklären Sie in eigenen Worten: Was bedeutet
+               „1. Normalform"?<br>
+               <strong>2</strong> Gegeben sei eine Relation mit KundenNr und Kunde.
+               a) Beschreiben Sie, wo die Nachteile dieser Struktur liegen.
+               b) Bringen Sie die Relation in die 1. Normalform.<br>
+               <strong>3</strong> Wie viele Attribute wird die Relation „Artikel"
+               insgesamt haben, wenn Sie diese in die 1NF bringen?<br>
+               <strong>4</strong> Erklären Sie in eigenen Worten: Was bedeutet
+               „2. Normalform"?<br>
+               <strong>5</strong> Relation „LCD_Flachbildschirme": a) Identifizieren
+               Sie den Primärschlüssel. b) Befindet sich die Relation in der 2NF? Wenn
+               nein: Bringen Sie die Relation in die 2NF.<br>
+               <strong>6</strong> Dasselbe für die Relation „Lexikoneintraege".<br>
+               <strong>7</strong> Erklären Sie in eigenen Worten: Was bedeutet
+               „3. Normalform"?<br>
+               <strong>8</strong> Relation „Lagerbestand": a) Primärschlüssel
+               identifizieren. b) Bestehen transitive Abhängigkeiten? Wenn ja:
+               Beseitigen Sie diese und stellen Sie die 3NF her.<br>
+               <strong>9</strong> Dasselbe für die Relation „Verliehene Bücher".</p>
+        </div>
+
+        <h2>Aufgabe 1 – Die 1. Normalform</h2>
+        <p>Eine Relation ist in der <strong>1. Normalform</strong>, wenn jedes
+           Attribut <strong>atomar</strong> ist – also unteilbar. In jeder Zelle
+           steht genau ein Wert, keine Liste, keine Aufzählung, kein zusammengesetzter
+           Text.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Verstößt gegen 1NF</th><th>Warum</th></tr></thead>
+                <tbody>
+                    <tr><td><code>"Josef Schmitt, Blochweg 3, 79312 Emmendingen"</code></td><td>Name, Straße, PLZ und Ort in einem Feld</td></tr>
+                    <tr><td><code>"Mathe, Info, Sport"</code></td><td>eine Liste in einer Zelle</td></tr>
+                    <tr><td>Spalten <code>Fach1</code>, <code>Fach2</code>, <code>Fach3</code></td><td>Wiederholungsgruppe – was macht man beim vierten Fach?</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Aufgabe 2 – Die Kundenrelation</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>KundenNr  Kunde
+1         Josef Schmitt, Blochweg 3, 79312 Emmendingen
+2         Ann Woll, Hauptstraße 15, 79312 Emmendingen</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">a) Die Nachteile</h3>
+        <ul class="schritte">
+            <li><strong>Man kann nicht gezielt suchen.</strong> „Alle Kunden aus Emmendingen" geht nur mit <code>LIKE '%Emmendingen%'</code> – und das findet auch jemanden, der in der „Emmendinger Straße" in einer anderen Stadt wohnt.</li>
+            <li><strong>Man kann nicht sinnvoll sortieren.</strong> Nach Nachname sortieren ist unmöglich, weil der Vorname vorne steht.</li>
+            <li><strong>Man kann nichts auswerten.</strong> „Wie viele Kunden pro Postleitzahl?" ist nicht beantwortbar.</li>
+            <li><strong>Man kann nichts einzeln ändern.</strong> Zieht jemand um, muss man den ganzen Text neu tippen und dabei Name und PLZ mit anfassen.</li>
+            <li><strong>Keine Prüfung möglich.</strong> Die Datenbank kann nicht kontrollieren, ob die PLZ fünfstellig ist – für sie ist alles ein Fließtext.</li>
+        </ul>
+
+        <h3 class="schritt-titel">b) In der 1. Normalform</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Kunden(KundenNr, Vorname, Nachname, Strasse, Hausnummer, PLZ, Ort)
+       ^^^^^^^^
+       PK
+
+1  Josef  Schmitt  Blochweg      3   79312  Emmendingen
+2  Ann    Woll     Hauptstraße  15   79312  Emmendingen</code></pre>
+            </div>
+        </div>
+
+        <p>Hausnummer und Straße trennt man, weil man sonst nicht nach Straße
+           sortieren kann. Und die Hausnummer bleibt <code>VARCHAR</code> und wird
+           kein <code>INT</code> – es gibt „3a" und „15-17".</p>
+
+        <h2>Aufgabe 3 – Wie viele Attribute?</h2>
+        <p>Aus den beiden Datensätzen liest man alle Einzelinformationen heraus,
+           die irgendwo vorkommen:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>#</th><th>Attribut</th><th>Luftmatratze</th><th>Michael Kohlhaas</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>Artikelnummer</td><td>1</td><td>2</td></tr>
+                    <tr><td>2</td><td>Artikelname</td><td>Luftmatratze</td><td>Michael Kohlhaas</td></tr>
+                    <tr><td>3</td><td>Gewicht_kg</td><td>3</td><td>0,25</td></tr>
+                    <tr><td>4</td><td>Garantie_Jahre</td><td>2</td><td><em>NULL</em></td></tr>
+                    <tr><td>5</td><td>Preis_Euro</td><td>31,70</td><td>6,90</td></tr>
+                    <tr><td>6</td><td>MwSt_Prozent</td><td>19</td><td>7</td></tr>
+                    <tr><td>7</td><td>Seitenzahl</td><td><em>NULL</em></td><td>250</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><strong>Antwort: 7 Attribute.</strong></p>
+
+        <p>Der interessante Teil ist das, was dabei auffällt: zwei Zellen bleiben
+           leer. Ein Buch hat keine Garantie, eine Luftmatratze keine Seitenzahl. Die
+           Relation ist damit zwar in der 1NF, aber der Entwurf ist trotzdem nicht
+           gut – bei zwanzig verschiedenen Artikelarten hätte man dreißig Spalten,
+           von denen pro Zeile fünf gefüllt sind.</p>
+
+        <p>Richtig löst man das später mit getrennten Tabellen für Bücher und
+           Sportartikel oder mit einer Attribut-Wert-Tabelle. Das gehört nicht mehr
+           zur 1NF, ist aber eine gute Beobachtung für die Antwort.</p>
+
+        <h2>Aufgabe 4 – Die 2. Normalform</h2>
+        <p>Eine Relation ist in der <strong>2. Normalform</strong>, wenn sie in der
+           1NF ist <strong>und</strong> jedes Nicht-Schlüssel-Attribut vom
+           <strong>gesamten</strong> Primärschlüssel abhängt – nicht nur von einem
+           Teil davon.</p>
+
+        <p>Der wichtigste Satz dazu: <strong>Bei einem einfachen Primärschlüssel
+           ist die 2NF automatisch erfüllt.</strong> Es gibt dann gar keinen „Teil"
+           des Schlüssels, von dem etwas abhängen könnte. Die 2NF ist also nur bei
+           zusammengesetzten Schlüsseln überhaupt ein Thema.</p>
+
+        <h2>Aufgabe 5 – LCD_Flachbildschirme</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Hersteller  Seriennummer  TypBez            Preis
+Sony        123456789     Blinkmaster 3C    199.00
+Samsug      138829919     Summerspecial I   189.00
+Sony        188549921     Blinkmaster 3C    199.00
+Sony        139929191     110C              219.00</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">a) Der Primärschlüssel</h3>
+        <p><strong>(Hersteller, Seriennummer)</strong> – zusammengesetzt.</p>
+        <p>Seriennummern sind nur innerhalb eines Herstellers eindeutig. Sony und
+           Samsung könnten problemlos beide eine 123456789 vergeben. Nimmt man
+           dagegen an, dass die Seriennummern weltweit eindeutig sind, reicht
+           <code>Seriennummer</code> allein – dann wäre die Relation automatisch in
+           der 2NF und die Aufgabe hätte keine Pointe. Deshalb ist der
+           zusammengesetzte Schlüssel gemeint.</p>
+
+        <h3 class="schritt-titel">b) In der 2NF? Nein.</h3>
+        <p><code>TypBez</code> und <code>Preis</code> hängen nur von der
+           <strong>Seriennummer</strong> ab, nicht vom Hersteller. Das ist eine
+           <strong>partielle Abhängigkeit</strong> und verletzt die 2NF.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Geraete(Seriennummer, Hersteller, TypBez)
+        PK
+
+Typen(TypBez, Preis)
+      PK</code></pre>
+            </div>
+        </div>
+
+        <p>Nebenbei ist damit auch gleich ein zweites Problem weg: der Preis stand
+           bei „Blinkmaster 3C" zweimal mit 199.00 in der Tabelle. Ändert sich der
+           Preis, hätte man ihn an zwei Stellen ändern müssen – und eine vergessen.
+           Jetzt steht er genau einmal da.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Streng genommen ist die Abhängigkeit Preis → TypBez eine
+            <em>transitive</em> und gehört damit zur 3NF. In der Praxis räumt man
+            beides in einem Schritt auf. Wenn du das in der Antwort erwähnst, ist das
+            ein Pluspunkt.</span>
+        </div>
+
+        <h2>Aufgabe 6 – Lexikoneintraege</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Buch_ID  Seite  Artikelname  Lexikontitel
+1        137    Windkraft    Brockhaus
+1         85    Goethe       Brockhaus
+2        137    Goethe       Meyer
+2        289    Wasserwerk   Meyer
+2        289    Windkraft    Meyer</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">a) Der Primärschlüssel</h3>
+        <p><strong>(Buch_ID, Seite, Artikelname)</strong></p>
+        <p>Alle drei werden gebraucht. Buch_ID und Seite reichen nicht: die
+           Kombination (2, 289) kommt zweimal vor, weil auf Seite 289 zwei Artikel
+           anfangen. Erst der Artikelname macht die Zeile eindeutig.</p>
+
+        <h3 class="schritt-titel">b) In der 2NF? Nein.</h3>
+        <p><code>Lexikontitel</code> hängt nur von <code>Buch_ID</code> ab – also
+           von einem Teil des Schlüssels. Wieder eine partielle Abhängigkeit.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Lexika(Buch_ID, Lexikontitel)
+       PK
+
+Eintraege(Buch_ID, Seite, Artikelname)
+          PK       PK     PK
+          FK -> Lexika.Buch_ID</code></pre>
+            </div>
+        </div>
+
+        <p>Man sieht den Gewinn direkt: „Brockhaus" stand zweimal da, „Meyer"
+           dreimal. Jetzt steht jeder Lexikontitel genau einmal.</p>
+
+        <h2>Aufgabe 7 – Die 3. Normalform</h2>
+        <p>Eine Relation ist in der <strong>3. Normalform</strong>, wenn sie in der
+           2NF ist <strong>und</strong> kein Nicht-Schlüssel-Attribut
+           <strong>transitiv</strong> vom Primärschlüssel abhängt.</p>
+
+        <p>Transitiv heißt: über einen Umweg. Kurz gesagt – <strong>kein
+           Nicht-Schlüssel-Attribut darf von einem anderen Nicht-Schlüssel-Attribut
+           abhängen.</strong></p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Schluessel  ->  Attribut A  ->  Attribut B
+
+Das ist eine transitive Abhaengigkeit: B haengt eigentlich an A,
+nicht am Schluessel. Also gehoert B zusammen mit A in eine eigene Tabelle.</code></pre>
+            </div>
+        </div>
+
+        <p>Der Merkspruch, mit dem man sich alle drei Normalformen merken kann:
+           <em>Jedes Attribut hängt vom Schlüssel ab, vom ganzen Schlüssel und von
+           nichts als dem Schlüssel.</em> Der erste Teil ist die 1NF, der zweite die
+           2NF, der dritte die 3NF.</p>
+
+        <h2>Aufgabe 8 – Lagerbestand</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>ID  Artikel    Anzahl  Lieferant    Lieferant_Ort
+1   Locher     2       Herlitz      Wiesbaden
+2   Tacker     13      Bürohaus M   München
+3   Klebstoff  3       Herlitz      Wiesbaden
+4   Ordner     6       Leitz        Hamburg</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">a) Der Primärschlüssel</h3>
+        <p><strong><code>ID</code></strong> – einfach, also ist die 2NF automatisch
+           erfüllt.</p>
+
+        <h3 class="schritt-titel">b) Transitive Abhängigkeiten? Ja.</h3>
+        <p><code>Lieferant_Ort</code> hängt von <code>Lieferant</code> ab und nicht
+           von der <code>ID</code>. Man sieht es direkt an den Daten: Herlitz steht
+           zweimal drin, und beide Male steht „Wiesbaden" daneben. Das ist kein
+           Zufall, sondern eine Abhängigkeit.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Lagerbestand(ID, Artikel, Anzahl, Lieferant_ID)
+             PK                   FK -> Lieferanten.ID
+
+Lieferanten(ID, Name, Ort)
+            PK</code></pre>
+            </div>
+        </div>
+
+        <p>Was man damit verhindert, heißt <strong>Änderungsanomalie</strong>: zieht
+           Herlitz nach Mainz um, müsste man vorher jede Zeile mit Herlitz anfassen.
+           Vergisst man eine, steht der Lieferant in derselben Datenbank an zwei
+           Orten gleichzeitig.</p>
+
+        <h2>Aufgabe 9 – Verliehene Bücher</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>ID  Titel         LeiherName  Seitenzahl  Regal-Nr.
+1   Robinson      Martina     189         1
+2   Faust         Josef       113         5
+3   USA-Reisen    Josef       288         7
+4   Helmut Kohl   Rico         95         7</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">a) Der Primärschlüssel</h3>
+        <p><strong><code>ID</code></strong></p>
+
+        <h3 class="schritt-titel">b) Transitive Abhängigkeiten? Ja.</h3>
+        <p><code>Seitenzahl</code> und <code>Regal-Nr.</code> hängen vom
+           <strong>Buch</strong> ab, nicht vom Ausleihvorgang. Die Seitenzahl von
+           „Faust" ändert sich nicht dadurch, dass jemand anderes es ausleiht.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Buecher(Buch_ID, Titel, Seitenzahl, Regal_Nr)
+        PK
+
+Ausleihen(ID, Buch_ID, LeiherName)
+          PK  FK -> Buecher.Buch_ID</code></pre>
+            </div>
+        </div>
+
+        <p>Der Denkfehler, den man hier leicht macht: die Tabelle heißt „Verliehene
+           Bücher", also denkt man, es ginge um Bücher. Tatsächlich ist jede Zeile
+           ein <strong>Ausleihvorgang</strong>. Deshalb gehört alles, was zum Buch
+           selbst gehört, in eine eigene Tabelle.</p>
+
+        <p>Man könnte noch einen Schritt weitergehen und die Leiher auslagern –
+           „Josef" steht zweimal da. Gefordert war das nicht, weil
+           <code>LeiherName</code> tatsächlich direkt vom Ausleihvorgang abhängt und
+           damit keine transitive Abhängigkeit vorliegt. Für eine echte Datenbank
+           wäre eine Tabelle <code>Leiher</code> trotzdem sinnvoll, schon wegen der
+           Tippfehler.</p>
+
+        <h2>Das Verfahren, das immer funktioniert</h2>
+        <ol class="schritte">
+            <li><strong>1NF:</strong> Gibt es Zellen mit mehreren Werten drin? Aufteilen.</li>
+            <li><strong>Primärschlüssel bestimmen.</strong> Ist er einfach, überspring Schritt 3.</li>
+            <li><strong>2NF:</strong> Hängt ein Attribut nur von einem Teil des Schlüssels ab? Mit diesem Teil in eine eigene Tabelle.</li>
+            <li><strong>3NF:</strong> Hängt ein Attribut von einem anderen Nicht-Schlüssel-Attribut ab? Beide zusammen in eine eigene Tabelle.</li>
+            <li><strong>Fremdschlüssel setzen</strong>, damit die Tabellen wieder verbunden sind.</li>
+        </ol>
+
+        <p>Der schnellste Test in der Klausur: <strong>schau, welcher Wert in der
+           Tabelle doppelt vorkommt.</strong> Steht „Herlitz – Wiesbaden" zweimal
+           identisch da, ist das fast immer eine Abhängigkeit, die ausgelagert
+           gehört. Redundanz ist der sichtbare Fingerabdruck einer verletzten
+           Normalform.</p>

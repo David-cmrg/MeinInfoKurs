@@ -1,0 +1,186 @@
+        <p>Die Aufgabe der heutigen Stunde ist die binäre Suche an einem
+           konkreten Beispiel! Bastians Fußballmannschaft, ein sortiertes Array mit
+           Trikotnummern, und die Frage: ist eine bestimmte Nummer aufgestellt?
+           Hier führen wir den Algorithmus einmal von Hand aus – genau das wird in
+           der Klausur verlangt.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>In Bastians Fußballmannschaft hat jeder Spieler seine eigene
+               Trikotnummer. Sein Fußballtrainer speichert die Startaufstellungen
+               für die jeweiligen Spiele jeweils in einem sortierten Array. Für das
+               kommende Spiel hat er die folgenden Trikotnummern ausgewählt. Bastian
+               hat die Trikotnummer <em>7</em>.</p>
+            <p>a) Führen Sie den Algorithmus der binären Suche auf dem Array aus,
+               um zu prüfen, ob Bastian aufgestellt ist. Notieren Sie für jeden
+               Schritt die Werte der Variablen <em>links</em>, <em>mitte</em> und
+               <em>rechts</em>.<br>
+               b) Führen Sie den Algorithmus der binären Suche auf dem Array aus, um
+               zu prüfen, ob der Spieler mit der Trikotnummer 17 aufgestellt ist.
+               Notieren Sie auch hier für jeden Schritt die Werte.<br>
+               c) Rechnerarbeit: Implementieren Sie das Spielerarray in einer Klasse
+               <em>Aufstellung</em>. Implementieren Sie eine Methode
+               <code>public boolean istAufgestellt(int Trikotnummer)</code>, die
+               <em>true</em> zurückgibt, wenn der Spieler mit der Trikotnummer
+               aufgestellt ist und ansonsten <em>false</em>.</p>
+        </div>
+
+        <h2>Das Array</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Index</th><th>[0]</th><th>[1]</th><th>[2]</th><th>[3]</th><th>[4]</th><th>[5]</th><th>[6]</th><th>[7]</th><th>[8]</th><th>[9]</th><th>[10]</th></tr></thead>
+                <tbody><tr><td>Nummer</td><td>1</td><td>3</td><td>5</td><td>7</td><td>8</td><td>10</td><td>11</td><td>13</td><td>14</td><td>16</td><td>19</td></tr></tbody>
+            </table>
+        </div>
+
+        <p>Wichtig ist, dass das Array <strong>sortiert</strong> ist. Ohne das
+           funktioniert die binäre Suche nicht – sie würde ganze Bereiche
+           wegwerfen, in denen die gesuchte Zahl noch liegen könnte.</p>
+
+        <h2>a) Die Suche nach der 7</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Durchlauf</th><th>links</th><th>mitte</th><th>rechts</th><th>a[mitte]</th><th>Vergleich</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>0</td><td>5</td><td>10</td><td>10</td><td>10 &gt; 7 → rechts = 4</td></tr>
+                    <tr><td>2</td><td>0</td><td>2</td><td>4</td><td>5</td><td>5 &lt; 7 → links = 3</td></tr>
+                    <tr><td>3</td><td>3</td><td>3</td><td>4</td><td>7</td><td><strong>gefunden → true</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Drei Durchläufe für elf Spieler. Die lineare Suche hätte vier gebraucht
+           (Index 0, 1, 2, 3) – der Unterschied ist hier noch klein, weil das Array
+           winzig ist.</p>
+
+        <p>Rechnung für die Mitte: <code>mitte = (links + rechts) / 2</code>. Im
+           ersten Durchlauf <code>(0 + 10) / 2 = 5</code>. Im zweiten
+           <code>(0 + 4) / 2 = 2</code>. Im dritten <code>(3 + 4) / 2 = 3,5</code> –
+           und Java schneidet bei <code>int</code>-Division ab, also 3.</p>
+
+        <h2>b) Die Suche nach der 17</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Durchlauf</th><th>links</th><th>mitte</th><th>rechts</th><th>a[mitte]</th><th>Vergleich</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>0</td><td>5</td><td>10</td><td>10</td><td>10 &lt; 17 → links = 6</td></tr>
+                    <tr><td>2</td><td>6</td><td>8</td><td>10</td><td>14</td><td>14 &lt; 17 → links = 9</td></tr>
+                    <tr><td>3</td><td>9</td><td>9</td><td>10</td><td>16</td><td>16 &lt; 17 → links = 10</td></tr>
+                    <tr><td>4</td><td>10</td><td>10</td><td>10</td><td>19</td><td>19 &gt; 17 → rechts = 9</td></tr>
+                    <tr><td>–</td><td>10</td><td colspan="4">links &gt; rechts → Schleife endet, <strong>return false</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Das ist der interessantere Fall: die 17 ist nicht dabei. Der Suchbereich
+           schrumpft trotzdem bei jedem Schritt, bis <code>links</code> größer als
+           <code>rechts</code> wird. Dann ist der Bereich leer und es gibt nichts
+           mehr zu suchen – die Methode gibt <code>false</code> zurück.</p>
+
+        <p>Genau daran erkennt man in der Klausur, ob jemand den Algorithmus
+           verstanden hat: die Abbruchbedingung <code>solange links &lt;= rechts</code>
+           ist das, was den Nicht-gefunden-Fall überhaupt beendet. Ohne sie läuft die
+           Schleife ewig.</p>
+
+        <h2>c) Die Klasse Aufstellung</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Aufstellung.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Aufstellung.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Binaere Suche auf der Startaufstellung
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Aufstellung {
+
+    // Das Array MUSS sortiert sein, sonst funktioniert die binaere Suche nicht
+    private int[] spieler = {1, 3, 5, 7, 8, 10, 11, 13, 14, 16, 19};
+
+    /**
+     * Prueft mit binaerer Suche, ob ein Spieler aufgestellt ist.
+     *
+     * @param Trikotnummer die gesuchte Nummer
+     * @return true, wenn der Spieler aufgestellt ist, sonst false
+     */
+    public boolean istAufgestellt(int Trikotnummer) {
+        int links = 0;
+        int rechts = spieler.length - 1;
+        int mitte;
+
+        while (links &lt;= rechts) {
+            mitte = (links + rechts) / 2;
+
+            if (spieler[mitte] == Trikotnummer) {
+                return true;
+            } else if (spieler[mitte] &lt; Trikotnummer) {
+                links = mitte + 1;
+            } else {
+                rechts = mitte - 1;
+            }
+        } // end of while
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+        Aufstellung a = new Aufstellung();
+        System.out.println("Nummer 7  aufgestellt? " + a.istAufgestellt(7));
+        System.out.println("Nummer 17 aufgestellt? " + a.istAufgestellt(17));
+        System.out.println("Nummer 1  aufgestellt? " + a.istAufgestellt(1));
+        System.out.println("Nummer 19 aufgestellt? " + a.istAufgestellt(19));
+    } // end of main
+
+} // end of class Aufstellung</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Die drei Stellen, an denen es schiefgeht</h3>
+
+        <p><strong>1. <code>rechts = spieler.length - 1</code>, nicht
+           <code>spieler.length</code>.</strong> Das Array hat elf Einträge, der
+           letzte Index ist aber 10. Ohne das <code>-1</code> greifst du im ersten
+           Durchlauf schon daneben.</p>
+
+        <p><strong>2. <code>links &lt;= rechts</code>, nicht
+           <code>links &lt; rechts</code>.</strong> Mit dem kleineren Zeichen wird
+           der Fall <code>links == rechts</code> nicht mehr geprüft – und das ist
+           genau der letzte verbliebene Eintrag. Suchst du die 19 (Index 10), findet
+           die Methode sie dann nicht, obwohl sie drin ist. Der Fehler fällt bei den
+           meisten Tests nicht auf, nur bei den Rändern.</p>
+
+        <p><strong>3. <code>mitte + 1</code> und <code>mitte - 1</code>, nicht
+           einfach <code>mitte</code>.</strong> Die Mitte wurde ja gerade geprüft und
+           passte nicht, also darf sie raus aus dem Suchbereich. Schreibst du
+           <code>links = mitte</code>, kann sich der Bereich irgendwann nicht mehr
+           verkleinern und die Schleife läuft endlos.</p>
+
+        <h3 class="schritt-titel">Und so sieht es aus</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Nummer 7  aufgestellt? true
+Nummer 17 aufgestellt? false
+Nummer 1  aufgestellt? true
+Nummer 19 aufgestellt? true</code></pre>
+            </div>
+        </div>
+
+        <p>Die letzten beiden Tests sind absichtlich die Ränder: der erste und der
+           letzte Eintrag. Wenn deine Methode bei denen <code>false</code> sagt, hast
+           du Fehler 1 oder Fehler 2 von oben drin.</p>

@@ -1,0 +1,154 @@
+        <p>Die Aufgabe der heutigen Stunde sind Eltern- und Kindtabellen! Die
+           Begriffe klingen niedlich, meinen aber nur eine Richtung: wer verweist auf
+           wen. Und die Pointe ist, dass eine Tabelle durchaus beides gleichzeitig
+           sein kann.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>Anwendung 1:</strong> Gegeben seien folgende Relationen
+               (Fremdschlüssel durch FK angezeigt, Primärschlüssel durch PK):</p>
+            <p><code>artikel(id, name, preis, lieferant)</code><br>
+               <code>lieferanten(id, name, ort_id)</code><br>
+               <code>orte(id, postleitzahl, name)</code><br>
+               <code>artikel_hat_lieferant(artikel_id, lieferant_id)</code><br>
+               <code>warengruppen(id, name)</code><br>
+               <code>artikel_hat_warengruppe(artikel_id, warengruppe_id)</code></p>
+            <p>Geben Sie an, welche Tabellen Elterntabellen und welche
+               Kindtabellen sind.</p>
+            <p><strong>Anwendung 2:</strong> Gegeben seien folgende Relationen:</p>
+            <p><code>kunden(id, name, land_id)</code><br>
+               <code>laender(id, name, kontinent_id)</code><br>
+               <code>kontinente(id, name)</code></p>
+            <p>Geben Sie an, wo hier Elterntabellen und wo Kindtabellen sind.</p>
+        </div>
+
+        <h2>Die beiden Begriffe</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>Elterntabelle</th><th>Kindtabelle</th></tr></thead>
+                <tbody>
+                    <tr><td>Wird verwiesen / verweist</td><td>auf sie <strong>wird verwiesen</strong></td><td>sie <strong>verweist</strong> auf eine andere</td></tr>
+                    <tr><td>Enthält</td><td>den Primärschlüssel, auf den gezeigt wird</td><td>den Fremdschlüssel</td></tr>
+                    <tr><td>Merksatz</td><td>Muss zuerst da sein</td><td>Kann nur existieren, wenn die Eltern da sind</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Der Merksatz in der letzten Zeile ist der praktisch wichtigste: man kann
+           keinen Artikel mit Lieferant 5 anlegen, bevor es den Lieferanten 5 gibt.
+           Und deshalb muss man die Tabellen auch in dieser Reihenfolge
+           <strong>anlegen</strong> – erst die Eltern, dann die Kinder. Beim Löschen
+           genau andersherum.</p>
+
+        <h2>Anwendung 1 – Der Warenbestand</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Tabelle</th><th>Verweist auf</th><th>Es wird verwiesen von</th><th>Rolle</th></tr></thead>
+                <tbody>
+                    <tr><td><code>orte</code></td><td>–</td><td>lieferanten</td><td><strong>nur Eltern</strong></td></tr>
+                    <tr><td><code>warengruppen</code></td><td>–</td><td>artikel_hat_warengruppe</td><td><strong>nur Eltern</strong></td></tr>
+                    <tr><td><code>lieferanten</code></td><td>orte</td><td>artikel, artikel_hat_lieferant</td><td><strong>beides</strong></td></tr>
+                    <tr><td><code>artikel</code></td><td>lieferanten</td><td>artikel_hat_lieferant, artikel_hat_warengruppe</td><td><strong>beides</strong></td></tr>
+                    <tr><td><code>artikel_hat_lieferant</code></td><td>artikel, lieferanten</td><td>–</td><td><strong>nur Kind</strong></td></tr>
+                    <tr><td><code>artikel_hat_warengruppe</code></td><td>artikel, warengruppen</td><td>–</td><td><strong>nur Kind</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>orte
+  ^
+  | ort_id
+lieferanten <---------+
+  ^                   |
+  | lieferant         | lieferant_id
+artikel <-------------+
+  ^                artikel_hat_lieferant
+  | artikel_id
+artikel_hat_warengruppe
+  |
+  | warengruppe_id
+  v
+warengruppen</code></pre>
+            </div>
+        </div>
+
+        <p><code>lieferanten</code> und <code>artikel</code> sind gleichzeitig
+           Eltern und Kind. Das ist der Kern der Aufgabe: die Rolle ist nicht die
+           Eigenschaft einer Tabelle, sondern die einer <strong>Beziehung</strong>.
+           In der Beziehung zu <code>orte</code> ist <code>lieferanten</code> das
+           Kind, in der Beziehung zu <code>artikel</code> das Elternteil.</p>
+
+        <h3 class="schritt-titel">Etwas Merkwürdiges an dieser Datenbank</h3>
+        <p><code>artikel</code> hat ein Attribut <code>lieferant</code> – und
+           gleichzeitig gibt es die Tabelle <code>artikel_hat_lieferant</code>. Damit
+           ist dieselbe Beziehung <strong>doppelt</strong> abgebildet.</p>
+
+        <p>Beides zusammen ergibt keinen Sinn. Entweder hat ein Artikel genau einen
+           Lieferanten, dann reicht der Fremdschlüssel in <code>artikel</code> und
+           die Verknüpfungstabelle ist überflüssig. Oder ein Artikel kann von
+           mehreren Lieferanten kommen, dann braucht man die Verknüpfungstabelle und
+           das Attribut <code>lieferant</code> muss weg.</p>
+
+        <p>So etwas in der Antwort zu erwähnen, kostet nichts und zeigt, dass man
+           den Entwurf wirklich gelesen hat.</p>
+
+        <h2>Anwendung 2 – Die Kette</h2>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>kunden(id, name, land_id)          land_id ist FK -> laender.id
+laender(id, name, kontinent_id)    kontinent_id ist FK -> kontinente.id
+kontinente(id, name)</code></pre>
+            </div>
+        </div>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Tabelle</th><th>Rolle</th><th>Begründung</th></tr></thead>
+                <tbody>
+                    <tr><td><code>kontinente</code></td><td><strong>nur Elterntabelle</strong></td><td>Hat keinen Fremdschlüssel; <code>laender</code> verweist darauf</td></tr>
+                    <tr><td><code>laender</code></td><td><strong>Eltern und Kind</strong></td><td>Kind von <code>kontinente</code>, Elternteil von <code>kunden</code></td></tr>
+                    <tr><td><code>kunden</code></td><td><strong>nur Kindtabelle</strong></td><td>Verweist auf <code>laender</code>; niemand verweist auf die Kunden</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>kontinente          (Eltern)
+     ^
+     | kontinent_id
+laender             (Kind und Eltern)
+     ^
+     | land_id
+kunden              (Kind)</code></pre>
+            </div>
+        </div>
+
+        <p>Das ist eine saubere dreistufige Hierarchie. Man kann sie in beide
+           Richtungen lesen: „In welchem Kontinent wohnt Kunde X?" geht über zwei
+           Schritte nach oben. „Welche Kunden wohnen in Europa?" geht über zwei
+           Schritte nach unten.</p>
+
+        <h3 class="schritt-titel">Warum das praktisch wichtig ist</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Was du tust</th><th>Reihenfolge</th></tr></thead>
+                <tbody>
+                    <tr><td>Tabellen anlegen</td><td>kontinente → laender → kunden</td></tr>
+                    <tr><td>Daten einfügen</td><td>kontinente → laender → kunden</td></tr>
+                    <tr><td>Daten löschen</td><td>kunden → laender → kontinente</td></tr>
+                    <tr><td>Tabellen löschen</td><td>kunden → laender → kontinente</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Wer versucht, „Europa" aus <code>kontinente</code> zu löschen, während
+           noch Länder darauf verweisen, bekommt eine Fehlermeldung wegen
+           <strong>referenzieller Integrität</strong>. Die Datenbank verhindert
+           damit, dass Länder mit einem Verweis auf einen Kontinent zurückbleiben,
+           den es nicht mehr gibt. Solche verwaisten Verweise nennt man
+           <em>dangling references</em>, und genau die soll es nicht geben.</p>

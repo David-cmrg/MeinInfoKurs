@@ -1,0 +1,82 @@
+/* ==========================================================================
+   Prism-Thema für MeinInfoKurs
+   Die Token-Farben sind exakt die aus V2 (seitenstyle.css), damit der Code
+   genauso aussieht wie vorher - nur muss man die Spans nicht mehr selbst tippen.
+   ========================================================================== */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: var(--text);
+    background: none;
+    text-shadow: none;
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    hyphens: none;
+    tab-size: 4;
+}
+
+pre[class*="language-"]::selection,
+pre[class*="language-"] ::selection,
+code[class*="language-"]::selection,
+code[class*="language-"] ::selection {
+    background: color-mix(in srgb, var(--akzent) 30%, transparent);
+    text-shadow: none;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata          { color: var(--tok-kommentar); font-style: italic; }
+
+.token.punctuation    { color: var(--tok-operator); }
+
+.token.keyword,
+.token.boolean,
+.token.atrule,
+.token.important      { color: var(--tok-keyword); }
+
+.token.null,
+.token.number,
+.token.constant       { color: var(--tok-zahl); }
+
+.token.string,
+.token.char,
+.token.attr-value,
+.token.regex          { color: var(--tok-string); }
+
+.token.class-name,
+.token.namespace,
+.token.symbol         { color: var(--tok-klasse); }
+
+.token.function,
+.token.method         { color: var(--tok-methode); }
+
+.token.builtin,
+.token.tag,
+.token.selector,
+.token.attr-name      { color: var(--tok-typ); }
+
+.token.operator,
+.token.entity,
+.token.url,
+.token.variable       { color: var(--tok-operator); }
+
+.token.property       { color: var(--tok-typ); }
+.token.deleted        { color: var(--fehler); }
+.token.inserted       { color: var(--verifiziert); }
+
+.token.italic         { font-style: italic; }
+.token.bold           { font-weight: 700; }
+
+/* Java: Typen und Annotationen etwas hervorheben */
+.language-java .token.annotation { color: var(--tok-methode); }
+
+/* SQL liest sich besser, wenn die Schlüsselwörter fett sind */
+.language-sql .token.keyword { font-weight: 600; }
+
+/* PHP-Tags nicht als Fehler einfärben */
+.language-php .token.php.token.delimiter { color: var(--tok-keyword); }

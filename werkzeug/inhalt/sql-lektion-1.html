@@ -1,0 +1,252 @@
+        <p>Die Aufgabe der heutigen Stunde ist die erste SQL-Lektion! Ab hier
+           reden wir nicht mehr über Datenbanken, sondern fragen sie was. Die Abgabe
+           ist eine kompakte Zusammenfassung der Befehle – und genau die steht hier.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>a) Bearbeiten Sie die erste Lektion und erstellen Sie in ihrem
+               OneNote-Heft eine kompakte übersichtliche Kurzzusammenfassung der
+               SQL-Befehle.</p>
+            <p><strong>Wichtig:</strong> Die Antworten sollen als Text vorliegen,
+               damit die Antworten per Copy und Paste kopiert werden können, d.h.
+               keine Screenshots für Antworten erlaubt.</p>
+        </div>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Die Lektion 1 selbst liegt auf der Tutorial-Seite (luo-darmstadt.de/sqltutorial) und ist im OneNote nicht abgedruckt. Hier steht die geforderte Zusammenfassung – die Lektion durcharbeiten musst du dort selbst.</span>
+        </div>
+
+        <h2>Die Beispieltabelle</h2>
+        <p>Alle Beispiele laufen auf der Tabelle <code>WMTitel</code> mit den
+           Formel-1-Weltmeistern:</p>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>WMTitel(Saison, Fahrerweltmeister, KonstrukteursWM, WM_Punkte, Team_Punkte)</code></pre>
+            </div>
+        </div>
+
+        <h2>Der Grundaufbau</h2>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-database" aria-hidden="true"></i> SQL</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="SQL_Lektion1.sql">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Die Zusammenfassung der ersten SQL-Lektion
+-- @MeinInfoKurs.github.io
+
+SELECT  spalte1, spalte2     -- welche Spalten will ich sehen?
+FROM    tabelle              -- aus welcher Tabelle?
+WHERE   bedingung            -- welche Zeilen? (optional)</code></pre>
+            </div>
+        </div>
+
+        <p>Mehr ist es im Kern nicht. <code>SELECT *</code> holt alle Spalten.
+           Ohne <code>WHERE</code> kommen alle Zeilen. Und die Reihenfolge der drei
+           Schlüsselwörter ist fest – <code>FROM</code> vor <code>SELECT</code> geht
+           nicht.</p>
+
+        <h2>Vergleichsoperatoren</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Operator</th><th>Bedeutung</th></tr></thead>
+                <tbody>
+                    <tr><td><code>=</code></td><td>gleich – <strong>ein</strong> Gleichheitszeichen, nicht zwei wie in Java</td></tr>
+                    <tr><td><code>&lt;&gt;</code></td><td>ungleich (manche Datenbanken kennen auch <code>!=</code>)</td></tr>
+                    <tr><td><code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code></td><td>kleiner, kleiner gleich, größer, größer gleich</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Weltmeister mit mindestens 100 WM-Punkten
+SELECT Fahrerweltmeister, WM_Punkte
+FROM   WMTitel
+WHERE  WM_Punkte &gt;= 100;</code></pre>
+            </div>
+        </div>
+
+        <h2>Logische Operatoren und BETWEEN</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- In welchen Jahren hatte der Weltmeister zwischen 80 und 110 Punkte?
+SELECT Saison, Fahrerweltmeister, WM_Punkte
+FROM   WMTitel
+WHERE  WM_Punkte BETWEEN 80 AND 110;</code></pre>
+            </div>
+        </div>
+
+        <p>Mit <code>AND</code>, <code>OR</code> und <code>NOT</code> verknüpft man
+           Bedingungen. Für Bereiche gibt es <code>BETWEEN</code>, und zwar aus einem
+           wichtigen Grund:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">WHERE WM_Punkte &gt;= 80 AND &lt;= 110          -- FALSCH, geht nicht
+WHERE WM_Punkte &gt;= 80 AND WM_Punkte &lt;= 110 -- richtig, aber umstaendlich
+WHERE WM_Punkte BETWEEN 80 AND 110         -- richtig und kurz</code></pre>
+            </div>
+        </div>
+
+        <p>In der ersten Zeile fehlt beim zweiten Vergleich der Vergleichspartner.
+           SQL weiß nicht, dass sich <code>&lt;= 110</code> wieder auf
+           <code>WM_Punkte</code> beziehen soll. <code>BETWEEN</code> schließt die
+           Grenzen übrigens mit ein – 80 und 110 sind also dabei.</p>
+
+        <h2>LIKE – Muster suchen</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Platzhalter</th><th>Bedeutung</th></tr></thead>
+                <tbody>
+                    <tr><td><code>%</code></td><td>eine beliebige Folge von Zeichen (auch keins)</td></tr>
+                    <tr><td><code>_</code></td><td>genau ein beliebiges Zeichen</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- In welchen Jahren war Renault Konstrukteursweltmeister?
+SELECT Saison, KonstrukteursWM
+FROM   WMTitel
+WHERE  KonstrukteursWM LIKE '%Renault%';</code></pre>
+            </div>
+        </div>
+
+        <p>Die Prozentzeichen auf beiden Seiten heißen „Renault kommt irgendwo im
+           Text vor". Ohne sie müsste der Eintrag exakt „Renault" lauten –
+           „Renault F1 Team" würde nicht gefunden. Es gibt auch
+           <code>NOT LIKE</code>.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Microsoft Access benutzt statt <code>%</code> den Stern
+            <code>*</code> und statt <code>_</code> das Fragezeichen <code>?</code>.
+            In MySQL gilt der Standard mit Prozent und Unterstrich.</span>
+        </div>
+
+        <h2>IN – eine Liste von Werten</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- In welchen Jahren waren Senna, Prost bzw. Hill Weltmeister?
+SELECT Saison, Fahrerweltmeister
+FROM   WMTitel
+WHERE  Fahrerweltmeister IN ('Ayrton Senna', 'Alain Prost', 'Damon Hill');</code></pre>
+            </div>
+        </div>
+        <p>Das ist die Kurzform für drei <code>OR</code>-Bedingungen. Auch hier gibt
+           es <code>NOT IN</code>. Ab drei Werten ist <code>IN</code> deutlich
+           lesbarer.</p>
+
+        <h2>IS NULL – fehlende Werte finden</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- In welchen Jahren gab es keine Team_Punkte?
+SELECT *
+FROM   WMTitel
+WHERE  Team_Punkte IS NULL;</code></pre>
+            </div>
+        </div>
+
+        <p>Das ist die Stelle, an der sich fast jeder einmal die Zähne ausbeißt:
+           <strong><code>= NULL</code> funktioniert nicht.</strong> NULL heißt
+           „unbekannt", und ob etwas Unbekanntes gleich etwas Unbekanntem ist, kann
+           SQL nicht beantworten – das Ergebnis ist wieder unbekannt und damit nie
+           wahr. Deshalb gibt es das eigene Schlüsselwort <code>IS NULL</code>
+           beziehungsweise <code>IS NOT NULL</code>.</p>
+
+        <h2>DISTINCT – Doppelte wegwerfen</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Alle Weltmeister, jeder nur einmal
+SELECT DISTINCT Fahrerweltmeister
+FROM   WMTitel;</code></pre>
+            </div>
+        </div>
+        <p>Wer siebenmal Weltmeister war, stünde ohne <code>DISTINCT</code> auch
+           siebenmal in der Liste.</p>
+
+        <h2>AS – Rechnen und Spalten umbenennen</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Prozentuale Ausbeute: bei 16 Rennen a 10 Punkten sind maximal 160 moeglich
+SELECT Fahrerweltmeister, WM_Punkte / 160 * 100 AS Ausbeute
+FROM   WMTitel;</code></pre>
+            </div>
+        </div>
+        <p>In <code>SELECT</code> darf man mit <code>+ - * /</code> rechnen. Ohne
+           <code>AS</code> würde die Spalte in der Ergebnistabelle
+           <code>WM_Punkte / 160 * 100</code> heißen, was ziemlich unschön ist.</p>
+
+        <h2>ORDER BY – sortieren</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Ausbeute, groesster Wert zuerst
+SELECT Fahrerweltmeister, WM_Punkte / 160 * 100 AS Ausbeute
+FROM   WMTitel
+ORDER BY Ausbeute DESC;
+
+-- Nach mehreren Kriterien, hier ueber Spaltennummern
+SELECT Fahrerweltmeister, WM_Punkte / 160 * 100
+FROM   WMTitel
+ORDER BY 2 DESC, 1 ASC;</code></pre>
+            </div>
+        </div>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Zusatz</th><th>Bedeutung</th></tr></thead>
+                <tbody>
+                    <tr><td><code>ASC</code></td><td>aufsteigend – A bis Z, kleine Zahlen zuerst. Das ist der Standard, man kann es weglassen.</td></tr>
+                    <tr><td><code>DESC</code></td><td>absteigend</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Man darf nach mehreren Spalten sortieren: erst nach der ersten, und bei
+           Gleichstand nach der zweiten. Statt der Spaltennamen kann man auch die
+           <strong>Spaltennummern</strong> angeben – praktisch bei berechneten
+           Spalten, deren Namen man sonst wiederholen müsste.</p>
+
+        <h2>LIMIT – nur ein Ausschnitt</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SELECT Fahrerweltmeister, WM_Punkte
+FROM   WMTitel
+ORDER BY WM_Punkte DESC
+LIMIT 3;          -- nur die ersten drei
+
+LIMIT 4, 3;       -- vier ueberspringen, dann drei nehmen</code></pre>
+            </div>
+        </div>
+
+        <p>Bei zwei Zahlen ist die <strong>erste der Startpunkt</strong> und die
+           zweite die Anzahl. <code>LIMIT 4, 3</code> liefert also die Zeilen 5, 6
+           und 7. Gezählt wird ab 0, wie bei Arrays.</p>
+
+        <p><code>LIMIT</code> ergibt fast nur zusammen mit <code>ORDER BY</code>
+           Sinn. Ohne Sortierung sind „die ersten drei" eine willkürliche Auswahl,
+           die sich jederzeit ändern kann.</p>
+
+        <h2>Die Reihenfolge der Klauseln</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SELECT   ...
+FROM     ...
+WHERE    ...
+ORDER BY ...
+LIMIT    ...</code></pre>
+            </div>
+        </div>
+
+        <p>Diese Reihenfolge ist Pflicht. <code>ORDER BY</code> vor
+           <code>WHERE</code> zu schreiben ist ein Syntaxfehler. Merken kann man es
+           sich daran, dass es der Reihenfolge entspricht, in der die Datenbank
+           arbeitet: erst Tabelle nehmen, dann Zeilen filtern, dann sortieren, dann
+           abschneiden.</p>

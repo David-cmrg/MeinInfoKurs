@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Telefonbuch-Spielwiese</title>
+    <meta name="description" content="Alle sechs Klassen zusammensetzen und ausgeben – mit einem einzigen println, weil toString() sich durch die ganze Kette durchreicht.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/oop/telefonbuch-spielwiese.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Telefonbuch-Spielwiese">
+    <meta property="og:description" content="Alle sechs Klassen zusammensetzen und ausgeben – mit einem einzigen println, weil toString() sich durch die ganze Kette durchreicht.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/oop/telefonbuch-spielwiese.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Telefonbuch-Spielwiese">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Telefonbuch-Spielwiese">
+    <meta name="twitter:description" content="Alle sechs Klassen zusammensetzen und ausgeben – mit einem einzigen println, weil toString() sich durch die ganze Kette durchreicht.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Telefonbuch-Spielwiese",
+  "description": "Alle sechs Klassen zusammensetzen und ausgeben – mit einem einzigen println, weil toString() sich durch die ganze Kette durchreicht.",
+  "url": "https://meininfokurs.cmrg.site/q1/oop/telefonbuch-spielwiese.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "OOP in Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"OOP in Java\", Seite 159-160",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#oop">OOP in Java</a>
+        </p>
+        <h1 class="titel">Telefonbuch-Spielwiese</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist die Telefonbuch-Spielwiese! Alle
+           Klassen stehen, jetzt bauen wir endlich einen echten Kontakt zusammen
+           und lassen ihn ausgeben. Das ist der Moment, in dem man merkt, ob das
+           Zusammenspiel der sechs Klassen wirklich funktioniert.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Schreibe eine Klasse <code>Spielwiese</code> und probiere und teste
+               die Klasse <code>Kontakt</code> aus. Zum Beispiel könnte die
+               Spielwiese die folgende Ausgabe auf der Konsole erzeugen.</p>
+            <p>Datei speichern: neue Zip-Datei
+               <code>Telefonbuch_nachname.zip</code> mit Code und UML.</p>
+            <p><strong>Zusatz:</strong> Bringen Sie ihre Ausgabe der Spielwiese
+               durch passende Methoden in eine schönere Formatierung.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Spielwiese.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Spielwiese.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Spielwiese fuer das Telefonbuch
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class Spielwiese {
+
+    public static void main(String[] args) {
+
+        // Ein Kontakt, erstmal nur mit Namen
+        Kontakt firma = new Kontakt("Muster GmbH");
+
+        // Adresse, Telefon und E-Mail nachtragen
+        firma.setAdresse(new Adresse("Hauptstr.", "1", "65183",
+                                     "Wiesbaden", "DE",
+                                     Adresse.Typ.GESCHAEFTLICH));
+
+        firma.setTelefon(new Telefon("+49 611 123456", Telefon.Typ.FESTNETZ));
+
+        firma.setEmail(new Email("info@muster.de", Email.Typ.GESCHAEFTLICH));
+
+        // Zwei Termine: einer mit Uhrzeit, einer ohne
+        firma.fuegeTerminHinzu(new Termin(LocalDate.of(2025, 9, 1),
+                                          LocalTime.of(14, 30),
+                                          Termin.Art.GESCHAEFTLICH));
+
+        firma.fuegeTerminHinzu(new Termin(LocalDate.of(2025, 12, 24),
+                                          Termin.Art.GEBURTSTAG));
+
+        // Zwei Gruppen
+        firma.fuegeGruppeHinzu(new Gruppe("Lieferanten"));
+        firma.fuegeGruppeHinzu(new Gruppe("Newsletter"));
+
+        // Ausgeben - ruft intern toString() auf
+        System.out.println(firma);
+
+    } // end of main
+
+} // end of class Spielwiese</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Und das kommt dabei raus</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>=== Kontakt ===
+Name    : Muster GmbH
+Adresse{
+strasse='Hauptstr.'
+, hausnummer='1'
+, plz='65183'
+, ort='Wiesbaden'
+, land='DE'
+, typ='GESCHAEFTLICH'
+'}
+
+Telefon : Telefon{nummer='+49 611 123456', typ=FESTNETZ}
+E-Mail  : Email{adresse='info@muster.de', typ=GESCHAEFTLICH}
+
+=== Termine ===
+Termin{datum=2025-09-01, uhrzeit=14:30, art=GESCHAEFTLICH}
+Termin{datum=2025-12-24, uhrzeit=null, art=GEBURTSTAG}
+
+=== Gruppen ===
+Gruppe{name='Lieferanten'}
+Gruppe{name='Newsletter'}</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Ein einziges println für all das</h3>
+        <p>Im ganzen <code>main</code> steht genau ein
+           <code>System.out.println(firma);</code>. Alles andere passiert von
+           selbst, weil <code>toString()</code> automatisch aufgerufen wird – und
+           zwar kettenweise: die <code>toString()</code> von <code>Kontakt</code>
+           hängt <code>adresse</code> an einen String, dadurch wird die
+           <code>toString()</code> von <code>Adresse</code> aufgerufen, und so
+           weiter durch alle sechs Klassen.</p>
+
+        <p>Das ist der Grund, warum wir in jeder Klasse eine
+           <code>toString()</code> geschrieben haben. Hättest du eine vergessen,
+           stünde an der Stelle <code>Gruppe@6d06d69c</code> statt
+           <code>Gruppe{name='Lieferanten'}</code>. Damit findest du auch schnell
+           die Klasse, in der sie fehlt.</p>
+
+        <h3 class="schritt-titel">uhrzeit=null ist kein Fehler</h3>
+        <p>Beim zweiten Termin steht <code>uhrzeit=null</code>. Das ist genau so
+           gewollt: der Geburtstag wurde über den Konstruktor ohne Uhrzeit angelegt,
+           also gibt es keine. <code>null</code> heißt hier „bewusst nicht
+           gesetzt".</p>
+
+        <p>Aufpassen musst du nur, wenn du damit weiterrechnest.
+           <code>firma.getTermine().get(1).getUhrzeit().getHour()</code> würde eine
+           <code>NullPointerException</code> werfen, weil man von
+           <code>null</code> keine Stunde erfragen kann. Beim Ausgeben ist es
+           harmlos – da macht Java daraus einfach den Text „null".</p>
+
+        <h3 class="schritt-titel">Warum erst der Konstruktor mit einem Argument</h3>
+        <p>Der Kontakt wird mit <code>new Kontakt("Muster GmbH")</code> angelegt
+           und alles Weitere danach über Setter nachgetragen. Das könnte man auch
+           mit dem großen Konstruktor auf einmal machen – nur müsste man dafür die
+           beiden Listen vorher selbst bauen und befüllen, und der Aufruf hätte sechs
+           Argumente. So ist es lesbarer, und es entspricht auch dem, was die App
+           macht: erst den Namen eintippen, dann Stück für Stück ergänzen.</p>
+
+        <p>Möglich ist das nur, weil der kleine Konstruktor die Listen anlegt.
+           Ohne das würde der erste <code>fuegeTerminHinzu</code> sofort abstürzen.</p>
+
+        <h3 class="schritt-titel">Zur Zusatzaufgabe: schöner formatieren</h3>
+        <p>Die Ausgabe der Adresse ist ehrlich gesagt nicht schön – die Kommas
+           stehen am Zeilenanfang und am Ende hängt ein einsames <code>'}</code>.
+           Das kommt daher, dass die <code>toString()</code> automatisch erzeugt und
+           dann mit Zeilenumbrüchen versehen wurde.</p>
+
+        <p>Für die Zusatzaufgabe schreibt man eine eigene Methode daneben, statt
+           <code>toString()</code> zu verbiegen:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">// in der Klasse Adresse
+public String formatiert() {
+    return strasse + " " + hausnummer + "\n"
+         + plz + " " + ort + " (" + land + ")" + "\n"
+         + "Typ: " + typ;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Damit wird aus dem Klammergewirr:</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Hauptstr. 1
+65183 Wiesbaden (DE)
+Typ: GESCHAEFTLICH</code></pre>
+            </div>
+        </div>
+
+        <p>Warum nicht einfach <code>toString()</code> umschreiben? Weil die beiden
+           verschiedene Zwecke haben. <code>toString()</code> soll beim Debuggen
+           zeigen, was <em>wirklich</em> im Objekt steht – mit allen Attributnamen,
+           auch wenn es hässlich aussieht. <code>formatiert()</code> ist für den
+           Benutzer. Beides in eine Methode zu stopfen geht meistens schief.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Die Abgabe ist eine Zip-Datei mit Code <strong>und</strong> UML –
+            also alle <code>.java</code>- und alle <code>.uml</code>-Dateien zu
+            Kontakt, Telefon, Email, Adresse, Termin, Gruppe und Spielwiese. Wer nur
+            die Java-Dateien einpackt, hat die halbe Abgabe vergessen.</span>
+        </div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="uml-im-java-editor.html"><small>Vorherige Aufgabe</small>UML-Diagramm im Java-Editor</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

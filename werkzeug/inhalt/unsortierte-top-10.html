@@ -1,0 +1,103 @@
+        <p>Die Aufgabe der heutigen Stunde ist die unsortierte Top-10! Zehn
+           Albumcover liegen durcheinander und sollen wieder in die richtige
+           Reihenfolge – aber nach festen Regeln. Das ist die Aufgabe, mit der die
+           ganze Sortier-Einheit anfängt, und sie kommt bewusst ohne Rechner aus.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Das war mal das Ranking der am meisten verkauften Alben der Welt.
+               Die Alben unten sind durcheinander geraten und sollen wieder in die
+               richtige obige Reihenfolge gebracht werden.</p>
+            <ul>
+                <li>Überlegen Sie sich eine eindeutige Handlungsvorschrift (Algorithmus), um die Platten (möglichst schnell) zu sortieren.</li>
+                <li>Nur zwei Alben-Rankings dürfen pro Schritt verglichen und ggf. vertauscht werden.</li>
+                <li>Es darf in jedem Sortier-Schritt immer nur die gleiche Regel angewendet werden.</li>
+                <li>Ein Schritt ist die Wiederholung der Handlungsvorschrift.</li>
+                <li>Notieren Sie sich die Handlungsvorschrift in Stichpunkten.</li>
+            </ul>
+        </div>
+
+        <h2>Worauf die Regeln hinauslaufen</h2>
+
+        <p>Die drei Einschränkungen sind der eigentliche Inhalt der Aufgabe. Sie
+           verbieten nämlich genau das, was man intuitiv machen würde – nämlich alle
+           zehn Cover gleichzeitig anschauen und sie in einem Rutsch hinlegen.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Regel</th><th>Was sie erzwingt</th></tr></thead>
+                <tbody>
+                    <tr><td>Nur zwei pro Schritt vergleichen</td><td>Ein Computer kann auch nur zwei Werte auf einmal vergleichen. Du musst wie eine Maschine arbeiten.</td></tr>
+                    <tr><td>Immer dieselbe Regel</td><td>Ein Algorithmus ist eine feste Vorschrift, keine Sammlung von Bauchentscheidungen.</td></tr>
+                    <tr><td>Eindeutig</td><td>Zwei Leute mit derselben Vorschrift müssen bei denselben Schritten landen.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Meine Handlungsvorschrift</h2>
+
+        <p>Ich nehme das Verfahren, auf das die meisten von selbst kommen –
+           nämlich Selection Sort, auch wenn es in der Stunde noch nicht so heißt:</p>
+
+        <ol class="schritte">
+            <li>Schau dir alle Alben an, die noch nicht einsortiert sind.</li>
+            <li>Merke dir das erste davon als „bisher bestes".</li>
+            <li>Vergleiche es mit dem nächsten. Hat das nächste ein besseres Ranking, merke dir dieses als „bisher bestes".</li>
+            <li>Wiederhole Schritt 3, bis du alle unsortierten durch hast.</li>
+            <li>Lege das gemerkte Album ans Ende der sortierten Reihe.</li>
+            <li>Ist noch etwas übrig, fang wieder bei Schritt 1 an.</li>
+        </ol>
+
+        <p>Diese Vorschrift erfüllt alle drei Vorgaben: in Schritt 3 werden immer
+           genau zwei verglichen, die Regel ist in jedem Durchlauf dieselbe, und sie
+           ist eindeutig – zwei Leute kommen zum selben Ergebnis.</p>
+
+        <h3 class="schritt-titel">Wie lange das dauert</h3>
+        <p>Beim ersten Durchlauf vergleicht man 9-mal (das erste mit allen
+           anderen), beim zweiten 8-mal, dann 7-mal und so weiter:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>9 + 8 + 7 + 6 + 5 + 4 + 3 + 2 + 1 = 45 Vergleiche</code></pre>
+            </div>
+        </div>
+
+        <p>Allgemein bei n Alben: <code>n · (n-1) / 2</code>. Bei 10 sind das 45,
+           bei 100 schon 4 950. Verzehnfacht man die Menge, wird es ungefähr
+           hundertmal so aufwendig – das ist genau die O(n²), über die später
+           gesprochen wird.</p>
+
+        <h2>Andere Vorschriften, die genauso gültig sind</h2>
+
+        <p>Die Aufgabe verlangt nicht dieses eine Verfahren. Zwei andere, die die
+           Regeln ebenso erfüllen:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Vorschrift</th><th>Wie sie sich anfühlt</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Einfügen:</strong> Nimm das nächste Album und schiebe es in der schon sortierten Reihe so weit nach links, bis das Album links davon besser platziert ist.</td><td>So sortieren die meisten Leute Spielkarten auf der Hand. Das ist Insertion Sort.</td></tr>
+                    <tr><td><strong>Nachbarn tauschen:</strong> Geh die Reihe von links nach rechts durch und tausche je zwei Nachbarn, wenn sie falsch herum liegen. Wiederhole, bis kein Tausch mehr nötig war.</td><td>Sehr einfach zu befolgen, dauert aber am längsten. Das ist Bubble Sort.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Wichtig für die Bewertung ist nicht, welches Verfahren du nimmst,
+           sondern ob deine Beschreibung <strong>eindeutig</strong> ist. Sätze wie
+           „dann sortiere ich den Rest" sind keine Handlungsvorschrift – das ist
+           genau das, was noch beschrieben werden soll.</p>
+
+        <h3 class="schritt-titel">Der häufigste Fehler</h3>
+        <p>Viele schreiben als ersten Punkt „ich suche das Album mit Platz 1 und
+           lege es nach vorne". Das klingt richtig, verstößt aber gegen die erste
+           Regel: um es zu <em>finden</em>, hast du alle zehn gleichzeitig
+           angeschaut. Ein Computer kann das nicht. Deshalb muss die Vorschrift
+           ausdrücklich beschreiben, <em>wie</em> man das Minimum durch
+           Zweiervergleiche findet – und genau das machen die Schritte 2 bis 4.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Die Materialschablone mit den Albumcovern liegt im OneNote
+            daneben. Für die Abgabe zählt der Text der Handlungsvorschrift, nicht das
+            fertig sortierte Bild.</span>
+        </div>

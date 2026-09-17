@@ -1,0 +1,179 @@
+        <p>Die Aufgabe der heutigen Stunde ist der UML-Klasseneditor! Wir haben
+           die Klasse <code>Termin</code> auf dem Papier entworfen, jetzt bauen wir
+           sie im Java-Editor nach – und zwar nicht durch Tippen, sondern über das
+           UML-Fenster. Der Editor erzeugt den Java-Code dann selbst.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Lernaufgabe: <em>Datei &gt; Neu &gt; Klasse</em>. Bauen Sie die
+               folgende Klasse <code>Termin</code> mit dem UML-Klasseneditor nach.
+               Um die Klassen <code>LocalDate</code> und <code>LocalTime</code> zu
+               nutzen, müssen diese importiert werden:</p>
+            <p><code>import java.time.LocalDate;</code><br>
+               <code>import java.time.LocalTime;</code></p>
+            <p>Ergänzen Sie die folgende Zeile im Code. Die Dateien speichern: Java
+               Code, UML Code.</p>
+        </div>
+
+        <h2>So geht man im Editor vor</h2>
+
+        <ol class="schritte">
+            <li><em>Datei &gt; Neu &gt; Klasse</em> – es öffnet sich der UML-Klassen-Editor</li>
+            <li>Im Reiter <strong>Klasse</strong> den Namen <code>Termin</code> eintragen</li>
+            <li>Im Reiter <strong>Attribute</strong> die drei Attribute anlegen: Zugriff auf <em>private</em> stellen, Name und Typ eintragen, <em>get-Methode</em> und <em>set-Methode</em> ankreuzen, dann <em>Neu</em></li>
+            <li>Im Reiter <strong>Methoden</strong> die beiden Konstruktoren und <code>toString()</code> ergänzen</li>
+            <li>Die beiden <code>import</code>-Zeilen von Hand oben in den Code schreiben – die kann der Editor nicht raten</li>
+        </ol>
+
+        <p>Das Häkchen bei <em>get-Methode</em> und <em>set-Methode</em> ist der
+           eigentliche Gewinn: der Editor schreibt die Getter und Setter selbst.
+           Bei drei Attributen sind das sechs Methoden, die man sonst von Hand
+           tippen müsste – und bei denen man garantiert einmal
+           <code>this.</code> vergisst.</p>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Termin.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Termin.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Die Klasse Termin fuer das Telefonbuch
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class Termin {
+
+    // Die vier Arten, die ein Termin haben kann
+    public enum Art {
+        GEBURTSTAG, JAHRESTAG, GESCHAEFTLICH, PRIVAT
+    }
+
+    // Anfang Attribute
+    private LocalDate datum;
+    private LocalTime uhrzeit;
+    private Art art;
+    // Ende Attribute
+
+    // Konstruktor ohne Uhrzeit - zum Beispiel fuer Geburtstage
+    public Termin(LocalDate datum, Art art) {
+        this.datum = datum;
+        this.uhrzeit = null;
+        this.art = art;
+    }
+
+    // Konstruktor mit Uhrzeit
+    public Termin(LocalDate datum, LocalTime uhrzeit, Art art) {
+        this.datum = datum;
+        this.uhrzeit = uhrzeit;
+        this.art = art;
+    }
+
+    // Anfang Methoden
+    public LocalDate getDatum() {
+        return datum;
+    }
+
+    public void setDatum(LocalDate datum) {
+        this.datum = datum;
+    }
+
+    public LocalTime getUhrzeit() {
+        return uhrzeit;
+    }
+
+    public void setUhrzeit(LocalTime uhrzeit) {
+        this.uhrzeit = uhrzeit;
+    }
+
+    public Art getArt() {
+        return art;
+    }
+
+    public void setArt(Art art) {
+        this.art = art;
+    }
+
+    public String toString() {
+        return "Termin{datum=" + datum
+             + ", uhrzeit=" + uhrzeit
+             + ", art=" + art + "}";
+    }
+    // Ende Methoden
+
+} // end of class Termin</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Die zu ergänzende Zeile: toString</h3>
+        <p>Der UML-Editor legt <code>toString()</code> zwar an, füllt sie aber
+           nicht. Genau das ist die Zeile, die ergänzt werden soll:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public String toString() {
+    return "Termin{datum=" + datum + ", uhrzeit=" + uhrzeit + ", art=" + art + "}";
+}</code></pre>
+            </div>
+        </div>
+
+        <p><code>toString()</code> ist eine besondere Methode. Java ruft sie
+           <strong>automatisch</strong> auf, sobald ein Objekt in einem
+           String-Zusammenhang auftaucht:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">System.out.println(meinTermin);          // ruft intern meinTermin.toString() auf
+String s = "Termin: " + meinTermin;      // hier genauso</code></pre>
+            </div>
+        </div>
+
+        <p>Schreibst du keine eigene <code>toString()</code>, erbt deine Klasse
+           die von <code>Object</code>, und die gibt so etwas aus wie
+           <code>Termin@6d06d69c</code>. Das ist der Klassenname plus eine interne
+           Speicheradresse und hilft niemandem. Deshalb gehört eine eigene
+           <code>toString()</code> in jede Klasse, die man irgendwann mal ausgeben
+           will.</p>
+
+        <h3 class="schritt-titel">Warum die Imports nicht automatisch kommen</h3>
+        <p><code>LocalDate</code> und <code>LocalTime</code> liegen im Paket
+           <code>java.time</code>. Der UML-Editor kennt beim Anlegen des Attributs
+           nur den Namen des Typs, nicht das Paket – deshalb musst du die beiden
+           Zeilen selbst oben hinschreiben.</p>
+
+        <p>Fehlen sie, bekommst du <code>cannot find symbol – class LocalDate</code>,
+           obwohl im UML-Diagramm alles richtig aussieht. Das ist bei dieser
+           Aufgabe der häufigste Stolperstein, weil man im Diagramm keinen Fehler
+           sieht.</p>
+
+        <h3 class="schritt-titel">Zwei Dateien am Ende</h3>
+        <p>Der Java-Editor speichert bei dieser Arbeitsweise zwei Dateien:
+           <code>Termin.java</code> mit dem Code und <code>Termin.uml</code> mit dem
+           Diagramm. Beide gehören zur Abgabe.</p>
+
+        <p>Das Praktische daran: die beiden bleiben synchron. Änderst du das
+           Diagramm, ändert sich der Code – und wenn du den Code änderst und das
+           Diagramm aktualisierst, erscheint die Änderung auch dort. Deshalb steht
+           in der Aufgabe, dass aus UML-Diagrammen automatisch Code erzeugt werden
+           kann und umgekehrt.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Der Konstruktor ohne Uhrzeit setzt <code>uhrzeit</code>
+            ausdrücklich auf <code>null</code>. Nötig wäre das nicht, Java macht das
+            bei Objekt-Attributen von selbst – aber so sieht jeder, der den Code
+            liest, dass das Absicht ist und nicht vergessen wurde.</span>
+        </div>

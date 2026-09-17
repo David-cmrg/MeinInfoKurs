@@ -1,42 +1,42 @@
 <!DOCTYPE html>
-<html lang="de" data-basis="">
+<html lang="de" data-basis="../../">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MeinInfoKurs</title>
-    <meta name="description" content="Alle Aufgaben aus dem Informatik-Unterricht – mit Lösung und einer Erklärung, die auch wirklich erklärt. Von der E-Phase bis Q3.">
+    <title>MeinInfoKurs | Fibonnaci Zahlen und Quotienten</title>
+    <meta name="description" content="Konsole – die Lösung fehlt hier noch.">
     <meta name="author" content="David Gomez Camargo">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://meininfokurs.cmrg.site/">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/e/java/fibonaccizahlen.html">
 
     <meta property="og:site_name" content="MeinInfoKurs">
     <meta property="og:locale" content="de_DE">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="MeinInfoKurs">
-    <meta property="og:description" content="Alle Aufgaben aus dem Informatik-Unterricht – mit Lösung und einer Erklärung, die auch wirklich erklärt. Von der E-Phase bis Q3.">
-    <meta property="og:url" content="https://meininfokurs.cmrg.site/">
-    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/start.png">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Fibonnaci Zahlen und Quotienten">
+    <meta property="og:description" content="Konsole – die Lösung fehlt hier noch.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/e/java/fibonaccizahlen.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="MeinInfoKurs">
+    <meta property="og:image:alt" content="MeinInfoKurs | Fibonnaci Zahlen und Quotienten">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="MeinInfoKurs">
-    <meta name="twitter:description" content="Alle Aufgaben aus dem Informatik-Unterricht – mit Lösung und einer Erklärung, die auch wirklich erklärt. Von der E-Phase bis Q3.">
-    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/start.png">
+    <meta name="twitter:title" content="MeinInfoKurs | Fibonnaci Zahlen und Quotienten">
+    <meta name="twitter:description" content="Konsole – die Lösung fehlt hier noch.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
 
     <meta name="theme-color" content="#14151f">
 
-    <link rel="icon" href="assets/logo.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="assets/logo.png">
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="assets/stil.css">
-    <link rel="stylesheet" href="assets/prism-thema.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
 
     <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
     <script>
@@ -64,28 +64,14 @@
             document.head.appendChild(werbeSkript);
         }
     </script>
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "MeinInfoKurs",
-  "description": "Alle Aufgaben aus dem Informatik-Unterricht – mit Lösung und einer Erklärung, die auch wirklich erklärt. Von der E-Phase bis Q3.",
-  "url": "https://meininfokurs.cmrg.site/",
-  "inLanguage": "de",
-  "author": {
-    "@type": "Person",
-    "name": "David Gomez Camargo"
-  }
-}
-    </script>
 </head>
 <body>    <nav class="nav" aria-label="Hauptnavigation">
-        <a href="index.html" class="nur-symbol" aria-current="page" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
-        <a href="e/index.html"><span class="beschriftung">E</span></a>
-        <a href="q1/index.html"><span class="beschriftung">Q1</span></a>
-        <a href="q2/index.html"><span class="beschriftung">Q2</span></a>
-        <a href="q3/index.html"><span class="beschriftung">Q3</span></a>
-        <a href="info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html" aria-current="page"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
     </nav>
     <div class="werkzeuge">
         <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
@@ -93,43 +79,24 @@
         <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
     </div>
 
-    <main class="seite weit" data-verlauf="nein">
-        <h1 class="titel">MeinInfoKurs</h1>
-        <p>Hier findest du die Aufgaben aus unserem Info-Kurs – jede mit fertiger
-           Lösung und einer Erklärung, wie man da hinkommt. Such dir das Halbjahr
-           aus, in dem ihr gerade seid.</p>
+    <main class="seite" data-verlauf="nein">
+        <p class="brotkrumen">
+            <a href="../../e/index.html">E-Phase</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../e/index.html#java">Java</a>
+        </p>
+        <h1 class="titel">Fibonnaci Zahlen und Quotienten</h1>
+        <p class="status ist-nicht-verifiziert">
+            <i class="fa-solid fa-hourglass-half" aria-hidden="true"></i>Kommt noch
+        </p>
 
-        <div class="raster halbjahre">
-            <a class="karte" href="e/index.html">
-                <span class="kuerzel">E</span>
-                <span class="name">Klasse 10 · Grundlagen</span>
-                <span class="zusatz">35 Aufgaben</span>
-            </a>
-            <a class="karte" href="q1/index.html">
-                <span class="kuerzel">Q1</span>
-                <span class="name">Klasse 11 · 1. Halbjahr</span>
-                <span class="zusatz">31 Aufgaben</span>
-            </a>
-            <a class="karte" href="q2/index.html">
-                <span class="kuerzel">Q2</span>
-                <span class="name">Klasse 11 · 2. Halbjahr</span>
-                <span class="zusatz">20 Aufgaben</span>
-            </a>
-            <a class="karte" href="q3/index.html">
-                <span class="kuerzel">Q3</span>
-                <span class="name">Klasse 12 · 1. Halbjahr</span>
-                <span class="zusatz">4 Aufgaben</span>
-            </a>
-        </div>
+        <p>Diese Aufgabe steht zwar auf der Liste, aber eine Lösung dazu gibt es
+           hier noch nicht. Ich trage sie nach, sobald ich dazu komme.</p>
 
-        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+        <p>Wenn du sie selbst schon gelöst hast und deine Lösung hier stehen
+           soll, schreib mir gerne: <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
 
-        <h2>Wie das hier gedacht ist</h2>
-        <p>Jede Aufgabe hat die gleiche Struktur: oben die Aufgabenstellung, dann
-           die fertige Lösung zum Aufdecken, und darunter Schritt für Schritt,
-           warum sie so aussieht wie sie aussieht. Der Code lässt sich kopieren
-           und herunterladen.</p>
-        <p>Abschreiben bringt dir in der Klausur nichts. Lies die Erklärung.</p>
+        <p><a href="../../e/index.html">Zurück zur Übersicht</a></p>
     </main>
 
     <dialog class="fenster fenster-suche" id="suche-fenster">
@@ -153,23 +120,14 @@
             <ul id="verlauf-liste"></ul>
         </div>
     </dialog>
-    <dialog class="fenster" id="werbe-fenster">
-        <div class="fenster-kopf">
-            <h2>Werbung <span id="werbe-uhr"></span></h2>
-            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
-        </div>
-        <div class="fenster-koerper">
-            <div class="eigenwerbung" id="werbe-inhalt"></div>
-        </div>
-    </dialog>
     <footer class="fuss">
         <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
            Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
         <p>&copy; 2026 David Gomez Camargo &middot;
-           <a href="info.html">Info &amp; Kontakt</a> &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
            <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
     </footer>
-    <script src="assets/seite.js"></script>
+    <script src="../../assets/seite.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>

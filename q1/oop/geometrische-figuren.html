@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Geometrische Figuren</title>
+    <meta name="description" content="Quadrat, Rechteck, Kreis und ein rechtwinkliges Dreieck objektorientiert modellieren – plus die Fachsprache, mit der man den Code beschreibt.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/oop/geometrische-figuren.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Geometrische Figuren">
+    <meta property="og:description" content="Quadrat, Rechteck, Kreis und ein rechtwinkliges Dreieck objektorientiert modellieren – plus die Fachsprache, mit der man den Code beschreibt.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/oop/geometrische-figuren.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Geometrische Figuren">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Geometrische Figuren">
+    <meta name="twitter:description" content="Quadrat, Rechteck, Kreis und ein rechtwinkliges Dreieck objektorientiert modellieren – plus die Fachsprache, mit der man den Code beschreibt.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Geometrische Figuren",
+  "description": "Quadrat, Rechteck, Kreis und ein rechtwinkliges Dreieck objektorientiert modellieren – plus die Fachsprache, mit der man den Code beschreibt.",
+  "url": "https://meininfokurs.cmrg.site/q1/oop/geometrische-figuren.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "OOP in Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"OOP in Java\", Seite 71-79",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#oop">OOP in Java</a>
+        </p>
+        <h1 class="titel">Geometrische Figuren</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde sind die geometrischen Figuren!
+           Quadrat, Rechteck, Kreis und am Ende noch ein rechtwinkliges Dreieck
+           sollen objektorientiert modelliert werden. Das ist die erste Aufgabe,
+           bei der wir mehrere Klassen nebeneinander haben, die sich sehr ähnlich
+           sind – und genau da fängt OOP an, sich zu lohnen.</p>
+
+        <p>Die Aufgabe hat vier Teile plus Zusatzaufgaben. Teil b) ist eine reine
+           Textaufgabe, die wird gerne überlesen – die ist aber die, die in der
+           Klausur drankommt.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>a)</strong> Erstellen Sie einen Ordner
+               <code>geometrischeobjekte</code>. Speichern Sie die Datei
+               <code>Quadrat.java</code> in dem Ordner ab. Führen Sie die Datei aus.
+               Schreiben Sie eine Klasse <code>Spielwiese</code> und testen Sie die
+               Klasse <code>Quadrat</code>.</p>
+            <p><strong>b)</strong> Beschreiben und erklären Sie den Code.
+               Verwenden Sie Fachsprache. Tipp: Bauen Sie die folgenden Vokabeln
+               in ihren Antworttext ein: Klasse, Attribut, Methode, Parameter bzw.
+               Argumente, Datentyp, Rückgabewert, Konkatenation, lokale Variable,
+               Dezimalzahl, …</p>
+            <p><strong>c)</strong> Programmieren Sie die Klassen
+               <code>Rechteck</code>, <code>Kreis</code> (<code>Math.PI</code>),
+               erstellen Sie Objekte und schreiben Sie eine Ausgabe. Die Angabe der
+               Längen erfolgt in cm. Halten Sie das EVA-Prinzip in der
+               Ausgabemethode ein, d.h. den Ausgabe-String konkatenieren und am
+               Ende ausgeben.</p>
+            <p><strong>d)</strong> Erweitern Sie die Klassen um ein rechtwinkliges
+               Dreieck <code>RechtwinkligesDreieck.java</code>. Die Parameter sind
+               die Katheten. Tipp: Pythagoras: Kathete mal Kathete ist die
+               Hypotenuse im Quadrat: <code>Math.sqrt(a * a + b * b);</code></p>
+            <p><strong>Zusatz:</strong> Erweitern Sie die Klasse
+               <code>RechtwinkligesDreieck</code>, damit auch Kathete und
+               Hypotenuse eingegeben werden können. Verwenden Sie einen dritten
+               <code>boolean</code>-Parameter, damit dies möglich wird.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Was vorgegeben ist</h2>
+        <p>Die Klasse <code>Quadrat</code> bekommst du fertig. Sie ist die Vorlage
+           für alles, was danach kommt – schau sie dir genau an, die anderen drei
+           Klassen sind nach demselben Muster gebaut.</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Quadrat.java (vorgegeben)</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld">
+                <pre><code class="language-java">public class Quadrat {
+    private double seitenlaenge;
+
+    public Quadrat(double seitenlaenge) {
+        this.seitenlaenge = seitenlaenge;
+    }
+
+    public double berechneFlaeche() {
+        return seitenlaenge * seitenlaenge;
+    }
+
+    public double berechneUmfang() {
+        return 4 * seitenlaenge;
+    }
+
+    public double getSeitenlaenge() {
+        return seitenlaenge;
+    }
+
+    public void setSeitenlaenge(double seitenlaenge) {
+        this.seitenlaenge = seitenlaenge;
+    }
+
+    public void print() {
+        String ausgabe = "Quadrat mit Seitenlänge = " + seitenlaenge + " cm\n" +
+                         "Fläche = " + berechneFlaeche() + " cm²\n" +
+                         "Umfang = " + berechneUmfang() + " cm";
+        System.out.println(ausgabe);
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Rechteck.java · Kreis.java · RechtwinkligesDreieck.java · Spielwiese.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="geometrischeobjekte.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Die geometrischen Figuren - alle vier Klassen plus Spielwiese
+ * Jede Klasse gehoert in eine eigene .java-Datei im Ordner geometrischeobjekte
+ *
+ * @version 1.0 vom 17.02.2021
+ * @MeinInfoKurs.github.io
+ */
+
+
+// ============ Rechteck.java ============
+public class Rechteck {
+    private double breite;
+    private double hoehe;
+
+    public Rechteck(double breite, double hoehe) {
+        this.breite = breite;
+        this.hoehe = hoehe;
+    }
+
+    public double berechneFlaeche() {
+        return breite * hoehe;
+    }
+
+    public double berechneUmfang() {
+        return 2 * breite + 2 * hoehe;
+    }
+
+    public double getBreite() {
+        return breite;
+    }
+
+    public double getHoehe() {
+        return hoehe;
+    }
+
+    public void setBreite(double breite) {
+        this.breite = breite;
+    }
+
+    public void setHoehe(double hoehe) {
+        this.hoehe = hoehe;
+    }
+
+    public void print() {
+        String ausgabe = "Rechteck mit Breite = " + breite + " cm und Hoehe = " + hoehe + " cm\n" +
+                         "Fläche = " + berechneFlaeche() + " cm²\n" +
+                         "Umfang = " + berechneUmfang() + " cm";
+        System.out.println(ausgabe);
+    }
+}
+
+
+// ============ Kreis.java ============
+public class Kreis {
+    private double radius;
+
+    public Kreis(double radius) {
+        this.radius = radius;
+    }
+
+    public double berechneFlaeche() {
+        return Math.PI * radius * radius;
+    }
+
+    public double berechneUmfang() {
+        return 2 * Math.PI * radius;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    public void print() {
+        String ausgabe = "Kreis mit Radius = " + radius + " cm\n" +
+                         "Fläche = " + berechneFlaeche() + " cm²\n" +
+                         "Umfang = " + berechneUmfang() + " cm";
+        System.out.println(ausgabe);
+    }
+}
+
+
+// ============ RechtwinkligesDreieck.java ============
+public class RechtwinkligesDreieck {
+    private double katheteA;
+    private double katheteB;
+
+    // Konstruktor 1: beide Katheten sind bekannt
+    public RechtwinkligesDreieck(double katheteA, double katheteB) {
+        this.katheteA = katheteA;
+        this.katheteB = katheteB;
+    }
+
+    // Zusatzaufgabe - Konstruktor 2: eine Kathete und die Hypotenuse.
+    // Der boolean sagt, wie der zweite Wert gemeint ist.
+    public RechtwinkligesDreieck(double katheteA, double zweiterWert, boolean istHypotenuse) {
+        this.katheteA = katheteA;
+        if (istHypotenuse) {
+            this.katheteB = Math.sqrt(zweiterWert * zweiterWert - katheteA * katheteA);
+        } else {
+            this.katheteB = zweiterWert;
+        }
+    }
+
+    public double berechneHypotenuse() {
+        return Math.sqrt(katheteA * katheteA + katheteB * katheteB);
+    }
+
+    public double berechneFlaeche() {
+        return katheteA * katheteB / 2;
+    }
+
+    public double berechneUmfang() {
+        return katheteA + katheteB + berechneHypotenuse();
+    }
+
+    public double getKatheteA() {
+        return katheteA;
+    }
+
+    public double getKatheteB() {
+        return katheteB;
+    }
+
+    public void print() {
+        String ausgabe = "Rechtwinkliges Dreieck mit Katheten " + katheteA + " cm und " + katheteB + " cm\n" +
+                         "Hypotenuse = " + berechneHypotenuse() + " cm\n" +
+                         "Fläche = " + berechneFlaeche() + " cm²\n" +
+                         "Umfang = " + berechneUmfang() + " cm";
+        System.out.println(ausgabe);
+    }
+}
+
+
+// ============ Spielwiese.java ============
+public class Spielwiese {
+
+    public static void main(String[] args) {
+
+        Quadrat q = new Quadrat(5);
+        q.print();
+        System.out.println("");
+
+        Rechteck r = new Rechteck(4, 7);
+        r.print();
+        System.out.println("");
+
+        Kreis k = new Kreis(3);
+        k.print();
+        System.out.println("");
+
+        RechtwinkligesDreieck d = new RechtwinkligesDreieck(3, 4);
+        d.print();
+        System.out.println("");
+
+        // Zusatz: 3 cm Kathete, 5 cm Hypotenuse -> die andere Kathete ist 4
+        RechtwinkligesDreieck d2 = new RechtwinkligesDreieck(3, 5, true);
+        d2.print();
+
+    } // end of main
+
+} // end of class Spielwiese</code></pre>
+            </div>
+        </div>
+
+        <p>In der Aufgabenstellung wird gefordert, dass wir folgende Sachen
+           umsetzen:</p>
+
+        <ol class="schritte">
+            <li>Eine Klasse <code>Spielwiese</code> zum Testen schreiben</li>
+            <li>Den vorgegebenen Quadrat-Code mit Fachsprache erklären</li>
+            <li><code>Rechteck</code> und <code>Kreis</code> nach demselben Muster bauen</li>
+            <li>In der Ausgabemethode das EVA-Prinzip einhalten</li>
+            <li><code>RechtwinkligesDreieck</code> mit Pythagoras ergänzen</li>
+            <li>Zusatz: zweiter Konstruktor mit <code>boolean</code>-Parameter</li>
+        </ol>
+
+        <h3 class="schritt-titel">Teil b) – den Code mit Fachsprache erklären</h3>
+        <p>Hier will der Lehrer hören, dass du die Vokabeln richtig benutzt. Am
+           Beispiel von <code>Quadrat</code> durchgegangen:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead>
+                    <tr><th>Im Code</th><th>Fachbegriff</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>public class Quadrat</code></td><td>Die <strong>Klasse</strong> – der Bauplan für alle Quadrate</td></tr>
+                    <tr><td><code>private double seitenlaenge;</code></td><td>Ein <strong>Attribut</strong> vom <strong>Datentyp</strong> <code>double</code>, also eine <strong>Dezimalzahl</strong></td></tr>
+                    <tr><td><code>Quadrat(double seitenlaenge)</code></td><td>Der <strong>Konstruktor</strong>; <code>seitenlaenge</code> ist sein <strong>Parameter</strong></td></tr>
+                    <tr><td><code>new Quadrat(5)</code></td><td>Beim Aufruf ist die <code>5</code> das <strong>Argument</strong></td></tr>
+                    <tr><td><code>berechneFlaeche()</code></td><td>Eine <strong>Methode</strong> mit <strong>Rückgabewert</strong> <code>double</code>, also eine Funktion</td></tr>
+                    <tr><td><code>print()</code></td><td>Eine <strong>Methode</strong> ohne Rückgabewert (<code>void</code>), also eine Prozedur</td></tr>
+                    <tr><td><code>String ausgabe = …</code></td><td>Eine <strong>lokale Variable</strong> – lebt nur innerhalb von <code>print()</code></td></tr>
+                    <tr><td><code>"Fläche = " + berechneFlaeche()</code></td><td><strong>Konkatenation</strong>: Text und Zahl werden aneinandergehängt</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Der Unterschied zwischen Parameter und Argument wird gern
+           durcheinandergebracht: der <strong>Parameter</strong> steht in der
+           Klammer, wenn du die Methode <em>schreibst</em>. Das
+           <strong>Argument</strong> ist der konkrete Wert, den du beim
+           <em>Aufrufen</em> reinsteckst. Parameter ist die Vorlage, Argument ist
+           das Eingesetzte.</p>
+
+        <p>Und der Unterschied zwischen Attribut und lokaler Variable: das
+           Attribut <code>seitenlaenge</code> gehört zum Objekt und lebt so lange
+           wie das Objekt. Die lokale Variable <code>ausgabe</code> entsteht beim
+           Aufruf von <code>print()</code> und ist danach wieder weg.</p>
+
+        <h3 class="schritt-titel">Rechteck und Kreis: dasselbe Muster</h3>
+        <p>Wenn du das Quadrat verstanden hast, sind die beiden eigentlich nur
+           Fleißarbeit. Jede Klasse hat ihre Attribute, einen Konstruktor,
+           <code>berechneFlaeche()</code>, <code>berechneUmfang()</code>, Getter
+           und <code>print()</code>. Nur die Formeln ändern sich:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Figur</th><th>Fläche</th><th>Umfang</th></tr></thead>
+                <tbody>
+                    <tr><td>Quadrat</td><td><code>a * a</code></td><td><code>4 * a</code></td></tr>
+                    <tr><td>Rechteck</td><td><code>breite * hoehe</code></td><td><code>2 * breite + 2 * hoehe</code></td></tr>
+                    <tr><td>Kreis</td><td><code>Math.PI * r * r</code></td><td><code>2 * Math.PI * r</code></td></tr>
+                    <tr><td>Dreieck</td><td><code>a * b / 2</code></td><td><code>a + b + Hypotenuse</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><code>Math.PI</code> ist eine Konstante aus der Java-Bibliothek, die
+           brauchst du nicht selbst zu definieren. Schreib bloß nicht
+           <code>3.14</code> hin, das ist zu ungenau und der Lehrer sieht es
+           sofort.</p>
+
+        <p>Dass alle vier Klassen fast gleich aussehen, ist übrigens kein Zufall
+           und auch kein Fehler – aber es ist genau der Punkt, an dem man später
+           mit Vererbung ansetzt. Da hätte man eine Oberklasse <code>Figur</code>
+           und die vier erben davon. Hatten wir noch nicht, deshalb schreiben wir
+           es hier viermal hin.</p>
+
+        <h3 class="schritt-titel">Das Dreieck und Pythagoras</h3>
+        <p>Beim rechtwinkligen Dreieck kennen wir nur die beiden Katheten. Die
+           Hypotenuse müssen wir ausrechnen, und dafür ist der Satz des Pythagoras
+           da:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public double berechneHypotenuse() {
+    return Math.sqrt(katheteA * katheteA + katheteB * katheteB);
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Wichtig: das ist eine <strong>Methode</strong> und kein Attribut. Die
+           Hypotenuse wird bei jedem Aufruf frisch berechnet. Würden wir sie als
+           Attribut speichern, müssten wir sie bei jeder Änderung einer Kathete
+           nachziehen – und genau das vergisst man dann. Als Methode kann sie gar
+           nicht veralten.</p>
+
+        <p>Denselben Trick nutzt <code>berechneUmfang()</code>: die ruft einfach
+           <code>berechneHypotenuse()</code> mit auf. Methoden dürfen andere
+           Methoden derselben Klasse benutzen, ohne Punkt davor.</p>
+
+        <h3 class="schritt-titel">Die Zusatzaufgabe mit dem boolean</h3>
+        <p>Jetzt wird es interessant. Es soll auch möglich sein, eine Kathete und
+           die Hypotenuse anzugeben. Das Problem: ein zweiter Konstruktor mit
+           <code>(double, double)</code> geht nicht – den gibt es schon, und Java
+           unterscheidet Konstruktoren nur an der Parameterliste. Deshalb kommt ein
+           dritter Parameter dazu, der sagt, wie der zweite Wert gemeint ist:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public RechtwinkligesDreieck(double katheteA, double zweiterWert, boolean istHypotenuse) {
+    this.katheteA = katheteA;
+    if (istHypotenuse) {
+        this.katheteB = Math.sqrt(zweiterWert * zweiterWert - katheteA * katheteA);
+    } else {
+        this.katheteB = zweiterWert;
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Beachte das <strong>Minus</strong> in der Wurzel. Vorher haben wir die
+           Hypotenuse aus den Katheten gerechnet, da wurde addiert. Jetzt gehen wir
+           rückwärts und ziehen ab: c² − a² = b². Wer hier aus Versehen ein Plus
+           tippt, bekommt ein Dreieck, das aussieht als wäre alles in Ordnung –
+           die Zahlen sind nur falsch.</p>
+
+        <p>Das ist auch schon Konstruktor-Überladung, also genau das Thema der
+           nächsten Aufgabe. Zwei Konstruktoren in derselben Klasse, unterschieden
+           an der Parameterliste.</p>
+
+        <h3 class="schritt-titel">Und so sieht die Ausgabe aus</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Quadrat mit Seitenlänge = 5.0 cm
+Fläche = 25.0 cm²
+Umfang = 20.0 cm
+
+Rechteck mit Breite = 4.0 cm und Hoehe = 7.0 cm
+Fläche = 28.0 cm²
+Umfang = 22.0 cm
+
+Kreis mit Radius = 3.0 cm
+Fläche = 28.274333882308138 cm²
+Umfang = 18.84955592153876 cm
+
+Rechtwinkliges Dreieck mit Katheten 3.0 cm und 4.0 cm
+Hypotenuse = 5.0 cm
+Fläche = 6.0 cm²
+Umfang = 12.0 cm
+
+Rechtwinkliges Dreieck mit Katheten 3.0 cm und 4.0 cm
+Hypotenuse = 5.0 cm
+Fläche = 6.0 cm²
+Umfang = 12.0 cm</code></pre>
+            </div>
+        </div>
+
+        <p>Die beiden Dreiecke am Ende sind absichtlich identisch – einmal aus
+           zwei Katheten (3, 4) gebaut, einmal aus Kathete 3 und Hypotenuse 5. Das
+           ist der schnellste Test, ob dein zweiter Konstruktor richtig rechnet.
+           Das 3-4-5-Dreieck ist dafür perfekt, weil da lauter glatte Zahlen
+           rauskommen.</p>
+
+        <p>Die krummen Zahlen beim Kreis stören übrigens niemanden, die sind
+           mathematisch korrekt. Wenn du sie schöner haben willst, pack
+           <code>InOut.format2(...)</code> drumherum – gefordert ist es hier
+           nicht.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Die beiden mit <code>***</code> markierten Zusatzaufgaben (GUI mit
+            dem Java-Editor und die Turtle-Zeichnung) sind hier nicht dabei – die
+            gehören zum GUI-Teil und haben mit den Figuren selbst nichts mehr zu
+            tun.</span>
+        </div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="tanken-und-fahren.html"><small>Vorherige Aufgabe</small>Methoden: tanken und fahren</a>
+            <a class="weiter" href="konstruktoren-ueberladen.html"><small>Nächste Aufgabe</small>Konstruktoren überladen</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

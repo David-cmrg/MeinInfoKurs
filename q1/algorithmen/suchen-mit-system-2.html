@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Binäre Suche: Die Startaufstellung</title>
+    <meta name="description" content="Die binäre Suche von Hand durchführen und danach als Methode istAufgestellt implementieren – inklusive der drei Stellen, an denen sie kippt.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/algorithmen/suchen-mit-system-2.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Binäre Suche: Die Startaufstellung">
+    <meta property="og:description" content="Die binäre Suche von Hand durchführen und danach als Methode istAufgestellt implementieren – inklusive der drei Stellen, an denen sie kippt.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/algorithmen/suchen-mit-system-2.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Binäre Suche: Die Startaufstellung">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Binäre Suche: Die Startaufstellung">
+    <meta name="twitter:description" content="Die binäre Suche von Hand durchführen und danach als Methode istAufgestellt implementieren – inklusive der drei Stellen, an denen sie kippt.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Binäre Suche: Die Startaufstellung",
+  "description": "Die binäre Suche von Hand durchführen und danach als Methode istAufgestellt implementieren – inklusive der drei Stellen, an denen sie kippt.",
+  "url": "https://meininfokurs.cmrg.site/q1/algorithmen/suchen-mit-system-2.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "Suchen und Sortieren",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"Suchen und Sortieren\", Seite 11",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#algorithmen">Suchen und Sortieren</a>
+        </p>
+        <h1 class="titel">Binäre Suche: Die Startaufstellung</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist die binäre Suche an einem
+           konkreten Beispiel! Bastians Fußballmannschaft, ein sortiertes Array mit
+           Trikotnummern, und die Frage: ist eine bestimmte Nummer aufgestellt?
+           Hier führen wir den Algorithmus einmal von Hand aus – genau das wird in
+           der Klausur verlangt.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>In Bastians Fußballmannschaft hat jeder Spieler seine eigene
+               Trikotnummer. Sein Fußballtrainer speichert die Startaufstellungen
+               für die jeweiligen Spiele jeweils in einem sortierten Array. Für das
+               kommende Spiel hat er die folgenden Trikotnummern ausgewählt. Bastian
+               hat die Trikotnummer <em>7</em>.</p>
+            <p>a) Führen Sie den Algorithmus der binären Suche auf dem Array aus,
+               um zu prüfen, ob Bastian aufgestellt ist. Notieren Sie für jeden
+               Schritt die Werte der Variablen <em>links</em>, <em>mitte</em> und
+               <em>rechts</em>.<br>
+               b) Führen Sie den Algorithmus der binären Suche auf dem Array aus, um
+               zu prüfen, ob der Spieler mit der Trikotnummer 17 aufgestellt ist.
+               Notieren Sie auch hier für jeden Schritt die Werte.<br>
+               c) Rechnerarbeit: Implementieren Sie das Spielerarray in einer Klasse
+               <em>Aufstellung</em>. Implementieren Sie eine Methode
+               <code>public boolean istAufgestellt(int Trikotnummer)</code>, die
+               <em>true</em> zurückgibt, wenn der Spieler mit der Trikotnummer
+               aufgestellt ist und ansonsten <em>false</em>.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Das Array</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Index</th><th>[0]</th><th>[1]</th><th>[2]</th><th>[3]</th><th>[4]</th><th>[5]</th><th>[6]</th><th>[7]</th><th>[8]</th><th>[9]</th><th>[10]</th></tr></thead>
+                <tbody><tr><td>Nummer</td><td>1</td><td>3</td><td>5</td><td>7</td><td>8</td><td>10</td><td>11</td><td>13</td><td>14</td><td>16</td><td>19</td></tr></tbody>
+            </table>
+        </div>
+
+        <p>Wichtig ist, dass das Array <strong>sortiert</strong> ist. Ohne das
+           funktioniert die binäre Suche nicht – sie würde ganze Bereiche
+           wegwerfen, in denen die gesuchte Zahl noch liegen könnte.</p>
+
+        <h2>a) Die Suche nach der 7</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Durchlauf</th><th>links</th><th>mitte</th><th>rechts</th><th>a[mitte]</th><th>Vergleich</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>0</td><td>5</td><td>10</td><td>10</td><td>10 &gt; 7 → rechts = 4</td></tr>
+                    <tr><td>2</td><td>0</td><td>2</td><td>4</td><td>5</td><td>5 &lt; 7 → links = 3</td></tr>
+                    <tr><td>3</td><td>3</td><td>3</td><td>4</td><td>7</td><td><strong>gefunden → true</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Drei Durchläufe für elf Spieler. Die lineare Suche hätte vier gebraucht
+           (Index 0, 1, 2, 3) – der Unterschied ist hier noch klein, weil das Array
+           winzig ist.</p>
+
+        <p>Rechnung für die Mitte: <code>mitte = (links + rechts) / 2</code>. Im
+           ersten Durchlauf <code>(0 + 10) / 2 = 5</code>. Im zweiten
+           <code>(0 + 4) / 2 = 2</code>. Im dritten <code>(3 + 4) / 2 = 3,5</code> –
+           und Java schneidet bei <code>int</code>-Division ab, also 3.</p>
+
+        <h2>b) Die Suche nach der 17</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Durchlauf</th><th>links</th><th>mitte</th><th>rechts</th><th>a[mitte]</th><th>Vergleich</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>0</td><td>5</td><td>10</td><td>10</td><td>10 &lt; 17 → links = 6</td></tr>
+                    <tr><td>2</td><td>6</td><td>8</td><td>10</td><td>14</td><td>14 &lt; 17 → links = 9</td></tr>
+                    <tr><td>3</td><td>9</td><td>9</td><td>10</td><td>16</td><td>16 &lt; 17 → links = 10</td></tr>
+                    <tr><td>4</td><td>10</td><td>10</td><td>10</td><td>19</td><td>19 &gt; 17 → rechts = 9</td></tr>
+                    <tr><td>–</td><td>10</td><td colspan="4">links &gt; rechts → Schleife endet, <strong>return false</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Das ist der interessantere Fall: die 17 ist nicht dabei. Der Suchbereich
+           schrumpft trotzdem bei jedem Schritt, bis <code>links</code> größer als
+           <code>rechts</code> wird. Dann ist der Bereich leer und es gibt nichts
+           mehr zu suchen – die Methode gibt <code>false</code> zurück.</p>
+
+        <p>Genau daran erkennt man in der Klausur, ob jemand den Algorithmus
+           verstanden hat: die Abbruchbedingung <code>solange links &lt;= rechts</code>
+           ist das, was den Nicht-gefunden-Fall überhaupt beendet. Ohne sie läuft die
+           Schleife ewig.</p>
+
+        <h2>c) Die Klasse Aufstellung</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Aufstellung.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Aufstellung.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Binaere Suche auf der Startaufstellung
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Aufstellung {
+
+    // Das Array MUSS sortiert sein, sonst funktioniert die binaere Suche nicht
+    private int[] spieler = {1, 3, 5, 7, 8, 10, 11, 13, 14, 16, 19};
+
+    /**
+     * Prueft mit binaerer Suche, ob ein Spieler aufgestellt ist.
+     *
+     * @param Trikotnummer die gesuchte Nummer
+     * @return true, wenn der Spieler aufgestellt ist, sonst false
+     */
+    public boolean istAufgestellt(int Trikotnummer) {
+        int links = 0;
+        int rechts = spieler.length - 1;
+        int mitte;
+
+        while (links &lt;= rechts) {
+            mitte = (links + rechts) / 2;
+
+            if (spieler[mitte] == Trikotnummer) {
+                return true;
+            } else if (spieler[mitte] &lt; Trikotnummer) {
+                links = mitte + 1;
+            } else {
+                rechts = mitte - 1;
+            }
+        } // end of while
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+        Aufstellung a = new Aufstellung();
+        System.out.println("Nummer 7  aufgestellt? " + a.istAufgestellt(7));
+        System.out.println("Nummer 17 aufgestellt? " + a.istAufgestellt(17));
+        System.out.println("Nummer 1  aufgestellt? " + a.istAufgestellt(1));
+        System.out.println("Nummer 19 aufgestellt? " + a.istAufgestellt(19));
+    } // end of main
+
+} // end of class Aufstellung</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Die drei Stellen, an denen es schiefgeht</h3>
+
+        <p><strong>1. <code>rechts = spieler.length - 1</code>, nicht
+           <code>spieler.length</code>.</strong> Das Array hat elf Einträge, der
+           letzte Index ist aber 10. Ohne das <code>-1</code> greifst du im ersten
+           Durchlauf schon daneben.</p>
+
+        <p><strong>2. <code>links &lt;= rechts</code>, nicht
+           <code>links &lt; rechts</code>.</strong> Mit dem kleineren Zeichen wird
+           der Fall <code>links == rechts</code> nicht mehr geprüft – und das ist
+           genau der letzte verbliebene Eintrag. Suchst du die 19 (Index 10), findet
+           die Methode sie dann nicht, obwohl sie drin ist. Der Fehler fällt bei den
+           meisten Tests nicht auf, nur bei den Rändern.</p>
+
+        <p><strong>3. <code>mitte + 1</code> und <code>mitte - 1</code>, nicht
+           einfach <code>mitte</code>.</strong> Die Mitte wurde ja gerade geprüft und
+           passte nicht, also darf sie raus aus dem Suchbereich. Schreibst du
+           <code>links = mitte</code>, kann sich der Bereich irgendwann nicht mehr
+           verkleinern und die Schleife läuft endlos.</p>
+
+        <h3 class="schritt-titel">Und so sieht es aus</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Nummer 7  aufgestellt? true
+Nummer 17 aufgestellt? false
+Nummer 1  aufgestellt? true
+Nummer 19 aufgestellt? true</code></pre>
+            </div>
+        </div>
+
+        <p>Die letzten beiden Tests sind absichtlich die Ränder: der erste und der
+           letzte Eintrag. Wenn deine Methode bei denen <code>false</code> sagt, hast
+           du Fehler 1 oder Fehler 2 von oben drin.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="suchen-mit-system-1.html"><small>Vorherige Aufgabe</small>Suchen mit System: Struktogramm und Zahlenraten</a>
+            <a class="weiter" href="suchen-mit-system-3.html"><small>Nächste Aufgabe</small>Hashing, Kollisionen und Effizienz</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

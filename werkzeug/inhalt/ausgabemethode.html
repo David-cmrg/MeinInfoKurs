@@ -1,0 +1,137 @@
+        <p>Die Aufgabe der heutigen Stunde ist die Ausgabemethode! Bis jetzt
+           holen wir uns jeden Wert einzeln mit einem Getter raus und bauen die
+           Ausgabe im Autohaus zusammen. Das ist auf Dauer nervig. Besser: das
+           Auto sagt selber, wie es sich beschreibt.</p>
+
+        <p>Die Methode ist schon halb vorgegeben, sie hört nur mittendrin auf –
+           und zwar so, dass sie in dem Zustand nicht mal kompiliert. Das ist
+           kein Versehen vom Lehrer, das ist die Aufgabe.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Ergänze die Klasse <code>Auto</code> um eine weitere Methode
+               <code>ausgabe</code>. Die Ausgabe ist noch nicht fertig. Ergänze die
+               Ausgabe: Das Tankvolumen, der Kraftstoffverbrauch und die aktuelle
+               Kraftstoffmenge sollen auch ausgegeben werden.</p>
+        </div>
+
+        <h2>Was vorgegeben ist</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Vorgabe</span>
+            </div>
+            <div class="code-feld">
+                <pre><code class="language-java">public void ausgabe() {
+    String info = "Auto: " + Kennzeichen + "\n"
+                + "  Kilometerstand: " + Kilometerstand + " km\n";
+                //Weiter schreiben, vorher das Semikolon entfernen &lt;-
+    System.out.println(info);
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Der Kommentar sagt dir genau, wo der Haken liegt: hinter der zweiten
+           Zeile steht ein Semikolon. Damit ist die Zuweisung zu Ende. Wenn du
+           einfach darunter weiterschreibst, meckert der Compiler. Das Semikolon
+           muss also ans <em>Ende</em> der letzten Zeile wandern.</p>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="ausgabe.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Die Ausgabemethode der Klasse Auto
+ *
+ * @version 1.0 vom 13.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public void ausgabe() {
+    String info = "Auto: " + Kennzeichen + "\n"
+                + "  Kilometerstand: " + Kilometerstand + " km\n"
+                + "  Tankvolumen: " + Tankvolumen + " l\n"
+                + "  Kraftstoffverbrauch: " + Kraftstoffverbrauch + " l/100km\n"
+                + "  Kraftstoffmenge: " + InOut.format2(Kraftstoffmenge) + " l";
+    System.out.println(info);
+}</code></pre>
+            </div>
+        </div>
+
+        <p>In der Aufgabenstellung wird gefordert, dass wir folgende Sachen
+           umsetzen:</p>
+
+        <ol class="schritte">
+            <li>Das Semikolon an das Ende der Zuweisung verschieben</li>
+            <li>Das Tankvolumen mit ausgeben</li>
+            <li>Den Kraftstoffverbrauch mit ausgeben</li>
+            <li>Die aktuelle Kraftstoffmenge mit ausgeben</li>
+        </ol>
+
+        <h3 class="schritt-titel">Das Semikolon</h3>
+        <p>Java interessiert sich nicht für Zeilenumbrüche. Eine Anweisung geht
+           so lange weiter, bis ein Semikolon kommt. Deshalb darf man einen langen
+           String über mehrere Zeilen zusammenbauen – das Semikolon steht nur
+           ganz am Schluss. Genau das macht den Code hier lesbar: jede Zeile der
+           späteren Ausgabe steht auch im Code in einer eigenen Zeile.</p>
+
+        <h3 class="schritt-titel">Konkatenation und \n</h3>
+        <p>Das <code>+</code> zwischen Strings ist keine Addition, sondern
+           Aneinanderhängen. Das nennt sich Konkatenation. Sobald einer der beiden
+           Teile ein String ist, wird auch der andere in Text umgewandelt –
+           deshalb können wir den <code>double</code> Kilometerstand einfach
+           drankleben, ohne ihn vorher umzuwandeln.</p>
+
+        <p><code>\n</code> ist ein Zeilenumbruch <em>innerhalb</em> des Strings.
+           Wir bauen also einen einzigen langen Text, der mehrere Zeilen enthält,
+           und geben den am Ende mit <strong>einem</strong>
+           <code>System.out.println</code> aus.</p>
+
+        <h3 class="schritt-titel">Warum nur ein println am Ende</h3>
+        <p>Genau darum geht es bei der Aufgabe eigentlich: das EVA-Prinzip.
+           Eingabe, Verarbeitung, Ausgabe – und zwar in dieser Reihenfolge und
+           sauber getrennt. Wir sammeln erst alles in der Variable
+           <code>info</code> ein (Verarbeitung) und geben dann einmal aus
+           (Ausgabe). Fünf einzelne <code>println</code> würden dasselbe auf dem
+           Bildschirm produzieren, vermischen aber beides.</p>
+
+        <p>Das klingt nach Erbsenzählerei, wird aber später wichtig: wenn du den
+           Text irgendwann nicht mehr in die Konsole, sondern in ein
+           GUI-Fenster schreiben willst, musst du nur die letzte Zeile ändern
+           statt fünf.</p>
+
+        <h3 class="schritt-titel">format2 für die Nachkommastellen</h3>
+        <p>Bei der Kraftstoffmenge steht <code>InOut.format2(...)</code> drumherum.
+           Das rundet auf zwei Nachkommastellen. Ohne das bekommst du nach ein
+           paar Fahrten Ausgaben wie <code>23.400000000000002</code> um die Ohren
+           gehauen – das ist keine Java-Macke, sondern liegt daran, wie
+           <code>double</code> Zahlen im Speicher ablegt. Für den Kilometerstand
+           kannst du das genauso machen.</p>
+
+        <h3 class="schritt-titel">Und so sieht es dann aus</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Auto: WI-AB 123
+  Kilometerstand: 0.0 km
+  Tankvolumen: 50.0 l
+  Kraftstoffverbrauch: 6.5 l/100km
+  Kraftstoffmenge: 0,00 l</code></pre>
+            </div>
+        </div>
+
+        <p>Solange <code>tanken</code> und <code>fahren</code> noch leer sind,
+           bleiben Kilometerstand und Kraftstoffmenge natürlich bei 0. Das ändert
+           sich in der nächsten Aufgabe.</p>

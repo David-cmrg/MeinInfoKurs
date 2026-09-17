@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Arbeitsblatt Sortieralgorithmen</title>
+    <meta name="description" content="Andersherum: aus den Zwischenschritten erkennen, welcher Sortieralgorithmus gelaufen ist – und dann selbst eine Folge damit sortieren.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/algorithmen/ab-sortieralgorithmen.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Arbeitsblatt Sortieralgorithmen">
+    <meta property="og:description" content="Andersherum: aus den Zwischenschritten erkennen, welcher Sortieralgorithmus gelaufen ist – und dann selbst eine Folge damit sortieren.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/algorithmen/ab-sortieralgorithmen.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Arbeitsblatt Sortieralgorithmen">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Arbeitsblatt Sortieralgorithmen">
+    <meta name="twitter:description" content="Andersherum: aus den Zwischenschritten erkennen, welcher Sortieralgorithmus gelaufen ist – und dann selbst eine Folge damit sortieren.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Arbeitsblatt Sortieralgorithmen",
+  "description": "Andersherum: aus den Zwischenschritten erkennen, welcher Sortieralgorithmus gelaufen ist – und dann selbst eine Folge damit sortieren.",
+  "url": "https://meininfokurs.cmrg.site/q1/algorithmen/ab-sortieralgorithmen.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "Suchen und Sortieren",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"Suchen und Sortieren\", Seite 33-34",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#algorithmen">Suchen und Sortieren</a>
+        </p>
+        <h1 class="titel">Arbeitsblatt Sortieralgorithmen</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist das Arbeitsblatt zu
+           Sortieralgorithmen! Hier wird es einmal andersherum: statt einen
+           Algorithmus anzuwenden, sollst du aus den Zwischenschritten
+           <em>erkennen</em>, welcher es war. Das ist eine typische Klausurfrage.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>1 Einzelarbeit</strong> In Material 1 finden Sie eine
+               Schritt-für-Schritt-Durchführung eines Ihnen bekannten
+               Sortieralgorithmus. Begründen Sie, um welches Sortierverfahren es sich
+               handelt.</p>
+            <p><strong>2 Einzelarbeit</strong> Nutzen Sie den von Ihnen oben
+               identifizierten Algorithmus, um die Zahlenfolge in Material 2
+               Schritt-für-Schritt zu sortieren.</p>
+            <p><strong>3 Partnerarbeit</strong> Vergleichen Sie mit Ihrem
+               Sitznachbarn die Tabellen und prüfen Sie, ob die Schritte
+               übereinstimmen. Um den Fehler zu identifizieren, markieren Sie die
+               Stellen, die nicht übereinstimmen und erörtern Sie, wieso es zum Fehler
+               kam.</p>
+            <p><strong>4 Einzelarbeit</strong> Definieren Sie eine Zahlenfolge
+               bestehend aus sechs Zahlen zwischen 0 und 100, die Ihr Sitznachbar
+               sortieren soll. Tragen Sie die Zahlenfolge in Material 3 ein.</p>
+            <p><strong>5 Partnerarbeit</strong> Sortieren Sie die Zahlenfolge Ihres
+               Sitznachbarn. Falls es zu Problemen kommen sollte, gehen Sie gemeinsam
+               auf Fehlersuche.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Aufgabe 1 – Welcher Algorithmus ist das?</h2>
+
+        <p>Material 1 zeigt das Array <code>[57, 11, 93, 12, 44]</code> und den
+           ersten Durchlauf in vier Einzelschritten:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Ausgangsarray     [57, 11, 93, 12, 44]
+Schritt 1         [11, 57, 93, 12, 44]    57 und 11 getauscht
+Schritt 2         [11, 57, 93, 12, 44]    57 und 93 - kein Tausch
+Schritt 3         [11, 57, 12, 93, 44]    93 und 12 getauscht
+Schritt 4         [11, 57, 12, 44, 93]    93 und 44 getauscht</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Die Antwort: Bubble Sort</h3>
+        <p>Drei Beobachtungen, die das zusammen belegen:</p>
+
+        <ol class="schritte">
+            <li>Es werden immer nur <strong>direkte Nachbarn</strong> vertauscht. In Schritt 1 die Positionen 0 und 1, in Schritt 3 die Positionen 2 und 3. Nie springt ein Element über mehrere Plätze.</li>
+            <li>Bei fünf Elementen gibt es pro Durchlauf genau <strong>vier</strong> Schritte – das sind die vier Nachbarpaare. Auch Schritt 2 ist ein Schritt, obwohl sich nichts ändert: es wurde verglichen und für richtig befunden.</li>
+            <li>Am Ende des ersten Durchlaufs steht das <strong>größte</strong> Element (93) ganz rechts. Es ist von Position 2 über 3 nach 4 „geblubbert" – daher der Name.</li>
+        </ol>
+
+        <h3 class="schritt-titel">Warum es die anderen beiden nicht sind</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Verfahren</th><th>Wie der erste Durchlauf aussähe</th><th>Passt?</th></tr></thead>
+                <tbody>
+                    <tr><td>Selection Sort</td><td>Es würde das Minimum (11) suchen und mit <strong>einem einzigen Tausch</strong> nach vorne holen: <code>[11, 57, 93, 12, 44]</code> und fertig.</td><td>nein – hier wird viermal verglichen und dreimal getauscht</td></tr>
+                    <tr><td>Insertion Sort</td><td>Es würde Elemente <strong>verschieben</strong>, nicht tauschen, und der vordere Bereich wäre schon sortiert.</td><td>nein – 57 steht nach Schritt 4 immer noch vor der 12</td></tr>
+                    <tr><td><strong>Bubble Sort</strong></td><td>Nachbarn vergleichen, Größtes wandert nach hinten.</td><td><strong>ja</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Der schnellste Test ist immer der letzte Punkt: <strong>schau, wo nach
+           dem ersten Durchlauf das größte und wo das kleinste Element steht.</strong>
+           Größtes hinten heißt Bubble Sort. Kleinstes vorne, sonst alles unverändert,
+           heißt Selection Sort.</p>
+
+        <h2>Aufgabe 2 – Material 2 sortieren</h2>
+
+        <p>Ausgangsarray: <code>[23, 22, 12, 44, 15]</code>, mit Bubble Sort. Jede
+           Zeile ist ein Vergleich zweier Nachbarn.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>                  Erster Durchlauf   Zweiter Durchlauf  Dritter Durchlauf  Vierter Durchlauf
+Ausgangsarray     [23,22,12,44,15]   [22,12,23,15,44]   [12,22,15,23,44]   [12,15,22,23,44]
+Einzelne          [22,23,12,44,15]   [12,22,23,15,44]   [12,22,15,23,44]   [12,15,22,23,44]
+Schritte          [22,12,23,44,15]   [12,22,23,15,44]   [12,15,22,23,44]   [12,15,22,23,44]
+                  [22,12,23,44,15]   [12,22,15,23,44]   [12,15,22,23,44]   [12,15,22,23,44]
+                  [22,12,23,15,44]   [12,22,15,23,44]   [12,15,22,23,44]   [12,15,22,23,44]</code></pre>
+            </div>
+        </div>
+
+        <p>Was in den einzelnen Durchläufen passiert:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Durchlauf</th><th>Getauscht</th><th>Ergebnis</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>23↔22, 23↔12, 44↔15</td><td><code>[22,12,23,15,44]</code> – die 44 ist hinten angekommen</td></tr>
+                    <tr><td>2</td><td>22↔12, 23↔15</td><td><code>[12,22,15,23,44]</code> – die 23 sitzt fest</td></tr>
+                    <tr><td>3</td><td>22↔15</td><td><code>[12,15,22,23,44]</code> – fertig sortiert</td></tr>
+                    <tr><td>4</td><td>nichts mehr</td><td><code>[12,15,22,23,44]</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Nach dem dritten Durchlauf ist die Folge bereits fertig. Der vierte
+           läuft trotzdem, weil der einfache Bubble Sort stur seine n-1 Durchläufe
+           macht. Genau das kann man optimieren: merkt man sich, ob in einem
+           Durchlauf überhaupt getauscht wurde, kann man vorzeitig abbrechen.</p>
+
+        <h2>Aufgaben 3 bis 5 – die Partnerarbeit</h2>
+
+        <p>Diese drei Aufgaben macht man zu zweit, deshalb gibt es hier keine
+           Musterlösung. Was sich lohnt, ist die typischen Fehlerquellen zu kennen –
+           genau darum geht es in Aufgabe 3:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Typischer Fehler</th><th>Woran man ihn erkennt</th></tr></thead>
+                <tbody>
+                    <tr><td>Schritte ohne Tausch weggelassen</td><td>Die Tabelle hat weniger als vier Zeilen pro Durchlauf</td></tr>
+                    <tr><td>Nicht-Nachbarn vertauscht</td><td>Ein Element springt in einem Schritt über mehrere Plätze</td></tr>
+                    <tr><td>Durchlauf zu früh abgebrochen</td><td>Das größte Element ist nach dem ersten Durchlauf nicht ganz hinten</td></tr>
+                    <tr><td>Von rechts nach links verglichen</td><td>Statt des größten wandert das kleinste Element – das ist dann eine andere, aber auch gültige Variante</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Der letzte Punkt ist der, über den man sich mit dem Sitznachbarn am
+           häufigsten streitet: Bubble Sort funktioniert in beide Richtungen. Solange
+           ihr euch vorher einigt, welche Richtung ihr nehmt, sind beide Tabellen
+           richtig – nur eben verschieden.</p>
+
+        <p>Für Aufgabe 4 sind sechs Zahlen gefordert. Ein Tipp: gib deinem
+           Sitznachbarn keine schon sortierte Folge, das ist langweilig. Eine
+           absteigend sortierte wie <code>[91, 77, 60, 44, 23, 8]</code> ist dagegen
+           der schlimmste Fall – da muss in jedem einzelnen Schritt getauscht werden,
+           fünf Durchläufe mit je fünf Vergleichen.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="sortieren-iterativ-rekursiv.html"><small>Vorherige Aufgabe</small>Sortieren: iterativ und rekursiv</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+        <p>Die Aufgabe der heutigen Stunde ist die tabellarische Ausgabe! Die
+           Schülerliste untereinander mit <code>&lt;br&gt;</code> sieht nicht gerade
+           nach einer Webseite aus. Jetzt bauen wir eine richtige HTML-Tabelle drum
+           herum.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Erstellen Sie eine Ausgabe aller Attribute der Schüler in
+               tabellarischer Form. PHP-Datei hier einfügen.</p>
+            <p>Table-Abschnitt der W3Schools:
+               <code>https://www.w3schools.com/html/html_tables.asp</code></p>
+        </div>
+
+        <h2>Die HTML-Tabelle in Kürze</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Tag</th><th>Bedeutung</th></tr></thead>
+                <tbody>
+                    <tr><td><code>&lt;table&gt;</code></td><td>die ganze Tabelle</td></tr>
+                    <tr><td><code>&lt;tr&gt;</code></td><td>table row – eine Zeile</td></tr>
+                    <tr><td><code>&lt;th&gt;</code></td><td>table header – eine Kopfzelle, wird fett und zentriert</td></tr>
+                    <tr><td><code>&lt;td&gt;</code></td><td>table data – eine normale Zelle</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Wichtig ist die Verschachtelung: Zellen stehen <strong>immer</strong> in
+           einer Zeile, Zeilen immer in der Tabelle. Ein <code>&lt;td&gt;</code>
+           direkt im <code>&lt;table&gt;</code> ohne <code>&lt;tr&gt;</code>
+           drumherum ist ungültig, und der Browser rät dann selbst, was gemeint war.</p>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> tabelle.php</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="tabelle.php">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-php">&lt;?php
+/**
+ *
+ * Alle Schueler in tabellarischer Form
+ *
+ * @version 1.0 vom 23.05.2019
+ * @MeinInfoKurs.github.io
+ */
+
+$pdo = new PDO('mysql:host=localhost;dbname=schule', 'root', '',
+       array(PDO::MYSQL_ATTR_INIT_COMMAND =&gt; "SET NAMES utf8"));
+
+$sql = "SELECT * FROM schüler";
+?&gt;
+
+&lt;table border="1"&gt;
+
+    &lt;tr&gt;
+        &lt;th&gt;ID&lt;/th&gt;
+        &lt;th&gt;Nachname&lt;/th&gt;
+        &lt;th&gt;Vorname&lt;/th&gt;
+        &lt;th&gt;Geburtsdatum&lt;/th&gt;
+        &lt;th&gt;Strasse und Nr.&lt;/th&gt;
+        &lt;th&gt;PLZ&lt;/th&gt;
+        &lt;th&gt;Ort&lt;/th&gt;
+    &lt;/tr&gt;
+
+&lt;?php
+foreach ($pdo-&gt;query($sql) as $row) {
+    echo "&lt;tr&gt;";
+    echo "&lt;td&gt;".$row['id']."&lt;/td&gt;";
+    echo "&lt;td&gt;".$row['nachname']."&lt;/td&gt;";
+    echo "&lt;td&gt;".$row['vorname']."&lt;/td&gt;";
+    echo "&lt;td&gt;".$row['geburtsdatum']."&lt;/td&gt;";
+    echo "&lt;td&gt;".$row['strassenr']."&lt;/td&gt;";
+    echo "&lt;td&gt;".$row['plz']."&lt;/td&gt;";
+    echo "&lt;td&gt;".$row['ort']."&lt;/td&gt;";
+    echo "&lt;/tr&gt;";
+}
+?&gt;
+
+&lt;/table&gt;</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Kopfzeile außerhalb, Datenzeilen innerhalb</h3>
+        <p>Das ist die Struktur, um die es hier geht. Die Kopfzeile mit den
+           Spaltennamen steht <strong>einmal</strong> und gehört deshalb nicht in die
+           Schleife. Die Datenzeilen entstehen <strong>pro Schüler</strong> und
+           gehören hinein.</p>
+
+        <p>Schreibt man die <code>&lt;th&gt;</code>-Zeile versehentlich mit in die
+           Schleife, bekommt man vor jedem Schüler nochmal die Überschriften. Das ist
+           der Klassiker bei dieser Aufgabe.</p>
+
+        <h3 class="schritt-titel">Zwischen PHP und HTML hin- und herspringen</h3>
+        <p>Auffällig ist, dass der PHP-Block mit <code>?&gt;</code> geschlossen und
+           später mit <code>&lt;?php</code> wieder geöffnet wird. Das ist Absicht:
+           reines HTML schreibt man einfach als HTML hin, statt es durch
+           <code>echo</code> zu schleusen. Der Alternativweg wäre, alles in
+           <code>echo</code> zu packen:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-php">echo "&lt;table border='1'&gt;";
+echo "&lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Nachname&lt;/th&gt; ... &lt;/tr&gt;";</code></pre>
+            </div>
+        </div>
+
+        <p>Geht auch, wird aber schnell unleserlich – vor allem wegen der
+           Anführungszeichen. In <code>"…"</code> darf man keine doppelten
+           Anführungszeichen mehr verwenden, deshalb steht im Beispiel
+           <code>border='1'</code> mit einfachen. Solche Fehler sucht man ewig.</p>
+
+        <h3 class="schritt-titel">Die Ausgabe</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-table" aria-hidden="true"></i> Browser</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>+----+----------+---------+--------------+---------------------+-------+-----------+
+| ID | Nachname | Vorname | Geburtsdatum | Strasse und Nr.     | PLZ   | Ort       |
++----+----------+---------+--------------+---------------------+-------+-----------+
+|  1 | Peter    | Müller  | 1996-04-09   | Ludwigstraße 13     | 64625 | Bensheim  |
+|  2 | Kevin    | Gamler  | 1998-02-06   | Nestweg 42          | 64625 | Einhausen |
+|  3 | Jörg     | Ritter  | 1997-11-03   | Laplacestraße 12    | 64625 | Alsbach   |
+|  4 | Miriam   | Ritter  | 1997-11-25   | Laplacestrasse 12   | 64625 | Alsbach   |
+|  5 | Stefanie | Rose    | 1997-10-11   | Darmstädterstaße 23 | 64625 | Bensheim  |
+|  6 | Marie    | Sproß   | 2003-10-09   | Darmstädterstaße 23 | 64625 | Bensheim  |
+|  7 | Daniel   | Klasen  | 2002-03-10   | Darmstädterstaße 25 | 64625 | Bensheim  |
+|  8 | Lukas    | Margel  | 2000-05-13   | Dr. Hesse Weg 14    | 64625 | Bensheim  |
++----+----------+---------+--------------+---------------------+-------+-----------+</code></pre>
+            </div>
+        </div>
+
+        <p>Zwei Sachen fallen in den echten Daten auf, und beide sind gute
+           Beispiele für das Normalisierungskapitel: bei Schüler 3 steht
+           „Laplacestraße", bei Schüler 4 „Laplacestrasse" – dieselbe Straße, zwei
+           Schreibweisen. Und in drei Zeilen steht „Darmstädterstaße", da fehlt ein
+           „r".</p>
+
+        <p>Eine Abfrage wie <code>WHERE strassenr LIKE 'Laplacestraße%'</code>
+           findet damit nur die Hälfte. Genau deshalb lagert man Orte und Straßen in
+           eigene Tabellen aus – dann gibt es jede Schreibweise nur einmal.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Das <code>border="1"</code> ist die schnelle Variante fürs
+            Testen. Sauber macht man Rahmen heute mit CSS
+            (<code>table { border-collapse: collapse; }</code> und
+            <code>td, th { border: 1px solid; }</code>). Für die Abgabe reicht das
+            Attribut.</span>
+        </div>

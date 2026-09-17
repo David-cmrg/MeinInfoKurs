@@ -1,0 +1,332 @@
+        <p>Die Aufgabe der heutigen Stunde ist Sortieren – iterativ und rekursiv!
+           Erst Sortieren durch Auswählen auf einer Liste, dann Quicksort. Quicksort
+           ist der erste Algorithmus, der nicht mehr O(n²) ist, und das merkt man
+           sofort an den Zahlen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>1</strong> Eine Teilnehmerliste soll nach Nachnamen sortiert
+               werden. Bei gleichen Nachnamen soll der Vorname als weiteres
+               Sortierkriterium berücksichtigt werden.</p>
+            <p><strong>2</strong> Das Sortieren durch Auswählen arbeitet ähnlich wie
+               das Sortieren durch Einfügen, jedoch wird hier jeweils das beste
+               Element aus der unsortierten Liste entnommen und an die sortierte Liste
+               angehängt. a) Führen Sie den Algorithmus für die gegebene Zahlenliste
+               durch und notieren Sie nach jedem Schritt den Inhalt der beiden
+               Teillisten. b) Rechnerarbeit: Implementieren Sie den Algorithmus in
+               Java. c) Beurteilen Sie die Effizienz des Sortierens durch Auswählen und
+               vergleichen Sie mit dem Sortieren durch Einfügen.</p>
+            <p><strong>3</strong> Der Quicksortalgorithmus soll auf unterschiedliche
+               Weise veranschaulicht werden. a) Veranschaulichen Sie die Arbeitsweise
+               des Quicksortalgorithmus im Kurs. b) Führen Sie den Quicksortalgorithmus
+               mit den Zahlen 1, 2, 18, 6, 13, 5, 29 durch und dokumentieren Sie jeden
+               Schritt. c) Stellen Sie den Quicksortalgorithmus als Struktogramm dar.</p>
+            <p><strong>4 Rechnerarbeit</strong> Der Quicksortalgorithmus nutzt eine
+               Hilfsmethode <code>int laenge(List&lt;ContentType&gt;)</code>, die für
+               eine gegebene lineare Liste die Länge bestimmt und zurückgibt.
+               Implementieren Sie die Methode.</p>
+            <p><strong>5</strong> Die Effizienz des Quicksortalgorithmus hängt im
+               Wesentlichen von der Wahl des Pivotelements ab. Geben Sie eine
+               Zahlenreihe an, für die der Algorithmus den worst case und den best case
+               in seiner Laufzeit erreicht, wenn als Pivotelement immer das erste
+               Element gewählt wird.</p>
+        </div>
+
+        <h2>Aufgabe 1 – Die Teilnehmerliste</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>#</th><th>Nachname</th><th>Vorname</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>Baum</td><td>Kevin</td></tr>
+                    <tr><td>2</td><td>Dacher</td><td>Mathias</td></tr>
+                    <tr><td>3</td><td>Keller</td><td>Christin</td></tr>
+                    <tr><td>4</td><td>Mehler</td><td>Katrin</td></tr>
+                    <tr><td>5</td><td>Probst</td><td>Ralf</td></tr>
+                    <tr><td>6</td><td><strong>Strauss</strong></td><td><strong>Andreas</strong></td></tr>
+                    <tr><td>7</td><td><strong>Strauss</strong></td><td><strong>Katja</strong></td></tr>
+                    <tr><td>8</td><td>Traugott</td><td>Jörg</td></tr>
+                    <tr><td>9</td><td>Weiss</td><td>Jennifer</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Die einzige Stelle, an der das zweite Kriterium greift, sind die beiden
+           Strauss. Nach dem Nachnamen sind sie gleichwertig – erst der Vorname
+           entscheidet, und Andreas kommt vor Katja.</p>
+
+        <p>In Java schreibt man so einen Vergleich verschachtelt:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public boolean istKleiner(Person a, Person b) {
+    if (!a.getNachname().equals(b.getNachname())) {
+        return a.getNachname().compareTo(b.getNachname()) &lt; 0;
+    }
+    // Nachnamen gleich -> Vorname entscheidet
+    return a.getVorname().compareTo(b.getVorname()) &lt; 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <p><code>compareTo</code> gibt bei Strings eine negative Zahl zurück, wenn
+           der erste alphabetisch vorne liegt, 0 bei Gleichheit und eine positive
+           Zahl sonst. Damit kann man Texte genauso vergleichen wie Zahlen.</p>
+
+        <p>Das ist übrigens genau die „strenge schwache Ordnung" aus der
+           Sortieraufgabe davor: nach dem Nachnamen allein sind die beiden Strauss
+           <em>gleichwertig</em>, also schwach geordnet. Erst das zweite Kriterium
+           macht die Reihenfolge eindeutig.</p>
+
+        <h2>Aufgabe 2 – Sortieren durch Auswählen</h2>
+
+        <h3 class="schritt-titel">a) Schritt für Schritt mit 7, 13, 2, 36, 203, 8, 12</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Schritt   Originalliste (unsortiert)      Hilfsliste (sortiert)
+------------------------------------------------------------------
+Start     7, 13, 2, 36, 203, 8, 12        (leer)
+1         7, 13, 36, 203, 8, 12           2
+2         13, 36, 203, 8, 12              2, 7
+3         13, 36, 203, 12                 2, 7, 8
+4         13, 36, 203                     2, 7, 8, 12
+5         36, 203                         2, 7, 8, 12, 13
+6         203                             2, 7, 8, 12, 13, 36
+7         (leer)                          2, 7, 8, 12, 13, 36, 203</code></pre>
+            </div>
+        </div>
+
+        <p>Nach jedem Schritt wandert genau ein Element von links nach rechts – das
+           jeweils kleinste. Die Hilfsliste ist dabei immer sortiert, die
+           Originalliste bleibt bis zum Schluss durcheinander.</p>
+
+        <h3 class="schritt-titel">b) Der Algorithmus in Java</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> SortierenDurchAuswaehlen.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="SortierenDurchAuswaehlen.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Sortieren durch Auswaehlen auf einer linearen Liste,
+ * genau nach dem Struktogramm
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public void sortiereDurchAuswaehlen() {
+    List&lt;Integer&gt; hilfsliste = new List&lt;Integer&gt;();
+
+    while (!liste.isEmpty()) {
+
+        // Hilfsvariable mit dem ersten Element vorbelegen
+        liste.toFirst();
+        int kleinstes = liste.getContent();
+        liste.next();
+
+        // den Rest der Liste durchsuchen
+        while (liste.hasAccess()) {
+            if (liste.getContent() &lt; kleinstes) {
+                kleinstes = liste.getContent();
+            }
+            liste.next();
+        }
+
+        // das kleinste Element aus dem Original entfernen ...
+        liste.toFirst();
+        while (liste.hasAccess() &amp;&amp; liste.getContent() != kleinstes) {
+            liste.next();
+        }
+        liste.remove();
+
+        // ... und hinten an die Hilfsliste anhaengen
+        hilfsliste.append(kleinstes);
+    }
+
+    liste = hilfsliste;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Die äußere Schleife läuft, solange die Originalliste nicht leer ist. In
+           jedem Durchlauf wird sie einmal komplett durchsucht, das Minimum entfernt
+           und hinten an die Hilfsliste gehängt. Am Ende wird die Hilfsliste zur neuen
+           Liste – das ist die letzte Zeile des Struktogramms.</p>
+
+        <p>Wichtig ist die Vorbelegung: die Hilfsvariable bekommt das
+           <strong>erste Element</strong> der Liste, nicht etwa 0. Mit 0 würde der
+           Algorithmus bei negativen Zahlen falsch arbeiten, weil dann nie ein
+           Element kleiner wäre.</p>
+
+        <h3 class="schritt-titel">c) Auswählen gegen Einfügen</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>Durch Auswählen</th><th>Durch Einfügen</th></tr></thead>
+                <tbody>
+                    <tr><td>Aufwand allgemein</td><td>O(n²)</td><td>O(n²)</td></tr>
+                    <tr><td>Bei schon sortierter Liste</td><td>O(n²) – sucht trotzdem jedes Mal alles ab</td><td><strong>O(n)</strong> – merkt sofort, dass nichts zu verschieben ist</td></tr>
+                    <tr><td>Vergleiche</td><td>immer gleich viele, egal wie die Liste aussieht</td><td>je nach Vorsortierung deutlich weniger</td></tr>
+                    <tr><td>Elementbewegungen</td><td>wenige – pro Durchlauf wandert genau eins</td><td>viele Verschiebungen</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Beide sind quadratisch und damit für große Datenmengen nicht zu
+           gebrauchen. Der Unterschied liegt im günstigen Fall: <strong>Sortieren
+           durch Einfügen profitiert davon, wenn die Daten schon fast sortiert sind,
+           Sortieren durch Auswählen nicht.</strong> Auswählen braucht dafür weniger
+           Bewegungen, was zählen kann, wenn das Verschieben teuer ist.</p>
+
+        <h2>Aufgabe 3 – Quicksort</h2>
+
+        <h3 class="schritt-titel">a) Im Kurs veranschaulichen</h3>
+        <p>Zehn Leute stellen sich nebeneinander auf. Die erste Person nennt ihr
+           Geburtsdatum und tritt einen Schritt vor – das ist das <strong>Pivot</strong>.
+           Alle Jüngeren gehen nach links, alle Älteren nach rechts. Dann macht jede
+           der beiden Gruppen für sich dasselbe nochmal, bis nur noch Einzelpersonen
+           übrig sind.</p>
+
+        <p>Das Schöne daran ist, dass man die Rekursion körperlich sieht: dieselbe
+           Vorschrift wird auf immer kleinere Gruppen angewendet, und am Ende steht
+           alles richtig, ohne dass irgendjemand die ganze Reihe überblickt hätte.</p>
+
+        <h3 class="schritt-titel">b) Quicksort mit 1, 2, 18, 6, 13, 5, 29</h3>
+        <p>Pivot ist jeweils das erste Element.</p>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>quicksort(1, 2, 18, 6, 13, 5, 29)
+  Pivot = 1
+  kleiner: (leer)          groesser: 2, 18, 6, 13, 5, 29
+  -> quicksort(leer) + [1] + quicksort(2, 18, 6, 13, 5, 29)
+
+    quicksort(2, 18, 6, 13, 5, 29)
+      Pivot = 2
+      kleiner: (leer)      groesser: 18, 6, 13, 5, 29
+      -> quicksort(leer) + [2] + quicksort(18, 6, 13, 5, 29)
+
+        quicksort(18, 6, 13, 5, 29)
+          Pivot = 18
+          kleiner: 6, 13, 5    groesser: 29
+          -> quicksort(6, 13, 5) + [18] + quicksort(29)
+
+            quicksort(6, 13, 5)
+              Pivot = 6
+              kleiner: 5       groesser: 13
+              -> quicksort(5) + [6] + quicksort(13)
+              -> 5, 6, 13
+
+            quicksort(29) -> 29
+
+          -> 5, 6, 13, 18, 29
+
+      -> 2, 5, 6, 13, 18, 29
+
+Ergebnis: 1, 2, 5, 6, 13, 18, 29</code></pre>
+            </div>
+        </div>
+
+        <p>Beachte die ersten beiden Schritte: die 1 und die 2 sind schon die
+           kleinsten Elemente, also bleibt die linke Teilliste jeweils leer. Das ist
+           der ungünstige Fall – der Bereich wird nur um ein Element kleiner statt
+           halbiert. Genau darum geht es in Aufgabe 5.</p>
+
+        <h3 class="schritt-titel">c) Das Struktogramm</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>+--------------------------------------------------------------+
+| quicksort(liste)                                             |
++--------------------------------------------------------------+
+|              laenge(liste) <= 1 ?                            |
+|  WAHR                          |          FALSCH             |
++--------------------------------+-----------------------------+
+| gib liste zurueck              | Pivot = erstes Element      |
+| (Rekursionsanker)              +-----------------------------+
+|                                | erzeuge Listen kleiner      |
+|                                | und groesser                |
+|                                +-----------------------------+
+|                                |   fuer jedes weitere        |
+|                                |   Element e der liste       |
+|                                |  +------------------------+ |
+|                                |  |    e < Pivot ?         | |
+|                                |  | WAHR      |   FALSCH   | |
+|                                |  +-----------+------------+ |
+|                                |  | an        | an         | |
+|                                |  | kleiner   | groesser   | |
+|                                |  | anhaengen | anhaengen  | |
+|                                |  +-----------+------------+ |
+|                                +-----------------------------+
+|                                | gib zurueck:                |
+|                                |   quicksort(kleiner)        |
+|                                |   + Pivot                   |
+|                                |   + quicksort(groesser)     |
++--------------------------------+-----------------------------+</code></pre>
+            </div>
+        </div>
+
+        <h2>Aufgabe 4 – Die Hilfsmethode laenge</h2>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public int laenge(List&lt;ContentType&gt; pListe) {
+    int anzahl = 0;
+    pListe.toFirst();
+    while (pListe.hasAccess()) {
+        anzahl++;
+        pListe.next();
+    }
+    return anzahl;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Wieder das bekannte Listen-Muster. Eine lineare Liste kennt ihre eigene
+           Länge nämlich nicht – man muss durchzählen. Das ist auch der Grund, warum
+           die Methode überhaupt gebraucht wird: Quicksort muss wissen, wann eine
+           Teilliste höchstens ein Element hat und die Rekursion enden kann.</p>
+
+        <p>Und weil man dafür jedes Mal die ganze Liste durchläuft, sollte man
+           <code>laenge()</code> nicht in einer Schleifenbedingung aufrufen – dann
+           zählt man bei jedem Durchlauf neu durch.</p>
+
+        <h2>Aufgabe 5 – Worst Case und Best Case</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Fall</th><th>Beispielreihe</th><th>Was passiert</th><th>Aufwand</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Worst Case</strong></td><td>1, 2, 3, 4, 5, 6, 7</td><td>Das Pivot ist immer das kleinste Element. Die linke Teilliste bleibt leer, die rechte wird nur um eins kürzer. Es braucht n Rekursionsebenen.</td><td>O(n²)</td></tr>
+                    <tr><td><strong>Best Case</strong></td><td>4, 2, 6, 1, 3, 5, 7</td><td>Das Pivot ist immer der mittlere Wert. Beide Teillisten sind gleich groß, die Liste halbiert sich bei jedem Schritt.</td><td>O(n · log n)</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Das ist die ironische Pointe bei Quicksort mit erstem Pivot: <strong>eine
+           bereits sortierte Liste ist der schlechteste Fall.</strong> Ausgerechnet
+           die Eingabe, bei der es gar nichts zu tun gäbe, ist die langsamste. Eine
+           absteigend sortierte Liste ist übrigens genauso schlimm, nur bleibt dann
+           die rechte Teilliste leer.</p>
+
+        <p>Zur Probe für den Best Case: Pivot 4, links 2, 1, 3 und rechts 6, 5, 7.
+           In der linken Liste ist 2 das Pivot, links davon 1, rechts 3 – wieder
+           perfekt halbiert. Rechts genauso mit der 6.</p>
+
+        <h3 class="schritt-titel">Wie man das Problem in der Praxis löst</h3>
+        <p>Weil sortierte Daten gar nicht so selten sind, nimmt man das erste
+           Element in echten Programmen nicht als Pivot. Üblich sind:</p>
+
+        <ul class="schritte">
+            <li>das <strong>mittlere</strong> Element – bei sortierten Daten sofort optimal</li>
+            <li>ein <strong>zufälliges</strong> Element – der worst case wird unwahrscheinlich</li>
+            <li>der <strong>Median aus erstem, mittlerem und letztem</strong> Element</li>
+        </ul>
+
+        <p>Im Schnitt liegt Quicksort bei O(n · log n) und ist damit deutlich
+           schneller als alles, was wir vorher hatten. Bei 10 000 Elementen sind das
+           rund 130 000 Schritte statt 100 Millionen bei den O(n²)-Verfahren.</p>

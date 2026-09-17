@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Der Fahrscheinautomat</title>
+    <meta name="description" content="Ein Fahrscheinautomat gibt Wechselgeld in Münzen zurück und soll dabei möglichst wenige Münzen benutzen.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/e/java/fahrscheinautomat.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Der Fahrscheinautomat">
+    <meta property="og:description" content="Ein Fahrscheinautomat gibt Wechselgeld in Münzen zurück und soll dabei möglichst wenige Münzen benutzen.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/e/java/fahrscheinautomat.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Der Fahrscheinautomat">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Der Fahrscheinautomat">
+    <meta name="twitter:description" content="Ein Fahrscheinautomat gibt Wechselgeld in Münzen zurück und soll dabei möglichst wenige Münzen benutzen.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Der Fahrscheinautomat",
+  "description": "Ein Fahrscheinautomat gibt Wechselgeld in Münzen zurück und soll dabei möglichst wenige Münzen benutzen.",
+  "url": "https://meininfokurs.cmrg.site/e/java/fahrscheinautomat.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "E-Phase – Klasse 10 · Grundlagen",
+  "about": "Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – E-Phase",
+    "url": "https://meininfokurs.cmrg.site/e/"
+  },
+  "isBasedOn": "Informatik E-Phase · übernommen aus V2/Seiten/Java/Fahrscheinautomat.html",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html" aria-current="page"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../e/index.html">E-Phase</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../e/index.html#java">Java</a>
+        </p>
+        <h1 class="titel">Der Fahrscheinautomat</h1>
+        <p class="status ist-nicht-verifiziert">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>Noch nicht geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist <strong>der Fahrscheinautomat!</strong> Dazu schauen wir uns mal die Aufgabe genauer an und versuchen durch intelligentes Lösen ein vollfunktionsfähiges Programm zu erstellen. <br/></p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+                    Ein Fahrscheinautomat gibt Wechselgeld in Münzen zurück und soll dabei möglichst wenige Münzen benutzen.
+                    Bei einem Fahrpreis von 13.20$ und einer Eingabe von 20$ gibt er als Wechselgeld drei 2$-Münzen, eine 50 Cent,
+                    eine 20 Cent und eine 10 Cent Münze zurück. Mit dem vorgegebenen Programm, welches du in deinem Heft finden kannst,
+                    kann der Fahrscheinautomat simuliert werden. <br/>
+
+                    Analysiere die Funktionsweise des Programms und vervollständige das Programm.
+                </p></div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="FahrscheinAutomat.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+  *
+  * Das fertige Java Programm des Fahrscheinautomats
+  *
+  * @version 1.0 vom 2.07.2025
+  * @MeinInfoKurs.github.io
+  */
+
+  public class FahrscheinAutomat {
+      public static void main(String[] args) {
+          double Fahrscheinpreis, Gezahlt, Wechselgeld;
+
+          Fahrscheinpreis = InOut.readDouble("Fahrscheinpreis: ");
+          Gezahlt = InOut.readDouble("Gezahlt: ");
+
+          while (Gezahlt &lt; Fahrscheinpreis) {
+              double ZuZahlen = Fahrscheinpreis - Gezahlt;
+              System.out.println("Noch " + ZuZahlen + " zu zahlen!");
+              Gezahlt = Gezahlt + InOut.readDouble("Zahle: ");
+          } // end of while
+
+          Wechselgeld = Gezahlt - Fahrscheinpreis;
+
+          if (Wechselgeld &gt; 0) {
+              System.out.println("Wechselgeld " + InOut.format2(Wechselgeld));
+              System.out.print("Rückgabe: ");
+
+              while (Wechselgeld &gt;= 2) {
+                  System.out.print("2 Euro ");
+                  Wechselgeld = Wechselgeld - 2;
+              } // end of while
+
+              // Am Ende dieses IFs Statements kommt keine schließende Klammer hin. Das ist aus folgenden Gründen:
+              // 1. Wir überprüfen ob der gezahlte Preis &gt; 0 ist;
+              // 2. Wir geben die Anzahl des Wechselgeldes aus und "print" (nicht "println") die Rückgabe der Münzen
+              // 3. Wir müssen jetzt noch die Rückgabe der Münzen ausrechnen
+              // -&gt; Diese Berechnung muss im IF laufen, weil wenn sie außerhalb wäre, würde sie Konditionslos (also bei jeder ausführung)
+              //  laufen. Doch wenn der Nutzer passend zahlt, brauchen wir diese Rechnungen garnicht. Also nutzen wir hier ein IF-ELSE
+              //  So vergleichen wir die Bedingungen und es wird nur der Code ausgeführt, welcher wirklich ausgeführt werden muss
+
+              if (Wechselgeld &gt;= 1) {
+                  System.out.print("1 Euro ");
+                  Wechselgeld = Wechselgeld - 1;
+              } // end of if
+
+              if (Wechselgeld &gt;= 0.50) {
+                  System.out.print("50 Cent ");
+                  Wechselgeld = Wechselgeld - 0.50;
+              } // end of if
+
+              if (Wechselgeld &gt;= 0.20) {
+                  System.out.print("20 Cent ");
+                  Wechselgeld = Wechselgeld - 0.20;
+              } // end of if
+
+              if (Wechselgeld &gt;= 0.10) {
+                  System.out.println("10 Cent ");
+                  Wechselgeld = Wechselgeld - 0.10;
+              } // end of if
+
+              if (Wechselgeld &gt;= 0.05) {
+                  System.out.print("5 Cent ");
+                  Wechselgeld = Wechselgeld - 0.05;
+              } // end of if
+
+              while (Wechselgeld &gt;= 0.01) {
+                  System.out.print("2 Cent ");
+                  Wechselgeld = Wechselgeld - 0.02;
+              } // end of while
+
+              if (Wechselgeld &gt; 0.0) {
+                  System.out.println("1 Cent");
+                  Wechselgeld = Wechselgeld - 0.01;
+              } // end of if
+          } else {
+              System.out.println("Passend bezahlt!");
+          } // end of if-else
+      } // end of main
+  } // end of class FahrscheinAutomat</code></pre></div></div>
+        <p>
+                    In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>Nutzereingabe des Fahrscheinpreises</li>
+<li>Nutzereingabe des Gezahlten</li>
+<br/>
+<li>Ermittlung des Wechselgeldes</li>
+<li>Rückgabe in möglichst wenig Münzen</li>
+<br/>
+<li>Ausgabe des Wechselgeldes</li>
+</ol>
+        <h3 class="schritt-titel">Berechnung des Wechselgeldes</h3>
+        <p>
+                    Da wir bereits wissen wie man eine Eingabe vom Nutzer erfordern kann und eine Konsolenausgabe erstellen können, gehen
+                    wir direkt zur Berechnung über. Als erstes Überprüfen wir ob wir überhaupt Wechselgeld ausgeben müssen indem wir den vom
+                    Nutzer gezahlten Betrag minus den Fahrscheinpreis rechnen. Wenn zu viel Geld gezahlt wurde, muss Wechselgeld gegeben werden.
+                    Wir nutzen also ein IF-ELSE Statement um zu prüfen ob Wechselgeld ausgegeben werden muss oder nicht. Wir nutzen das IF-ELSE um
+                    verschiedene Rückmeldung in der Konsole ausgeben zu können (je nach szenario).
+
+                </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">Wechselgeld = Gezahlt - Fahrscheinpreis;  // Beispiel: 08.01$ = 20.00$ - 11.99$
+
+if (Wechselgeld &gt; 0) {  // 08.01 &gt; 00.00 = true -&gt; IF Code wird ausgeführt
+    System.out.println("Wechselgeld " + InOut.format2(Wechselgeld)); // Konsolenausgabe
+    System.out.print("Rückgabe: "); // Konsolenausgabe
+
+    // Hier die Berechnung der genauen Münzen
+
+} else { // 08.01 &gt; 00.00 = true -&gt; ELSE Code wird NICHT ausgeführt
+    System.out.println("Passend bezahlt!"); // Keine Konsolenausgabe
+}</code></pre></div></div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="codeluecken.html"><small>Vorherige Aufgabe</small>Die Code Lücken</a>
+            <a class="weiter" href="simulationpopulation.html"><small>Nächste Aufgabe</small>Die Simulation der Population</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

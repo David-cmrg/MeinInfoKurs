@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Übung 7: Nordwind-Datenbank</title>
+    <meta name="description" content="Alles aus sechs Lektionen in einer Abfrage: welche Kategorie den meisten Umsatz gemacht hat.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q2/datenbanken/uebung-7-nordwind.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Übung 7: Nordwind-Datenbank">
+    <meta property="og:description" content="Alles aus sechs Lektionen in einer Abfrage: welche Kategorie den meisten Umsatz gemacht hat.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q2/datenbanken/uebung-7-nordwind.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Übung 7: Nordwind-Datenbank">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Übung 7: Nordwind-Datenbank">
+    <meta name="twitter:description" content="Alles aus sechs Lektionen in einer Abfrage: welche Kategorie den meisten Umsatz gemacht hat.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Übung 7: Nordwind-Datenbank",
+  "description": "Alles aus sechs Lektionen in einer Abfrage: welche Kategorie den meisten Umsatz gemacht hat.",
+  "url": "https://meininfokurs.cmrg.site/q2/datenbanken/uebung-7-nordwind.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q2 – Klasse 11 · 2. Halbjahr",
+  "about": "Datenbanken",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q2",
+    "url": "https://meininfokurs.cmrg.site/q2/"
+  },
+  "isBasedOn": "Informatik Q2, OneNote \"Datenbanken mySQL\", Seite 59-60",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html" aria-current="page"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q2/index.html">Q2</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q2/index.html#datenbanken">Datenbanken</a>
+        </p>
+        <h1 class="titel">Übung 7: Nordwind-Datenbank</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist die siebte Übung – vermischte
+           Aufgaben zur Nordwind-Datenbank! Hier kommt nichts Neues mehr dazu, es
+           geht darum, alles aus den sechs Lektionen zusammen zu benutzen. Genau so
+           sieht auch die Klausur aus.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>a) Bearbeiten Sie die Übung 7</p>
+            <p><strong>Zusatzaufgabe:</strong> Erstellen Sie eine Datenbank-Anfrage
+               zur Beantwortung der folgenden Frage: Welche Kategorie hat den meisten
+               Umsatz erzielt?</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Die Übung 7 selbst liegt auf der Tutorial-Seite und ist im OneNote nicht abgedruckt. Ausgeschrieben ist dort nur die Zusatzaufgabe – die steht hier gelöst.</span>
+        </div>
+
+        <h2>Die Zusatzaufgabe</h2>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Die Nordwind-Datenbank ist im OneNote nicht abgedruckt. Sie ist
+            aber eine Standard-Beispieldatenbank; ich rechne mit den üblichen
+            Tabellen <code>kategorien</code>, <code>artikel</code> und
+            <code>bestelldetails</code>. Heißen sie bei euch anders, tausch nur die
+            Namen aus.</span>
+        </div>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-database" aria-hidden="true"></i> SQL</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Uebung7_Nordwind.sql">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-sql">-- Welche Kategorie hat den meisten Umsatz erzielt?
+-- @MeinInfoKurs.github.io
+
+SELECT   k.kategoriename,
+         SUM(bd.einzelpreis * bd.anzahl) AS Umsatz
+FROM     kategorien       AS k
+INNER JOIN artikel        AS a  ON k.kategorie_id = a.kategorie_id
+INNER JOIN bestelldetails AS bd ON a.artikel_id   = bd.artikel_id
+GROUP BY k.kategorie_id, k.kategoriename
+ORDER BY Umsatz DESC
+LIMIT 1;</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Wie man auf so eine Abfrage kommt</h3>
+        <p>Nicht von vorne anfangen zu tippen, sondern die Frage zerlegen:</p>
+
+        <ol class="schritte">
+            <li><strong>Was will ich sehen?</strong> Den Kategorienamen und einen Umsatz → das kommt ins <code>SELECT</code>.</li>
+            <li><strong>Wo stehen diese Daten?</strong> Der Name in <code>kategorien</code>, die Preise in <code>bestelldetails</code>. Dazwischen liegt <code>artikel</code> → zwei <code>JOIN</code>s.</li>
+            <li><strong>Was ist „Umsatz"?</strong> Einzelpreis mal Anzahl, über alle Positionen aufsummiert → <code>SUM(einzelpreis * anzahl)</code>.</li>
+            <li><strong>Pro was?</strong> Pro Kategorie → <code>GROUP BY</code>.</li>
+            <li><strong>„Den meisten"?</strong> Absteigend sortieren und den ersten nehmen → <code>ORDER BY … DESC LIMIT 1</code>.</li>
+        </ol>
+
+        <p>Die dritte Zeile ist die, die man am ehesten falsch macht. „Umsatz" ist
+           keine Spalte, die irgendwo steht – man muss sie ausrechnen. Und zwar
+           <strong>innerhalb</strong> von <code>SUM</code>, nicht außerhalb:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SUM(bd.einzelpreis * bd.anzahl)   -- richtig: pro Zeile rechnen, dann addieren
+SUM(bd.einzelpreis) * SUM(bd.anzahl)  -- FALSCH: ergibt voellig andere Zahlen</code></pre>
+            </div>
+        </div>
+
+        <p>Die zweite Variante multipliziert die Summe aller Preise mit der Summe
+           aller Stückzahlen. Das ist eine Zahl ohne jede Bedeutung – und sie sieht
+           auf den ersten Blick trotzdem plausibel aus.</p>
+
+        <h3 class="schritt-titel">Warum die Kategorie-ID mit ins GROUP BY gehört</h3>
+        <p><code>GROUP BY k.kategorie_id, k.kategoriename</code> – warum beides?
+           Weil es theoretisch zwei Kategorien mit demselben Namen geben könnte.
+           Gruppiert man nur nach dem Namen, würden deren Umsätze zusammengerechnet.
+           Die ID ist der Primärschlüssel und damit garantiert eindeutig.</p>
+
+        <h3 class="schritt-titel">Wenn man alle Kategorien sehen will</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Dasselbe ohne LIMIT: die vollstaendige Rangliste
+SELECT   k.kategoriename,
+         SUM(bd.einzelpreis * bd.anzahl) AS Umsatz
+FROM     kategorien       AS k
+INNER JOIN artikel        AS a  ON k.kategorie_id = a.kategorie_id
+INNER JOIN bestelldetails AS bd ON a.artikel_id   = bd.artikel_id
+GROUP BY k.kategorie_id, k.kategoriename
+ORDER BY Umsatz DESC;</code></pre>
+            </div>
+        </div>
+
+        <p>Das ist meistens die bessere Abfrage: man sieht nicht nur den Sieger,
+           sondern auch, wie deutlich der Abstand ist. Und wenn zwei Kategorien
+           gleichauf liegen, würde <code>LIMIT 1</code> eine davon willkürlich
+           unterschlagen.</p>
+
+        <h2>Was in Übung 7 zusammenkommt</h2>
+        <p>Der Rückblick im OneNote listet genau auf, was aus welcher Lektion
+           gebraucht wird:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Lektion</th><th>Inhalt</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td><code>WHERE</code>, <code>BETWEEN</code>, <code>LIKE</code>, <code>DISTINCT</code>, <code>ORDER BY</code>, <code>LIMIT</code></td></tr>
+                    <tr><td>2</td><td><code>SUM</code>, <code>COUNT</code>, <code>AVG</code>, <code>MAX</code>, <code>MIN</code></td></tr>
+                    <tr><td>3</td><td><code>INNER JOIN … ON</code></td></tr>
+                    <tr><td>4</td><td><code>GROUP BY</code>, <code>HAVING</code></td></tr>
+                    <tr><td>5</td><td>geschachtelte <code>SELECT</code> mit <code>IN</code></td></tr>
+                    <tr><td>6</td><td><code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, <code>CREATE TABLE</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Die Zusatzaufgabe allein benutzt Bausteine aus vier dieser sechs
+           Lektionen. Wenn du die hinbekommst, hast du den SQL-Teil verstanden.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="sql-lektion-6.html"><small>Vorherige Aufgabe</small>SQL Lektion 6: INSERT, UPDATE, DELETE</a>
+            <a class="weiter" href="normalisierung.html"><small>Nächste Aufgabe</small>Normalisierung: 1., 2. und 3. Normalform</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Fremdschlüssel bestimmen</title>
+    <meta name="description" content="Wie Tabellen zusammenhängen: Fahrzeuge und Marken, dann eine Kette aus vier Tabellen rund um Wurstsorten.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q2/datenbanken/fremdschluessel.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Fremdschlüssel bestimmen">
+    <meta property="og:description" content="Wie Tabellen zusammenhängen: Fahrzeuge und Marken, dann eine Kette aus vier Tabellen rund um Wurstsorten.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q2/datenbanken/fremdschluessel.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Fremdschlüssel bestimmen">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Fremdschlüssel bestimmen">
+    <meta name="twitter:description" content="Wie Tabellen zusammenhängen: Fahrzeuge und Marken, dann eine Kette aus vier Tabellen rund um Wurstsorten.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Fremdschlüssel bestimmen",
+  "description": "Wie Tabellen zusammenhängen: Fahrzeuge und Marken, dann eine Kette aus vier Tabellen rund um Wurstsorten.",
+  "url": "https://meininfokurs.cmrg.site/q2/datenbanken/fremdschluessel.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q2 – Klasse 11 · 2. Halbjahr",
+  "about": "Datenbanken",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q2",
+    "url": "https://meininfokurs.cmrg.site/q2/"
+  },
+  "isBasedOn": "Informatik Q2, OneNote \"Datenbanken mySQL\", Seite 27-29",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html" aria-current="page"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q2/index.html">Q2</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q2/index.html#datenbanken">Datenbanken</a>
+        </p>
+        <h1 class="titel">Fremdschlüssel bestimmen</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist der Fremdschlüssel! Der
+           Primärschlüssel macht eine Zeile eindeutig – der Fremdschlüssel ist das,
+           was Tabellen überhaupt erst miteinander verbindet. Ohne ihn hätte man
+           lauter einzelne Tabellen, die nichts voneinander wissen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>Übung 1:</strong> T1 „Fahrzeuge" mit den Attributen
+               Fahrzeug_ID, Marke_ID, Anzahl_Tueren, PS. T2 „Marken" mit den
+               Attributen Marke_ID, Marke_Name, Hersteller_Land, Gruendungsdatum. Wo
+               finden Sie einen Fremdschlüssel?</p>
+            <p><strong>DB_02-2 Fremdschlüssel bestimmen (einfach):</strong> Füllen
+               Sie alle Tabellen mit sinnvollen Datensätzen. Markieren Sie die
+               Primärschlüssel wie gelernt; markieren Sie die Fremdschlüssel mit einer
+               Farbe. Gegeben sind die Tabellen „Wurstsorten", „Farbstoffe",
+               „Lieferanten" und „Orte".</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Übung 1 – Fahrzeuge und Marken</h2>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Fahrzeuge(Fahrzeug_ID, Marke_ID, Anzahl_Tueren, PS)
+          ^^^^^^^^^^  ^^^^^^^^
+          PK          FK -> Marken.Marke_ID
+
+Marken(Marke_ID, Marke_Name, Hersteller_Land, Gruendungsdatum)
+       ^^^^^^^^
+       PK</code></pre>
+            </div>
+        </div>
+
+        <p><strong>Der Fremdschlüssel ist <code>Marke_ID</code> in der Tabelle
+           Fahrzeuge.</strong> Dort ist es ein Fremdschlüssel, in der Tabelle Marken
+           ist dasselbe Attribut der Primärschlüssel.</p>
+
+        <h3 class="schritt-titel">Woran man ihn erkennt</h3>
+        <p>Ein Attribut ist ein Fremdschlüssel, wenn es in einer <em>anderen</em>
+           Tabelle der Primärschlüssel ist. Praktischer Trick: <strong>ein Attribut,
+           das auf <code>_ID</code> endet und nicht der eigene Primärschlüssel ist,
+           ist fast immer ein Fremdschlüssel.</strong></p>
+
+        <p>Und die Richtung stimmt so herum und nicht andersherum. Man könnte ja
+           fragen, warum die Marke nicht die Fahrzeuge kennt. Antwort: eine Marke hat
+           viele Fahrzeuge, ein Fahrzeug hat aber genau eine Marke. Der Fremdschlüssel
+           steht immer auf der Seite, wo <strong>„viele"</strong> steht – sonst
+           müsste man in eine Zelle mehrere Werte schreiben, und das ist verboten.</p>
+
+        <h2>DB_02-2 – Die Wurstsorten</h2>
+
+        <p>Vier Tabellen, und die Fremdschlüssel bilden eine Kette.</p>
+
+        <h3 class="schritt-titel">Tabelle 1: Wurstsorten</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>ID <small>(PK)</small></th><th>Sorte_Name</th><th>Lieferant_ID <small>(FK)</small></th><th>Mehrwertsteuersatz</th><th>Einkaufspreis</th><th>Farbstoff_ID <small>(FK)</small></th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>Fleischwurst</td><td>1</td><td>7</td><td>3,49</td><td>2</td></tr>
+                    <tr><td>2</td><td>Salami</td><td>2</td><td>7</td><td>5,20</td><td>1</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Tabelle 2: Farbstoffe</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>ID <small>(PK)</small></th><th>Name</th><th>Gefaehrlichkeitsstufe</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>Echtes Karmin (E120)</td><td>2</td></tr>
+                    <tr><td>2</td><td>Rote Bete Rot (E162)</td><td>1</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Tabelle 3: Lieferanten</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>ID <small>(PK)</small></th><th>Name</th><th>Postleitzahl <small>(FK)</small></th><th>Status</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>Metzgerei Krause</td><td>65183</td><td>aktiv</td></tr>
+                    <tr><td>2</td><td>Wurstwaren Nord</td><td>20095</td><td>aktiv</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Tabelle 4: Orte</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Postleitzahl <small>(PK)</small></th><th>Ortname</th><th>Tel-Vorwahl</th></tr></thead>
+                <tbody>
+                    <tr><td>65183</td><td>Wiesbaden</td><td>0611</td></tr>
+                    <tr><td>20095</td><td>Hamburg</td><td>040</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>In Relationenschreibweise</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Wurstsorten(ID, Sorte_Name, Lieferant_ID, Mehrwertsteuersatz,
+            Einkaufspreis, Farbstoff_ID)
+             PK             FK->Lieferanten.ID        FK->Farbstoffe.ID
+
+Farbstoffe(ID, Name, Gefaehrlichkeitsstufe)
+            PK
+
+Lieferanten(ID, Name, Postleitzahl, Status)
+             PK        FK->Orte.Postleitzahl
+
+Orte(Postleitzahl, Ortname, Tel-Vorwahl)
+      PK</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Die Kette</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Wurstsorten ---> Lieferanten ---> Orte
+     |
+     +---------> Farbstoffe</code></pre>
+            </div>
+        </div>
+
+        <p>Zwei Sachen fallen dabei auf. Erstens verweist <code>Wurstsorten</code>
+           auf <strong>zwei</strong> Tabellen gleichzeitig – eine Tabelle darf
+           beliebig viele Fremdschlüssel haben. Zweitens ist
+           <code>Lieferanten</code> gleichzeitig Kind (verweist auf Orte) und
+           Elterntabelle (Wurstsorten verweist darauf). Das ist völlig normal und
+           kommt in der nächsten Aufgabe nochmal ausführlich dran.</p>
+
+        <h3 class="schritt-titel">Warum der Ort nicht direkt in die Lieferanten gehört</h3>
+        <p>Man könnte ja einfach <code>Ortname</code> und <code>Vorwahl</code> in
+           die Lieferanten-Tabelle schreiben. Drei Gründe, warum man das nicht macht:</p>
+
+        <ul class="schritte">
+            <li><strong>Redundanz:</strong> Bei fünfzig Lieferanten in Wiesbaden steht „Wiesbaden" fünfzigmal da.</li>
+            <li><strong>Änderungsanomalie:</strong> Ändert sich die Vorwahl, muss man sie an fünfzig Stellen ändern – und vergisst garantiert eine.</li>
+            <li><strong>Tippfehler:</strong> Einmal „Wiesbaden", einmal „Wiesbaden " mit Leerzeichen – und schon findet die Abfrage nur die Hälfte.</li>
+        </ul>
+
+        <p>Das ist schon die halbe Normalisierung, die später als eigenes Thema
+           drankommt. Hier sieht man den Grund dafür zum ersten Mal.</p>
+
+        <h3 class="schritt-titel">Und die referenzielle Integrität</h3>
+        <p>Ein Fremdschlüssel ist nicht nur Dokumentation. Die Datenbank passt
+           aktiv darauf auf:</p>
+
+        <ul class="schritte">
+            <li>Man kann keine Wurstsorte mit <code>Lieferant_ID = 99</code> eintragen, wenn es keinen Lieferanten 99 gibt</li>
+            <li>Man kann keinen Lieferanten löschen, solange noch Wurstsorten auf ihn verweisen</li>
+        </ul>
+
+        <p>Deshalb heißt es <strong>referenzielle Integrität</strong>: die Verweise
+           bleiben immer gültig, die Datenbank lässt gar nichts anderes zu.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="primaerschluessel.html"><small>Vorherige Aufgabe</small>Primärschlüssel bestimmen</a>
+            <a class="weiter" href="schluessel-uebung-3.html"><small>Nächste Aufgabe</small>Relationenschreibweise</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

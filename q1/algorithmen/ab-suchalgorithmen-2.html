@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Arbeitsblatt Suchalgorithmen II</title>
+    <meta name="description" content="Dasselbe Array, nur sortiert – und plötzlich reichen 2 statt 8 Vergleiche. Beide Arbeitsblätter zusammen sind eine einzige Argumentation.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/algorithmen/ab-suchalgorithmen-2.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Arbeitsblatt Suchalgorithmen II">
+    <meta property="og:description" content="Dasselbe Array, nur sortiert – und plötzlich reichen 2 statt 8 Vergleiche. Beide Arbeitsblätter zusammen sind eine einzige Argumentation.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/algorithmen/ab-suchalgorithmen-2.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Arbeitsblatt Suchalgorithmen II">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Arbeitsblatt Suchalgorithmen II">
+    <meta name="twitter:description" content="Dasselbe Array, nur sortiert – und plötzlich reichen 2 statt 8 Vergleiche. Beide Arbeitsblätter zusammen sind eine einzige Argumentation.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Arbeitsblatt Suchalgorithmen II",
+  "description": "Dasselbe Array, nur sortiert – und plötzlich reichen 2 statt 8 Vergleiche. Beide Arbeitsblätter zusammen sind eine einzige Argumentation.",
+  "url": "https://meininfokurs.cmrg.site/q1/algorithmen/ab-suchalgorithmen-2.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "Suchen und Sortieren",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"Suchen und Sortieren\", Seite 17-18",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#algorithmen">Suchen und Sortieren</a>
+        </p>
+        <h1 class="titel">Arbeitsblatt Suchalgorithmen II</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist das Arbeitsblatt zu Suchalgorithmen
+           II! Dieselben Fragen wie beim ersten Arbeitsblatt, aber das Array ist
+           diesmal <strong>sortiert</strong> – und damit ändert sich die Antwort
+           komplett.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>1 Einzelarbeit:</strong> In Material 1 finden Sie ein Array,
+               in welchem die Zahl 64 gesucht wird.<br>
+               a) Begründen Sie, welches Suchverfahren Sie verwenden würden und wie
+               dieses vorgeht.<br>
+               b) Nutzen Sie das von Ihnen gewählte Suchverfahren und führen Sie es
+               Schritt-für-Schritt durch. Nutzen Sie hierfür die Vorlage in
+               Material 2.</p>
+            <p><strong>2 Einzelarbeit:</strong> Nun wird die Zahl 63 im Array
+               gesucht. Beschreiben Sie, wie die binäre Suche hier vorgehen würde.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Material 1 – das sortierte Array</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Index</th><th>[0]</th><th>[1]</th><th>[2]</th><th>[3]</th><th>[4]</th><th>[5]</th><th>[6]</th><th>[7]</th><th>[8]</th><th>[9]</th><th>[10]</th></tr></thead>
+                <tbody><tr><td>Inhalt</td><td>3</td><td>4</td><td>8</td><td>9</td><td>18</td><td>25</td><td>37</td><td>55</td><td>64</td><td>89</td><td>130</td></tr></tbody>
+            </table>
+        </div>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>In Material 1 steht auf dem Arbeitsblatt noch ein zwölfter Wert
+            (161 bei Index [11]), die Durchlauf-Vorlagen in Material 2 haben aber nur
+            elf Spalten und markieren links = [0], mittig = [5], rechts = [10]. Ich
+            rechne mit den elf Werten aus der Vorlage. Am Ergebnis ändert der
+            zwölfte Wert nichts – die 64 wird so oder so nach zwei Durchläufen
+            gefunden.</span>
+        </div>
+
+        <h2>1 a) Welches Verfahren und warum</h2>
+
+        <p>Diesmal ist es die <strong>binäre Suche</strong>, und der Grund ist
+           genau der Unterschied zum ersten Arbeitsblatt: das Array ist
+           <strong>sortiert</strong>. 3, 4, 8, 9, 18, 25 … jeder Wert ist größer als
+           sein Vorgänger.</p>
+
+        <p>Erst dadurch wird der entscheidende Schluss erlaubt: ist das Element in
+           der Mitte kleiner als der gesuchte Wert, kann der gesuchte Wert unmöglich
+           links davon stehen. Die ganze linke Hälfte fällt mit einem einzigen
+           Vergleich weg.</p>
+
+        <p><strong>Wie sie vorgeht:</strong> Man merkt sich einen Suchbereich mit
+           <code>links</code> und <code>rechts</code>. In jedem Durchlauf schaut man
+           in dessen Mitte. Passt der Wert, ist man fertig. Ist er zu klein, geht es
+           rechts weiter (<code>links = mitte + 1</code>), ist er zu groß, links
+           (<code>rechts = mitte - 1</code>). Das wiederholt sich, solange
+           <code>links &lt;= rechts</code> gilt.</p>
+
+        <p>Die lineare Suche würde hier natürlich auch funktionieren – sie ist nur
+           unnötig langsam. Wenn die Daten sortiert sind, verschenkt man mit ihr
+           Information, die man geschenkt bekommen hat.</p>
+
+        <h2>1 b) Schritt für Schritt nach der 64</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Durchlauf</th><th>links</th><th>mitte</th><th>rechts</th><th>a[mitte]</th><th>Vergleich</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>0</td><td>5</td><td>10</td><td>25</td><td>25 &lt; 64 → links = 6</td></tr>
+                    <tr><td>2</td><td>6</td><td>8</td><td>10</td><td><strong>64</strong></td><td><strong>gefunden bei Index 8</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><strong>2 Durchläufe.</strong> Zum Vergleich: die lineare Suche hätte
+           hier 9 gebraucht (Index 0 bis 8). Bei elf Elementen ist das noch kein
+           Drama, bei einer Million wäre es der Unterschied zwischen sofort und
+           gar nicht.</p>
+
+        <p>Zur Rechnung: <code>mitte = (0 + 10) / 2 = 5</code>, dann
+           <code>(6 + 10) / 2 = 8</code>. Beides geht glatt auf. Bei krummen
+           Ergebnissen schneidet die <code>int</code>-Division einfach ab – aus 3,5
+           wird 3.</p>
+
+        <h2>2 – Die Suche nach der 63</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Durchlauf</th><th>links</th><th>mitte</th><th>rechts</th><th>a[mitte]</th><th>Vergleich</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>0</td><td>5</td><td>10</td><td>25</td><td>25 &lt; 63 → links = 6</td></tr>
+                    <tr><td>2</td><td>6</td><td>8</td><td>10</td><td>64</td><td>64 &gt; 63 → rechts = 7</td></tr>
+                    <tr><td>3</td><td>6</td><td>6</td><td>7</td><td>37</td><td>37 &lt; 63 → links = 7</td></tr>
+                    <tr><td>4</td><td>7</td><td>7</td><td>7</td><td>55</td><td>55 &lt; 63 → links = 8</td></tr>
+                    <tr><td>–</td><td>8</td><td colspan="4">links (8) &gt; rechts (7) → Bereich leer, <strong>nicht gefunden</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Vier Durchläufe, dann bricht die Schleife ab. Interessant ist, wie sich
+           der Suchbereich zusammenzieht: erst 0–10, dann 6–10, dann 6–7, dann 7–7 –
+           und dann überholt <code>links</code> das <code>rechts</code>. In dem
+           Moment ist der Bereich leer und es kann nichts mehr kommen.</p>
+
+        <p>Die 63 müsste zwischen der 55 (Index 7) und der 64 (Index 8) stehen.
+           Genau dorthin läuft die Suche auch, und genau dort ist kein Platz – also
+           gibt es die 63 nicht.</p>
+
+        <h2>Der direkte Vergleich der beiden Arbeitsblätter</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>AB I – unsortiert</th><th>AB II – sortiert</th></tr></thead>
+                <tbody>
+                    <tr><td>Mögliches Verfahren</td><td>nur linear</td><td>linear oder binär</td></tr>
+                    <tr><td>Vergleiche für die 64</td><td>8</td><td>2</td></tr>
+                    <tr><td>Vergleiche für die fehlende 63</td><td>11 (alle)</td><td>4</td></tr>
+                    <tr><td>Aufwand</td><td>O(n)</td><td>O(log n)</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Beide Arbeitsblätter zusammen sind eine einzige Argumentation:
+           <strong>Sortierung kostet vorher Arbeit und spart nachher viel mehr.</strong>
+           Wenn man ein Array einmal sortiert und danach tausendmal darin sucht,
+           lohnt sich das sofort. Sucht man nur ein einziges Mal, kann die lineare
+           Suche auf unsortierten Daten die bessere Wahl sein.</p>
+
+        <p>Und das ist auch der Übergang zum nächsten Thema: wenn Sortierung so
+           wertvoll ist, sollte man wissen, wie man effizient sortiert.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="ab-suchalgorithmen-1.html"><small>Vorherige Aufgabe</small>Arbeitsblatt Suchalgorithmen I</a>
+            <a class="weiter" href="unsortierte-top-10.html"><small>Nächste Aufgabe</small>Die unsortierte Top-10</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

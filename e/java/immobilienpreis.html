@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Der Immobilienpreiskalkulator</title>
+    <meta name="description" content="A. Herr Rich möchte, dass Grundstücke, die aus zusammengesetzten Flächen (Rechteck, Trapez, Raute, Dreieck) bestehen mit dem Immobilienkalkulator berechnen lassen.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/e/java/immobilienpreis.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Der Immobilienpreiskalkulator">
+    <meta property="og:description" content="A. Herr Rich möchte, dass Grundstücke, die aus zusammengesetzten Flächen (Rechteck, Trapez, Raute, Dreieck) bestehen mit dem Immobilienkalkulator berechnen lassen.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/e/java/immobilienpreis.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Der Immobilienpreiskalkulator">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Der Immobilienpreiskalkulator">
+    <meta name="twitter:description" content="A. Herr Rich möchte, dass Grundstücke, die aus zusammengesetzten Flächen (Rechteck, Trapez, Raute, Dreieck) bestehen mit dem Immobilienkalkulator berechnen lassen.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Der Immobilienpreiskalkulator",
+  "description": "A. Herr Rich möchte, dass Grundstücke, die aus zusammengesetzten Flächen (Rechteck, Trapez, Raute, Dreieck) bestehen mit dem Immobilienkalkulator berechnen lassen.",
+  "url": "https://meininfokurs.cmrg.site/e/java/immobilienpreis.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "E-Phase – Klasse 10 · Grundlagen",
+  "about": "Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – E-Phase",
+    "url": "https://meininfokurs.cmrg.site/e/"
+  },
+  "isBasedOn": "Informatik E-Phase · übernommen aus V2/Seiten/Java/Immobilienpreis.html",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html" aria-current="page"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../e/index.html">E-Phase</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../e/index.html#java">Java</a>
+        </p>
+        <h1 class="titel">Der Immobilienpreiskalkulator</h1>
+        <p class="status ist-nicht-verifiziert">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>Noch nicht geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist <strong>der Immobilienpreiskalkulator!</strong> Dazu schauen wir uns mal die Aufgabe genauer an und versuchen durch intelligentes Lösen ein vollfunktionsfähiges Programm zu erstellen. <br/></p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+<strong>A.</strong> <br/>
+            Herr Rich möchte, dass Grundstücke, die aus zusammengesetzten Flächen (Rechteck, Trapez, Raute, Dreieck) bestehen mit dem Immobilienkalkulator berechnen lassen. 
+            Erweitern Sie das Programm. <br/><br/>
+<strong>B.</strong> <br/>
+            Immobilien werden auch als Wertanlage genutzt, deshalb soll das Programm von Herrn Rich um eine Gewinnkalkulation erweitert werden. 
+            Angenommen die jährliche Steigerungsrate beträgt 1,99 Prozent im Jahr. 
+            Erweitern Sie das Programm um eine Gewinnkalkulation. Herr Rich möchte den Kunden auch den Break-Even-Point nennen können. <br/><br/>
+<strong>C.</strong> <br/>
+            Berechnen Sie die prozentuale Steigerung im Vergleich zum Kaufpreis für die Jahre 2030 und 2050. 
+            Recherchieren Sie und vergleichen Sie diese Werte mit den Prognosen für diese Jahre.  
+            Erläutern Sie, ob die angenommene Preissteigerung von 1,99% realistisch bzw. welche durchschnittliche Preissteigerung Sie für realistisch halten.     
+        </p></div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="ImmobilienPreisKalkulator.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+*
+* Das fertige Java Programm des Immobilienpreiskalkulators
+*
+* @version 1.0 vom 06.04.2025
+* @MeinInfoKurs.github.io
+*/
+
+public class Immobilienpreiskalkulator {
+
+                public static void main(string[] args) {
+                    double grundstuecksPreis = 0, maklergebuehr, gesamtKosten;
+                    double laenge, breite, hoehe, seiteA, seiteC, diagonaleE, diagonaleF;
+                    double quadratmeterpreis, gebuehrProzent, mehrwertsteuerProzent, mehrwertsteuerBetrag;
+                    double flaeche = 0;
+
+                    System.out.println("Makler-Firma Herr Rich – Immobilienkalkulator:");
+                    System.out.println("Erlaubt sind nur Dezimalzahlen der Punkt-Schreibweise.");
+
+                    System.out.println("Welche Form hat das Grundstück?");
+                    System.out.println("1 - Rechteck");
+                    System.out.println("2 - Trapez");
+                    System.out.println("3 - Dreieck");
+                    System.out.println("4 - Raute");
+
+                    int form = InOut.readInt("Bitte wählen Sie 1-4:");
+
+                    if (form == 1) {
+                      breite = InOut.readDouble("Breite in Meter: ");
+                      laenge = InOut.readDouble("Länge in Meter: ");
+                      flaeche = breite * laenge;
+
+                    } else if (form == 2) {
+                      seiteA = InOut.readDouble("Länge der unteren Seite (a) in Meter: ");
+                      seiteC = InOut.readDouble("Länge der oberen Seite (c) in Meter: ");
+                      hoehe = InOut.readDouble("Höhe in Meter: ");
+                      flaeche = (seiteA + seiteC) / 2 * hoehe;
+
+                    } else if (form == 3) {
+                      breite = InOut.readDouble("Grundseite in Meter: ");
+                      hoehe = InOut.readDouble("Höhe in Meter: ");
+                      flaeche = (breite * hoehe) / 2;
+
+                    } else if (form == 4) {
+                      diagonaleE = InOut.readDouble("Diagonale e in Meter: ");
+                      diagonaleF = InOut.readDouble("Diagonale f in Meter: ");
+                      flaeche = (diagonaleE * diagonaleF) / 2;
+
+                    } else {
+                      System.out.println("Ungültige Auswahl. Das Programm wird beendet.");
+                      System.exit(0); // Beendet das Programm
+                    }
+
+                    quadratmeterpreis = InOut.readDouble("Quadratmeterpreis in Euro: ");
+                    gebuehrProzent = InOut.readDouble("Maklergebühr in Prozent: ");
+                    mehrwertsteuerProzent = InOut.readDouble("Mehrwertsteuer in Prozent: ");
+
+                    grundstuecksPreis = flaeche * quadratmeterpreis;
+                    maklergebuehr = grundstuecksPreis * gebuehrProzent / 100;
+                    mehrwertsteuerBetrag = grundstuecksPreis * mehrwertsteuerProzent / 100;
+                    gesamtKosten = grundstuecksPreis + maklergebuehr + mehrwertsteuerBetrag;
+
+                    // Ausgabe
+                    System.out.println("------------Grundstückspreis------------");
+                    System.out.println("Fläche: " + InOut.format2(flaeche) + " m²");
+                    System.out.println("Grundstückspreis: " + InOut.format2(grundstuecksPreis) + " Euro");
+
+                    System.out.println("------------Steuer und Gebühr------------");
+                    System.out.println("Maklergebühr: " + InOut.format2(maklergebuehr) + " Euro");
+                    System.out.println("Mehrwertsteuer: " + InOut.format2(mehrwertsteuerBetrag) + " Euro");
+
+                    System.out.println("------------Gesamtbetrag------------");
+                    System.out.println("Gesamtkosten: " + InOut.format2(gesamtKosten) + " Euro");
+
+                    // Gewinnkalkulation
+                    double steigerungsrate = 1.99 / 100;
+                    int jahr = 0;
+                    double wert = grundstuecksPreis;
+
+                    while (wert &lt; gesamtKosten) {
+                      jahr++;
+                      wert = grundstuecksPreis * Math.pow(1 + steigerungsrate, jahr);
+                    }
+
+                    System.out.println("------------Gewinnkalkulation------------");
+                    System.out.println("Annahme: Jährliche Wertsteigerung von 1,99 %.");
+                    System.out.println("Wert nach 10 Jahren: " + InOut.format2(grundstuecksPreis * Math.pow(1.0199, 10)) + " Euro");
+                    System.out.println("Wert nach 20 Jahren: " + InOut.format2(grundstuecksPreis * Math.pow(1.0199, 20)) + " Euro");
+                    System.out.println("Break-Even-Point erreicht nach ca. " + jahr + " Jahren.");
+
+                    System.out.println("Vielen Dank für den Auftrag. Bis zum nächsten Mal.");
+                  }
+                }</code></pre></div></div>
+        <p>
+            In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>Nutzereingabe des Normalpreises</li>
+<li>Nutzereingabe der reisenden Personen</li>
+<br/>
+<li>Gruppenreise möglichkeit (ab 6 Personen)</li>
+<li>Rabbatt auf den Ticketkauf (bei 6+ Fahrgästen)</li>
+<li>Maximalpreis von 36.60€ (pro Person)</li>
+<br/>
+<li>Ausgabe des Preises pro Person</li>
+<li>Ausgabe des gesamten Gruppenpreises</li>
+</ol>
+        <h3 class="schritt-titel">1. Nutzereingabe und Auswahl der Form</h3>
+        <p>
+            Der Nutzer gibt an, welche geometrische Form das Grundstück hat. Je nach Auswahl (rechteck, trapez, dreieck) werden unterschiedliche Eingaben abgefragt.
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">System.out.println("Welche Form hat das Grundstück?");
+System.out.println("1 - Rechteck");
+System.out.println("2 - Trapez");
+System.out.println("3 - Dreieck");
+System.out.println("4 - Raute");
+
+int form = InOut.readInt("Bitte wählen Sie 1-4:");</code></pre></div></div>
+        <h3 class="schritt-titel">2. Berechnung der Immobilienkosten</h3>
+        <p>
+            Die Grundfläche wird mit dem Quadratmeterpreis multipliziert. Zusätzlich werden Maklergebühr und Mehrwertsteuer berechnet und aufgeschlagen.
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">double grundstueckPreis = flaeche * qmPreis;
+double gebuehr = grundstueckPreis * gebuehrProzent / 100;
+double steuer = gebuehr * steuerProzent / 100;
+double gesamtpreis = grundstueckPreis + gebuehr + steuer;</code></pre></div></div>
+        <h3 class="schritt-titel">3. Wertsteigerung berechnen</h3>
+        <p>
+            Mit einer konstanten Preissteigerung von 1,99 % jährlich wird die erwartete Preisentwicklung berechnet. Dazu verwenden wir die Potenzfunktion.
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">double steigerung = 1.0199;
+double preis2030 = grundstueckPreis * Math.pow(steigerung, 5);
+double preis2050 = grundstueckPreis * Math.pow(steigerung, 25);</code></pre></div></div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="schulsprecherwahl.html"><small>Vorherige Aufgabe</small>Die Schulsprecherwahl</a>
+            <a class="weiter" href="variablenraetsel.html"><small>Nächste Aufgabe</small>Das Variablenrätsel</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

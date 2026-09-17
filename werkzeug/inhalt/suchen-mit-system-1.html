@@ -1,0 +1,206 @@
+        <p>Die Aufgabe der heutigen Stunde ist Suchen mit System, Teil 1! Zwei
+           Aufgaben: einmal ein Struktogramm für eine Methode, die Sechser zählt,
+           und einmal Zahlenraten zu zweit – letzteres ist die binäre Suche, nur
+           dass es noch niemand so nennt.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>Aufgabe 1 b) Rechnerarbeit:</strong> Gegeben ist die
+               Dokumentation der Methode <code>int anzahlSechser()</code>. Die
+               Simulation hat 30 zufällige Würfelergebnisse erzeugt. Die Methode
+               zählt die Sechser unter den Ergebnissen zusammen. Return: die Anzahl
+               aller Sechser. Parameter: –. Entwerfen Sie ein Struktogramm für die
+               Methode. Nehmen Sie die Fachmethode „Struktogramme" zu Hilfe.
+               Implementieren und testen Sie in Java.</p>
+            <p><strong>Aufgabe 2 Partnerarbeit:</strong> Spielen Sie zu zweit das
+               Spiel Zahlenraten. Spieler A denkt sich eine Zahl aus einem zuvor
+               festgelegten Bereich aus. Spieler B versucht mit möglichst wenigen
+               Versuchen, die gedachte Zahl zu erraten. Nach jedem Versuch sagt
+               Spieler A, ob die geratene Zahl zu klein, zu groß oder die richtige
+               ist.</p>
+            <p>a) Spielen Sie mehrere Runden mit den Zahlbereichen 1–10, 1–20,
+               1–100 und 1–1000 und notieren Sie die Anzahl der benötigten
+               Rateversuche.<br>
+               b) Analysieren Sie Ihre Ergebnisse aus a), indem Sie eine
+               Berechnungsformel für die maximale Anzahl an Rateversuchen
+               entwickeln. Die Formel soll angeben, wie viele Versuche höchstens bei
+               einem Zahlbereich mit n Zahlen benötigt werden.</p>
+        </div>
+
+        <h2>Aufgabe 1 – Sechser zählen</h2>
+
+        <h3 class="schritt-titel">Das Struktogramm</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Struktogramm</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>+----------------------------------------------+
+| int anzahlSechser()                          |
++----------------------------------------------+
+| int anzahl = 0                               |
++----------------------------------------------+
+|   for i = 0 to laenge(wuerfelergebnisse) - 1 |
+|  +-----------------------------------------+ |
+|  |        wuerfelergebnisse[i] == 6 ?      | |
+|  | WAHR                          FALSCH    | |
+|  +---------------------+-------------------+ |
+|  | anzahl = anzahl + 1 |         (leer)    | |
+|  +---------------------+-------------------+ |
++----------------------------------------------+
+| return anzahl                                |
++----------------------------------------------+</code></pre>
+            </div>
+        </div>
+
+        <p>Drei Bausteine, mehr braucht es nicht: eine Zuweisung am Anfang, eine
+           Zählschleife, darin eine Verzweigung, und am Ende die Rückgabe. Die
+           Verzweigung hat nur einen WAHR-Zweig – im FALSCH-Zweig steht nichts,
+           weil bei einer 3 eben nichts zu tun ist. Im Struktogramm markiert man
+           das mit dem leeren Kasten oder einem ø.</p>
+
+        <h3 class="schritt-titel">In Java</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Wuerfelsimulation.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Wuerfelsimulation.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Sechser zaehlen in der Wuerfelsimulation
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Wuerfelsimulation {
+
+    private int[] wuerfelergebnisse = new int[30];
+
+    public void wuerfeln() {
+        for (int i = 0; i &lt; wuerfelergebnisse.length; i++) {
+            wuerfelergebnisse[i] = (int)(Math.random() * 6 + 1);
+        }
+    }
+
+    /**
+     * Zaehlt die Sechser unter den 30 Wuerfelergebnissen.
+     *
+     * @return Anzahl aller Sechser
+     */
+    public int anzahlSechser() {
+        int anzahl = 0;
+        for (int i = 0; i &lt; wuerfelergebnisse.length; i++) {
+            if (wuerfelergebnisse[i] == 6) {
+                anzahl++;
+            }
+        }
+        return anzahl;
+    }
+
+    public static void main(String[] args) {
+        Wuerfelsimulation w = new Wuerfelsimulation();
+        w.wuerfeln();
+        System.out.println("Sechser: " + w.anzahlSechser() + " von 30");
+    } // end of main
+
+} // end of class Wuerfelsimulation</code></pre>
+            </div>
+        </div>
+
+        <p>Zwei Kleinigkeiten, an denen man hängenbleibt. Erstens: <code>anzahl</code>
+           wird <strong>vor</strong> der Schleife auf 0 gesetzt, nicht darin. Setzt
+           du sie innerhalb, fängt sie bei jedem Durchlauf wieder bei 0 an und am
+           Ende steht dort immer 0 oder 1.</p>
+
+        <p>Zweitens: es heißt <code>==</code> und nicht <code>=</code>. Ein
+           einzelnes Gleichheitszeichen ist eine Zuweisung – damit würdest du jeden
+           Würfel auf 6 setzen statt ihn zu vergleichen. Bei
+           <code>int</code>-Werten meckert der Compiler immerhin, weil eine
+           Zuweisung kein <code>boolean</code> ergibt.</p>
+
+        <p>Zum Testen: bei 30 Würfen sollten im Schnitt 5 Sechser rauskommen, denn
+           30 · 1/6 = 5. Schwankungen zwischen 1 und 10 sind völlig normal. Kommt
+           bei dir immer 0 oder immer 30 raus, stimmt was nicht.</p>
+
+        <h2>Aufgabe 2 – Zahlenraten</h2>
+
+        <h3 class="schritt-titel">a) Die beste Strategie</h3>
+        <p>Wer beim Zahlenraten bei 1 anfängt und hochzählt, braucht bei 1–1000
+           im schlimmsten Fall 1000 Versuche. Das ist die lineare Suche und sie ist
+           hier eine ziemlich schlechte Idee.</p>
+
+        <p>Die gute Strategie: <strong>immer die Mitte raten</strong>. Bei 1–100
+           fängt man mit 50 an. „Zu klein" heißt, die Zahl liegt zwischen 51 und
+           100 – der halbe Bereich fällt mit einem Versuch weg. Dann rät man 75 und
+           so weiter. Das ist die binäre Suche.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Bereich</th><th>n</th><th>Versuche höchstens</th></tr></thead>
+                <tbody>
+                    <tr><td>1–10</td><td>10</td><td>4</td></tr>
+                    <tr><td>1–20</td><td>20</td><td>5</td></tr>
+                    <tr><td>1–100</td><td>100</td><td>7</td></tr>
+                    <tr><td>1–1000</td><td>1000</td><td>10</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">b) Die Formel</h3>
+        <p>Schau dir die Zahlen an: der Bereich wird hundertmal so groß (von 10
+           auf 1000), die Versuche steigen aber nur von 4 auf 10. Das ist das
+           typische Zeichen für einen Logarithmus.</p>
+
+        <p>Bei jedem Versuch halbiert sich der Bereich. Nach <em>k</em> Versuchen
+           sind von n Zahlen noch n / 2<sup>k</sup> übrig. Man ist fertig, wenn nur
+           noch eine übrig ist:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>n / 2^k = 1        | · 2^k
+n       = 2^k      | log2
+log2(n) = k</code></pre>
+            </div>
+        </div>
+
+        <p>Da man keine halben Versuche machen kann, wird aufgerundet:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Anzahl der Versuche (hoechstens) = aufgerundet( log2(n + 1) )</code></pre>
+            </div>
+        </div>
+
+        <p>Probe: <code>log2(11) ≈ 3,46</code> → aufgerundet 4. Stimmt mit der
+           Tabelle überein. <code>log2(1001) ≈ 9,97</code> → 10. Stimmt auch.</p>
+
+        <p>Praktisch kann man das auch ohne Taschenrechner abschätzen: 2<sup>10</sup>
+           ist 1024, also reichen 10 Versuche für alles bis 1000. Die Zweierpotenzen
+           bis 2<sup>10</sup> auswendig zu können hilft im Info-Unterricht ständig.</p>
+
+        <h3 class="schritt-titel">Warum das so wichtig ist</h3>
+        <p>Der Vergleich mit der linearen Suche ist heftig, und genau deshalb ist
+           die ganze Einheit so aufgebaut:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>n</th><th>Linear (schlimmster Fall)</th><th>Binär (schlimmster Fall)</th></tr></thead>
+                <tbody>
+                    <tr><td>10</td><td>10</td><td>4</td></tr>
+                    <tr><td>1 000</td><td>1 000</td><td>10</td></tr>
+                    <tr><td>1 000 000</td><td>1 000 000</td><td>20</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Eine Million Einträge, und man ist nach 20 Fragen fertig. Der Haken
+           kommt später: das funktioniert nur, wenn die Daten
+           <strong>sortiert</strong> sind. Beim Zahlenraten sind sie das
+           automatisch, weil Zahlen nun mal eine Reihenfolge haben.</p>

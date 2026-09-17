@@ -1,0 +1,96 @@
+        <h2>Einführung</h2>
+        <p id="Einfuehrung">
+            Das hier ist die Java Dokumentation Seite. Wenn du dir zu etwas unsicher bist und nochmal wissen möchtest, wie etwas funktioniert, 
+            was etwas ist oder wann man es verwendet, kannst du es hier nachlesen.
+            Ich gebe dir eine kurze Beschreibung und Erklärung wie und wann du was verwenden kannst.
+        </p>
+        <h3 class="schritt-titel" id="Datentyp">Datentypen</h3>
+        <p>
+            In Java gibt es verschiedene Datentypen die alle unterschiedliche Funktionen abdecken. In der folgenden Tabelle findest du einen die jeweiligen Datentypen und deren Funktionen.    
+        </p>
+        <div class="tabelle-huelle"><table id="Datentypen">
+<tbody><tr>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+<th>Beispiel</th>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td>Ganze Zahlen (positive und negative Zahlen)</td>
+<td><code>int</code> zahl = 42;</td>
+</tr>
+<tr>
+<td><code>double</code></td>
+<td>Positive und negative Zahlen mit Nachkommastellen</td>
+<td><code>double</code> pi = 3.1415;</td>
+</tr>
+<tr>
+<td><code>char</code></td>
+<td>Einzelne Zeichen</td>
+<td><code>char</code> buchstabe = 'A';</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td>Wahrheitswerte (true oder false)</td>
+<td><code>boolean</code> istJavaSchwer = false;</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td>Zeichenketten (Texte)</td>
+<td><code>String</code> name = <code>"David"</code>;</td>
+</tr>
+</tbody></table></div>
+        <h3 class="schritt-titel" id="Eingabe-Ausgabe">Ein- und Ausgaben</h3>
+        <p>
+            Um eine Nutzereingabe bei Programmausführung zu ermöglichen, müssen wir das <kbd>"InOut.readInt"</kbd> oder ähnliche Methode verwenden.  
+            Das <kbd>"InOut.read"</kbd> ist dabei der Stamm. Nach dem <kbd>"read"</kbd> hängen wir dann den Datentypen an, für welchen wir einen Wert brauchen. Ein beispiel sieht so aus: 
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">int meinInteger;
+double meinDouble;
+
+meinInteger = InOut.readInt("Was für einen Int willst du eingeben?")
+meinDouble = InOut.readDouble("Was für einen Double willst du eingeben?")</code></pre></div></div>
+        <div style="margin: 45px 10px 0px 30px;">
+<h3>1. Einfache Eingabe</h3>
+<p>
+                    In folgendem Beispiel ist eine Nutzereingabe zu erkennen, welche die eingegebene Zahl (<code>int</code>) in der Variable "zahl" speichert 
+                </p>
+<div class="code"><div class="code-feld"><pre><code class="language-java">int zahl = InOut.readInt("Gib eine Zahl ein: ");</code></pre></div></div>
+</div>
+        <div style="margin: 0px 10px 0px 30px;">
+<h3 id="nutzereingabe">2. Einfache Ausgabe</h3>
+<p>
+                    Um einen Text an die Konsole ausgeben zu können, verwenden wir den <kbd>System.out.print("Text")</kbd>
+</p>
+<div class="code"><div class="code-feld"><pre><code class="language-java">System.out.print("Dieser Text erscheint auf der Konsole!");</code></pre></div></div>
+<p>
+                    Alternativ können wir auch <kbd>System.out.println("Text");</kbd>  verwenden.  
+                    Dies sorgt dann aber dafür, dass der Text getrennt in einer neuen Zeile ausgegeben wird. 
+                    Ohne das <kbd>ln</kbd>, wird der Inhalt in der selben Zeile ausgegeben wie die vorherige und darauffolgende Ausgabe.
+                </p>
+<div style="margin: 40px 10px 0px 30px;">
+<h3>Ausgabe von Variablen</h3>
+<p>
+                        Wollen wir eine Variable ausgeben anstelle von nur Text, so müssen wir den Name der Variable, die wir ausgeben wollen in die Klammer schreiben:
+                    </p>
+<div class="code"><div class="code-feld"><pre><code class="language-java">int meineVariable = 42;
+System.out.print(meineVariable); // Die Zahl "42" wird auf der Konsole ausgegeben</code></pre></div></div>
+<p>
+                        Wenn wir nun aber einen Text und eine Variable zusammen ausgeben wollen, müssen wir ein wenig mehr in die Klammer schreiben.
+                        Das aneinanderreihen bei der Ausgabe von einem Text und einer Variable nennt man <kbd>Konkatenation.</kbd>
+                        Dies kann wie folgt aussehen:
+                    </p>
+<div class="code"><div class="code-feld"><pre><code class="language-java">int meineVariable = 42;
+System.out.print("Die Zahl beträgt " + meineVariable); // Nun wird "Die Zahl beträgt 42" auf der Konsole ausgegeben.</code></pre></div></div>
+</div><br/>
+</div>
+        <br/>
+        <h3 class="schritt-titel" id="Schleifen">Bedingungen und Schleifen</h3>
+        <p>
+            In einem Java Code werden sehr oft sehr viele verschiedene Bedinungen überprüft, Schleifen ausgeführt und Rechnungen werden Berechnet. Diese 3 Schritte sind ein sehr wichtiger Teil 
+            in einem Programm. Sie helfen uns das Programm dynamischer zu machen. Jede Schleife wird für unterschiedliche Zwecke verwendet und hat verschiedene Vorteile.
+            Doch von der Grundstruktur sind sie ähnlich aufgebaut. Zuerst haben wir den Namen der Schleife, zum Beispiel <kbd>if</kbd>, dannach folgt eine Bedingung welche
+            die Schleife bei ausführung überprüft. Falls die Bedingung wahr oder nicht wahr ist, je nachdem welches unser Ziel ist, wird der Inhalt der Schleife ausgeführt. Entspricht die Bedingung nicht
+            der die in der <kbd>IF Bedingung</kbd> gegeben ist, wird der Code in der Schleife (meistens) übersprungen.
+        </p>

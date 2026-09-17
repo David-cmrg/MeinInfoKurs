@@ -1,0 +1,114 @@
+        <p>Die Aufgabe der heutigen Stunde ist <strong>der Parkscheinautomat!</strong> Dieses Programm ist recht einfach gehalten und besteht aus einem einfachen <a href="docs.html#Eingabe-Ausgabe">EVA</a> prinzip.<br/></p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+            In System gibt es zu wenig Parkplätze in der Innenstadt. Deshalb sollen sehr teure Parkplatzpreise ohne Kartenzahlungsmöglichkeit dafür sorgen, dass die Leute in der Innenstadt nur vorübergehend parken.  
+            Der verantwortliche Programmierer hatte schon angefangen und vorgestern im Lotto gewonnen. Wir haben gehört, dass er mittlerweile auf Hawaii ist. Sie erhalten von uns alle Unterlagen und Informationen um den Auftrag zu beenden:  <br/><br/>
+<strong>Beschreibung des Auftraggebers</strong><br/> 
+            Auf einem kostenpflichtigen Parkplatz gilt der Tarif 0,5 € pro angefangener Stunde, maximal 5 € pro Tag.
+        </p></div>
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="ParkscheinAutomat.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+*
+* Das fertige Java Programm des "ParkscheinAutomat.java"
+*
+* @version 1.0 vom 26.02.2024
+* @MeinInfoKurs.github.io
+*/
+
+public class ParkscheinAutomat {
+
+                public static void main(String[] args) {
+                                int Stunden;
+                                double Geldbetrag, Parkgebühr, Zahlbetrag, Wechselgeld;
+
+                                Stunden = InOut.readInt("Parkzeit in Stunden: ");
+                                Geldbetrag = InOut.readDouble("Eingeworfener Geldbetrag in Euro: ");
+
+                                Parkgebühr = Stunden * 0.5;
+                                System.out.println("Betrag zu Zahlen: " + Parkgebühr);
+                                if (Parkgebühr &gt; 5) {
+                                    Parkgebühr = 5;
+                                }
+                                if (Geldbetrag &lt; Parkgebühr) {
+                                    Zahlbetrag = Parkgebühr - Geldbetrag;
+                                    System.out.println("Noch zu Zahlen: " + Zahlbetrag);
+                                }else {
+                                    if (Geldbetrag &gt; Parkgebühr) {
+                                        Wechselgeld = Geldbetrag - Parkgebühr;
+                                        System.out.println("Wechselgeld: " + Wechselgeld);
+                                    } // end of if
+                                    System.out.println("Parkgebühr bezahlt! :");
+                                } // end of if-else
+                    } // end of main
+} // end of class ParkscheinAutomat.</code></pre></div></div>
+        <p>
+            In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>Nutzereingabe der geparkten Stunden</li>
+<li>Nutzereingabe des eingeworfenen Geldbetrags</li>
+<br/>
+<li>Berechnung der Parkgebühr</li>
+<ul class="unterliste">
+<li>Parkgebühr = maximal 5</li>
+<li>Falls Geldbetrag &lt; Parkgebühr wird mehr Geld gefordert</li>
+<li>Berechnung des Wechselgeldes</li>
+</ul>
+<br/>
+<li>Ausgabe des Wechselgeldes</li>
+</ol>
+        <h3 class="schritt-titel">1. Nutzereingaben (Stunden und Geldbetrag)</h3>
+        <p>
+            Um eine Nutzereingabe zu ermöglichen, müssen wir zuerst die Variable deklarieren, der wir einen Wert zuweisen wollen.
+            Nun brauchen wir eine Variable für die Stunden. Welche nutzen wir da am besten? Einen <span class="antwort" role="button" style="color: green; text-decoration: underline;" tabindex="0">Integer</span>.<br/>
+            Aber wir müssen auch den Geldbetrag eingeben lassen. Da dieser eine Nachkommastelle beinhalten kann, nutzen wir hier einen <span class="antwort" role="button" style="color: green; text-decoration: underline;" tabindex="0">Double</span>.<br/>
+            Der Code dafür könnte zb so aussehen:
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">int Stunden;
+double Geldbetrag;
+
+Stunden = InOut.readInt("Parkzeit in Stunden: ");
+Geldbetrag = InOut.readDouble("Eingeworfener Geldbetrag in Euro: ");</code></pre></div></div>
+        <h3 class="schritt-titel">2. Berechnung der Parkgebühr</h3>
+        <p>
+            Da die Eingabe nun vollendet ist, müssen wir mit den uns zugeteilten Werten einige Rechnungen anstellen, um an das gewünschte Ergebnis zu gelangen. 
+            Dafür teilen wir uns alle Rechenschritte in verschiedene kleinere auf:
+        </p>
+        <br/>
+        <br/>
+        <br/>
+        <div style="margin: 0px 10px 0px 30px;">
+<h4>2.1 Parkgebühr = maximal 5</h4>
+<p>
+                    Um zu überprüfen ob die Parkgebühr mehr als unser Maximal beträgt, benötigen wir ein <a href="docs.html">IF Statement</a>.
+                    Die Fähigkeit ein IF Statement zu benutzen ist eine wichtige Grundlage. Kannst du dies nicht, solltest du dir nochmal vergangene Aufgaben anschauen 
+                    und die <a href="docs.html">Dokumentation</a> durchlesen.
+                    Durch folgendes IF Statement können wir diese Bedinung (<kbd> Parkgebühr &gt; 5 </kbd>) überprüfen:
+                </p>
+
+</div>
+        <br/>
+        <div style="margin: 0px 0px 0px 30px !important;">
+<h3>2.2 Berechnung des Wechselgeldes</h3>
+<p>
+                Hat der Nutzer nun zu viel Geld eingeworfen, wollen wir ihm sein Wechselgeld geben. Hat er zu wenig eingeworfen, wollen wir das restliche Geld fordern.
+                Dazu benutzen wir ein if-else. Zuerst wollen wir schauen ob der Geldbetrag (den der Nutzer eingeworfen hat) weniger ist als die Parkgebühr, welches heißt das
+                er noch zusätzlich Geld einwerfen muss. Wir verwenden ein <a href="docs.html">IF-ELSE Statement</a>
+</p>
+<div class="code"><div class="code-feld"><pre><code class="language-java">if (Geldbetrag &lt; Parkgebühr) { // Überprüfen ob zu wenig Geld eingeworfen wurde
+    Zahlbetrag = Parkgebühr - Geldbetrag; // Falls ja, wird der noch zu zahlende Betrag ausgerechnet
+    System.out.println("Noch zu Zahlen: " + Zahlbetrag); // Wir fordern den restlichen Betrag
+}else { // Falls nicht zu wenig Geld eingeworfen wurde:
+    if (Geldbetrag &gt; Parkgebühr) { // Überprüfen wir ob zu viel Geld eingeworfen wurde
+        Wechselgeld = Geldbetrag - Parkgebühr; // Berechnung des Wechselgeldes
+        System.out.println("Wechselgeld: " + Wechselgeld); // Wechselgeld wird ausgegeben.
+    } // end of if
+    System.out.println("Parkgebühr bezahlt! :"); // Bestätigung
+} // end of if-else</code></pre></div></div>
+</div>
+        <p style="margin: 0px 0px 35px 30px;">
+            Die Bestätigung ist ganz am Ende, außerhalb des IF Statements, da falls direkt genug Geld eingeworfen wird, wir nicht in dieses IF Statement gehen müssen und 
+            somit, wenn die Bestätigung im IF Statement wäre, wir keine Bestätigung bei genauem Geldeinwurf erhalten würden. <br/>
+            Da beim ausführen eines Codes, die ausführreihenfolge immer von oben nach unten ist, hätten wir die Bestätigung auch ganz außerhalb des IF-ELSE Statements setzen können
+            und hätten die selbe Lösung.
+        </p>

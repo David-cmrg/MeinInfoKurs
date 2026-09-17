@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Das Grundgerüst</title>
+    <meta name="description" content="Heute beschäftigen wir uns mit HMTL, welches die kurzform von H yper T ext M arkup L anguage ist.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/e/html/grundgeruest.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Das Grundgerüst">
+    <meta property="og:description" content="Heute beschäftigen wir uns mit HMTL, welches die kurzform von H yper T ext M arkup L anguage ist.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/e/html/grundgeruest.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Das Grundgerüst">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Das Grundgerüst">
+    <meta name="twitter:description" content="Heute beschäftigen wir uns mit HMTL, welches die kurzform von H yper T ext M arkup L anguage ist.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Das Grundgerüst",
+  "description": "Heute beschäftigen wir uns mit HMTL, welches die kurzform von H yper T ext M arkup L anguage ist.",
+  "url": "https://meininfokurs.cmrg.site/e/html/grundgeruest.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "E-Phase – Klasse 10 · Grundlagen",
+  "about": "HTML",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – E-Phase",
+    "url": "https://meininfokurs.cmrg.site/e/"
+  },
+  "isBasedOn": "Informatik E-Phase · übernommen aus V2/Seiten/HTML/Grundgeruest.html",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html" aria-current="page"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../e/index.html">E-Phase</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../e/index.html#html">HTML</a>
+        </p>
+        <h1 class="titel">Das Grundgerüst</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+        <p>
+            Die Aufgabe der heutigen Stunde ist <strong>das Grundgerüst!</strong> <br/> 
+            Heute beschäftigen wir uns mit HMTL, welches die kurzform von <strong>H</strong>yper <strong>T</strong>ext <strong>M</strong>arkup <strong>L</strong>anguage ist.
+            Alles was du im Internet suchst, aufrufst oder dir anschaust basiert auf HTML. Es ist die Programmiersprache der Webentwickelung! Meiner Meinung nach
+            ist sie sehr einfach zu verstehen und anzuwenden. Schauen wir uns mal an wie ein ".html" Dokument aufgebaut ist. Dazu bearbeiten wir die heutige Aufgabe.
+            <br/>
+</p>
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> HTML</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="Grundgeruest.html" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-markup">&lt;!DOCTYPE html&gt;
+        &lt;html lang="en"&gt;
+        &lt;head&gt;
+                &lt;meta charset="UTF-8"&gt;
+                &lt;title&gt;Meine erste Webseite&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+                &lt;h1 style="color: white;"&gt;Willkommen bei meiner Webseite!&lt;/h1&gt;
+                &lt;p style="color: white;"&gt;Das hier ist ein Paragraph.&lt;/p&gt;
+        &lt;/body&gt;
+&lt;/html&gt;</code></pre></div></div>
+        <p>
+            Das Grundgerüst einer Webseite hat immer folgende Bestandteile: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>&lt;!DOCTYPE html&gt;</li> <br/>
+<li>&lt;html lang="en"&gt;</li>
+<li>&lt;head&gt;</li>
+<li>&lt;/head&gt;</li>
+<li>&lt;body&gt;</li>
+<li>&lt;/body&gt;</li>
+<li>&lt;/html&gt;</li>
+</ol>
+        <h3 class="schritt-titel">&lt;!DOCTYPE html&gt;</h3>
+        <p>
+            Dieser "Tag" steht am Anfang hedes HTML-Dokuments.
+            Es ist kein richtiger Tag, sondern eine Anweisung für deinen Browser.
+            Damit weiß der Browser, dass es sich um ein modernes HTML5-Dokument handelt und wie der Inhalt richtig angezeigt, 
+            beziehungsweise interpretiert, wird.
+        </p>
+        <br/>
+        <h3 class="schritt-titel">&lt;html lang="en"&gt;</h3>
+        <p>
+            Der Start des eigentlichen HTML-Dokumentes (vom Inhalt her) beginnt hier.
+            Mit "lang=en" gibst du an, dass die Sprache der Inhalte deiner Webseite Englisch ist. Dies ist für Suchmaschienen 
+            oder der Vorlesehilfe sehr hilfreich!
+        </p>
+        <br/>
+        <h3 class="schritt-titel">&lt;head&gt;</h3>
+        <p>
+           In dem sogenannten "Kopfbereich" der Webseite stehen die Informationen über die Seite, die man im Browser nicht 
+           direkt sieht / angezeigt bekommt. Hier legt man zum Beispiel den Titel der Webseite fest, bindet verschiedene CSS, 
+           JS oder weitere Dateien an und einiges mehr. Im Grunde kann man sich merken, dass alles was es an Informationen für die
+           Funktionalität der Webseite im "&lt;head&gt;" Tag angegeben wird.
+        </p>
+        <br/>
+        <h3 class="schritt-titel">&lt;body&gt;</h3>
+        <p>
+           der Body ist der sichtbare Bereich der Webseite. Alles, was Nutzer sehen sollen (Texte, Bilder, Links, Überschriften, Tabellen, Videos, usw.)
+           wird hier angegeben. Das ist also die Oberfläche mit welcher der Nutzer interagieren kann und sie angezeigt bekommt. 
+           Desweiteren kann man den "&lt;body&gt;" Tag in 3 weitere Abschnitte unterteilen. "&lt;header&gt;", "&lt;main&gt;" und "&lt;footer&gt;" helfen den
+           Entwicklern der Seite ein übersichtlicheres layout für die Webseite zu erstellen. Wenn man zum Beispiel eine Fußzeile haben möchte, kann man
+           diese einfach in den &lt;body&gt; schreiben und schon wird der Inhalt des footer Tags am unteren Ende der Webseite angezeigt.
+        </p>
+        <br/>
+        <h3 class="schritt-titel">Schließende Tags</h3>
+        <p>
+           In HTML gibt es <strong>öffnende</strong>, sowie <strong>schließende Tags</strong>.
+           Ein öffnender Tag ist so aufgebaut: <kbd>&lt;tagname&gt;</kbd>, während ein schließender Tag so aussieht: 
+           <kbd>&lt;/tagname&gt;</kbd>. Alles was sich zwischen den öffnenden und schließenden Tags befindet gehört
+           zu diesem Element. Schließende Klammern sind wichtig, damit der Browser genau weiß, wo ein Element aufhört.  <br/> <br/>
+</p>
+        <div class="code"><div class="code-feld"><pre><code class="language-markup">&lt;p&gt; Das hier ist ein Paragraph! &lt;/p&gt;</code></pre></div></div>
+        Hier beginnt
+        <kbd>&lt;p&gt;</kbd>
+        unser Textelement, während
+        <kbd>&lt;/p&gt;</kbd>
+        es schließt und beendet. Ohne die schließenden Klammern würde der Browser den Inhalt oft falsch darstellen.
+        <br/>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

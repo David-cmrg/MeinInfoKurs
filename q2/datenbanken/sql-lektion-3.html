@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | SQL Lektion 3: JOIN</title>
+    <meta name="description" content="Mehrere Tabellen zusammenführen – die wichtigste Lektion, weil dafür überhaupt Fremdschlüssel existieren.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q2/datenbanken/sql-lektion-3.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | SQL Lektion 3: JOIN">
+    <meta property="og:description" content="Mehrere Tabellen zusammenführen – die wichtigste Lektion, weil dafür überhaupt Fremdschlüssel existieren.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q2/datenbanken/sql-lektion-3.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | SQL Lektion 3: JOIN">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | SQL Lektion 3: JOIN">
+    <meta name="twitter:description" content="Mehrere Tabellen zusammenführen – die wichtigste Lektion, weil dafür überhaupt Fremdschlüssel existieren.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "SQL Lektion 3: JOIN",
+  "description": "Mehrere Tabellen zusammenführen – die wichtigste Lektion, weil dafür überhaupt Fremdschlüssel existieren.",
+  "url": "https://meininfokurs.cmrg.site/q2/datenbanken/sql-lektion-3.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q2 – Klasse 11 · 2. Halbjahr",
+  "about": "Datenbanken",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q2",
+    "url": "https://meininfokurs.cmrg.site/q2/"
+  },
+  "isBasedOn": "Informatik Q2, OneNote \"Datenbanken mySQL\", Seite 55",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html" aria-current="page"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q2/index.html">Q2</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q2/index.html#datenbanken">Datenbanken</a>
+        </p>
+        <h1 class="titel">SQL Lektion 3: JOIN</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist die dritte SQL-Lektion, und die ist
+           die wichtigste von allen: <strong>JOIN</strong>. Bisher haben wir immer
+           nur aus einer Tabelle gelesen. Der ganze Sinn einer relationalen
+           Datenbank ist aber, dass die Daten auf mehrere Tabellen verteilt sind –
+           und JOIN führt sie wieder zusammen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>a) Bearbeiten Sie die dritte Lektion und erstellen Sie in ihrem
+               OneNote-Heft eine kompakte übersichtliche Kurzzusammenfassung der
+               SQL-Befehle.<br>
+               b) Bearbeiten Sie die Übung 3</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Teil b) der Aufgabe – <em>Bearbeiten Sie die Übung 3</em> – liegt auf der Tutorial-Seite und ist im OneNote nicht abgedruckt. Hier steht die geforderte Zusammenfassung. Zusatzaufgaben gibt es zu dieser Lektion keine.</span>
+        </div>
+
+        <h2>Warum man JOIN braucht</h2>
+        <p>Erinner dich an die Wurstsorten: der Lieferant steht nicht in der
+           Wursttabelle, dort steht nur seine <code>Lieferant_ID</code>. Will man
+           wissen, wie der Lieferant <em>heißt</em>, muss man in die andere Tabelle
+           schauen. Genau das macht JOIN.</p>
+
+        <h2>Die beiden Schreibweisen</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-database" aria-hidden="true"></i> SQL</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="SQL_Lektion3.sql">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Zusammenfassung der dritten SQL-Lektion: JOIN
+-- @MeinInfoKurs.github.io
+
+-- Schreibweise 1: INNER JOIN ... ON     (die modernere, empfohlene)
+SELECT   Wurstsorten.Sorte_Name, Lieferanten.Name
+FROM     Wurstsorten
+INNER JOIN Lieferanten
+       ON  Wurstsorten.Lieferant_ID = Lieferanten.ID;
+
+
+-- Schreibweise 2: beide Tabellen in FROM, Bedingung in WHERE
+SELECT   Wurstsorten.Sorte_Name, Lieferanten.Name
+FROM     Wurstsorten, Lieferanten
+WHERE    Wurstsorten.Lieferant_ID = Lieferanten.ID;</code></pre>
+            </div>
+        </div>
+
+        <p>Beide liefern dasselbe Ergebnis. Die erste Schreibweise ist die bessere,
+           weil man <strong>Verknüpfungsbedingung und Filterbedingung
+           auseinanderhalten</strong> kann: was zusammengehört steht bei
+           <code>ON</code>, was gefiltert wird bei <code>WHERE</code>. Bei der zweiten
+           steht beides vermischt im <code>WHERE</code>.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Vergisst du bei Schreibweise 2 die <code>WHERE</code>-Bedingung,
+            bekommst du das <strong>Kreuzprodukt</strong>: jede Zeile der einen
+            Tabelle wird mit jeder Zeile der anderen kombiniert. Bei 100 Wurstsorten
+            und 20 Lieferanten sind das 2000 Zeilen Unsinn. Bei <code>INNER JOIN</code>
+            kann das nicht passieren, weil ohne <code>ON</code> schon die Syntax
+            meckert.</span>
+        </div>
+
+        <h2>Der Punkt zwischen Tabelle und Spalte</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SELECT Wurstsorten.ID, Lieferanten.ID   -- beide Tabellen haben eine Spalte ID</code></pre>
+            </div>
+        </div>
+
+        <p>Sobald zwei Tabellen im Spiel sind, können Spaltennamen doppelt
+           vorkommen. Dann muss man <code>Tabelle.Spalte</code> schreiben, sonst
+           kommt <code>Column 'ID' in field list is ambiguous</code>. Bei eindeutigen
+           Namen darf man den Punkt weglassen – ich schreibe ihn trotzdem immer hin,
+           weil man dann sofort sieht, woher eine Spalte kommt.</p>
+
+        <h3 class="schritt-titel">Kürzere Namen mit AS</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SELECT   w.Sorte_Name, l.Name AS Lieferant
+FROM     Wurstsorten AS w
+INNER JOIN Lieferanten AS l
+       ON  w.Lieferant_ID = l.ID;</code></pre>
+            </div>
+        </div>
+
+        <p>Das <code>AS</code> kennen wir schon aus Lektion 1 fürs Umbenennen von
+           Spalten. Es funktioniert auch für Tabellen und spart bei langen Namen
+           viel Tipparbeit.</p>
+
+        <h2>Mehr als zwei Tabellen</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Wurstsorte, Lieferant und dessen Ort - ueber drei Tabellen
+SELECT   w.Sorte_Name, l.Name AS Lieferant, o.Ortname
+FROM     Wurstsorten AS w
+INNER JOIN Lieferanten AS l ON w.Lieferant_ID = l.ID
+INNER JOIN Orte        AS o ON l.Postleitzahl = o.Postleitzahl;</code></pre>
+            </div>
+        </div>
+
+        <p>Man hängt einfach einen weiteren <code>INNER JOIN</code> an. Damit löst
+           man die Ketten auf, die bei den Eltern-Kind-Tabellen aufgetaucht sind –
+           etwa vom Schüler über den Ort bis zum Bundesland.</p>
+
+        <h2>Das n:m-Problem</h2>
+        <p>Bei einer Verknüpfungstabelle wie <code>schueler_hat_lehrer</code>
+           braucht man <strong>drei</strong> Tabellen im JOIN, obwohl man nur zwei
+           Sachen sehen will:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SELECT   s.vorname, s.nachname, l.nachname AS Lehrer
+FROM     schueler AS s
+INNER JOIN schueler_hat_lehrer AS shl ON s.id = shl.schueler
+INNER JOIN lehrer              AS l   ON shl.lehrer = l.id;</code></pre>
+            </div>
+        </div>
+
+        <p>Die Verknüpfungstabelle in der Mitte enthält selbst nichts Interessantes
+           – sie ist nur die Brücke. Man muss trotzdem über sie gehen, weil es keine
+           direkte Verbindung zwischen Schülern und Lehrern gibt.</p>
+
+        <h2>Was INNER bedeutet</h2>
+        <p><code>INNER JOIN</code> liefert nur Zeilen, zu denen es auf
+           <strong>beiden</strong> Seiten einen Partner gibt. Eine Wurstsorte ohne
+           eingetragenen Lieferanten fällt raus – lautlos, ohne Fehlermeldung.</p>
+
+        <p>Genau daran hängt der häufigste „aber es fehlen Zeilen"-Fehler. Will man
+           auch die Partnerlosen sehen, nimmt man <code>LEFT JOIN</code>: der behält
+           alle Zeilen der linken Tabelle und füllt die fehlenden Spalten mit NULL.
+           Für den Grundkurs reicht <code>INNER JOIN</code>, aber wissen sollte man
+           es.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>JOIN-Art</th><th>Liefert</th></tr></thead>
+                <tbody>
+                    <tr><td><code>INNER JOIN</code></td><td>nur Zeilen mit Partner auf beiden Seiten</td></tr>
+                    <tr><td><code>LEFT JOIN</code></td><td>alle Zeilen der linken Tabelle, fehlende Partner werden NULL</td></tr>
+                    <tr><td><code>RIGHT JOIN</code></td><td>umgekehrt</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="sql-lektion-2.html"><small>Vorherige Aufgabe</small>SQL Lektion 2: Aggregatfunktionen</a>
+            <a class="weiter" href="sql-lektion-4.html"><small>Nächste Aufgabe</small>SQL Lektion 4: GROUP BY und HAVING</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

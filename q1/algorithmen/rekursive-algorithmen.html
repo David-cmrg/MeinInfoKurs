@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Rekursive Algorithmen</title>
+    <meta name="description" content="Fibonacci, Fakultät, ein Würfelspiel und zwei Methoden, die sich gegenseitig aufrufen – überall geht es um Rekursionsanker und Rekursionsschritt.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/algorithmen/rekursive-algorithmen.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Rekursive Algorithmen">
+    <meta property="og:description" content="Fibonacci, Fakultät, ein Würfelspiel und zwei Methoden, die sich gegenseitig aufrufen – überall geht es um Rekursionsanker und Rekursionsschritt.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/algorithmen/rekursive-algorithmen.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Rekursive Algorithmen">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Rekursive Algorithmen">
+    <meta name="twitter:description" content="Fibonacci, Fakultät, ein Würfelspiel und zwei Methoden, die sich gegenseitig aufrufen – überall geht es um Rekursionsanker und Rekursionsschritt.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Rekursive Algorithmen",
+  "description": "Fibonacci, Fakultät, ein Würfelspiel und zwei Methoden, die sich gegenseitig aufrufen – überall geht es um Rekursionsanker und Rekursionsschritt.",
+  "url": "https://meininfokurs.cmrg.site/q1/algorithmen/rekursive-algorithmen.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "Suchen und Sortieren",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"Suchen und Sortieren\", Seite 35-41",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#algorithmen">Suchen und Sortieren</a>
+        </p>
+        <h1 class="titel">Rekursive Algorithmen</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde sind die rekursiven Algorithmen! Fünf
+           Teilaufgaben, und alle drehen sich um dieselbe Idee: eine Methode, die
+           sich selbst aufruft. Das klingt erstmal nach einer Schlange, die sich in
+           den Schwanz beißt, funktioniert aber – solange es einen
+           <strong>Rekursionsanker</strong> gibt, der das Ganze wieder beendet.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>1</strong> Die Fibonaccizahlen sowie deren rekursive und
+               iterative Berechnung wurden im Kapitel vorgestellt. a) Geben Sie die
+               Fibonaccizahlen bis 144 an. b) Analysieren Sie die rekursive und
+               iterative Methode zur Berechnung der Fibonaccizahlen, indem Sie für die
+               Berechnung der dritten Fibonaccizahl jeweils alle Methodenaufrufe und
+               Variablenbelegungen übersichtlich darstellen. c) Rechnerarbeit:
+               Implementieren und testen Sie die rekursive Fibonaccimethode in Java.
+               Entfernen Sie den Rekursionsanker aus Ihrem Programm und testen Sie die
+               Methode erneut. Beschreiben Sie die Fehlermeldung. Begründen Sie, warum
+               der Fehler auftritt.</p>
+            <p><strong>2</strong> Gegeben ist die rekursive Methode
+               <em>ausgabe</em>. a) Analysieren Sie die Methode, indem Sie angeben,
+               welche Ausgabe erzeugt wird. Erläutern Sie, durch welche Befehle der
+               Rekursionsschritt und der Rekursionsanker umgesetzt werden. b) Erläutern
+               Sie, wie sich die Ausgabe ändert, wenn die beiden Zeilen innerhalb der
+               bedingten Anweisung miteinander vertauscht werden. c) Entwickeln Sie
+               eine iterative Methode, die dieselbe Ausgabe wie in a erzeugt.</p>
+            <p><strong>3</strong> Die Fakultät: a) Berechnen Sie 6!. Nehmen Sie
+               dabei das Ergebnis von 5! zu Hilfe. b) Geben Sie an, durch welchen Teil
+               der Definition der Rekursionsschritt und durch welchen Teil der
+               Rekursionsanker beschrieben wird. c) Implementieren Sie eine rekursive
+               Methode zur Berechnung der Fakultät. d) Implementieren Sie eine
+               iterative Methode zur Berechnung der Fakultät.</p>
+            <p><strong>4</strong> Gegeben ist ein Klassendiagramm für ein
+               Würfelspiel. a) Entwickeln Sie jeweils eine Strategie zur iterativen und
+               rekursiven Umsetzung der Methoden <em>addiere</em>, <em>maxFinden</em>
+               und <em>gibErgebnisse</em> und implementieren Sie diese. Erläutern Sie
+               bei den rekursiven Strategien jeweils den Rekursionsanker und den
+               Rekursionsschritt. b) Entwickeln Sie eine weitere Anforderung wie in a
+               und implementieren Sie diese rekursiv.</p>
+            <p><strong>5</strong> Gegeben sind die drei Methoden <em>rekStart</em>,
+               <em>mA</em> und <em>mB</em>. a) Analysieren Sie die Funktionsweise der
+               Methoden, indem Sie die Abarbeitung der Methodenaufrufe
+               <em>rekStart(3)</em> und <em>rekStart(6)</em> Schritt für Schritt
+               darstellen. b) Beschreiben Sie für jede der drei Methoden, welche
+               Aufgabe sie erfüllt. c) Entwickeln und implementieren Sie ähnliche
+               Methoden und testen Sie ihre Funktionsweise.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Aufgabe 1 – Fibonacci</h2>
+
+        <h3 class="schritt-titel">a) Die Zahlen bis 144</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144</code></pre>
+            </div>
+        </div>
+        <p>Jede Zahl ist die Summe ihrer beiden Vorgänger. Die ersten beiden sind
+           per Definition 1 – das sind die zwei Ursprungsprobleme, aus denen alles
+           andere entsteht.</p>
+
+        <h3 class="schritt-titel">b) fib(3) rekursiv, Schritt für Schritt</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>1. Aufruf: fib(3)
+   3 == 1 || 3 == 2  ->  false
+   -> return fib(2) + fib(1)
+
+2. Aufruf: fib(2)
+   2 == 1 || 2 == 2  ->  true
+   -> return 1
+
+3. Aufruf: fib(1)
+   1 == 1            ->  true
+   -> return 1
+
+Ergebnis: fib(3) = 1 + 1 = 2</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">b) fib_iterativ(3), Schritt für Schritt</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>n = 3, weder 1 noch 2  ->  else-Zweig
+fib1 = 1, fib2 = 1
+
+i = 1:  1 < n-1 = 2  ->  true
+        neueZahl = fib1 + fib2 = 1 + 1 = 2
+        fib1 = fib2 = 1
+        fib2 = neueZahl = 2
+
+i = 2:  2 < 2  ->  false, Schleife endet
+
+return fib2 = 2</code></pre>
+            </div>
+        </div>
+
+        <p>Beide kommen auf 2, aber der Weg ist ein völlig anderer. Die rekursive
+           Fassung baut einen Baum aus Aufrufen auf, die iterative schiebt zwei
+           Variablen durch eine Schleife.</p>
+
+        <h3 class="schritt-titel">c) Rekursionsanker entfernen – was passiert</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public int fib(int n) {
+    // if (n==1 || n==2) { return 1; }     &lt;- Anker entfernt
+    return fib(n - 1) + fib(n - 2);
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Die Fehlermeldung lautet:</p>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Exception in thread "main" java.lang.StackOverflowError
+	at Fibonacci.fib(Fibonacci.java:8)
+	at Fibonacci.fib(Fibonacci.java:8)
+	at Fibonacci.fib(Fibonacci.java:8)
+	... (hunderte weitere Zeilen)</code></pre>
+            </div>
+        </div>
+
+        <p><strong>Warum der Fehler auftritt:</strong> Ohne den Anker gibt es keine
+           Bedingung mehr, unter der die Methode aufhört. <code>fib(3)</code> ruft
+           <code>fib(2)</code> und <code>fib(1)</code>, die rufen
+           <code>fib(0)</code> und <code>fib(-1)</code>, und das geht ins
+           Unendliche weiter – die Zahlen werden einfach immer negativer.</p>
+
+        <p>Jeder Methodenaufruf braucht Platz auf dem <strong>Stack</strong>: die
+           Rücksprungadresse, die lokalen Variablen, die Parameter. Der Stack hat
+           aber eine feste Größe. Irgendwann ist er voll, und dann bricht Java mit
+           <code>StackOverflowError</code> ab. Das ist genau das, wovor der
+           Rekursionsanker schützt.</p>
+
+        <h2>Aufgabe 2 – Die Methode ausgabe</h2>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public void ausgabe(int n) {
+    if (n &gt; 0) {
+        System.out.println(n);
+        ausgabe(n - 1);
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">a) Welche Ausgabe entsteht</h3>
+        <p>Ein Countdown. Bei <code>ausgabe(5)</code>:</p>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>5
+4
+3
+2
+1</code></pre>
+            </div>
+        </div>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Bestandteil</th><th>Im Code</th><th>Was er tut</th></tr></thead>
+                <tbody>
+                    <tr><td>Rekursionsschritt</td><td><code>ausgabe(n - 1);</code></td><td>Ruft sich selbst mit einem kleineren Problem auf</td></tr>
+                    <tr><td>Rekursionsanker</td><td><code>if (n &gt; 0)</code></td><td>Ist die Bedingung falsch, passiert nichts mehr und kein weiterer Aufruf erfolgt</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Hier ist der Anker etwas versteckt: es gibt kein eigenes
+           <code>else</code> und kein <code>return</code>. Der Anker ist einfach
+           der Fall, dass die Bedingung nicht mehr zutrifft – dann wird der Rumpf
+           übersprungen und die Methode ist zu Ende.</p>
+
+        <h3 class="schritt-titel">b) Die beiden Zeilen vertauschen</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public void ausgabe(int n) {
+    if (n &gt; 0) {
+        ausgabe(n - 1);
+        System.out.println(n);
+    }
+}</code></pre>
+            </div>
+        </div>
+        <p>Jetzt zählt es <strong>aufwärts</strong>: 1, 2, 3, 4, 5.</p>
+
+        <p>Der Grund ist, wann ausgegeben wird. Vorher wurde erst gedruckt und
+           dann weitergerufen – die Ausgabe passiert also auf dem Weg
+           <em>hinein</em> in die Rekursion. Jetzt wird erst komplett bis
+           <code>n = 0</code> durchgerufen, und die Ausgaben passieren beim
+           Zurückkommen, also auf dem Weg <em>heraus</em>. Und zurück kommt man in
+           umgekehrter Reihenfolge.</p>
+
+        <p>Das ist eine der wichtigsten Einsichten bei Rekursion überhaupt: es
+           macht einen Unterschied, ob du vor oder nach dem rekursiven Aufruf
+           arbeitest.</p>
+
+        <h3 class="schritt-titel">c) Dieselbe Ausgabe iterativ</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public void ausgabeIterativ(int n) {
+    for (int i = n; i &gt; 0; i--) {
+        System.out.println(i);
+    }
+}</code></pre>
+            </div>
+        </div>
+        <p>Die Zählschleife läuft rückwärts von <code>n</code> bis 1. Kürzer,
+           schneller und kein Stack-Problem.</p>
+
+        <h2>Aufgabe 3 – Die Fakultät</h2>
+
+        <h3 class="schritt-titel">a) 6! mit Hilfe von 5!</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>5! = 1 · 2 · 3 · 4 · 5 = 120
+6! = 6 · 5! = 6 · 120 = 720</code></pre>
+            </div>
+        </div>
+        <p>Genau das ist der rekursive Gedanke: man muss 6! nicht von vorne
+           ausrechnen, wenn man 5! schon kennt.</p>
+
+        <h3 class="schritt-titel">b) Anker und Schritt in der Definition</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Teil der Definition</th><th>Was es ist</th></tr></thead>
+                <tbody>
+                    <tr><td><code>n! = 1</code> für <code>n = 0</code></td><td><strong>Rekursionsanker</strong> – hier hört es auf</td></tr>
+                    <tr><td><code>n! = n · (n-1)!</code> für <code>n &gt; 0</code></td><td><strong>Rekursionsschritt</strong> – führt auf ein kleineres Problem zurück</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">c) und d) Beide Implementierungen</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Fakultaet.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Fakultaet.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Fakultaet rekursiv und iterativ
+ *
+ * @version 1.0 vom 17.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Fakultaet {
+
+    // c) rekursiv
+    public int fakultaet(int n) {
+        if (n == 0) {
+            return 1;                       // Rekursionsanker
+        } else {
+            return n * fakultaet(n - 1);    // Rekursionsschritt
+        }
+    }
+
+    // d) iterativ
+    public int fakultaetIterativ(int n) {
+        int ergebnis = 1;
+        for (int i = 2; i &lt;= n; i++) {
+            ergebnis = ergebnis * i;
+        }
+        return ergebnis;
+    }
+
+    public static void main(String[] args) {
+        Fakultaet f = new Fakultaet();
+        System.out.println("6! rekursiv: " + f.fakultaet(6));
+        System.out.println("6! iterativ: " + f.fakultaetIterativ(6));
+    } // end of main
+
+} // end of class Fakultaet</code></pre>
+            </div>
+        </div>
+
+        <p>Die iterative Fassung startet bei <code>i = 2</code>, weil die
+           Multiplikation mit 1 nichts bringt. Für <code>n = 0</code> läuft die
+           Schleife gar nicht und es kommt richtig 1 heraus.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Ab 13! passt das Ergebnis nicht mehr in einen <code>int</code> –
+            du bekommst dann eine negative Zahl, ohne dass Java warnt. Mit
+            <code>long</code> kommt man bis 20!. Danach hilft nur noch
+            <code>BigInteger</code>.</span>
+        </div>
+
+        <h2>Aufgabe 4 – Das Würfelspiel</h2>
+
+        <p>Die Klasse <code>Spiel</code> hat ein Attribut <code>wuerfel</code> vom
+           Typ <code>Wuerfel</code> – also eine Assoziation. Über
+           <code>wuerfel.wuerfeln()</code> kommt man an eine Zufallszahl.</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Spiel.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Spiel.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Wuerfelspiel - jede Methode einmal iterativ und einmal rekursiv
+ *
+ * @version 1.0 vom 17.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Spiel {
+
+    private Wuerfel wuerfel;
+
+    public Spiel(Wuerfel pWuerfel) {
+        this.wuerfel = pWuerfel;
+    }
+
+    public Wuerfel getWuerfel() {
+        return wuerfel;
+    }
+
+    // ---------- addiere ----------
+    // iterativ: x mal wuerfeln und aufsummieren
+    public int addiereIterativ(int x) {
+        int summe = 0;
+        for (int i = 0; i &lt; x; i++) {
+            summe = summe + wuerfel.wuerfeln();
+        }
+        return summe;
+    }
+
+    // rekursiv: Anker x &lt;= 0 -> 0,  Schritt: ein Wurf + Summe der restlichen
+    public int addiere(int x) {
+        if (x &lt;= 0) {
+            return 0;
+        }
+        return wuerfel.wuerfeln() + addiere(x - 1);
+    }
+
+    // ---------- maxFinden ----------
+    public int maxFindenIterativ(int x) {
+        int max = 0;
+        for (int i = 0; i &lt; x; i++) {
+            int wurf = wuerfel.wuerfeln();
+            if (wurf &gt; max) {
+                max = wurf;
+            }
+        }
+        return max;
+    }
+
+    // rekursiv: Anker x &lt;= 1 -> ein einzelner Wurf,
+    // Schritt: groesseren Wert aus aktuellem Wurf und Maximum des Rests
+    public int maxFinden(int x) {
+        if (x &lt;= 1) {
+            return wuerfel.wuerfeln();
+        }
+        int restMax = maxFinden(x - 1);
+        int aktuell = wuerfel.wuerfeln();
+        if (aktuell &gt; restMax) {
+            return aktuell;
+        }
+        return restMax;
+    }
+
+    // ---------- gibErgebnisse ----------
+    // aus 2, 4, 6 wird die Zahl 246
+    public int gibErgebnisseIterativ(int x) {
+        int ergebnis = 0;
+        for (int i = 0; i &lt; x; i++) {
+            ergebnis = ergebnis * 10 + wuerfel.wuerfeln();
+        }
+        return ergebnis;
+    }
+
+    // rekursiv: der erste Wurf muss an die vorderste Stelle,
+    // also mal 10 hoch (x-1)
+    public int gibErgebnisse(int x) {
+        if (x &lt;= 0) {
+            return 0;
+        }
+        int erster = wuerfel.wuerfeln();
+        return erster * (int)Math.pow(10, x - 1) + gibErgebnisse(x - 1);
+    }
+
+    // ---------- b) eigene Anforderung ----------
+    // Zaehlt, wie viele der x Wuerfe eine Sechs sind. Rekursiv.
+    public int zaehleSechser(int x) {
+        if (x &lt;= 0) {
+            return 0;                                  // Rekursionsanker
+        }
+        int wurf = wuerfel.wuerfeln();
+        if (wurf == 6) {
+            return 1 + zaehleSechser(x - 1);           // Rekursionsschritt
+        }
+        return zaehleSechser(x - 1);
+    }
+
+} // end of class Spiel</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Anker und Schritt der drei Methoden</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Methode</th><th>Rekursionsanker</th><th>Rekursionsschritt</th></tr></thead>
+                <tbody>
+                    <tr><td><code>addiere</code></td><td><code>x &lt;= 0</code> → 0, denn die Summe von null Würfen ist 0</td><td>ein Wurf plus die Summe der restlichen <code>x-1</code></td></tr>
+                    <tr><td><code>maxFinden</code></td><td><code>x &lt;= 1</code> → ein einzelner Wurf ist automatisch das Maximum</td><td>der größere Wert von aktuellem Wurf und Maximum des Rests</td></tr>
+                    <tr><td><code>gibErgebnisse</code></td><td><code>x &lt;= 0</code> → 0, es gibt keine Ziffer mehr</td><td>erster Wurf an die vorderste Stelle, dahinter der Rest</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Bei <code>maxFinden</code> geht der Anker absichtlich auf 1 und nicht
+           auf 0. Ein Maximum aus null Würfen ist nämlich nicht definiert – bei der
+           iterativen Fassung musste ich deshalb mit <code>max = 0</code> starten,
+           was bei einem Würfel funktioniert, weil kein Wurf jemals 0 ergibt.</p>
+
+        <p><code>gibErgebnisse</code> ist die interessanteste: iterativ ist es
+           leichter, weil man mit <code>ergebnis * 10 + wurf</code> einfach von links
+           nach rechts anbauen kann. Rekursiv muss man vorher wissen, an welche
+           Stelle die Ziffer gehört – deshalb die Zehnerpotenz.</p>
+
+        <h2>Aufgabe 5 – rekStart, mA und mB</h2>
+
+        <h3 class="schritt-titel">a) rekStart(3) Schritt für Schritt</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>rekStart(3)  ->  mA(3, "")
+
+mA(3, "")    3 > 0   ->  "a" + mB(2, "")
+mB(2, "")    2 > 0   ->  mA(1, "") + "b"
+mA(1, "")    1 > 0   ->  "a" + mB(0, "")
+mB(0, "")    0 <= 0  ->  ""
+
+Zurueck einsetzen:
+mA(1, "")  =  "a" + ""     =  "a"
+mB(2, "")  =  "a" + "b"    =  "ab"
+mA(3, "")  =  "a" + "ab"   =  "aab"
+
+Ergebnis: "aab"</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">a) rekStart(6) Schritt für Schritt</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>rekStart(6)  ->  mA(6, "")
+
+mA(6, "")  ->  "a" + mB(5, "")
+mB(5, "")  ->  mA(4, "") + "b"
+mA(4, "")  ->  "a" + mB(3, "")
+mB(3, "")  ->  mA(2, "") + "b"
+mA(2, "")  ->  "a" + mB(1, "")
+mB(1, "")  ->  mA(0, "") + "b"
+mA(0, "")  ->  ""
+
+Zurueck einsetzen:
+mB(1, "")  =  ""      + "b"  =  "b"
+mA(2, "")  =  "a"     + "b"  =  "ab"
+mB(3, "")  =  "ab"    + "b"  =  "abb"
+mA(4, "")  =  "a"     + "abb" =  "aabb"
+mB(5, "")  =  "aabb"  + "b"  =  "aabbb"
+mA(6, "")  =  "a"     + "aabbb" =  "aaabbb"
+
+Ergebnis: "aaabbb"</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">b) Was jede Methode tut</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Methode</th><th>Aufgabe</th></tr></thead>
+                <tbody>
+                    <tr><td><code>rekStart</code></td><td>Startet das Ganze. Sie rechnet selbst nichts, sondern ruft nur <code>mA</code> mit einem leeren String auf. So eine Methode nennt man Hüllmethode.</td></tr>
+                    <tr><td><code>mA</code></td><td>Hängt <strong>vorne</strong> ein „a" an und gibt den Rest an <code>mB</code> weiter. Ihr Anker ist <code>n &lt;= 0</code> → leerer String.</td></tr>
+                    <tr><td><code>mB</code></td><td>Holt sich das Ergebnis von <code>mA</code> und hängt <strong>hinten</strong> ein „b" an. Gleicher Anker.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Zusammen erzeugen sie Wörter der Form <strong>a<sup>n</sup>b<sup>n</sup></strong>
+           – also gleich viele a wie b, alle a vorne, alle b hinten. Bei
+           <code>rekStart(6)</code> ist es „aaabbb", bei <code>rekStart(8)</code>
+           wäre es „aaaabbbb".</p>
+
+        <p>Das ist auch der Grund, warum <code>mA</code> und <code>mB</code>
+           getrennt sind. <code>mA</code> arbeitet vor dem rekursiven Aufruf,
+           <code>mB</code> danach – genau der Unterschied aus Aufgabe 2. Dadurch
+           landen die a am Anfang und die b am Ende, obwohl sie abwechselnd erzeugt
+           werden.</p>
+
+        <p>Der Fachbegriff dafür ist <strong>wechselseitige Rekursion</strong>:
+           nicht eine Methode ruft sich selbst, sondern zwei Methoden rufen sich
+           gegenseitig.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Der Parameter <code>s</code> wird durch alle Aufrufe
+            durchgereicht, aber <strong>nirgends gelesen</strong>. Man könnte ihn
+            ersatzlos streichen und das Ergebnis wäre dasselbe. So etwas fällt beim
+            Analysieren auf und ist einen Satz in der Antwort wert.</span>
+        </div>
+
+        <h3 class="schritt-titel">c) Eine ähnliche Methode</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">// Erzeugt Woerter der Form x^n y^n, also z.B. "xxxyyy"
+public String rekStart2(int n) {
+    return mX(n);
+}
+
+public String mX(int n) {
+    if (n &lt;= 0) {
+        return "";
+    }
+    return "x" + mY(n - 1);
+}
+
+public String mY(int n) {
+    if (n &lt;= 0) {
+        return "";
+    }
+    return mX(n - 1) + "y";
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Wer es spannender mag, dreht die Reihenfolge um und erzeugt mit
+           <code>return mA(n-1, s) + "a"</code> und
+           <code>return "b" + mB(n-1, s)</code> stattdessen b<sup>n</sup>a<sup>n</sup>.
+           Es lohnt sich, das einmal durchzuspielen – man merkt schnell, wie sehr die
+           Position des rekursiven Aufrufs alles bestimmt.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="einfaches-sortieren.html"><small>Vorherige Aufgabe</small>Einfaches Sortieren</a>
+            <a class="weiter" href="suchen-iterativ-rekursiv.html"><small>Nächste Aufgabe</small>Suchen: iterativ und rekursiv</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

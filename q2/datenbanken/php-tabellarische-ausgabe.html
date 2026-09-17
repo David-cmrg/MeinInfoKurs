@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Tabellarische Ausgabe</title>
+    <meta name="description" content="Alle Schüler als richtige HTML-Tabelle – Kopfzeile außerhalb der Schleife, Datenzeilen innerhalb.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q2/datenbanken/php-tabellarische-ausgabe.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Tabellarische Ausgabe">
+    <meta property="og:description" content="Alle Schüler als richtige HTML-Tabelle – Kopfzeile außerhalb der Schleife, Datenzeilen innerhalb.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q2/datenbanken/php-tabellarische-ausgabe.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Tabellarische Ausgabe">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Tabellarische Ausgabe">
+    <meta name="twitter:description" content="Alle Schüler als richtige HTML-Tabelle – Kopfzeile außerhalb der Schleife, Datenzeilen innerhalb.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Tabellarische Ausgabe",
+  "description": "Alle Schüler als richtige HTML-Tabelle – Kopfzeile außerhalb der Schleife, Datenzeilen innerhalb.",
+  "url": "https://meininfokurs.cmrg.site/q2/datenbanken/php-tabellarische-ausgabe.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q2 – Klasse 11 · 2. Halbjahr",
+  "about": "Datenbanken",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q2",
+    "url": "https://meininfokurs.cmrg.site/q2/"
+  },
+  "isBasedOn": "Informatik Q2, OneNote \"Datenbanken mySQL\", Seite 164",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html" aria-current="page"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q2/index.html">Q2</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q2/index.html#datenbanken">Datenbanken</a>
+        </p>
+        <h1 class="titel">Tabellarische Ausgabe</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist die tabellarische Ausgabe! Die
+           Schülerliste untereinander mit <code>&lt;br&gt;</code> sieht nicht gerade
+           nach einer Webseite aus. Jetzt bauen wir eine richtige HTML-Tabelle drum
+           herum.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Erstellen Sie eine Ausgabe aller Attribute der Schüler in
+               tabellarischer Form. PHP-Datei hier einfügen.</p>
+            <p>Table-Abschnitt der W3Schools:
+               <code>https://www.w3schools.com/html/html_tables.asp</code></p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Die HTML-Tabelle in Kürze</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Tag</th><th>Bedeutung</th></tr></thead>
+                <tbody>
+                    <tr><td><code>&lt;table&gt;</code></td><td>die ganze Tabelle</td></tr>
+                    <tr><td><code>&lt;tr&gt;</code></td><td>table row – eine Zeile</td></tr>
+                    <tr><td><code>&lt;th&gt;</code></td><td>table header – eine Kopfzelle, wird fett und zentriert</td></tr>
+                    <tr><td><code>&lt;td&gt;</code></td><td>table data – eine normale Zelle</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Wichtig ist die Verschachtelung: Zellen stehen <strong>immer</strong> in
+           einer Zeile, Zeilen immer in der Tabelle. Ein <code>&lt;td&gt;</code>
+           direkt im <code>&lt;table&gt;</code> ohne <code>&lt;tr&gt;</code>
+           drumherum ist ungültig, und der Browser rät dann selbst, was gemeint war.</p>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> tabelle.php</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="tabelle.php">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-php">&lt;?php
+/**
+ *
+ * Alle Schueler in tabellarischer Form
+ *
+ * @version 1.0 vom 23.05.2019
+ * @MeinInfoKurs.github.io
+ */
+
+$pdo = new PDO('mysql:host=localhost;dbname=schule', 'root', '',
+       array(PDO::MYSQL_ATTR_INIT_COMMAND =&gt; "SET NAMES utf8"));
+
+$sql = "SELECT * FROM schüler";
+?&gt;
+
+&lt;table border="1"&gt;
+
+    &lt;tr&gt;
+        &lt;th&gt;ID&lt;/th&gt;
+        &lt;th&gt;Nachname&lt;/th&gt;
+        &lt;th&gt;Vorname&lt;/th&gt;
+        &lt;th&gt;Geburtsdatum&lt;/th&gt;
+        &lt;th&gt;Strasse und Nr.&lt;/th&gt;
+        &lt;th&gt;PLZ&lt;/th&gt;
+        &lt;th&gt;Ort&lt;/th&gt;
+    &lt;/tr&gt;
+
+&lt;?php
+foreach ($pdo-&gt;query($sql) as $row) {
+    echo "&lt;tr&gt;";
+    echo "&lt;td&gt;".$row['id']."&lt;/td&gt;";
+    echo "&lt;td&gt;".$row['nachname']."&lt;/td&gt;";
+    echo "&lt;td&gt;".$row['vorname']."&lt;/td&gt;";
+    echo "&lt;td&gt;".$row['geburtsdatum']."&lt;/td&gt;";
+    echo "&lt;td&gt;".$row['strassenr']."&lt;/td&gt;";
+    echo "&lt;td&gt;".$row['plz']."&lt;/td&gt;";
+    echo "&lt;td&gt;".$row['ort']."&lt;/td&gt;";
+    echo "&lt;/tr&gt;";
+}
+?&gt;
+
+&lt;/table&gt;</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Kopfzeile außerhalb, Datenzeilen innerhalb</h3>
+        <p>Das ist die Struktur, um die es hier geht. Die Kopfzeile mit den
+           Spaltennamen steht <strong>einmal</strong> und gehört deshalb nicht in die
+           Schleife. Die Datenzeilen entstehen <strong>pro Schüler</strong> und
+           gehören hinein.</p>
+
+        <p>Schreibt man die <code>&lt;th&gt;</code>-Zeile versehentlich mit in die
+           Schleife, bekommt man vor jedem Schüler nochmal die Überschriften. Das ist
+           der Klassiker bei dieser Aufgabe.</p>
+
+        <h3 class="schritt-titel">Zwischen PHP und HTML hin- und herspringen</h3>
+        <p>Auffällig ist, dass der PHP-Block mit <code>?&gt;</code> geschlossen und
+           später mit <code>&lt;?php</code> wieder geöffnet wird. Das ist Absicht:
+           reines HTML schreibt man einfach als HTML hin, statt es durch
+           <code>echo</code> zu schleusen. Der Alternativweg wäre, alles in
+           <code>echo</code> zu packen:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-php">echo "&lt;table border='1'&gt;";
+echo "&lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Nachname&lt;/th&gt; ... &lt;/tr&gt;";</code></pre>
+            </div>
+        </div>
+
+        <p>Geht auch, wird aber schnell unleserlich – vor allem wegen der
+           Anführungszeichen. In <code>"…"</code> darf man keine doppelten
+           Anführungszeichen mehr verwenden, deshalb steht im Beispiel
+           <code>border='1'</code> mit einfachen. Solche Fehler sucht man ewig.</p>
+
+        <h3 class="schritt-titel">Die Ausgabe</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-table" aria-hidden="true"></i> Browser</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>+----+----------+---------+--------------+---------------------+-------+-----------+
+| ID | Nachname | Vorname | Geburtsdatum | Strasse und Nr.     | PLZ   | Ort       |
++----+----------+---------+--------------+---------------------+-------+-----------+
+|  1 | Peter    | Müller  | 1996-04-09   | Ludwigstraße 13     | 64625 | Bensheim  |
+|  2 | Kevin    | Gamler  | 1998-02-06   | Nestweg 42          | 64625 | Einhausen |
+|  3 | Jörg     | Ritter  | 1997-11-03   | Laplacestraße 12    | 64625 | Alsbach   |
+|  4 | Miriam   | Ritter  | 1997-11-25   | Laplacestrasse 12   | 64625 | Alsbach   |
+|  5 | Stefanie | Rose    | 1997-10-11   | Darmstädterstaße 23 | 64625 | Bensheim  |
+|  6 | Marie    | Sproß   | 2003-10-09   | Darmstädterstaße 23 | 64625 | Bensheim  |
+|  7 | Daniel   | Klasen  | 2002-03-10   | Darmstädterstaße 25 | 64625 | Bensheim  |
+|  8 | Lukas    | Margel  | 2000-05-13   | Dr. Hesse Weg 14    | 64625 | Bensheim  |
++----+----------+---------+--------------+---------------------+-------+-----------+</code></pre>
+            </div>
+        </div>
+
+        <p>Zwei Sachen fallen in den echten Daten auf, und beide sind gute
+           Beispiele für das Normalisierungskapitel: bei Schüler 3 steht
+           „Laplacestraße", bei Schüler 4 „Laplacestrasse" – dieselbe Straße, zwei
+           Schreibweisen. Und in drei Zeilen steht „Darmstädterstaße", da fehlt ein
+           „r".</p>
+
+        <p>Eine Abfrage wie <code>WHERE strassenr LIKE 'Laplacestraße%'</code>
+           findet damit nur die Hälfte. Genau deshalb lagert man Orte und Straßen in
+           eigene Tabellen aus – dann gibt es jede Schreibweise nur einmal.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Das <code>border="1"</code> ist die schnelle Variante fürs
+            Testen. Sauber macht man Rahmen heute mit CSS
+            (<code>table { border-collapse: collapse; }</code> und
+            <code>td, th { border: 1px solid; }</code>). Für die Abgabe reicht das
+            Attribut.</span>
+        </div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="php-pdo-ausgabe.html"><small>Vorherige Aufgabe</small>PHP und PDO: die erste Ausgabe</a>
+            <a class="weiter" href="php-html-formulare.html"><small>Nächste Aufgabe</small>Formulare: HTML und PHP</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

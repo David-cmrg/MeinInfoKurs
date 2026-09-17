@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Die Sprache der Emoticons</title>
+    <meta name="description" content="Augen, Nase, Mund: auch Emoticons haben ein Alphabet und eine Bildungsregel – nur ist bei ihnen nicht festgelegt, was gilt.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q3/formale-sprachen/sprache-emoticons.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Die Sprache der Emoticons">
+    <meta property="og:description" content="Augen, Nase, Mund: auch Emoticons haben ein Alphabet und eine Bildungsregel – nur ist bei ihnen nicht festgelegt, was gilt.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q3/formale-sprachen/sprache-emoticons.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q3.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Die Sprache der Emoticons">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Die Sprache der Emoticons">
+    <meta name="twitter:description" content="Augen, Nase, Mund: auch Emoticons haben ein Alphabet und eine Bildungsregel – nur ist bei ihnen nicht festgelegt, was gilt.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q3.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Die Sprache der Emoticons",
+  "description": "Augen, Nase, Mund: auch Emoticons haben ein Alphabet und eine Bildungsregel – nur ist bei ihnen nicht festgelegt, was gilt.",
+  "url": "https://meininfokurs.cmrg.site/q3/formale-sprachen/sprache-emoticons.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q3 – Klasse 12 · 1. Halbjahr",
+  "about": "Formale Sprachen",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q3",
+    "url": "https://meininfokurs.cmrg.site/q3/"
+  },
+  "isBasedOn": "Informatik Q3, OneNote \"Beispiellösungen\", Seite 3",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html" aria-current="page"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q3/index.html">Q3</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q3/index.html#formale-sprachen">Formale Sprachen</a>
+        </p>
+        <h1 class="titel">Die Sprache der Emoticons</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist die Sprache der Emoticons! Nach dem
+           Backofen jetzt etwas, das man wirklich jeden Tag benutzt. Emoticons haben
+           nämlich auch ein Alphabet und Regeln – nur schreibt die niemand auf.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Emoticons werden oft in SMS und E-Mails benutzt, um emotionale
+               Zustände zu beschreiben.</p>
+            <p>a) Ergänze die Bedeutung der Zeichenfolgen in der Tabelle.<br>
+               b) Welche „Bausteine" werden zur Konstruktion von Emoticons benutzt?
+               Gib ein Alphabet zur Sprache der Emoticons an.<br>
+               c) Gib Beispiele für Zeichenfolgen an, die aus den in b) aufgelisteten
+               Bausteinen bestehen und – nach derzeitigem Stand – wohl nicht zur
+               Sprache der Emoticons gehören.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>a) Die Tabelle</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Zeichenfolgen</th><th>Bedeutung</th></tr></thead>
+                <tbody>
+                    <tr><td><code>:-) :) =) :] :&gt; :c) x) :o)</code></td><td>lächeln, Freude <small>(vorgegeben)</small></td></tr>
+                    <tr><td><code>:-( :( =( :[ :&lt; :/ x( :o( :C</code></td><td><strong>Traurig</strong></td></tr>
+                    <tr><td><code>:'( :'C</code></td><td><strong>Weinend</strong></td></tr>
+                    <tr><td><code>;-) ;) ;] ;o)</code></td><td><strong>Schmunzeln</strong></td></tr>
+                    <tr><td><code>:-P :b :p =P :P xP ;-P :oP</code></td><td><strong>Spaßig</strong></td></tr>
+                    <tr><td><code>:-D ;D :D =D xD XD :oD</code></td><td><strong>Sehr glücklich</strong></td></tr>
+                    <tr><td><code>:-0 :-o :o =O :0 =o</code></td><td><strong>Verwundert, geschockt</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Man erkennt schnell ein Muster: die Zeichenfolge steht für ein um 90 Grad
+           gedrehtes Gesicht. Vorne die Augen, in der Mitte optional die Nase, hinten
+           der Mund. Das <code>D</code> ist ein weit offener lachender Mund, das
+           <code>P</code> eine herausgestreckte Zunge, das Semikolon ein
+           zwinkerndes Auge.</p>
+
+        <h2>b) Das Alphabet</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Σ = { :, ;, -, o, x, X, =, ', ), (, ], [, }, {, c, C, /, &lt;, &gt;, p, P, D, b, 0, o, O }</code></pre>
+            </div>
+        </div>
+
+        <p>Das sind genau die Zeichen, die in den Beispielen oben vorkommen – und
+           nur die. Ein Alphabet enthält nicht alle denkbaren Zeichen, sondern die,
+           die für diese Sprache gebraucht werden.</p>
+
+        <h3 class="schritt-titel">Die Bausteine dahinter</h3>
+        <p>Interessanter als die reine Liste ist, dass sich die Zeichen in drei
+           Gruppen sortieren lassen:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Baustein</th><th>Zeichen</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Augen</strong></td><td><code>: ; = x X 8</code></td></tr>
+                    <tr><td><strong>Nase</strong> (optional)</td><td><code>- o '</code></td></tr>
+                    <tr><td><strong>Mund</strong></td><td><code>) ( ] [ } { D P p b C c / &lt; &gt; 0 O o</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Und damit hat man auch gleich die <strong>Bildungsregel</strong>: ein
+           Emoticon besteht aus Augen, optional einer Nase, und einem Mund – in
+           genau dieser Reihenfolge.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Emoticon = Augen [Nase] Mund
+
+:  -  )      Augen : , Nase - , Mund )
+:     D      Augen : , keine Nase, Mund D
+;  o  )      Augen ; , Nase o , Mund )</code></pre>
+            </div>
+        </div>
+
+        <p>Das ist derselbe Gedanke wie beim Backofen: nicht jede Zeichenfolge aus
+           dem Alphabet ist ein gültiges Wort. Die Reihenfolge entscheidet.</p>
+
+        <h2>c) Zeichenfolgen, die keine Emoticons sind</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>:{     :}     :-X     ^^</code></pre>
+            </div>
+        </div>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Folge</th><th>Warum sie (noch) nicht dazugehört</th></tr></thead>
+                <tbody>
+                    <tr><td><code>:{</code> und <code>:}</code></td><td>Aufbau stimmt – Augen und Mund –, aber die geschweiften Klammern sind als Mund nicht gebräuchlich. Die Bedeutung wäre unklar.</td></tr>
+                    <tr><td><code>:-X</code></td><td>Alle Zeichen sind im Alphabet, der Aufbau passt. Das <code>X</code> steht hier aber für einen zugenähten Mund – eine Bedeutung, die in der Tabelle nicht vorkommt.</td></tr>
+                    <tr><td><code>^^</code></td><td>Das <code>^</code> ist gar nicht im Alphabet. Es ist ein japanisches Emoticon, das in eine <em>andere</em> Sprache gehört – und es wird nicht gedreht gelesen.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Der Nachsatz „nach derzeitigem Stand"</h3>
+        <p>Die Formulierung in der Aufgabe ist mit Absicht so vorsichtig. Anders als
+           beim Backofen ist die Sprache der Emoticons nämlich <strong>nicht
+           festgelegt</strong>. Es gibt kein Gremium, das entscheidet, was ein
+           gültiges Emoticon ist – es entsteht durch Gebrauch.</p>
+
+        <p><code>:-X</code> war vor zwanzig Jahren unbekannt und ist heute geläufig.
+           Genauso könnte <code>:{</code> in fünf Jahren üblich sein. Bei einer
+           natürlich gewachsenen Sprache ist die Menge der gültigen Wörter also
+           <strong>unscharf und veränderlich</strong>.</p>
+
+        <p>Genau darin liegt der Unterschied zu einer <strong>formalen</strong>
+           Sprache: dort ist durch die Regeln eindeutig festgelegt, welche Wörter
+           dazugehören und welche nicht. Ein Java-Compiler kann nicht darüber
+           diskutieren, ob eine Zeile vielleicht doch gemeint war. Bei Emoticons
+           entscheidet der Empfänger.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="sprache-backofen.html"><small>Vorherige Aufgabe</small>Die Sprache des Backofens</a>
+            <a class="weiter" href="sprache-hallihallo.html"><small>Nächste Aufgabe</small>Die Sprache hallihallo</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

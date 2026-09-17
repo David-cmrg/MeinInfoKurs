@@ -1,0 +1,92 @@
+        <p>Die Aufgabe der heutigen Stunde ist das Telefonbuch! Wir bauen über
+           die nächsten Stunden das Telefonbuch eines Handys nach. Der Anfang ist
+           aber kein Code, sondern Nachdenken: aus einem Screenshot der App
+           herausfinden, was für die Programmierung überhaupt wichtig ist.</p>
+
+        <p>Genau das heißt <strong>Abstrahieren</strong>. Auf dem Screenshot ist
+           eine Menge zu sehen – Farben, ein Häkchen-Symbol, drei Punkte oben
+           rechts. Davon interessiert uns fast nichts. Uns interessiert, welche
+           Daten die App speichert und was man damit machen kann.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Das Telefonbuch eines Handys soll objektorientiert nachgebildet
+               werden. Dazu werden einige Klassen benötigt, zum Beispiel eine Klasse
+               <code>Termin</code>.</p>
+            <p><strong>Aufgabe: Abstrahieren.</strong> Beschreiben Sie die für die
+               Programmierung relevanten Informationen aus dem Screenshot.
+               Orientieren Sie sich an der Frage: „Wie wird diese APP
+               funktionieren?"</p>
+        </div>
+
+        <h2>Was auf dem Screenshot zu sehen ist</h2>
+        <p>Die Eingabemaske für einen neuen Kontakt hat diese Felder:
+           <em>Name</em>, <em>Unternehmen hinzufügen</em>, und dann fünf Blöcke mit
+           Überschriften: <strong>TELEFON</strong>, <strong>E-MAIL</strong>,
+           <strong>ADRESSE</strong>, <strong>TERMINE</strong> und
+           <strong>GRUPPEN</strong>.</p>
+
+        <h2>Meine Beschreibung</h2>
+
+        <p>Die App verwaltet <strong>Kontakte</strong>. Ein Kontakt ist das, was
+           die App zusammenhält – alles andere hängt an ihm dran. Ein Kontakt hat
+           einen Namen, und der Name ist das Einzige, was jeder Kontakt auf jeden
+           Fall hat. Alles andere kann fehlen.</p>
+
+        <p>Auffällig ist, dass rechts neben fast jedem Feld noch ein zweites
+           kleines Feld steht: neben der Telefonnummer steht <em>MOBIL</em>, neben
+           der E-Mail und der Adresse jeweils <em>PRIVAT</em>, neben dem Datum
+           <em>GEBU…TAG</em>. Das sind Auswahlfelder, keine Texteingaben – man
+           tippt da nichts hin, sondern klappt sie auf und wählt aus. Für die
+           Programmierung heißt das: es gibt eine feste, begrenzte Auswahl.</p>
+
+        <p>Und das wiederum heißt: eine Telefonnummer ist nicht einfach ein Text.
+           Sie ist ein Paar aus <strong>Nummer und Typ</strong>. Dasselbe gilt für
+           E-Mail und Adresse. Deshalb reicht es nicht, im Kontakt einen
+           <code>String telefon</code> zu haben – wir brauchen für diese Dinge
+           jeweils eine eigene Klasse.</p>
+
+        <p>Die kleinen Dreiecke in der Ecke der Felder bedeuten übrigens, dass man
+           weitere hinzufügen kann. Ein Kontakt kann also mehrere Telefonnummern
+           haben, mehrere Termine und mehrere Gruppen. Für die Programmierung
+           heißt das: da brauchen wir Listen, keine einzelnen Attribute.</p>
+
+        <h2>Welche Klassen wir daraus ableiten</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Klasse</th><th>Wofür sie da ist</th><th>Beziehung zum Kontakt</th></tr></thead>
+                <tbody>
+                    <tr><td><code>Kontakt</code></td><td>Der Eintrag selbst, mit Name</td><td>–</td></tr>
+                    <tr><td><code>Telefon</code></td><td>Nummer + Typ (mobil / Festnetz)</td><td>Kontakt hat eine</td></tr>
+                    <tr><td><code>Email</code></td><td>Adresse + Typ (privat / geschäftlich)</td><td>Kontakt hat eine</td></tr>
+                    <tr><td><code>Adresse</code></td><td>Straße, Hausnummer, PLZ, Ort, Land + Typ</td><td>Kontakt hat eine</td></tr>
+                    <tr><td><code>Termin</code></td><td>Datum, Uhrzeit + Art (Geburtstag, …)</td><td>Kontakt hat <strong>mehrere</strong></td></tr>
+                    <tr><td><code>Gruppe</code></td><td>Ein Gruppenname</td><td>Kontakt ist in <strong>mehreren</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Warum nicht alles in eine Klasse?</h3>
+        <p>Man könnte ja auf die Idee kommen, alles in <code>Kontakt</code> zu
+           stopfen: <code>String strasse</code>, <code>String plz</code>,
+           <code>String telefonnummer</code> und so weiter. Geht – nur wird es
+           sofort unhandlich, sobald jemand zwei Telefonnummern hat. Dann bräuchte
+           man <code>telefonnummer1</code>, <code>telefonnummer2</code> … und beim
+           dritten Anruf ist Schluss.</p>
+
+        <p>Mit einer eigenen Klasse <code>Telefon</code> ist das kein Problem:
+           dann liegt eine Liste davon im Kontakt und es können beliebig viele
+           sein. Das ist der eigentliche Gewinn der Abstraktion – nicht die
+           schöneren Namen, sondern dass Änderungen später nicht wehtun.</p>
+
+        <h3 class="schritt-titel">Was wir bewusst weglassen</h3>
+        <p>Abstrahieren heißt auch, Sachen <em>nicht</em> zu modellieren. Der
+           Screenshot zeigt ein Profilbild, einen „FERTIG"-Knopf und ein
+           Drei-Punkte-Menü. Das ist alles Oberfläche. Ein Profilbild wäre zwar ein
+           denkbares Attribut, aber für unser Programm, das auf der Konsole läuft,
+           bringt es nichts. Der FERTIG-Knopf ist gar kein Datum, sondern eine
+           Bedienung – der würde später in der GUI landen, nicht in der Klasse.</p>
+
+        <p>Die Faustregel, die dabei hilft: modelliere, was die App
+           <strong>speichern</strong> muss, nicht was sie <strong>anzeigt</strong>.</p>

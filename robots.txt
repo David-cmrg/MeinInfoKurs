@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Die Werkzeuge sind Quellcode, keine Seiten.
+Disallow: /werkzeug/
+
+Sitemap: https://meininfokurs.cmrg.site/sitemap.xml

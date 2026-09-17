@@ -1,0 +1,162 @@
+        <p>Die Aufgabe der heutigen Stunde sind die Lieblingsfächer! Das ist die
+           erste Aufgabe mit einer <code>ArrayList</code>, und genau dafür ist sie
+           gebaut: Teil 2 der Aufgabe sagt mitten drin „Oh, Entschuldigung, es
+           sollten drei sein". Mit einem normalen Array wäre das jetzt Pech
+           gewesen.</p>
+
+        <p>Denn der wichtige Unterschied ist: <strong>eine ArrayList ist
+           dynamisch, die Größe ist veränderbar.</strong> Ein Array legst du mit
+           <code>new int[6]</code> an und dann sind es für immer sechs Plätze.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>1. Erstellen Sie eine ArrayList, die Ihre zwei Lieblingsfächer
+               enthält.<br>
+               2. Oh, Entschuldigung: Es sollten drei Lieblingsfächer sein. Fügen
+               Sie noch ein drittes ein.<br>
+               3. Durchlaufen Sie die Liste mit einer for-Schleife (das geht
+               eigentlich anders, lernen wir aber noch) und geben Sie die
+               Lieblingsfächer aus im Format „Meine Lieblingsfächer sind: Deutsch
+               Englisch Erdkunde".<br>
+               4. Ändern Sie das erste Fach in „Leibesübung".</p>
+        </div>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Lieblingsfaecher.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Lieblingsfaecher.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * ArrayList verwenden - Lieblingsfaecher
+ *
+ * @version 1.0 vom 09.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+import java.util.ArrayList;
+
+public class Lieblingsfaecher {
+
+    public static void main(String[] args) {
+
+        // 1. Liste mit zwei Faechern
+        ArrayList&lt;String&gt; faecher = new ArrayList&lt;String&gt;();
+        faecher.add("Informatik");
+        faecher.add("Mathe");
+
+        // 2. Doch drei - kein Problem, die Liste waechst einfach mit
+        faecher.add("Englisch");
+
+        // 3. Ausgeben, EVA-maessig erst zusammenbauen, dann ausgeben
+        String ausgabe = "Meine Lieblingsfächer sind:";
+        for (int i = 0; i &lt; faecher.size(); i++) {
+            ausgabe += " " + faecher.get(i);
+        }
+        System.out.println(ausgabe);
+
+        // 4. Das erste Fach austauschen
+        faecher.set(0, "Leibesübung");
+
+        ausgabe = "Meine Lieblingsfächer sind:";
+        for (int i = 0; i &lt; faecher.size(); i++) {
+            ausgabe += " " + faecher.get(i);
+        }
+        System.out.println(ausgabe);
+
+    } // end of main
+
+} // end of class Lieblingsfaecher</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Der import ganz oben</h3>
+        <p>Die <code>ArrayList</code> gehört nicht zum Sprachkern von Java,
+           sondern zur Standardbibliothek. Deshalb muss man sie importieren:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">import java.util.ArrayList;</code></pre>
+            </div>
+        </div>
+
+        <p>Wenn du den vergisst, sagt der Compiler <code>cannot find symbol –
+           class ArrayList</code>. Der Java-Editor bietet das meistens selbst an,
+           sobald du <code>ArrayList</code> tippst. Die Zeile steht
+           <strong>über</strong> der Klasse, nicht darin.</p>
+
+        <h3 class="schritt-titel">Die spitzen Klammern</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">ArrayList&lt;String&gt; faecher = new ArrayList&lt;String&gt;();</code></pre>
+            </div>
+        </div>
+
+        <p>In den spitzen Klammern steht, <em>was</em> in die Liste rein darf. Das
+           nennt sich Generics. <code>ArrayList&lt;String&gt;</code> ist eine
+           Liste, in die nur Texte passen – versuchst du eine Zahl reinzulegen,
+           meckert schon der Compiler und nicht erst das laufende Programm.</p>
+
+        <p>Und Achtung: da muss ein <strong>Objekttyp</strong> rein.
+           <code>ArrayList&lt;int&gt;</code> geht nicht,
+           <code>ArrayList&lt;Integer&gt;</code> schon.
+           <code>int</code> ist ein einfacher Datentyp, <code>Integer</code> die
+           Objektvariante davon. Für <code>double</code> heißt sie
+           <code>Double</code>, für <code>char</code> heißt sie
+           <code>Character</code>. Bei <code>String</code> fällt es nicht auf, weil
+           der sowieso ein Objekt ist.</p>
+
+        <h3 class="schritt-titel">size() statt length</h3>
+        <p>Bei einem Array fragt man <code>zahlen.length</code> – ohne Klammern,
+           weil es ein Attribut ist. Bei einer Liste heißt es
+           <code>faecher.size()</code> – mit Klammern, weil es eine Methode ist.
+           Das verwechselt man am Anfang ständig.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Was du willst</th><th>Array</th><th>ArrayList</th></tr></thead>
+                <tbody>
+                    <tr><td>Größe</td><td><code>a.length</code></td><td><code>liste.size()</code></td></tr>
+                    <tr><td>Element lesen</td><td><code>a[0]</code></td><td><code>liste.get(0)</code></td></tr>
+                    <tr><td>Element ändern</td><td><code>a[0] = x;</code></td><td><code>liste.set(0, x);</code></td></tr>
+                    <tr><td>Element anhängen</td><td>geht nicht</td><td><code>liste.add(x);</code></td></tr>
+                    <tr><td>Element löschen</td><td>geht nicht</td><td><code>liste.remove(0);</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">set statt add bei Teil 4</h3>
+        <p>Teil 4 will das erste Fach <em>ändern</em>, nicht ein neues
+           dazupacken. Also <code>set</code>:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">faecher.set(0, "Leibesübung");   // ersetzt das erste Element
+faecher.add(0, "Leibesübung");   // schiebt es davor, die Liste hat dann 4 Eintraege</code></pre>
+            </div>
+        </div>
+
+        <p>Beide Zeilen sehen fast gleich aus und tun etwas völlig anderes. Wer
+           hier <code>add</code> nimmt, hat plötzlich vier Lieblingsfächer.</p>
+
+        <h3 class="schritt-titel">Und so sieht es aus</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Meine Lieblingsfächer sind: Informatik Mathe Englisch
+Meine Lieblingsfächer sind: Leibesübung Mathe Englisch</code></pre>
+            </div>
+        </div>
+
+        <p>Der Hinweis in der Aufgabe, dass das Durchlaufen „eigentlich anders"
+           geht, meint die for-each-Schleife. Die kommt in der nächsten Aufgabe.</p>

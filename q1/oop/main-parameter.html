@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Die main-Parameter</title>
+    <meta name="description" content="Was public static void main(String[] args) wirklich bedeutet – und wie man dem Programm beim Start Werte mitgibt.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/oop/main-parameter.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Die main-Parameter">
+    <meta property="og:description" content="Was public static void main(String[] args) wirklich bedeutet – und wie man dem Programm beim Start Werte mitgibt.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/oop/main-parameter.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Die main-Parameter">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Die main-Parameter">
+    <meta name="twitter:description" content="Was public static void main(String[] args) wirklich bedeutet – und wie man dem Programm beim Start Werte mitgibt.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Die main-Parameter",
+  "description": "Was public static void main(String[] args) wirklich bedeutet – und wie man dem Programm beim Start Werte mitgibt.",
+  "url": "https://meininfokurs.cmrg.site/q1/oop/main-parameter.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "OOP in Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"OOP in Java\", Seite 130-133",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#oop">OOP in Java</a>
+        </p>
+        <h1 class="titel">Die main-Parameter</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde sind die main-Parameter! Diese
+           Zeile tippen wir seit der E-Phase in jedes Programm, ohne groß
+           darüber nachzudenken:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public static void main(String[] args) {</code></pre>
+            </div>
+        </div>
+
+        <p>Jedes Wort darin hat einen Grund, und das <code>args</code> am Ende
+           ist nicht bloß Dekoration – man kann da wirklich was reinschreiben.
+           Genau das probieren wir aus.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Jedes Programm wird über die Methode <code>main</code> gestartet.
+               <code>public</code>: Zugriff außerhalb der Klasse Main ist auf die
+               Methode main erlaubt. <code>static</code>: Die Methode kann ohne ein
+               Objekt aufgerufen werden. <code>void</code>: Die Methode hat keine
+               Rückgabe. <code>main</code>: Ist der Methodenname.
+               <code>String[] args</code>: Der Parameter-String-Array
+               <code>args</code> kann beim Aufruf des Programms befüllt werden.</p>
+            <p>Probiere das Beispiel im Java-Editor aus. Aus der main-Methode wird
+               die Methode <code>sagAufWiedersehen</code> aufgerufen.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Main.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Main.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Die main-Parameter ausprobieren
+ *
+ * @version 1.0 vom 22.05.2023
+ * @MeinInfoKurs.github.io
+ */
+
+public class Main {
+
+    public static void sagAufWiedersehen() {
+        System.out.println("Auf Wiedersehen");
+        System.out.println("Bis bald");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Hallo " + args[0]);
+        sagAufWiedersehen();
+    } // end of main
+
+} // end of class Main</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Wo man die Parameter einträgt</h3>
+        <p>Der wichtigste Teil der Aufgabe steht gar nicht im Code. Startest du
+           das Programm einfach so, kracht es sofort:</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for length 0</code></pre>
+            </div>
+        </div>
+
+        <p>Kein Wunder: <code>args</code> ist ein Array, und wenn beim Start
+           nichts übergeben wurde, ist es leer. <code>args[0]</code> gibt es dann
+           nicht. Im Java-Editor trägt man die Werte unter
+           <strong>Start &gt; Parameter…</strong> ein. Schreibst du dort
+           <code>David</code> rein, kommt raus:</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Hallo David
+Auf Wiedersehen
+Bis bald</code></pre>
+            </div>
+        </div>
+
+        <p>Mehrere Parameter trennt man mit Leerzeichen. Aus
+           <code>David Gomez</code> wird dann <code>args[0]</code> = „David" und
+           <code>args[1]</code> = „Gomez". Braucht man ein Leerzeichen
+           <em>innerhalb</em> eines Parameters, setzt man Anführungszeichen:
+           <code>"David Gomez"</code> ist ein einziger Parameter.</p>
+
+        <h3 class="schritt-titel">Die vier Wörter vor main</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Wort</th><th>Bedeutung</th><th>Was ohne passiert</th></tr></thead>
+                <tbody>
+                    <tr><td><code>public</code></td><td>Von überall aufrufbar</td><td>Bei <code>private</code> könnte die JVM das Programm nicht starten</td></tr>
+                    <tr><td><code>static</code></td><td>Gehört zur Klasse, nicht zu einem Objekt</td><td>Ohne <code>static</code> bräuchte man ein Objekt – aber vor dem Start gibt es noch keins</td></tr>
+                    <tr><td><code>void</code></td><td>Keine Rückgabe</td><td>An wen sollte die auch gehen? Das Programm ist danach zu Ende</td></tr>
+                    <tr><td><code>String[] args</code></td><td>Die Werte, die beim Start mitgegeben werden</td><td>Ohne den Parameter findet die JVM die main-Methode gar nicht</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><code>static</code> ist das interessanteste davon. Es ist ein
+           Henne-Ei-Problem: um eine normale Methode aufzurufen, braucht man ein
+           Objekt. Objekte entstehen aber erst, wenn das Programm läuft. Also muss
+           die allererste Methode ohne Objekt aufrufbar sein – und genau das
+           bedeutet <code>static</code>.</p>
+
+        <h3 class="schritt-titel">Warum sagAufWiedersehen auch static ist</h3>
+        <p>Das ist die Stelle, an der man beim Nachbauen hängenbleibt. Die Methode
+           <code>sagAufWiedersehen()</code> ist ebenfalls <code>static</code>. Muss
+           sie auch, denn sie wird direkt aus <code>main</code> aufgerufen – ohne
+           ein Objekt davor.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">sagAufWiedersehen();                     // geht, weil beide static sind
+new Main().sagAufWiedersehen();          // waere noetig, wenn sie nicht static waere</code></pre>
+            </div>
+        </div>
+
+        <p>Lässt du das <code>static</code> weg, sagt der Compiler
+           <code>non-static method cannot be referenced from a static context</code>.
+           Das ist eine der Fehlermeldungen, die man in der E-Phase ständig
+           bekommt, ohne zu wissen woher. Jetzt weißt du es: eine static-Methode
+           kann nichts aufrufen, das ein Objekt braucht.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Sicherer wäre <code>if (args.length &gt; 0)</code> vor dem Zugriff
+            auf <code>args[0]</code> – dann fliegt das Programm nicht raus, wenn
+            man die Parameter vergisst. In der Aufgabe ist das nicht gefordert, und
+            der Absturz ist hier sogar ganz lehrreich.</span>
+        </div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="arraylist-ausgabe.html"><small>Vorherige Aufgabe</small>ArrayList: Listen ausgeben</a>
+            <a class="weiter" href="methoden-ueberladen.html"><small>Nächste Aufgabe</small>Methoden überladen, Strings parsen</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

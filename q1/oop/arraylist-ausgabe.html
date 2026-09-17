@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | ArrayList: Listen ausgeben</title>
+    <meta name="description" content="Eine Liste von 10 bis 1000 füllen und auf zwei Arten durchlaufen – mit foreach und mit dem ListIterator.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/oop/arraylist-ausgabe.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | ArrayList: Listen ausgeben">
+    <meta property="og:description" content="Eine Liste von 10 bis 1000 füllen und auf zwei Arten durchlaufen – mit foreach und mit dem ListIterator.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/oop/arraylist-ausgabe.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | ArrayList: Listen ausgeben">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | ArrayList: Listen ausgeben">
+    <meta name="twitter:description" content="Eine Liste von 10 bis 1000 füllen und auf zwei Arten durchlaufen – mit foreach und mit dem ListIterator.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "ArrayList: Listen ausgeben",
+  "description": "Eine Liste von 10 bis 1000 füllen und auf zwei Arten durchlaufen – mit foreach und mit dem ListIterator.",
+  "url": "https://meininfokurs.cmrg.site/q1/oop/arraylist-ausgabe.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "OOP in Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"OOP in Java\", Seite 125-126",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#oop">OOP in Java</a>
+        </p>
+        <h1 class="titel">ArrayList: Listen ausgeben</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist das sequenzielle Ausgeben von
+           Listen! Wir bauen eine Liste mit den Zahlen 10, 20, 30 bis 1000 und
+           geben sie auf zwei Arten aus. Die Aufgabe ist klein, zeigt aber genau
+           die drei Wege, eine Liste zu durchlaufen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>1. Erstellen Sie mit einer for-Schleife eine ArrayList, die die
+               Zahlen 10, 20, 30 … bis 1000 enthält.<br>
+               2. Lassen Sie sich alle Elemente ausgeben,<br>
+               &nbsp;&nbsp;&nbsp;1. einmal mit einer foreach-Schleife,<br>
+               &nbsp;&nbsp;&nbsp;2. einmal mit dem ListIterator</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> ListenAusgabe.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="ListenAusgabe.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Listen sequenziell ausgeben - foreach und ListIterator
+ *
+ * @version 1.0 vom 09.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+import java.util.ArrayList;
+import java.util.ListIterator;
+
+public class ListenAusgabe {
+
+    public static void main(String[] args) {
+
+        // 1. Die Liste mit einer for-Schleife fuellen: 10, 20, 30 ... 1000
+        ArrayList&lt;Integer&gt; liste = new ArrayList&lt;Integer&gt;();
+        for (int i = 10; i &lt;= 1000; i += 10) {
+            liste.add(i);
+        }
+
+        // 2.1 Ausgabe mit der foreach-Schleife
+        System.out.println("--- foreach ---");
+        for (int zahl : liste) {
+            System.out.println(zahl);
+        }
+
+        // 2.2 Ausgabe mit dem ListIterator
+        System.out.println("--- ListIterator ---");
+        ListIterator&lt;Integer&gt; laeufer = liste.listIterator();
+        while (laeufer.hasNext()) {
+            System.out.println(laeufer.next());
+        }
+
+    } // end of main
+
+} // end of class ListenAusgabe</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Die Liste füllen</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">for (int i = 10; i &lt;= 1000; i += 10) {
+    liste.add(i);
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Drei Stellen, an denen man danebenliegen kann. Der Startwert ist
+           <code>10</code>, nicht 0 – die Aufgabe will bei 10 anfangen. Die
+           Bedingung ist <code>&lt;= 1000</code> und nicht <code>&lt; 1000</code>,
+           sonst fehlt die 1000 am Ende. Und die Schrittweite ist
+           <code>i += 10</code> statt <code>i++</code>. Am Ende sind es 100
+           Zahlen.</p>
+
+        <h3 class="schritt-titel">Die foreach-Schleife</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">for (int zahl : liste) {
+    System.out.println(zahl);
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Gelesen: „für jede Zahl in liste". Man braucht keinen Index, keine
+           Abbruchbedingung, kein Hochzählen – und kann damit auch keinen
+           Off-by-one-Fehler bauen. Deshalb ist das der übliche Weg, wenn man
+           einfach alles durchgehen will.</p>
+
+        <p>Der Haken: du hast in der Schleife nur eine <strong>Kopie</strong> des
+           Wertes. <code>zahl = 5;</code> ändert die Liste nicht. Willst du die
+           Elemente verändern, brauchst du die normale <code>for</code>-Schleife
+           mit Index und <code>liste.set(i, ...)</code>.</p>
+
+        <h3 class="schritt-titel">Der ListIterator</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">ListIterator&lt;Integer&gt; laeufer = liste.listIterator();
+while (laeufer.hasNext()) {
+    System.out.println(laeufer.next());
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Der Iterator ist ein Zeiger, der zwischen den Elementen sitzt und
+           Schritt für Schritt weiterrückt. Zwei Methoden reichen:
+           <code>hasNext()</code> fragt, ob noch was kommt, und
+           <code>next()</code> liefert das nächste Element <em>und</em> rückt
+           weiter.</p>
+
+        <p>Wichtig: <code>next()</code> in einem Durchlauf nur <strong>einmal</strong>
+           aufrufen. Wer <code>System.out.println(laeufer.next() + " und " +
+           laeufer.next());</code> schreibt, überspringt bei jedem Durchlauf ein
+           Element und wundert sich.</p>
+
+        <p>Warum gibt es das, wenn foreach doch kürzer ist? Weil der Iterator
+           etwas kann, was foreach nicht kann: während des Durchlaufens die Liste
+           verändern. Mit <code>laeufer.remove()</code> darfst du das gerade
+           gelieferte Element rauswerfen. Versuchst du dasselbe in einer
+           foreach-Schleife mit <code>liste.remove(...)</code>, fliegt dir eine
+           <code>ConcurrentModificationException</code> um die Ohren. Der
+           <code>ListIterator</code> kann außerdem rückwärts, über
+           <code>hasPrevious()</code> und <code>previous()</code>.</p>
+
+        <h3 class="schritt-titel">Die drei Wege im Überblick</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Weg</th><th>Wann man ihn nimmt</th></tr></thead>
+                <tbody>
+                    <tr><td><code>for</code> mit Index</td><td>Wenn du den Index brauchst oder Elemente ändern willst</td></tr>
+                    <tr><td><code>foreach</code></td><td>Wenn du nur alles einmal durchgehen willst – der Normalfall</td></tr>
+                    <tr><td><code>ListIterator</code></td><td>Wenn du beim Durchlaufen löschen oder rückwärts gehen willst</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Und so sieht es aus</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>--- foreach ---
+10
+20
+30
+...
+1000
+--- ListIterator ---
+10
+20
+30
+...
+1000</code></pre>
+            </div>
+        </div>
+
+        <p>Beide Ausgaben sind identisch, das ist ja auch der Punkt der Aufgabe.
+           Es sind hundert Zeilen pro Durchlauf, da scrollt die Konsole ein
+           bisschen.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="arraylist-lottozahlen.html"><small>Vorherige Aufgabe</small>ArrayList: Lottozahlen</a>
+            <a class="weiter" href="main-parameter.html"><small>Nächste Aufgabe</small>Die main-Parameter</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

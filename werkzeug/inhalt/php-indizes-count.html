@@ -1,0 +1,192 @@
+        <p>Die Aufgabe der heutigen Stunde ist die Ausgabe ohne assoziierte Arrays!
+           Bis jetzt haben wir immer <code>$row['vorname']</code> geschrieben – also
+           den Spaltennamen. Jetzt soll das Programm für <strong>jede beliebige
+           Tabelle</strong> funktionieren, ohne die Spaltennamen zu kennen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Oftmals sollen Programme für alle Datenbanken funktionieren. In dieser
+               Aufgabe schreiben Sie ein Programm, das ohne die Attributnamen zu
+               benutzen, alle Attribute aller Schüler mithilfe einer for-Schleife
+               ausgibt.</p>
+            <p>Die for-Schleife wird wie in Java geschrieben, nur dass Variablen mit
+               einem <code>$</code> anfangen. Die Methode <code>count(Array)</code> hat
+               einen Array als Eingabe und gibt die Anzahl der Elemente in einem Array
+               zurück.</p>
+            <p>Das Programm soll mit einer for-Schleife (ohne assoziierte Arrays) die
+               Attribute aller Schüler ausgeben. Fertige PHP-Datei hier einfügen.</p>
+        </div>
+
+        <h2>Warum das überhaupt geht</h2>
+        <p>Erinner dich an die <code>print_r</code>-Ausgabe aus Aufgabe 1. Jeder
+           Wert stand dort <strong>zweimal</strong> drin:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Array (
+    [id] =&gt; 1
+    [0]  =&gt; 1
+    [nachname] =&gt; Peter
+    [1]  =&gt; Peter
+    [vorname] =&gt; Müller
+    [2]  =&gt; Müller
+    ...
+)</code></pre>
+            </div>
+        </div>
+
+        <p>PDO liefert standardmäßig beides: den Zugriff über den
+           <strong>Spaltennamen</strong> (assoziativ) und über eine
+           <strong>Nummer</strong> (numerisch). Genau die Nummern benutzen wir
+           jetzt – denn die gibt es in jeder Tabelle, egal wie die Spalten heißen.</p>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> ausgabeFor.php</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="ausgabeFor.php">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-php">&lt;?php
+/**
+ *
+ * Ausgabe aller Attribute ueber Indizes und count()
+ * Funktioniert fuer jede Tabelle, ohne die Spaltennamen zu kennen
+ *
+ * @version 1.0 vom 27.05.2019
+ * @MeinInfoKurs.github.io
+ */
+
+$pdo = new PDO('mysql:host=localhost;dbname=schule', 'root', '',
+       array(PDO::MYSQL_ATTR_INIT_COMMAND =&gt; "SET NAMES utf8"));
+
+$sth = $pdo-&gt;prepare("SELECT * FROM schüler");
+$sth-&gt;execute();
+
+// PDO::FETCH_NUM liefert nur die nummerierten Indizes, keine Spaltennamen
+$ergebnis = $sth-&gt;fetchAll(PDO::FETCH_NUM);
+
+echo "&lt;table border='1'&gt;";
+
+// aeussere Schleife: ueber alle Schueler
+for ($zeile = 0; $zeile &lt; count($ergebnis); $zeile++) {
+
+    echo "&lt;tr&gt;";
+
+    // innere Schleife: ueber alle Attribute eines Schuelers
+    for ($spalte = 0; $spalte &lt; count($ergebnis[$zeile]); $spalte++) {
+        echo "&lt;td&gt;".$ergebnis[$zeile][$spalte]."&lt;/td&gt;";
+    }
+
+    echo "&lt;/tr&gt;";
+}
+
+echo "&lt;/table&gt;";
+?&gt;</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Zwei verschachtelte Schleifen</h3>
+        <p>Das Ergebnis ist ein <strong>zweidimensionales Array</strong> – genau wie
+           das Spielfeld bei Schiffe versenken. Der erste Index ist die Zeile, der
+           zweite die Spalte:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-php">$ergebnis[0][2]   // dritter Wert des ersten Schuelers
+$ergebnis[3][0]   // erster Wert des vierten Schuelers</code></pre>
+            </div>
+        </div>
+
+        <p>Deshalb braucht man zwei Schleifen: die äußere geht über die Schüler, die
+           innere über deren Attribute. Wie beim Anzeigen des Spielfelds.</p>
+
+        <h3 class="schritt-titel">count() zweimal – und zwar unterschiedlich</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Aufruf</th><th>Liefert</th><th>Bei der schule-Datenbank</th></tr></thead>
+                <tbody>
+                    <tr><td><code>count($ergebnis)</code></td><td>Anzahl der <strong>Zeilen</strong></td><td>8 Schüler</td></tr>
+                    <tr><td><code>count($ergebnis[$zeile])</code></td><td>Anzahl der <strong>Spalten</strong> in dieser Zeile</td><td>7 Attribute</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Das ist derselbe Unterschied wie <code>feld.length</code> gegen
+           <code>feld[zeile].length</code> bei zweidimensionalen Arrays in Java. Und
+           genau darin liegt der Trick der Aufgabe: <strong>nirgendwo steht eine 7
+           oder eine 8 im Code.</strong> Das Programm fragt die Größen selbst ab und
+           funktioniert deshalb auch mit einer Tabelle, die zwölf Spalten hat.</p>
+
+        <h3 class="schritt-titel">FETCH_NUM</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-php">$ergebnis = $sth-&gt;fetchAll(PDO::FETCH_NUM);</code></pre>
+            </div>
+        </div>
+
+        <p>Ohne den Zusatz liefert <code>fetchAll()</code> beide Zugriffsarten – und
+           dann zählt <code>count()</code> <strong>doppelt</strong>. Aus 7 Attributen
+           würden 14, und die Hälfte der Tabellenzellen wäre eine Wiederholung.</p>
+
+        <p>Das ist der Fehler, den bei dieser Aufgabe fast jeder einmal hat. Man
+           sieht ihn sofort an der Ausgabe: jeder Wert steht zweimal nebeneinander.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Modus</th><th>Was im Array steht</th></tr></thead>
+                <tbody>
+                    <tr><td><code>PDO::FETCH_BOTH</code> (Standard)</td><td>Spaltennamen <strong>und</strong> Nummern – <code>count()</code> zählt doppelt</td></tr>
+                    <tr><td><code>PDO::FETCH_NUM</code></td><td>nur Nummern – das brauchen wir hier</td></tr>
+                    <tr><td><code>PDO::FETCH_ASSOC</code></td><td>nur Spaltennamen – für Aufgabe 1 und 2</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Die for-Schleife in PHP</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-php">for ($i = 0; $i &lt; count($array); $i++) { }   // PHP</code></pre>
+            </div>
+        </div>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">for (int i = 0; i &lt; array.length; i++) { }   // Java</code></pre>
+            </div>
+        </div>
+
+        <p>Fast identisch. Die drei Unterschiede: Variablen fangen mit
+           <code>$</code> an, es gibt keine Typangabe wie <code>int</code>, und die
+           Länge holt man mit <code>count(...)</code> statt mit
+           <code>.length</code>.</p>
+
+        <h3 class="schritt-titel">Die Ausgabe</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-table" aria-hidden="true"></i> Browser</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>+---+----------+--------+------------+---------------------+-------+-----------+
+| 1 | Peter    | Müller | 1996-04-09 | Ludwigstraße 13     | 64625 | Bensheim  |
+| 2 | Kevin    | Gamler | 1998-02-06 | Nestweg 42          | 64625 | Einhausen |
+| 3 | Jörg     | Ritter | 1997-11-03 | Laplacestraße 12    | 64625 | Alsbach   |
+| 4 | Miriam   | Ritter | 1997-11-25 | Laplacestrasse 12   | 64625 | Alsbach   |
+| 5 | Stefanie | Rose   | 1997-10-11 | Darmstädterstaße 23 | 64625 | Bensheim  |
+| 6 | Marie    | Sproß  | 2003-10-09 | Darmstädterstaße 23 | 64625 | Bensheim  |
+| 7 | Daniel   | Klasen | 2002-03-10 | Darmstädterstaße 25 | 64625 | Bensheim  |
+| 8 | Lukas    | Margel | 2000-05-13 | Dr. Hesse Weg 14    | 64625 | Bensheim  |
++---+----------+--------+------------+---------------------+-------+-----------+</code></pre>
+            </div>
+        </div>
+
+        <p>Was jetzt fehlt, ist die Kopfzeile – die Spaltennamen kennen wir ja
+           absichtlich nicht mehr. Will man sie trotzdem, holt man sie über
+           <code>$sth-&gt;getColumnMeta($i)['name']</code> aus der Datenbank. Damit
+           bleibt das Programm allgemein und hat trotzdem Überschriften. Gefordert
+           war das hier nicht.</p>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Die Sprache hallihallo</title>
+    <meta name="description" content="Von vier Beispielwörtern zur Mengenschreibweise – und warum das kleine Null-Zeichen bei ℕ₀ über die halbe Lösung entscheidet.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q3/formale-sprachen/sprache-hallihallo.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Die Sprache hallihallo">
+    <meta property="og:description" content="Von vier Beispielwörtern zur Mengenschreibweise – und warum das kleine Null-Zeichen bei ℕ₀ über die halbe Lösung entscheidet.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q3/formale-sprachen/sprache-hallihallo.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q3.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Die Sprache hallihallo">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Die Sprache hallihallo">
+    <meta name="twitter:description" content="Von vier Beispielwörtern zur Mengenschreibweise – und warum das kleine Null-Zeichen bei ℕ₀ über die halbe Lösung entscheidet.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q3.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Die Sprache hallihallo",
+  "description": "Von vier Beispielwörtern zur Mengenschreibweise – und warum das kleine Null-Zeichen bei ℕ₀ über die halbe Lösung entscheidet.",
+  "url": "https://meininfokurs.cmrg.site/q3/formale-sprachen/sprache-hallihallo.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q3 – Klasse 12 · 1. Halbjahr",
+  "about": "Formale Sprachen",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q3",
+    "url": "https://meininfokurs.cmrg.site/q3/"
+  },
+  "isBasedOn": "Informatik Q3, OneNote \"Beispiellösungen\", Seite 4-5",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html" aria-current="page"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q3/index.html">Q3</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q3/index.html#formale-sprachen">Formale Sprachen</a>
+        </p>
+        <h1 class="titel">Die Sprache hallihallo</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist die Sprache hallihallo! Hier wird es
+           zum ersten Mal richtig formal: aus ein paar Beispielwörtern soll eine
+           allgemeine Regel werden, und am Ende steht eine Mengenschreibweise mit
+           Exponent. Das sieht nach Mathe aus, ist aber nur konsequent
+           aufgeschrieben, was man sowieso sieht.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Zur Sprache L<sub>hallihallo</sub> gehören zum Beispiel die folgenden
+               Wörter:<br>
+               <code>hallo   hallihallo   hallihallihallo   hallihallihallihallo …</code></p>
+            <p><strong>Aufgabe 1: Muster erkennen.</strong> a) Markiere in den vier
+               angegebenen Wörtern den Teil, der wiederholt wird, und den Teil, mit dem
+               jedes Wort endet. b) Gib die nächsten zwei Wörter der Sprache an.
+               c) Beschreibe die Bildungsregel der Sprache in eigenen Worten.</p>
+            <p><strong>Aufgabe 2: Alphabet und Sprachzugehörigkeit.</strong> a)
+               Bestimme ein möglichst kleines Alphabet Σ, über dem alle oben
+               angegebenen Wörter gebildet werden können. b) Entscheide für jedes Wort,
+               ob es ein Wort über Σ ist und ob es zur Sprache gehört. Begründe
+               mindestens zwei Entscheidungen.</p>
+            <p><strong>Aufgabe 3: Die Sprache formal beschreiben.</strong> a) Ergänze
+               die Tabelle. b) Vervollständige die Mengenschreibweise. c) Erkläre,
+               warum die Sprache unendlich viele Wörter enthält, obwohl das Alphabet nur
+               endlich viele Zeichen besitzt.</p>
+            <p><strong>Aufgabe 4: Zwei Modellierungen vergleichen.</strong> A steht
+               für halli, B steht für hallo, Σ₂ = {A, B}. a) Gib die ersten vier Wörter
+               der codierten Sprache über Σ₂ an. b) Beschreibe die codierte Sprache mit
+               A, B und einer Variablen n. c) Vergleiche die beiden Modellierungen.
+               Welche Beschreibung macht die Struktur der Sprache deutlicher?</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Aufgabe 1 – Das Muster</h2>
+
+        <h3 class="schritt-titel">a) Wiederholter Teil und Ende</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>            hallo          ->                      hallo
+       halli hallo         ->  halli               hallo
+ halli halli hallo         ->  halli halli         hallo
+ halli halli halli hallo   ->  halli halli halli   hallo
+ ^^^^^^^^^^^^^^^^^^^^         wiederholter Teil    Ende</code></pre>
+            </div>
+        </div>
+
+        <p>Wiederholt wird <strong>halli</strong>, und jedes Wort endet auf
+           <strong>hallo</strong>. Die Ähnlichkeit der beiden macht die Aufgabe
+           kniffliger als sie ist – sie unterscheiden sich nur im letzten Buchstaben.</p>
+
+        <h3 class="schritt-titel">b) Die nächsten zwei Wörter</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>hallihallihallihallihallo
+hallihallihallihallihallihallo</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">c) Die Bildungsregel</h3>
+        <p>Ein „halli" kann kein Mal oder beliebig oft vorkommen, und es endet immer
+           mit einem „hallo". Dadurch können unendlich viele Wörter gebildet werden.</p>
+
+        <p>Der Punkt, den man dabei leicht übersieht: <strong>kein Mal</strong> ist
+           auch erlaubt. Deshalb gehört das einzelne „hallo" zur Sprache, obwohl gar
+           kein „halli" davorsteht.</p>
+
+        <h2>Aufgabe 2 – Alphabet und Zugehörigkeit</h2>
+
+        <h3 class="schritt-titel">a) Das kleinste Alphabet</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Σ = { halli, hallo }</code></pre>
+            </div>
+        </div>
+
+        <p>Gefragt ist ein <strong>möglichst kleines</strong> Alphabet. Man könnte
+           auch die einzelnen Buchstaben nehmen – <code>{h, a, l, i, o}</code> – und
+           damit ließen sich die Wörter ebenfalls bilden. Nur werden dann auch
+           tausende sinnlose Folgen wie „iiiaal" möglich, und das Muster verschwindet.</p>
+
+        <p>Nimmt man die beiden Bausteine als unteilbare Zeichen, beschreibt das
+           Alphabet die Struktur der Sprache schon mit. Das ist derselbe Gedanke wie
+           beim Backofen, wo das Umluft-Symbol ein Zeichen war und nicht in Striche
+           zerlegt wurde.</p>
+
+        <h3 class="schritt-titel">b) Die Tabelle</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Wort</th><th>w ∈ Σ*</th><th>w ∈ L<sub>hallihallo</sub></th><th>Begründung</th></tr></thead>
+                <tbody>
+                    <tr><td><code>hallo</code></td><td>ja</td><td><strong>ja</strong></td><td>„hallo" kann aus dem Alphabet gebildet werden und ist gültig, wenn es ganz am Anfang steht, wo noch kein „halli" vorkommt.</td></tr>
+                    <tr><td><code>hallihallihallo</code></td><td>ja</td><td><strong>ja</strong></td><td>Zwei „halli", danach ein „hallo" am Ende – die Regel ist erfüllt.</td></tr>
+                    <tr><td><code>hallihalli</code></td><td>ja</td><td><strong>nein</strong></td><td>„hallihalli" kann nicht zur Sprache gehören, da kein „hallo" am Ende des Strings liegt und die Syntax somit invalide ist.</td></tr>
+                    <tr><td><code>hallohalli</code></td><td>ja</td><td><strong>nein</strong></td><td>Beide Bausteine sind im Alphabet, aber in der falschen Reihenfolge. Das „hallo" muss am Ende stehen, nicht am Anfang.</td></tr>
+                    <tr><td><code>hello</code></td><td><strong>nein</strong></td><td>nein</td><td>„hello" ist nicht Teil des Alphabetes. Es lässt sich aus „halli" und „hallo" gar nicht zusammensetzen.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Der Unterschied zwischen den beiden Spalten</h3>
+        <p>Die beiden Fragen werden gerne verwechselt, sind aber verschieden:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Frage</th><th>Bedeutung</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>w ∈ Σ*</strong></td><td>Lässt sich das Wort <em>überhaupt</em> aus den Zeichen des Alphabets zusammensetzen? Σ* ist die Menge <strong>aller</strong> Zeichenfolgen über Σ, ohne jede Regel.</td></tr>
+                    <tr><td><strong>w ∈ L</strong></td><td>Hält das Wort zusätzlich die <em>Regeln</em> der Sprache ein?</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Bei <code>hallihalli</code> und <code>hallohalli</code> sieht man den
+           Unterschied am deutlichsten: beide sind aus den Zeichen des Alphabets
+           gebaut, also in Σ*, verstoßen aber gegen die Bildungsregel und sind
+           deshalb nicht in L. <strong>L ist immer eine Teilmenge von Σ*.</strong></p>
+
+        <h2>Aufgabe 3 – Die formale Beschreibung</h2>
+
+        <h3 class="schritt-titel">a) Die Tabelle</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>n</th><th>(halli)<sup>n</sup></th><th>(halli)<sup>n</sup> hallo</th></tr></thead>
+                <tbody>
+                    <tr><td>0</td><td>ε</td><td>hallo</td></tr>
+                    <tr><td>1</td><td>halli</td><td>hallihallo</td></tr>
+                    <tr><td>2</td><td>hallihalli</td><td>hallihallihallo</td></tr>
+                    <tr><td>3</td><td>hallihallihalli</td><td>hallihallihallihallo</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Das <strong>ε</strong> (epsilon) ist das <strong>leere Wort</strong> – ein
+           Wort aus null Zeichen. Es ist nicht dasselbe wie „nichts": ε ist ein
+           gültiges Wort, es hat nur die Länge 0. Deshalb steht bei n = 0 in der
+           dritten Spalte trotzdem „hallo" und nicht etwa nichts.</p>
+
+        <h3 class="schritt-titel">b) Die Mengenschreibweise</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>L = { (halli)ⁿ hallo | n ∈ ℕ₀ }</code></pre>
+            </div>
+        </div>
+
+        <p>Gelesen: „Die Menge aller Wörter der Form n-mal halli gefolgt von hallo,
+           wobei n eine natürliche Zahl <strong>einschließlich der Null</strong>
+           ist."</p>
+
+        <p>Das <strong>₀</strong> bei ℕ₀ ist entscheidend und kein Schönheitsfehler.
+           Ohne es wäre das einzelne „hallo" nicht in der Sprache, obwohl es in der
+           Aufgabenstellung ausdrücklich als Beispiel steht. Wer hier nur ℕ schreibt,
+           hat eine andere Sprache beschrieben.</p>
+
+        <h3 class="schritt-titel">c) Warum unendlich viele Wörter</h3>
+        <p>Das Alphabet hat nur zwei Zeichen, die Sprache aber unendlich viele
+           Wörter. Das ist kein Widerspruch: <strong>die Zeichen sind begrenzt, die
+           Wortlänge nicht.</strong></p>
+
+        <p>Für jedes n ∈ ℕ₀ gibt es genau ein Wort, und es gibt unendlich viele
+           natürliche Zahlen. Zu jedem Wort kann man ein weiteres „halli" davorsetzen
+           und bekommt ein neues, längeres – das hört nie auf. Ein längstes Wort gibt
+           es also nicht.</p>
+
+        <p>Dasselbe gilt übrigens für Java: das Alphabet ist endlich (alle Zeichen
+           der Tastatur), und trotzdem gibt es unendlich viele mögliche Programme.</p>
+
+        <h2>Aufgabe 4 – Die zweite Modellierung</h2>
+
+        <h3 class="schritt-titel">a) Die ersten vier Wörter über Σ₂</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>B      AB      AAB      AAAB</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">b) Die codierte Sprache</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>L₂ = { Aⁿ B | n ∈ ℕ₀ }</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">c) Welche Modellierung ist besser?</h3>
+        <p>„a<sup>n</sup> + b" ist meiner Meinung nach die bessere Modellierung, da
+           sie Übersichtlichkeit erlaubt.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>Σ = {halli, hallo}</th><th>Σ₂ = {A, B}</th></tr></thead>
+                <tbody>
+                    <tr><td>Wort bei n = 3</td><td><code>hallihallihallihallo</code></td><td><code>AAAB</code></td></tr>
+                    <tr><td>Struktur erkennbar?</td><td>schlecht – man muss zählen und aufpassen, wo „halli" aufhört</td><td><strong>sofort</strong></td></tr>
+                    <tr><td>Verwechslungsgefahr</td><td>hoch, „halli" und „hallo" unterscheiden sich in einem Buchstaben</td><td>keine</td></tr>
+                    <tr><td>Bezug zur Wirklichkeit</td><td>man sieht, worum es geht</td><td>verloren – A und B sagen für sich nichts</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Bei <code>AAAB</code> sieht man die Struktur auf einen Blick, bei
+           <code>hallihallihallihallo</code> muss man Silben zählen. Und das ist genau
+           der Zweck einer Modellierung: <strong>das Wesentliche sichtbar machen und
+           den Rest weglassen.</strong></p>
+
+        <p>Der Preis dafür ist, dass die Bedeutung verschwindet – aus A und B kann
+           man nicht mehr ablesen, dass es mal um Begrüßungen ging. Für die
+           Untersuchung der Struktur ist das aber egal, und genau darum geht es hier.</p>
+
+        <p>Nebenbei: <code>{ Aⁿ B | n ∈ ℕ₀ }</code> ist eine der bekanntesten
+           Beispielsprachen der theoretischen Informatik. Man trifft sie später bei
+           Automaten und Grammatiken immer wieder.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="sprache-emoticons.html"><small>Vorherige Aufgabe</small>Die Sprache der Emoticons</a>
+            <a class="weiter" href="sprache-pgm.html"><small>Nächste Aufgabe</small>Die Sprache PGM</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

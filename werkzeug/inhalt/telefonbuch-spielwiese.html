@@ -1,0 +1,191 @@
+        <p>Die Aufgabe der heutigen Stunde ist die Telefonbuch-Spielwiese! Alle
+           Klassen stehen, jetzt bauen wir endlich einen echten Kontakt zusammen
+           und lassen ihn ausgeben. Das ist der Moment, in dem man merkt, ob das
+           Zusammenspiel der sechs Klassen wirklich funktioniert.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Schreibe eine Klasse <code>Spielwiese</code> und probiere und teste
+               die Klasse <code>Kontakt</code> aus. Zum Beispiel könnte die
+               Spielwiese die folgende Ausgabe auf der Konsole erzeugen.</p>
+            <p>Datei speichern: neue Zip-Datei
+               <code>Telefonbuch_nachname.zip</code> mit Code und UML.</p>
+            <p><strong>Zusatz:</strong> Bringen Sie ihre Ausgabe der Spielwiese
+               durch passende Methoden in eine schönere Formatierung.</p>
+        </div>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Spielwiese.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Spielwiese.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Spielwiese fuer das Telefonbuch
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class Spielwiese {
+
+    public static void main(String[] args) {
+
+        // Ein Kontakt, erstmal nur mit Namen
+        Kontakt firma = new Kontakt("Muster GmbH");
+
+        // Adresse, Telefon und E-Mail nachtragen
+        firma.setAdresse(new Adresse("Hauptstr.", "1", "65183",
+                                     "Wiesbaden", "DE",
+                                     Adresse.Typ.GESCHAEFTLICH));
+
+        firma.setTelefon(new Telefon("+49 611 123456", Telefon.Typ.FESTNETZ));
+
+        firma.setEmail(new Email("info@muster.de", Email.Typ.GESCHAEFTLICH));
+
+        // Zwei Termine: einer mit Uhrzeit, einer ohne
+        firma.fuegeTerminHinzu(new Termin(LocalDate.of(2025, 9, 1),
+                                          LocalTime.of(14, 30),
+                                          Termin.Art.GESCHAEFTLICH));
+
+        firma.fuegeTerminHinzu(new Termin(LocalDate.of(2025, 12, 24),
+                                          Termin.Art.GEBURTSTAG));
+
+        // Zwei Gruppen
+        firma.fuegeGruppeHinzu(new Gruppe("Lieferanten"));
+        firma.fuegeGruppeHinzu(new Gruppe("Newsletter"));
+
+        // Ausgeben - ruft intern toString() auf
+        System.out.println(firma);
+
+    } // end of main
+
+} // end of class Spielwiese</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Und das kommt dabei raus</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>=== Kontakt ===
+Name    : Muster GmbH
+Adresse{
+strasse='Hauptstr.'
+, hausnummer='1'
+, plz='65183'
+, ort='Wiesbaden'
+, land='DE'
+, typ='GESCHAEFTLICH'
+'}
+
+Telefon : Telefon{nummer='+49 611 123456', typ=FESTNETZ}
+E-Mail  : Email{adresse='info@muster.de', typ=GESCHAEFTLICH}
+
+=== Termine ===
+Termin{datum=2025-09-01, uhrzeit=14:30, art=GESCHAEFTLICH}
+Termin{datum=2025-12-24, uhrzeit=null, art=GEBURTSTAG}
+
+=== Gruppen ===
+Gruppe{name='Lieferanten'}
+Gruppe{name='Newsletter'}</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Ein einziges println für all das</h3>
+        <p>Im ganzen <code>main</code> steht genau ein
+           <code>System.out.println(firma);</code>. Alles andere passiert von
+           selbst, weil <code>toString()</code> automatisch aufgerufen wird – und
+           zwar kettenweise: die <code>toString()</code> von <code>Kontakt</code>
+           hängt <code>adresse</code> an einen String, dadurch wird die
+           <code>toString()</code> von <code>Adresse</code> aufgerufen, und so
+           weiter durch alle sechs Klassen.</p>
+
+        <p>Das ist der Grund, warum wir in jeder Klasse eine
+           <code>toString()</code> geschrieben haben. Hättest du eine vergessen,
+           stünde an der Stelle <code>Gruppe@6d06d69c</code> statt
+           <code>Gruppe{name='Lieferanten'}</code>. Damit findest du auch schnell
+           die Klasse, in der sie fehlt.</p>
+
+        <h3 class="schritt-titel">uhrzeit=null ist kein Fehler</h3>
+        <p>Beim zweiten Termin steht <code>uhrzeit=null</code>. Das ist genau so
+           gewollt: der Geburtstag wurde über den Konstruktor ohne Uhrzeit angelegt,
+           also gibt es keine. <code>null</code> heißt hier „bewusst nicht
+           gesetzt".</p>
+
+        <p>Aufpassen musst du nur, wenn du damit weiterrechnest.
+           <code>firma.getTermine().get(1).getUhrzeit().getHour()</code> würde eine
+           <code>NullPointerException</code> werfen, weil man von
+           <code>null</code> keine Stunde erfragen kann. Beim Ausgeben ist es
+           harmlos – da macht Java daraus einfach den Text „null".</p>
+
+        <h3 class="schritt-titel">Warum erst der Konstruktor mit einem Argument</h3>
+        <p>Der Kontakt wird mit <code>new Kontakt("Muster GmbH")</code> angelegt
+           und alles Weitere danach über Setter nachgetragen. Das könnte man auch
+           mit dem großen Konstruktor auf einmal machen – nur müsste man dafür die
+           beiden Listen vorher selbst bauen und befüllen, und der Aufruf hätte sechs
+           Argumente. So ist es lesbarer, und es entspricht auch dem, was die App
+           macht: erst den Namen eintippen, dann Stück für Stück ergänzen.</p>
+
+        <p>Möglich ist das nur, weil der kleine Konstruktor die Listen anlegt.
+           Ohne das würde der erste <code>fuegeTerminHinzu</code> sofort abstürzen.</p>
+
+        <h3 class="schritt-titel">Zur Zusatzaufgabe: schöner formatieren</h3>
+        <p>Die Ausgabe der Adresse ist ehrlich gesagt nicht schön – die Kommas
+           stehen am Zeilenanfang und am Ende hängt ein einsames <code>'}</code>.
+           Das kommt daher, dass die <code>toString()</code> automatisch erzeugt und
+           dann mit Zeilenumbrüchen versehen wurde.</p>
+
+        <p>Für die Zusatzaufgabe schreibt man eine eigene Methode daneben, statt
+           <code>toString()</code> zu verbiegen:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">// in der Klasse Adresse
+public String formatiert() {
+    return strasse + " " + hausnummer + "\n"
+         + plz + " " + ort + " (" + land + ")" + "\n"
+         + "Typ: " + typ;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Damit wird aus dem Klammergewirr:</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Hauptstr. 1
+65183 Wiesbaden (DE)
+Typ: GESCHAEFTLICH</code></pre>
+            </div>
+        </div>
+
+        <p>Warum nicht einfach <code>toString()</code> umschreiben? Weil die beiden
+           verschiedene Zwecke haben. <code>toString()</code> soll beim Debuggen
+           zeigen, was <em>wirklich</em> im Objekt steht – mit allen Attributnamen,
+           auch wenn es hässlich aussieht. <code>formatiert()</code> ist für den
+           Benutzer. Beides in eine Methode zu stopfen geht meistens schief.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Die Abgabe ist eine Zip-Datei mit Code <strong>und</strong> UML –
+            also alle <code>.java</code>- und alle <code>.uml</code>-Dateien zu
+            Kontakt, Telefon, Email, Adresse, Termin, Gruppe und Spielwiese. Wer nur
+            die Java-Dateien einpackt, hat die halbe Abgabe vergessen.</span>
+        </div>

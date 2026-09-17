@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | ArrayList: Lieblingsfächer</title>
+    <meta name="description" content="Die erste Liste statt eines Arrays – und warum es plötzlich egal ist, dass es doch drei Fächer sein sollten statt zwei.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/oop/arraylist-lieblingsfaecher.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | ArrayList: Lieblingsfächer">
+    <meta property="og:description" content="Die erste Liste statt eines Arrays – und warum es plötzlich egal ist, dass es doch drei Fächer sein sollten statt zwei.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/oop/arraylist-lieblingsfaecher.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | ArrayList: Lieblingsfächer">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | ArrayList: Lieblingsfächer">
+    <meta name="twitter:description" content="Die erste Liste statt eines Arrays – und warum es plötzlich egal ist, dass es doch drei Fächer sein sollten statt zwei.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "ArrayList: Lieblingsfächer",
+  "description": "Die erste Liste statt eines Arrays – und warum es plötzlich egal ist, dass es doch drei Fächer sein sollten statt zwei.",
+  "url": "https://meininfokurs.cmrg.site/q1/oop/arraylist-lieblingsfaecher.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "OOP in Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"OOP in Java\", Seite 121-123",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#oop">OOP in Java</a>
+        </p>
+        <h1 class="titel">ArrayList: Lieblingsfächer</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde sind die Lieblingsfächer! Das ist die
+           erste Aufgabe mit einer <code>ArrayList</code>, und genau dafür ist sie
+           gebaut: Teil 2 der Aufgabe sagt mitten drin „Oh, Entschuldigung, es
+           sollten drei sein". Mit einem normalen Array wäre das jetzt Pech
+           gewesen.</p>
+
+        <p>Denn der wichtige Unterschied ist: <strong>eine ArrayList ist
+           dynamisch, die Größe ist veränderbar.</strong> Ein Array legst du mit
+           <code>new int[6]</code> an und dann sind es für immer sechs Plätze.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>1. Erstellen Sie eine ArrayList, die Ihre zwei Lieblingsfächer
+               enthält.<br>
+               2. Oh, Entschuldigung: Es sollten drei Lieblingsfächer sein. Fügen
+               Sie noch ein drittes ein.<br>
+               3. Durchlaufen Sie die Liste mit einer for-Schleife (das geht
+               eigentlich anders, lernen wir aber noch) und geben Sie die
+               Lieblingsfächer aus im Format „Meine Lieblingsfächer sind: Deutsch
+               Englisch Erdkunde".<br>
+               4. Ändern Sie das erste Fach in „Leibesübung".</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Lieblingsfaecher.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Lieblingsfaecher.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * ArrayList verwenden - Lieblingsfaecher
+ *
+ * @version 1.0 vom 09.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+import java.util.ArrayList;
+
+public class Lieblingsfaecher {
+
+    public static void main(String[] args) {
+
+        // 1. Liste mit zwei Faechern
+        ArrayList&lt;String&gt; faecher = new ArrayList&lt;String&gt;();
+        faecher.add("Informatik");
+        faecher.add("Mathe");
+
+        // 2. Doch drei - kein Problem, die Liste waechst einfach mit
+        faecher.add("Englisch");
+
+        // 3. Ausgeben, EVA-maessig erst zusammenbauen, dann ausgeben
+        String ausgabe = "Meine Lieblingsfächer sind:";
+        for (int i = 0; i &lt; faecher.size(); i++) {
+            ausgabe += " " + faecher.get(i);
+        }
+        System.out.println(ausgabe);
+
+        // 4. Das erste Fach austauschen
+        faecher.set(0, "Leibesübung");
+
+        ausgabe = "Meine Lieblingsfächer sind:";
+        for (int i = 0; i &lt; faecher.size(); i++) {
+            ausgabe += " " + faecher.get(i);
+        }
+        System.out.println(ausgabe);
+
+    } // end of main
+
+} // end of class Lieblingsfaecher</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Der import ganz oben</h3>
+        <p>Die <code>ArrayList</code> gehört nicht zum Sprachkern von Java,
+           sondern zur Standardbibliothek. Deshalb muss man sie importieren:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">import java.util.ArrayList;</code></pre>
+            </div>
+        </div>
+
+        <p>Wenn du den vergisst, sagt der Compiler <code>cannot find symbol –
+           class ArrayList</code>. Der Java-Editor bietet das meistens selbst an,
+           sobald du <code>ArrayList</code> tippst. Die Zeile steht
+           <strong>über</strong> der Klasse, nicht darin.</p>
+
+        <h3 class="schritt-titel">Die spitzen Klammern</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">ArrayList&lt;String&gt; faecher = new ArrayList&lt;String&gt;();</code></pre>
+            </div>
+        </div>
+
+        <p>In den spitzen Klammern steht, <em>was</em> in die Liste rein darf. Das
+           nennt sich Generics. <code>ArrayList&lt;String&gt;</code> ist eine
+           Liste, in die nur Texte passen – versuchst du eine Zahl reinzulegen,
+           meckert schon der Compiler und nicht erst das laufende Programm.</p>
+
+        <p>Und Achtung: da muss ein <strong>Objekttyp</strong> rein.
+           <code>ArrayList&lt;int&gt;</code> geht nicht,
+           <code>ArrayList&lt;Integer&gt;</code> schon.
+           <code>int</code> ist ein einfacher Datentyp, <code>Integer</code> die
+           Objektvariante davon. Für <code>double</code> heißt sie
+           <code>Double</code>, für <code>char</code> heißt sie
+           <code>Character</code>. Bei <code>String</code> fällt es nicht auf, weil
+           der sowieso ein Objekt ist.</p>
+
+        <h3 class="schritt-titel">size() statt length</h3>
+        <p>Bei einem Array fragt man <code>zahlen.length</code> – ohne Klammern,
+           weil es ein Attribut ist. Bei einer Liste heißt es
+           <code>faecher.size()</code> – mit Klammern, weil es eine Methode ist.
+           Das verwechselt man am Anfang ständig.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Was du willst</th><th>Array</th><th>ArrayList</th></tr></thead>
+                <tbody>
+                    <tr><td>Größe</td><td><code>a.length</code></td><td><code>liste.size()</code></td></tr>
+                    <tr><td>Element lesen</td><td><code>a[0]</code></td><td><code>liste.get(0)</code></td></tr>
+                    <tr><td>Element ändern</td><td><code>a[0] = x;</code></td><td><code>liste.set(0, x);</code></td></tr>
+                    <tr><td>Element anhängen</td><td>geht nicht</td><td><code>liste.add(x);</code></td></tr>
+                    <tr><td>Element löschen</td><td>geht nicht</td><td><code>liste.remove(0);</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">set statt add bei Teil 4</h3>
+        <p>Teil 4 will das erste Fach <em>ändern</em>, nicht ein neues
+           dazupacken. Also <code>set</code>:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">faecher.set(0, "Leibesübung");   // ersetzt das erste Element
+faecher.add(0, "Leibesübung");   // schiebt es davor, die Liste hat dann 4 Eintraege</code></pre>
+            </div>
+        </div>
+
+        <p>Beide Zeilen sehen fast gleich aus und tun etwas völlig anderes. Wer
+           hier <code>add</code> nimmt, hat plötzlich vier Lieblingsfächer.</p>
+
+        <h3 class="schritt-titel">Und so sieht es aus</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Meine Lieblingsfächer sind: Informatik Mathe Englisch
+Meine Lieblingsfächer sind: Leibesübung Mathe Englisch</code></pre>
+            </div>
+        </div>
+
+        <p>Der Hinweis in der Aufgabe, dass das Durchlaufen „eigentlich anders"
+           geht, meint die for-each-Schleife. Die kommt in der nächsten Aufgabe.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="arrays.html"><small>Vorherige Aufgabe</small>Arrays</a>
+            <a class="weiter" href="arraylist-lottozahlen.html"><small>Nächste Aufgabe</small>ArrayList: Lottozahlen</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

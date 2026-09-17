@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Q2 – Datenbanken</title>
+    <meta name="description" content="Relationale Datenbanken: Schlüssel, SQL, Normalisierung und der Zugriff aus PHP.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q2/">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Q2 – Datenbanken">
+    <meta property="og:description" content="Relationale Datenbanken: Schlüssel, SQL, Normalisierung und der Zugriff aus PHP.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q2/">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Q2 – Datenbanken">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Q2 – Datenbanken">
+    <meta name="twitter:description" content="Relationale Datenbanken: Schlüssel, SQL, Normalisierung und der Zugriff aus PHP.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/stil.css">
+    <link rel="stylesheet" href="../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "MeinInfoKurs – Q2",
+  "description": "Relationale Datenbanken: Schlüssel, SQL, Normalisierung und der Zugriff aus PHP.",
+  "url": "https://meininfokurs.cmrg.site/q2/",
+  "inLanguage": "de",
+  "provider": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  }
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../q2/index.html" aria-current="page"><span class="beschriftung">Q2</span></a>
+        <a href="../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite weit" data-verlauf="nein">
+        <p class="brotkrumen">Klasse 11 · 2. Halbjahr</p>
+        <h1 class="titel">Q2</h1>
+        <p>Relationale Datenbanken: Schlüssel, SQL, Normalisierung und der Zugriff aus PHP.</p>
+
+        <h2 id="datenbanken">Datenbanken</h2>
+        <div class="raster">
+            <a class="karte" href="datenbanken/db-grundlagen.html">
+                <span class="marke">Datenbank 1</span>
+                <span class="name">Was gehört in eine Datenbank?</span>
+                <span class="zusatz">Dreimal dasselbe Gemüse, dreimal eine andere Datenbank – je nachdem, ob ein Supermarkt, eine Oma oder ein Landwirt fragt.</span>
+            </a>
+            <a class="karte" href="datenbanken/primaerschluessel.html">
+                <span class="marke">Datenbank 2</span>
+                <span class="name">Primärschlüssel bestimmen</span>
+                <span class="zusatz">Einfache und zusammengesetzte Primärschlüssel – und eine Tabelle, für die es schlicht keinen geeigneten gibt.</span>
+            </a>
+            <a class="karte" href="datenbanken/fremdschluessel.html">
+                <span class="marke">Datenbank 3</span>
+                <span class="name">Fremdschlüssel bestimmen</span>
+                <span class="zusatz">Wie Tabellen zusammenhängen: Fahrzeuge und Marken, dann eine Kette aus vier Tabellen rund um Wurstsorten.</span>
+            </a>
+            <a class="karte" href="datenbanken/schluessel-uebung-3.html">
+                <span class="marke">Datenbank 4</span>
+                <span class="name">Relationenschreibweise</span>
+                <span class="zusatz">Sieben Tabellen einer Schuldatenbank notieren und die Schlüssel markieren – inklusive der Verknüpfungstabellen für n:m-Beziehungen.</span>
+            </a>
+            <a class="karte" href="datenbanken/eltern-kind-tabellen.html">
+                <span class="marke">Datenbank 5</span>
+                <span class="name">Eltern- und Kindtabellen</span>
+                <span class="zusatz">Wer verweist auf wen – und warum eine Tabelle beides gleichzeitig sein kann. Plus ein Entwurfsfehler in der Vorlage.</span>
+            </a>
+            <a class="karte" href="datenbanken/sql-lektion-1.html">
+                <span class="marke">Datenbank 6</span>
+                <span class="name">SQL Lektion 1: SELECT und WHERE</span>
+                <span class="zusatz">Der Grundaufbau jeder Abfrage plus BETWEEN, LIKE, IN, IS NULL, DISTINCT, AS, ORDER BY und LIMIT.</span>
+            </a>
+            <a class="karte" href="datenbanken/sql-lektion-2.html">
+                <span class="marke">Datenbank 7</span>
+                <span class="name">SQL Lektion 2: Aggregatfunktionen</span>
+                <span class="zusatz">COUNT, SUM, AVG, MAX und MIN – und warum eine Aggregatfunktion in WHERE nichts zu suchen hat.</span>
+            </a>
+            <a class="karte" href="datenbanken/sql-lektion-3.html">
+                <span class="marke">Datenbank 8</span>
+                <span class="name">SQL Lektion 3: JOIN</span>
+                <span class="zusatz">Mehrere Tabellen zusammenführen – die wichtigste Lektion, weil dafür überhaupt Fremdschlüssel existieren.</span>
+            </a>
+            <a class="karte" href="datenbanken/sql-lektion-4.html">
+                <span class="marke">Datenbank 9</span>
+                <span class="name">SQL Lektion 4: GROUP BY und HAVING</span>
+                <span class="zusatz">Gruppenweise rechnen – plus drei Zusatzaufgaben, an denen man den Unterschied zwischen WHERE und HAVING wirklich versteht.</span>
+            </a>
+            <a class="karte" href="datenbanken/sql-lektion-5.html">
+                <span class="marke">Datenbank 10</span>
+                <span class="name">SQL Lektion 5: Unterabfragen</span>
+                <span class="zusatz">Ein SELECT im SELECT – der einzige Weg, mit einem berechneten Wert wie dem Durchschnitt zu vergleichen.</span>
+            </a>
+            <a class="karte" href="datenbanken/sql-lektion-6.html">
+                <span class="marke">Datenbank 11</span>
+                <span class="name">SQL Lektion 6: INSERT, UPDATE, DELETE</span>
+                <span class="zusatz">Daten schreiben statt lesen – und das vergessene WHERE, das die halbe Datenbank kostet.</span>
+            </a>
+            <a class="karte" href="datenbanken/uebung-7-nordwind.html">
+                <span class="marke">Datenbank 12</span>
+                <span class="name">Übung 7: Nordwind-Datenbank</span>
+                <span class="zusatz">Alles aus sechs Lektionen in einer Abfrage: welche Kategorie den meisten Umsatz gemacht hat.</span>
+            </a>
+            <a class="karte" href="datenbanken/normalisierung.html">
+                <span class="marke">Datenbank 13</span>
+                <span class="name">Normalisierung: 1., 2. und 3. Normalform</span>
+                <span class="zusatz">Neun Aufgaben zu den ersten drei Normalformen – mit dem Merksatz, der alle drei auf einmal erklärt, und dem schnellsten Test für die Klausur.</span>
+            </a>
+            <a class="karte" href="datenbanken/relationenalgebra.html">
+                <span class="marke">Datenbank 14</span>
+                <span class="name">Relationenalgebra</span>
+                <span class="zusatz">Sigma wählt Zeilen, Pi wählt Spalten – sechs Aufgaben am Flug-Datenmodell, inklusive der einen, für die man dieselbe Tabelle zweimal braucht.</span>
+            </a>
+            <a class="karte" href="datenbanken/php-pdo-ausgabe.html">
+                <span class="marke">Datenbank 15</span>
+                <span class="name">PHP und PDO: die erste Ausgabe</span>
+                <span class="zusatz">Eine Webseite holt sich ihre Daten selbst aus der Datenbank – Verbindungsaufbau mit PDO und warum utf8 nicht optional ist.</span>
+            </a>
+            <a class="karte" href="datenbanken/php-tabellarische-ausgabe.html">
+                <span class="marke">Datenbank 16</span>
+                <span class="name">Tabellarische Ausgabe</span>
+                <span class="zusatz">Alle Schüler als richtige HTML-Tabelle – Kopfzeile außerhalb der Schleife, Datenzeilen innerhalb.</span>
+            </a>
+            <a class="karte" href="datenbanken/php-html-formulare.html">
+                <span class="marke">Datenbank 17</span>
+                <span class="name">Formulare: HTML und PHP</span>
+                <span class="zusatz">GET gegen POST, das $_POST-Array und eine Suchabfrage, die dank Prepared Statement nicht die ganze Tabelle verrät.</span>
+            </a>
+            <a class="karte" href="datenbanken/php-indizes-count.html">
+                <span class="marke">Datenbank 18</span>
+                <span class="name">Ausgabe ohne assoziierte Arrays</span>
+                <span class="zusatz">Ein Programm, das jede beliebige Tabelle ausgeben kann, weil es die Spaltennamen gar nicht erst kennt.</span>
+            </a>
+            <a class="karte" href="datenbanken/account-system.html">
+                <span class="marke">Datenbank 19</span>
+                <span class="name">Das Account-System</span>
+                <span class="zusatz">Registrierung, Login, geschützter Bereich und Accountverwaltung – mit gehashten Passwörtern, Sessions und überall Prepared Statements.</span>
+            </a>
+            <a class="karte" href="datenbanken/datenschutz.html">
+                <span class="marke">Datenbank 20</span>
+                <span class="name">Datenschutz</span>
+                <span class="zusatz">Drei Rechtsfälle nach Schema gelöst – und der Unterschied zwischen Datenschutz und Datensicherheit, den man in einem Satz können muss.</span>
+            </a>
+        </div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+    </main>
+
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

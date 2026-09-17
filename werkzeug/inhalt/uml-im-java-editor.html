@@ -1,0 +1,138 @@
+        <p>Die Aufgabe der heutigen Stunde ist das UML-Diagramm im Java-Editor!
+           Die Klassen stehen alle, jetzt schauen wir uns an, wie sie
+           <em>zusammenhängen</em>. Der Editor zeichnet die Beziehungen von selbst,
+           sobald man die Klassen ins Diagramm holt – wir müssen nur verstehen,
+           warum er welche Linie malt.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Lernaufgabe: Über Rechtsklick <em>Klasse öffnen</em> können Sie
+               Klassen im UML-Diagramm hinzufügen. Die Beziehungen werden automatisch
+               dargestellt. In der folgenden Abbildung wurden
+               <code>Termin</code> und <code>Adresse</code> hinzugefügt.</p>
+            <p><code>Kontakt</code> hat eine Aggregation auf <code>Termin</code>,
+               weil ein Kontakt seine Termine kennt. Jeder Kontakt hat eine Adresse,
+               die entweder geschäftlich oder privat ist. Weil die Klasse
+               <code>Kontakt</code> das Attribut vom Typ <code>Adresse</code> hat,
+               besteht eine Assoziation zur Klasse <code>Adresse</code>.</p>
+            <p>In der Notation vom Java-Editor werden diese Attribute auch in der
+               Klasse <code>Kontakt</code> angezeigt. Nach ABI-Notation werden diese
+               in der Klasse <code>Kontakt</code> weggelassen, weil die Beziehung
+               dies schon angibt. <code>Kontakt.uml</code> speichern.</p>
+        </div>
+
+        <h2>Assoziation oder Aggregation?</h2>
+
+        <p>Das ist die Frage, um die es hier geht, und die Antwort hängt nur an
+           einer Sache: <strong>wie viele</strong>.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>Assoziation</th><th>Aggregation</th></tr></thead>
+                <tbody>
+                    <tr><td>Nennt man auch</td><td>kennt-Beziehung</td><td>hat-Beziehung, Ganzes-Teile-Beziehung</td></tr>
+                    <tr><td>Im Diagramm</td><td>einfacher Strich oder Pfeil</td><td>Strich mit <strong>Raute</strong> auf der Seite des Ganzen</td></tr>
+                    <tr><td>Im Code</td><td>ein einzelnes Attribut</td><td>ein Array oder eine Liste</td></tr>
+                    <tr><td>Bei uns</td><td><code>Kontakt</code> → <code>Adresse</code></td><td><code>Kontakt</code> ◇→ <code>Termin</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Die Faustregel aus dem Unterricht: bei einer oder zwei Beziehungen
+           nimmt man einzelne Attribute, ab mehr als zwei ein Feld oder eine
+           Liste – und dann ist es eine Aggregation. Bei fester Anzahl ein Array,
+           bei variabler Anzahl eine Liste.</p>
+
+        <p>Das lässt sich direkt im Code ablesen:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">private Adresse adresse;          // ein Objekt  -> Assoziation
+private Telefon telefon;          // ein Objekt  -> Assoziation
+private Email email;              // ein Objekt  -> Assoziation
+
+private List&lt;Termin&gt; termine;     // viele       -> Aggregation, Raute bei Kontakt
+private List&lt;Gruppe&gt; gruppen;     // viele       -> Aggregation</code></pre>
+            </div>
+        </div>
+
+        <p>Man muss also gar nicht raten. Steht im Attribut ein einzelner Typ,
+           ist es eine Assoziation. Steht dort eine Liste oder ein Array, ist es
+           eine Aggregation und die Raute kommt an die Seite der Klasse, die die
+           Liste hat – also an <code>Kontakt</code>.</p>
+
+        <h2>Das fertige Diagramm</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Kontakt.uml</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>          Kontakt                                       Termin
+   ------------------------                     ---------------------
+   - name: String                               - datum: LocalDate
+   - telefon: Telefon              ◇------------ - uhrzeit: LocalTime
+   - email: Email                  Aggregation   - art: Art
+   ------------------------                     ---------------------
+   + getName(): String                          + getDatum(): LocalDate
+   + fuegeTerminHinzu(...)                      + toString(): String
+   + entferneTermin(...): boolean
+   ------------------------
+             |
+             |  Assoziation
+             v
+          Adresse
+   ------------------------
+   - strasse: String
+   - plz: String
+   - typ: Typ
+   ------------------------</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Java-Editor-Notation gegen ABI-Notation</h3>
+        <p>Das ist der Punkt, der in der Klausur zählt. Der Java-Editor zeigt
+           <code>adresse: Adresse</code> und <code>termine: List&lt;Termin&gt;</code>
+           <strong>zusätzlich</strong> als Attribute im Kasten der Klasse
+           <code>Kontakt</code> an – obwohl die Linie zur anderen Klasse dasselbe
+           schon aussagt.</p>
+
+        <p>Nach ABI-Notation lässt man die weg. Die Beziehung steht als Linie da,
+           damit ist sie ausgedrückt; sie nochmal als Attribut hinzuschreiben ist
+           doppelt gemoppelt. In der Abbildung im OneNote sind die beiden Zeilen
+           <code>adresse: Adresse</code> und <code>termine: List&lt;Termin&gt;</code>
+           deshalb durchgestrichen.</p>
+
+        <p>Für dich heißt das konkret: <strong>zeichnest du das Diagramm in der
+           Klausur von Hand, lässt du diese Attribute weg.</strong> Lässt du es dir
+           vom Editor erzeugen, stehen sie drin – das ist kein Fehler des Editors,
+           nur eine andere Konvention. Die Multiplizität gehört dann an die Linie:
+           <code>*</code> bei den Terminen, <code>1</code> bei der Adresse.</p>
+
+        <h3 class="schritt-titel">Warum die Raute bei Kontakt steht</h3>
+        <p>Die Raute markiert das <strong>Ganze</strong>, nicht das Teil. Ein
+           Kontakt <em>hat</em> Termine, also ist der Kontakt das Ganze und die
+           Termine sind die Teile. Deshalb sitzt die Raute am Kontakt.</p>
+
+        <p>Ein Gegentest, der immer funktioniert: kann das Teil auch ohne das
+           Ganze existieren? Ein Termin ohne Kontakt ist zwar denkbar, gehört in
+           unserem Programm aber immer zu einem. Der Kontakt übernimmt
+           stellvertretend die Aufgaben für seine Termine – er ist es, der sie
+           hinzufügt, entfernt und ausgibt. Genau das beschreibt die Aggregation.</p>
+
+        <h3 class="schritt-titel">Was man im Editor klickt</h3>
+        <ol class="schritte">
+            <li>Im UML-Fenster Rechtsklick auf die freie Fläche</li>
+            <li><em>Klasse öffnen</em> wählen und die gewünschte <code>.java</code>-Datei aussuchen</li>
+            <li>Die Klasse erscheint, und der Editor zeichnet die Linien zu den schon vorhandenen Klassen selbst</li>
+            <li>Über <em>Neu layouten</em> die Kästen ordentlich verteilen</li>
+            <li>Als <code>Kontakt.uml</code> speichern</li>
+        </ol>
+
+        <p>Dass der Editor die Beziehungen selbst findet, ist ein guter Test für
+           deinen Code: taucht eine Linie <strong>nicht</strong> auf, die du
+           erwartet hättest, hast du das Attribut vermutlich als
+           <code>String</code> statt als richtigen Typ deklariert. Zeichnet er eine
+           Assoziation, wo du eine Aggregation erwartest, hast du ein einzelnes
+           Attribut statt einer Liste. Das Diagramm zeigt dir also Fehler in deinem
+           Entwurf, bevor du das Programm überhaupt startest.</p>

@@ -1,0 +1,136 @@
+        <p>Die Aufgabe der heutigen Stunde ist <strong>das Notenprogramm!</strong> Dazu schauen wir uns mal die Aufgabe genauer an und versuchen 
+            durch intelligentes Lösen ein vollfunktionsfähiges Programm zu erstellen.</p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+            Das Programm zur Eingabe der Noten soll für die Oberstufe erweitert werden.
+            Der Anwender trägt die erreichte Punktzahl der Klausur ein und gibt die maximale Punktzahl ein. 
+            Als Ausgabe erhält er die Note in Punkten nach der folgenden  prozentualen Verteilung, den prozentualen Wert, die Note in Worten und die Notendefinition
+        </p></div>
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="NotenProgramm.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+    *
+    * Das fertige Java Programm des Notenprogramms
+    *
+    * @version 1.0 vom 06.03.2024
+    * @MeinInfoKurs.github.io
+    */
+    public class Notenprogramm {
+      public static void main(String[] args) {
+        double EndProzent, Prozent, Punkte, MaxPunkte;
+        Punkte = InOut.readDouble("Wie viele Punkte konnten sie in der Klausur erzielen: ");
+        MaxPunkte = InOut.readDouble("Was war die maximal zu erreichende Punlteanzahl: ");
+        Prozent = Punkte / MaxPunkte;
+        EndProzent = Prozent * 100;
+
+        if (Punkte &gt; MaxPunkte) {
+          System.out.println("");
+          System.out.println("Ungültige Eingabe!");
+          System.out.println("Maximal Punktzahl darf nicht größer als die erreichte Punktzahl sein.");
+        } else {
+          System.out.println("");
+          if (EndProzent &gt;= 95) {
+            System.out.println("Sie haben 15 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist sehr gut.");
+            System.out.println("Die Leistungen entsprechen den Anforderungen in besonderem Masse.");
+          } else if (EndProzent &gt;= 90) {
+            System.out.println("Sie haben 14 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist sehr gut.");
+            System.out.println("Die Leistungen entsprechen den Anforderungen in besonderem Masse.");
+          } else if (EndProzent &gt;= 85) {
+            System.out.println("Sie haben 13 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist sehr gut.");
+            System.out.println("Die Leistungen entsprechen den Anforderungen in besonderem Masse.");
+          } else if (EndProzent &gt;= 80) {
+            System.out.println("Sie haben 12 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist gut.");
+            System.out.println("Die Leistungen entsprechen den Anforderungen voll.");
+          } else if (EndProzent &gt;= 75) {
+            System.out.println("Sie haben 11 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist gut.");
+            System.out.println("Die Leistungen entsprechen den Anforderungen voll.");
+          } else if (EndProzent &gt;= 70) {
+            System.out.println("Sie haben 10 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist gut.");
+            System.out.println("Die Leistungen entsprechen den Anforderungen voll.");
+          } else if (EndProzent &gt;= 65) {
+            System.out.println("Sie haben 09 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist befriedigend.");
+            System.out.println("Die Leistungen entsprechen den Anforderungen im Allgemeinen.");
+          } else if (EndProzent &gt;= 60) {
+            System.out.println("Sie haben 08 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist befriedigend.");
+            System.out.println("Die Leistungen entsprechen den Anforderungen im Allgemeinen.");
+          } else if (EndProzent &gt;= 55) {
+            System.out.println("Sie haben 07 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist befriedigend.");
+            System.out.println("Die Leistungen entsprechen den Anforderungen im Allgemeinen.");
+          } else if (EndProzent &gt;= 50) {
+            System.out.println("Sie haben 06 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist ausreichend.");
+            System.out.println("Die Leistungen weisen zwar Maengel auf, entsprechen aber im Ganzen noch den Anforderungen.");
+          } else if (EndProzent &gt;= 45) {
+            System.out.println("Sie haben 05 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist ausreichend.");
+            System.out.println("Die Leistungen weisen zwar Maengel auf, entsprechen aber im Ganzen noch den Anforderungen.");
+          } else if (EndProzent &gt;= 40) {
+            System.out.println("Sie haben 04 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist ausreichend.");
+            System.out.println("Die Leistungen weisen Maengel auf und entsprechen den Anforderungen nur noch mit Einschraenkungen.");
+          } else if (EndProzent &gt;= 33) {
+            System.out.println("Sie haben 03 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist mangelhaft.");
+            System.out.println("Die Leistungen entsprechen den Anforderungen nicht, lassen jedoch erkennen, dass die notwendigen Grundkenntnisse vorhanden sind.");
+          } else if (EndProzent &gt;= 27) {
+            System.out.println("Sie haben 02 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist mangelhaft.");
+            System.out.println("Die Leistungen entsprechen den Anforderungen nicht, lassen jedoch erkennen, dass die notwendigen Grundkenntnisse vorhanden sind.");
+          } else if (EndProzent &gt;= 20) {
+            System.out.println("Sie haben 01 Punkt erreicht und " + EndProzent + "% erreicht. Ihre Note ist mangelhaft.");
+            System.out.println("Die Leistungen entsprechen den Anforderungen nicht, lassen jedoch erkennen, dass die notwendigen Grundkenntnisse vorhanden sind.");
+          } else {
+            System.out.println("Sie haben 00 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist ungenuegend.");
+            System.out.println("Leistungen entsprechen den Anforderungen nicht, Grundkenntnisse sind so lueckenhaft, die Maengel können nicht behoben werden.");
+          }
+        } // end of if-else
+      } // end of main
+
+    } // end of class Notenprogramm</code></pre></div></div>
+        <p>
+            In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>Nutzereingabe der Maximalpunktzahl</li>
+<li>Nutzereingabe der eigenen (in der Klausur erreichten) Punktzahl</li>
+<br/>
+<li>Berechnung der Note</li>
+<br/>
+<li>Ausgabe des Notenwertes</li>
+</ol>
+        <h3 class="schritt-titel">Nutzereingaben der Maximalpunktzahl und erreichten Punktzahl</h3>
+        <p>
+            Um eine Nutzereingabe zu ermöglichen, müssen wir zuerst die Variable deklarieren, der wir einen Wert zuweisen wollen.
+            Da wir in dieser Situation eine Zahl mit Nachkommastelle als Wert (Punkte &amp; MaxPunkte) eingeben KÖNNEN, nutzen wir einen <a href="docs.html#Datentyp">DOUBLE</a>.
+            Das heißt, wir fragen den Nutzer nach der Maximalpunktzahl und seiner erreichten Punktzahl. Diese Werte speichern wir jeweils als Variable ab und verwenden sie bei
+            der Berechnung der Note wieder, dazu kommen wir aber gleich. Die Abfrage und das Speichern sieht dann so aus:
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">double  Punkte, MaxPunkte;
+Punkte = InOut.readDouble("Wie viele Punkte konnten sie in der Klausur erzielen: ");
+MaxPunkte = InOut.readDouble("Was war die maximal zu erreichende Punlteanzahl: ");</code></pre></div></div>
+        <h3 class="schritt-titel">Berechnung des Notenwertes</h3>
+        <p>
+            Nun haben wir dank der Nutzereingabe alle Werte die wir zur Ausrechnung des Notenwertes benötigen! Doch bevor wir irgendeine Berechnung anstellen wollen wir überprüfen, ob alle Nutzereingaben
+            korrekt sind. Dafür vergleichen wir die Maximalpunktzahl und die erreichte Punktzahl. Ist die Punktzahl höher als die Maximalpunktzahl, wird der Nutzer mit einem Fehler konfrontiert. Dieser 
+            Check ist nicht zwingend und kann auch weggelassen werden. Nun zur überprüfung. Wir rechnen die erreichte Punktzahl geteilt durch die MaxPunktzahl. Dieses Ergebnis multiplizieren es dann Mit
+            100. Dadurch erhalten wir eine gerade Zahl anstatt einer Komma Zahl. Das Ergebnis gleichen wir dann mit einer <a>IF-ELSE</a> Kette ab und anschließend wird das Ergebnis ausgegeben.
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">/* Beispielaufgabe, wo der Nutzer 78 Punkte von 100 erreicht hat */
+Punkte = 73;
+MaxPunkte = 80;
+Prozent = Punkte / MaxPunkte;  /* 73 / 80 = 0.9125 */
+EndProzent = Prozent * 100;  /* 0.9125 * 100 = 91.25 */
+
+if (Punkte &gt; MaxPunkte) { /* Der Check um zu überprüfen, ob die Punktzahl valide ist oder nicht (Beispiel: 91.25 &lt; 100) */
+    System.out.println("");
+    System.out.println("Ungültige Eingabe!");
+    System.out.println("Maximal Punktzahl darf nicht größer als die erreichte Punktzahl sein.");
+
+    } else {
+    System.out.println("");
+    if (EndProzent &gt;= 95) { /* Der vergleich zwischen Endprozent und der benötigten Prozentzahl für die Notenfindung */
+      System.out.println("Sie haben 15 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist sehr gut.");
+      System.out.println("Die Leistungen entsprechen den Anforderungen in besonderem Masse.");
+    } else if (EndProzent &gt;= 90) {  /* 91.25 &gt; 90 &amp;&amp; 91.25 &lt; 95.  Das "&amp;&amp;" steht für "und" */
+      System.out.println("Sie haben 14 Punkte erreicht und " + EndProzent + "% erreicht. Ihre Note ist sehr gut."); /* Ausgabe */
+      System.out.println("Die Leistungen entsprechen den Anforderungen in besonderem Masse."); /* Ausgabe */
+    } else if (EndProzent &gt;= 85) {
+        ...  /* Weitere Notenüberprüfungen. In unserem Beispiel aber nicht Notwendig. */
+        }
+  } // end of if-else
+} // end of main</code></pre></div></div>

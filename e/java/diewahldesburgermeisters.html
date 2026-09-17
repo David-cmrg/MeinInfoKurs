@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Die Wahl des Bürgermeisters</title>
+    <meta name="description" content="Das Programm der Bürgermeisterwahl ist ein recht einfach gehaltenes Programm, durch welches wir einen guten Einblick in EVA Programme erhalten.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/e/java/diewahldesburgermeisters.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Die Wahl des Bürgermeisters">
+    <meta property="og:description" content="Das Programm der Bürgermeisterwahl ist ein recht einfach gehaltenes Programm, durch welches wir einen guten Einblick in EVA Programme erhalten.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/e/java/diewahldesburgermeisters.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Die Wahl des Bürgermeisters">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Die Wahl des Bürgermeisters">
+    <meta name="twitter:description" content="Das Programm der Bürgermeisterwahl ist ein recht einfach gehaltenes Programm, durch welches wir einen guten Einblick in EVA Programme erhalten.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Die Wahl des Bürgermeisters",
+  "description": "Das Programm der Bürgermeisterwahl ist ein recht einfach gehaltenes Programm, durch welches wir einen guten Einblick in EVA Programme erhalten.",
+  "url": "https://meininfokurs.cmrg.site/e/java/diewahldesburgermeisters.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "E-Phase – Klasse 10 · Grundlagen",
+  "about": "Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – E-Phase",
+    "url": "https://meininfokurs.cmrg.site/e/"
+  },
+  "isBasedOn": "Informatik E-Phase · übernommen aus V2/Seiten/Java/DieWahlDesBurgermeisters.html",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html" aria-current="page"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../e/index.html">E-Phase</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../e/index.html#java">Java</a>
+        </p>
+        <h1 class="titel">Die Wahl des Bürgermeisters</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>
+            Die Aufgabe der heutigen Stunde ist <strong>Die Wahl des Bürgermeisters!</strong> Das Programm der Bürgermeisterwahl ist ein recht einfach gehaltenes Programm, durch welches wir einen guten Einblick in EVA Programme erhalten. EVA steht für<kbd>Eingabe - Verarbeitung - Ausgabe</kbd>
+<br/></p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+            Es sind Bürgermeisterwahlen in der Hauptstadt System. Ein guter Start für unsere Reise nach Java. Der König von Java hat abstimmen lassen, wer das Bürgermeisteramt der Hauptstadt System übernimmt.  
+            Zur Wahl standen Bill Makes, Mark Tuckerberg, Larry Rage. 
+            Der König war des Rechnens müde und hat ein Programm in Auftrag gegeben, das ihm die prozentualen Werte zur Verkündung des Ergebnisses auf zwei Nachkommastellen berechnet. 
+            Leider ist der Programmierer an einem Kaffeeschock vor Beendigung seiner Arbeit gestorben und der ganze Kaffee ist über den Laptop gelaufen, aber es wurde glücklicherweise ein Zettel beim Programmierer gefunden.  
+        </p></div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="Buergermeisterwahl.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+*
+* Das fertige Java Programm "Buergermeisterwahl.java"
+*
+* @version 1.0 vom 25.02.2024
+* @MeinInfoKurs.github.io
+*/
+
+public class Buergermeisterwahl {
+
+    public static void main(String[] args) {
+        int Stimmen1=0, Stimmen2=0, Stimmen3=0;
+        double  Summe, Anteil1, Anteil2, Anteil3;
+
+        Stimmen1 = InOut.readInt("Stimmen Billy Makes: ");
+        Stimmen2 = InOut.readInt("Stimmen Mark Tuckerberg: ");
+        Stimmen3 = InOut.readInt("Stimmen Larry Rage: ");
+
+        Summe = Stimmen1 + Stimmen2 + Stimmen3;
+        Anteil1 = Stimmen1 / Summe * 100;
+        Anteil2 = Stimmen2 / Summe * 100;
+        Anteil3 = 100 - Anteil1 - Anteil2;
+
+        System.out.println("");
+        System.out.println("Anteil Billy Makes: " + InOut.format2(Anteil1) + " %");
+        System.out.println("Anteil Mark Tuckerberg: " + InOut.format2(Anteil2) + " %");
+        System.out.println("Anteil Larry Rage: " + InOut.format2(Anteil3) + " %");
+
+    } // end of main
+
+  } // end of class Buergermeisterwahl</code></pre></div></div>
+        <p>
+            In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>Tippe das Programm (siehe OneNote) ab</li>
+<li>Führe das Programm aus</li>
+<li>Beseitige ggf. Fehler</li>
+<li>Überlege, welche Fehler bei der Eingabe des Stimmzettels passieren können</li>
+</ol>
+        <h3 class="schritt-titel">Ausführen und Fehler finden</h3>
+        <p>
+            Der oben gegebene Code sollte bereits fehlerfrei sein. Das heißt, dass der Code problemlos ausgeführt werden kann. Falls du doch eine Fehlermeldung erhalten solltest überprüfe diesen bitte. <br/>
+            Es gibt verschiedene Arten von Fehlern in Java: <br/>
+            Es kann sein, dass der Name unter welchem du die Datei gespeichert hast und die Namensdeklaration im <kbd>public class NameDerDatei {</kbd> nicht übereinstimmen. Es kann aber auch sein, dass du in deinem Code Umlaute verwendest <kbd>( Ä; Ö; Ü; ß )</kbd>. Auch diese können eine korrekte Ausgabe verhindern.
+            Wenn du meinen oben angegebenen Code kopiert hast und in deinen Editor eingefügt hast, kann es selten zur Fehlermeldung "Illegaler Charakter" kommen. Falls dies bei dir der Fall sein sollte, wirst du meinen Code wieder aus deiner Console löschen und manuell abtippen müssen.
+            Falls ein anderer Fehler vorhanden ist und du Ihn nicht finden kannst, bitte Mitschüler oder deine Lehrkraft um hilfe. 
+        </p>
+        <br/>
+        <h3 class="schritt-titel">Fehler bei der Konsoleneingabe</h3>
+        <p>
+            In Java gibt es verschiedene Variablentypen (auch Datentypen genannt), welche jeweils eine Funktion haben.
+            Integer können nur Zahlen ohne Nachkommastellen aufnehmen.<br/>
+            Doubles können Zahlen mit und ohne Nachkommastellen aufnehmen.<br/>
+            Boolean können nur <kbd>True</kbd> oder <kbd>False</kbd> <br/>
+            Strings können nur Zeichenketten aufnehmen. 
+            etc... <br/><br/>
+            Wenn wir nun einem Variablentypen etwas zuweisen, was es nicht aufnehmen kann, erhalten wir einen Laufzeitfehler <kbd>Run-Time-Error</kbd>
+</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="meinnameist.html"><small>Vorherige Aufgabe</small>Mein Name ist..</a>
+            <a class="weiter" href="bewaehrungsfragen.html"><small>Nächste Aufgabe</small>Die 10 Bewährungsfragen</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

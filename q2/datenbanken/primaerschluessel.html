@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Primärschlüssel bestimmen</title>
+    <meta name="description" content="Einfache und zusammengesetzte Primärschlüssel – und eine Tabelle, für die es schlicht keinen geeigneten gibt.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q2/datenbanken/primaerschluessel.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Primärschlüssel bestimmen">
+    <meta property="og:description" content="Einfache und zusammengesetzte Primärschlüssel – und eine Tabelle, für die es schlicht keinen geeigneten gibt.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q2/datenbanken/primaerschluessel.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Primärschlüssel bestimmen">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Primärschlüssel bestimmen">
+    <meta name="twitter:description" content="Einfache und zusammengesetzte Primärschlüssel – und eine Tabelle, für die es schlicht keinen geeigneten gibt.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Primärschlüssel bestimmen",
+  "description": "Einfache und zusammengesetzte Primärschlüssel – und eine Tabelle, für die es schlicht keinen geeigneten gibt.",
+  "url": "https://meininfokurs.cmrg.site/q2/datenbanken/primaerschluessel.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q2 – Klasse 11 · 2. Halbjahr",
+  "about": "Datenbanken",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q2",
+    "url": "https://meininfokurs.cmrg.site/q2/"
+  },
+  "isBasedOn": "Informatik Q2, OneNote \"Datenbanken mySQL\", Seite 21-22",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html" aria-current="page"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q2/index.html">Q2</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q2/index.html#datenbanken">Datenbanken</a>
+        </p>
+        <h1 class="titel">Primärschlüssel bestimmen</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist der Primärschlüssel! Jede Tabelle
+           braucht ein Attribut, mit dem sich jede Zeile <strong>eindeutig</strong>
+           identifizieren lässt. Klingt einfach, ist es aber nicht immer – bei einer
+           der Tabellen gibt es nämlich gar keinen brauchbaren.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>DB_01-2:</strong> Welches Attribut wäre ein geeigneter
+               Primärschlüssel?<br>
+               LAGERBESTAND: Artikelpreis, Artikelname, Artikelnummer, Regalnummer<br>
+               KUNDEN: LaufendeNummer, Kundename, Kundevorname, Kundegeburtsdatum</p>
+            <p><strong>DB_01-3:</strong> Welche Attribute wären ein geeigneter
+               ZUSAMMENGESETZTER PRIMÄRSCHLÜSSEL?<br>
+               „Flüge der Lufthansa": Pilotvorname, Pilotnachname, Flugzeuggewicht,
+               Flugzeugnummer, Datum, AusweisnummerPilot<br>
+               „Ausleihvorgänge" DVD-Verleih: DVD-Nummer, Filiale,
+               DVD-Erscheinungsjahr, Kundennummer, Kundenachname, Rueckgabedatum,
+               Ausleihdatum</p>
+            <p><strong>DB_01-4:</strong> Bestimmen Sie den Primärschlüssel (einfach
+               oder zusammengesetzt) für sechs gegebene Tabellen.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Was ein Primärschlüssel leisten muss</h2>
+        <ol class="schritte">
+            <li><strong>Eindeutig:</strong> Kein Wert darf zweimal vorkommen.</li>
+            <li><strong>Immer vorhanden:</strong> Er darf nie leer (NULL) sein.</li>
+            <li><strong>Unveränderlich:</strong> Er sollte sich nie ändern, denn andere Tabellen verweisen darauf.</li>
+        </ol>
+
+        <h2>DB_01-2 – Einfache Primärschlüssel</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Tabelle</th><th>Primärschlüssel</th><th>Warum die anderen nicht taugen</th></tr></thead>
+                <tbody>
+                    <tr><td>LAGERBESTAND</td><td><strong>Artikelnummer</strong></td><td>Preise wiederholen sich ständig, zwei Artikel können gleich heißen, und in einem Regal liegen viele Artikel.</td></tr>
+                    <tr><td>KUNDEN</td><td><strong>LaufendeNummer</strong></td><td>Namen und Vornamen sind nicht eindeutig – zwei Kunden können Peter Müller heißen. Auch Name plus Geburtsdatum ist nicht sicher.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Bei den Kunden sieht man den wichtigsten Grundsatz: <strong>echte Daten
+           taugen fast nie als Schlüssel.</strong> Namen wiederholen sich, Leute
+           heiraten und ändern ihren Nachnamen, Adressen ändern sich. Deshalb nimmt
+           man eine künstliche, durchlaufende Nummer.</p>
+
+        <h2>DB_01-3 – Zusammengesetzte Primärschlüssel</h2>
+
+        <h3 class="schritt-titel">Flüge der Lufthansa</h3>
+        <p><strong>Flugzeugnummer + Datum</strong></p>
+        <p>Eine Flugzeugnummer allein reicht nicht – dasselbe Flugzeug fliegt an
+           vielen Tagen. Ein Datum allein reicht auch nicht, an einem Tag starten
+           hunderte Flüge. Erst beides zusammen macht die Zeile eindeutig.</p>
+        <p>Das gilt allerdings nur unter der Annahme, dass ein Flugzeug pro Tag
+           genau einen Flug macht. Fliegt es morgens und abends, bräuchte man noch die
+           Uhrzeit dazu. Solche Annahmen sollte man in der Antwort dazuschreiben.</p>
+
+        <h3 class="schritt-titel">Ausleihvorgänge im DVD-Verleih</h3>
+        <p><strong>DVD-Nummer + Ausleihdatum</strong></p>
+        <p>Dieselbe DVD wird über die Jahre oft ausgeliehen, aber an einem
+           bestimmten Tag nur einmal. Die Kundennummer braucht man nicht dazu – wenn
+           DVD und Datum feststehen, steht der Kunde sowieso fest.</p>
+        <p><code>Rueckgabedatum</code> taugt nicht, weil es beim Ausleihen noch leer
+           ist. Und ein Primärschlüssel darf nie leer sein.</p>
+
+        <h2>DB_01-4 – Die sechs Tabellen</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>Tabelle</th><th>Primärschlüssel</th><th>Begründung</th></tr></thead>
+                <tbody>
+                    <tr><td>A</td><td>Kunden</td><td><code>kunde_id</code></td><td>Eindeutige Nummer, genau dafür gedacht</td></tr>
+                    <tr><td>B</td><td>Lagerbestand</td><td><code>artikel_nummer</code></td><td>Regalnummer und Anzahl sind nicht eindeutig</td></tr>
+                    <tr><td>C</td><td>Ausleihvorgänge</td><td><code>dvd_id</code> + <code>ausleihdatum</code> <em>(zusammengesetzt)</em></td><td>Wie oben: eine DVD an einem Tag nur einmal</td></tr>
+                    <tr><td>D</td><td>Fahrräder</td><td><code>fahrrad_id</code></td><td>Farbe, Hersteller und Gangschaltung wiederholen sich</td></tr>
+                    <tr><td>E</td><td>Bestellungen</td><td><code>kunde_id</code> + <code>bestelldatum</code> <em>(zusammengesetzt)</em></td><td>Es gibt keine Bestellnummer. Gilt nur, solange ein Kunde pro Tag höchstens einmal bestellt.</td></tr>
+                    <tr><td>F</td><td>Bücher</td><td><strong>keiner geeignet!</strong></td><td>siehe unten</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">F) Bücher – die Falle</h3>
+        <p>Die Tabelle hat <code>buchtitel</code>, <code>erscheinungsjahr</code>,
+           <code>autor_name</code>, <code>preis</code> und <code>seitenzahl</code>.
+           Kein einziges davon ist eindeutig:</p>
+
+        <ul class="schritte">
+            <li>Buchtitel wiederholen sich – „Die Verwandlung" gibt es in vielen Ausgaben</li>
+            <li>Ein Autor schreibt mehrere Bücher</li>
+            <li>Preis und Seitenzahl sowieso nicht</li>
+            <li>Auch Titel + Autor + Jahr ist unsicher: Neuauflagen im selben Jahr, Sammelbände</li>
+        </ul>
+
+        <p>Die richtige Antwort ist deshalb: <strong>Hier gibt es keinen geeigneten
+           Primärschlüssel. Man muss einen hinzufügen</strong> – entweder eine
+           künstliche <code>buch_id</code> oder die <strong>ISBN</strong>, die es für
+           genau diesen Zweck gibt.</p>
+
+        <p>Genau darauf zielt die Aufgabe ab. Es ist völlig normal, dass eine
+           gegebene Tabelle keinen brauchbaren Schlüssel enthält – dann ist das eine
+           Erkenntnis und kein Fehler.</p>
+
+        <h2>Einfach oder zusammengesetzt – wann was?</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>Einfach</th><th>Zusammengesetzt</th></tr></thead>
+                <tbody>
+                    <tr><td>Besteht aus</td><td>einem Attribut</td><td>zwei oder mehr Attributen</td></tr>
+                    <tr><td>Typisch bei</td><td>Tabellen mit eigener ID</td><td>Verknüpfungstabellen und Vorgängen (Ausleihe, Bestellung, Flug)</td></tr>
+                    <tr><td>Vorteil</td><td>kurz, einfach zu referenzieren</td><td>kommt ohne künstliche ID aus</td></tr>
+                    <tr><td>Nachteil</td><td>braucht ein zusätzliches Attribut</td><td>Fremdschlüssel darauf werden umständlich</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>In der Praxis gibt man fast jeder Tabelle eine einfache
+           <code>id</code>, auch wenn ein zusammengesetzter Schlüssel möglich wäre.
+           Das macht alles Weitere einfacher. In der Klausur wird aber genau das
+           abgefragt, was in den gegebenen Spalten steht – also ohne eigene Erfindung
+           antworten und stattdessen dazuschreiben, dass eine ID fehlt.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="db-grundlagen.html"><small>Vorherige Aufgabe</small>Was gehört in eine Datenbank?</a>
+            <a class="weiter" href="fremdschluessel.html"><small>Nächste Aufgabe</small>Fremdschlüssel bestimmen</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

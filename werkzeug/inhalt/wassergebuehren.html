@@ -1,0 +1,105 @@
+        <p>
+            Die Aufgabe der heutigen Stunde ist <strong>der automatisierte Wassergebührenbescheid!</strong> Dazu schauen wir uns mal die Aufgabe genauer an und versuchen durch 
+            intelligentes Lösen ein vollfunktionsfähiges Programm zu erstellen. <br/></p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+            Die Firma Aquatech beliefert die Bürger aus Java mit Wasser. Die Eingaben für den Wassergebührenbescheid sollen zukünftig über ein Konsolenprogramm eingelesen werden. 
+            Danach erfolgt die automatisch generierte Ausgabe des Gebührenbescheids. Analysiere dazu den gegebenen Gebührenbescheid. <br/><br/>
+
+            Eingabe:     Welche Daten musst du eingeben? <br/>
+            Verarbeitung: Wie und in welcher Reihenfolge werden die Gebühren berechnet. <br/>
+            Ausgabe:     Welche Daten musst du ausgeben?
+        </p></div>
+        <div class="tabelle-huelle"><table id="Datentypen">
+<tbody><tr>
+<th>Zählerstand Alt</th>
+<th>Zählerstand Neu</th>
+<th>Wasserverbrauch pro m³</th>
+<th>Monatlicher Grundpreis</th>
+<th>Preis pro m³</th>
+<th>Nettobetrag (€)</th>
+<th>ust. 7%</th>
+<th>Bruttobetrag (€)</th>
+</tr>
+<tr>
+<td>744</td>
+<td>868</td>
+<td>124</td>
+<td>6,90</td>
+<td>1,68</td>
+<td>208,32<br/><br/>82,80</td>
+<td>14,58<br/><br/>5,80</td>
+<td>222,90<br/><br/>88,60</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>124</td>
+<td></td>
+<td></td>
+<td><strong>291,12</strong></td>
+<td><strong>20,38</strong></td>
+<td><strong>311,50</strong></td>
+</tr>
+</tbody></table></div>
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="Wassergebuehren.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+*
+* Programm zur Berechnung der Wassergebühren.
+*
+* @version 1.0 vom 16.03.2025
+* @MeinInfoKurs.github.io
+*/
+
+public class Wassergebuehren {
+
+    public static void main(String[] args) {
+        int zaehlerAlt, zaehlerNeu, wasserverbrauch;
+        double grundpreis, preisProM3, ust = 0.07;
+        double nettoVerbrauch, nettoGesamt, mehrwertsteuer, bruttoGesamt;
+
+        zaehlerAlt = InOut.readInt("Alter Zählerstand: ");
+        zaehlerNeu = InOut.readInt("Neuer Zählerstand: ");
+        grundpreis = InOut.readDouble("Monatlicher Grundpreis (€): ");
+        preisProM3 = InOut.readDouble("Preis pro Kubikmeter (€): ");
+
+        wasserverbrauch = zaehlerNeu - zaehlerAlt;
+        nettoVerbrauch = wasserverbrauch * preisProM3;
+        nettoGesamt = nettoVerbrauch + grundpreis;
+        mehrwertsteuer = nettoGesamt * ust;
+        bruttoGesamt = nettoGesamt + mehrwertsteuer;
+
+        System.out.println("Ihr Wasserverbrauch: " + wasserverbrauch + " m³");
+        System.out.println("Nettobetrag: " + InOut.format2(nettoGesamt) + " €");
+        System.out.println("Mehrwertsteuer: " + InOut.format2(mehrwertsteuer) + " €");
+        System.out.println("Bruttobetrag: " + InOut.format2(bruttoGesamt) + " €");
+    }
+}</code></pre></div></div>
+        <p>
+            Die folgenden Schritte sind für die Lösung notwendig:  
+            </p>
+        <ol class="schritte">
+<li>Eingabe des alten und neuen Zählerstands</li>
+<li>Eingabe des Grundpreises und des Preises pro Kubikmeter</li>
+<br/>
+<li>Berechnung des Wasserverbrauchs</li>
+<li>Berechnung der Nettokosten</li>
+<li>Berechnung der Mehrwertsteuer (7%)</li>
+<br/>
+<li>Berechnung der Bruttokosten</li>
+<li>Ausgabe der Werte</li>
+</ol>
+        <h3 class="schritt-titel">Berechnungen von gesuchten Werten</h3>
+        <p>
+            Der Wasserverbrauch wird berechnet, indem der alte Zählerstand vom neuen Zählerstand subtrahiert wird.<br/>
+            Die Kosten für das verbrauchte Wasser werden berechnet, indem der Wasserverbrauch mit dem Preis pro Kubikmeter multipliziert wird.<br/>
+            Die Gesamtkosten ohne Steuern setzen sich aus den Kosten für den Verbrauch und dem monatlichen Grundpreis zusammen.<br/>
+            Die Mehrwertsteuer wird berechnet, indem die Gesamtkosten ohne Steuern mit dem Mehrwertsteuersatz multipliziert werden.<br/>
+            Die Gesamtkosten inklusive Steuern ergeben sich aus den Nettokosten plus der berechneten Mehrwertsteuer.<br/>
+            Alle Rechnungen sehen im Programm dann folgendermaßen aus:<br/>
+</p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">wasserverbrauch = zaehlerNeu - zaehlerAlt;
+nettoVerbrauch = wasserverbrauch * preisProM3;
+nettoGesamt = nettoVerbrauch + grundpreis;
+mehrwertsteuer = nettoGesamt * ust;
+bruttoGesamt = nettoGesamt + mehrwertsteuer;</code></pre></div></div>

@@ -1,0 +1,82 @@
+        <p>Die Aufgabe der heutigen Stunde ist <strong>das OnlineKaufhaus!</strong> Wir werden ein Programm erstellen, das die Kosten eines Einkaufs berechnet,
+             wobei Rabatte und Versandkosten berücksichtigt werden. Schauen wir uns die Aufgabe genauer an, um ein vollfunktionsfähiges Programm zu erstellen.</p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+            Beim Online-Kaufhaus zahlt man bei einem Auftragswert unter 100 € die Versandpauschale 3,50 €. Ab 100 € entfällt die Pauschale, 
+            zudem erhält man dann einen Rabatt von 2 %. Nach Eingabe des Auftragswertes soll der Gesamtbetrag ermittelt werden.
+        </p></div>
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="OnlineKaufhaus.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+ *
+ * Beschreibung
+ *
+ * @version 1.0 vom 28.04.2025
+ * @MeinInfoKurs.github.io
+ */
+public class OnlineKaufhaus {
+
+  public static void main(String[] args) {
+
+    double Versandpauschale;
+    double Rabatt;
+    double Preis;
+    double Auftragswert;
+    String Ausgabe;
+
+    Versandpauschale = 3.5;
+    Rabatt = 0.02;
+    Preis = 100;
+    Auftragswert = InOut.readDouble("Wie hoch belaufen sich ihre gesamten Einkaufskosten?: ");
+    if (Auftragswert &gt; Preis) {
+      Rabatt = Auftragswert * Rabatt;
+      Auftragswert = Auftragswert - Rabatt;
+      System.out.println("Ihr Gesamtpreis (nach Abzug von Rabatt) beträgt: " + Auftragswert);
+    } else {
+      Auftragswert = Auftragswert + Versandpauschale;
+      System.out.println("Ihr Gesamtpreis beträgt: " + Auftragswert);
+    }
+
+  } // end of main
+
+} // end of class OnlineKaufhaus</code></pre></div></div>
+        <p>
+            In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>Nutzereingabe der gesamten Einkaufskosten</li>
+<li>Berechnung des Rabatts oder Hinzufügen der Versandpauschale</li>
+<li>Ausgabe des finalen Gesamtpreises</li>
+</ol>
+        <h3 class="schritt-titel">Nutzereingabe der Einkaufskosten</h3>
+        <p>
+            Um die Einkaufskosten vom Nutzer zu erhalten, deklarieren wir zunächst Variablen für die relevanten Werte. Da die Kosten, Rabatte und Versandpauschalen Nachkommastellen haben können, verwenden wir den Datentyp <a href="docs.html#Datentyp">double</a>. Wir setzen außerdem feste Werte für die Versandpauschale (3,50 €), den Rabatt (2%) und die Preisgrenze (100 €). Die Eingabe der Einkaufskosten erfolgt über eine Eingabemethode, die den eingegebenen Wert speichert. Der Code dafür sieht so aus:
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">double Versandpauschale;
+double Rabatt;
+double Preis;
+double Auftragswert;
+String Ausgabe;
+
+Versandpauschale = 3.5;
+Rabatt = 0.02;
+Preis = 100;
+Auftragswert = InOut.readDouble("Wie hoch belaufen sich ihre gesamten Einkaufskosten?: ");</code></pre></div></div>
+        <h3 class="schritt-titel">Berechnung des Gesamtpreises</h3>
+        <p>
+            Nachdem wir die Einkaufskosten haben, prüfen wir, ob der Auftragswert über der Preisgrenze von 100 € liegt. Dafür verwenden wir eine <a href="docs.html">if-else</a>-Bedingung. Wenn der Auftragswert größer als 100 € ist, berechnen wir den Rabatt (2% des Auftragswerts) und ziehen ihn vom Auftragswert ab. Liegt der Auftragswert darunter, addieren wir die Versandpauschale von 3,50 €. Anschließend geben wir den finalen Gesamtpreis aus. Hier ist ein Beispiel, wie das funktioniert:
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">/* Beispiel: Der Nutzer gibt 150 € als Auftragswert ein */
+Versandpauschale = 3.5;
+Rabatt = 0.02;
+Preis = 100;
+Auftragswert = 150; /* Nutzereingabe */
+
+if (Auftragswert &gt; Preis) { /* Prüft, ob 150 &gt; 100 */
+  Rabatt = Auftragswert * Rabatt; /* Rabatt = 150 * 0.02 = 3 */
+  Auftragswert = Auftragswert - Rabatt; /* Auftragswert = 150 - 3 = 147 */
+  System.out.println("Ihr Gesamtpreis (nach Abzug von Rabatt) beträgt: " + Auftragswert); /* Ausgabe: 147 */
+} else {
+  Auftragswert = Auftragswert + Versandpauschale; /* Wird hier nicht ausgeführt */
+  System.out.println("Ihr Gesamtpreis beträgt: " + Auftragswert);
+}</code></pre></div></div>

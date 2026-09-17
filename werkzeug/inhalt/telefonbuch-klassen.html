@@ -1,0 +1,392 @@
+        <p>Die Aufgabe der heutigen Stunde sind die restlichen Telefonbuch-Klassen!
+           <code>Termin</code> steht schon, jetzt kommen <code>Kontakt</code>,
+           <code>Adresse</code>, <code>Email</code>, <code>Telefon</code> und
+           <code>Gruppe</code> dazu. Das ist die größte Aufgabe des Projekts, aber
+           vier der fünf Klassen sind nach demselben Muster gebaut wie
+           <code>Termin</code>.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Erstellen Sie alle weiteren Klassen. <code>Kontakt</code> ist die
+               Klasse für das abgebildete Screenshot.</p>
+            <p>Die Klasse <code>Adresse</code> enthält die Adresse mit Straße,
+               Hausnummer, PLZ, Ort und Land, außerdem wird der Typ gespeichert, ob
+               die Adresse geschäftlich oder privat ist.</p>
+            <p>Die Klasse <code>Email</code> enthält die EMAIL, die als String
+               gespeichert wird, und ebenfalls den Typ geschäftlich oder privat.</p>
+            <p>Die Klasse <code>Telefon</code> enthält die Telefonnummer, wird als
+               String gespeichert und hat den Typ mobil oder Festnetz.</p>
+            <p>Die Zip-Datei beinhaltet die JAVA- und UML-Dateien zu: Kontakt,
+               Telefon, Email, Adresse, Termin, Gruppe.</p>
+        </div>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Kontakt · Adresse · Telefon · Email · Gruppe</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Telefonbuch.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Die Klassen des Telefonbuchs
+ * Jede Klasse gehoert in ihre eigene .java-Datei
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+
+// ============ Gruppe.java ============
+public class Gruppe {
+
+    private String name;
+
+    public Gruppe(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String toString() {
+        return "Gruppe{name='" + name + "'}";
+    }
+}
+
+
+// ============ Telefon.java ============
+public class Telefon {
+
+    public enum Typ { MOBIL, FESTNETZ }
+
+    private String nummer;
+    private Typ typ;
+
+    public Telefon(String nummer, Typ typ) {
+        this.nummer = nummer;
+        this.typ = typ;
+    }
+
+    public String getNummer() {
+        return nummer;
+    }
+
+    public void setNummer(String nummer) {
+        this.nummer = nummer;
+    }
+
+    public Typ getTyp() {
+        return typ;
+    }
+
+    public void setTyp(Typ typ) {
+        this.typ = typ;
+    }
+
+    public String toString() {
+        return "Telefon{nummer='" + nummer + "', typ=" + typ + "}";
+    }
+}
+
+
+// ============ Email.java ============
+public class Email {
+
+    public enum Typ { PRIVAT, GESCHAEFTLICH }
+
+    private String adresse;
+    private Typ typ;
+
+    public Email(String adresse, Typ typ) {
+        this.adresse = adresse;
+        this.typ = typ;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public Typ getTyp() {
+        return typ;
+    }
+
+    public void setTyp(Typ typ) {
+        this.typ = typ;
+    }
+
+    public String toString() {
+        return "Email{adresse='" + adresse + "', typ=" + typ + "}";
+    }
+}
+
+
+// ============ Adresse.java ============
+public class Adresse {
+
+    public enum Typ { PRIVAT, GESCHAEFTLICH }
+
+    private String strasse;
+    private String hausnummer;
+    private String plz;
+    private String ort;
+    private String land;
+    private Typ typ;
+
+    public Adresse(String strasse, String hausnummer, String plz,
+                   String ort, String land, Typ typ) {
+        this.strasse = strasse;
+        this.hausnummer = hausnummer;
+        this.plz = plz;
+        this.ort = ort;
+        this.land = land;
+        this.typ = typ;
+    }
+
+    public String getStrasse()     { return strasse; }
+    public void setStrasse(String strasse) { this.strasse = strasse; }
+
+    public String getHausnummer()  { return hausnummer; }
+    public void setHausnummer(String hausnummer) { this.hausnummer = hausnummer; }
+
+    public String getPlz()         { return plz; }
+    public void setPlz(String plz) { this.plz = plz; }
+
+    public String getOrt()         { return ort; }
+    public void setOrt(String ort) { this.ort = ort; }
+
+    public String getLand()        { return land; }
+    public void setLand(String land) { this.land = land; }
+
+    public Typ getTyp()            { return typ; }
+    public void setTyp(Typ typ)    { this.typ = typ; }
+
+    public String toString() {
+        return "Adresse{" + "\n"
+             + "strasse='" + strasse + "'" + "\n"
+             + ", hausnummer='" + hausnummer + "'" + "\n"
+             + ", plz='" + plz + "'" + "\n"
+             + ", ort='" + ort + "'" + "\n"
+             + ", land='" + land + "'" + "\n"
+             + ", typ='" + typ + "'" + "\n"
+             + "'}";
+    }
+}
+
+
+// ============ Kontakt.java ============
+import java.util.ArrayList;
+import java.util.List;
+
+public class Kontakt {
+
+    // Anfang Attribute
+    private String name;
+    private Adresse adresse;
+    private Telefon telefon;
+    private Email email;
+    private List&lt;Termin&gt; termine;
+    private List&lt;Gruppe&gt; gruppen;
+    // Ende Attribute
+
+    // Konstruktor 1: nur der Name ist bekannt.
+    // Die Listen werden trotzdem angelegt - leer, aber vorhanden.
+    public Kontakt(String name) {
+        this.name = name;
+        this.termine = new ArrayList&lt;Termin&gt;();
+        this.gruppen = new ArrayList&lt;Gruppe&gt;();
+    }
+
+    // Konstruktor 2: alles auf einmal
+    public Kontakt(String name, Adresse adresse, Telefon telefon, Email email,
+                   List&lt;Termin&gt; termine, List&lt;Gruppe&gt; gruppen) {
+        this.name = name;
+        this.adresse = adresse;
+        this.telefon = telefon;
+        this.email = email;
+        this.termine = termine;
+        this.gruppen = gruppen;
+    }
+
+    // Anfang Methoden
+    public String getName()        { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public Adresse getAdresse()    { return adresse; }
+    public void setAdresse(Adresse adresse) { this.adresse = adresse; }
+
+    public Telefon getTelefon()    { return telefon; }
+    public void setTelefon(Telefon telefon) { this.telefon = telefon; }
+
+    public Email getEmail()        { return email; }
+    public void setEmail(Email email) { this.email = email; }
+
+    public List&lt;Termin&gt; getTermine() { return termine; }
+    public void setTermine(List&lt;Termin&gt; termine) { this.termine = termine; }
+
+    public void fuegeTerminHinzu(Termin termin) {
+        termine.add(termin);
+    }
+
+    public boolean entferneTermin(Termin termin) {
+        return termine.remove(termin);
+    }
+
+    public List&lt;Gruppe&gt; getGruppen() { return gruppen; }
+    public void setGruppen(List&lt;Gruppe&gt; gruppen) { this.gruppen = gruppen; }
+
+    public void fuegeGruppeHinzu(Gruppe gruppe) {
+        gruppen.add(gruppe);
+    }
+
+    public String toString() {
+        String ausgabe = "=== Kontakt ===" + "\n"
+                       + "Name    : " + name + "\n"
+                       + adresse + "\n\n"
+                       + "Telefon : " + telefon + "\n"
+                       + "E-Mail  : " + email + "\n\n"
+                       + "=== Termine ===" + "\n";
+        for (Termin t : termine) {
+            ausgabe += t + "\n";
+        }
+        ausgabe += "\n=== Gruppen ===" + "\n";
+        for (Gruppe g : gruppen) {
+            ausgabe += g + "\n";
+        }
+        return ausgabe;
+    }
+    // Ende Methoden
+
+} // end of class Kontakt</code></pre>
+            </div>
+        </div>
+
+        <p>In der Aufgabenstellung wird gefordert, dass wir folgende Sachen
+           umsetzen:</p>
+
+        <ol class="schritte">
+            <li>Fünf Klassen anlegen: Kontakt, Adresse, Telefon, Email, Gruppe</li>
+            <li>Jede bekommt ihre Attribute, Getter und Setter</li>
+            <li>Telefon, Email und Adresse bekommen einen Typ als <code>enum</code></li>
+            <li>Kontakt bekommt Listen für Termine und Gruppen</li>
+            <li>Jede Klasse bekommt eine <code>toString()</code></li>
+        </ol>
+
+        <h3 class="schritt-titel">Kontakt ist die Klammer um alles</h3>
+        <p>Vier der fünf Klassen sind unspektakulär: ein paar Strings, ein enum,
+           Getter, Setter, <code>toString()</code>. Interessant ist nur
+           <code>Kontakt</code>, weil dort die anderen als Attribute auftauchen:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">private Adresse adresse;          // ein Objekt, kein String
+private Telefon telefon;
+private Email email;
+private List&lt;Termin&gt; termine;     // mehrere Objekte
+private List&lt;Gruppe&gt; gruppen;</code></pre>
+            </div>
+        </div>
+
+        <p>Das ist genau der Punkt, um den es in dem ganzen Kapitel geht. Eine
+           Klasse darf als Attribut andere Klassen haben. Damit entstehen die
+           Beziehungen, die im UML-Diagramm als Striche auftauchen.</p>
+
+        <h3 class="schritt-titel">Warum List und nicht ArrayList</h3>
+        <p>Im UML steht <code>termine: List&lt;Termin&gt;</code> und nicht
+           <code>ArrayList&lt;Termin&gt;</code>. Der Unterschied:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">private List&lt;Termin&gt; termine;                       // der Typ des Attributs
+this.termine = new ArrayList&lt;Termin&gt;();            // was tatsaechlich drin liegt</code></pre>
+            </div>
+        </div>
+
+        <p><code>List</code> ist die allgemeinere Bezeichnung – „irgendeine
+           Liste". <code>ArrayList</code> ist eine bestimmte Sorte davon. Links den
+           allgemeinen Typ zu schreiben und rechts den konkreten ist üblich: wenn du
+           später merkst, dass eine <code>LinkedList</code> besser passt, musst du
+           nur die eine Zeile mit <code>new</code> ändern. Der Rest der Klasse bleibt
+           gleich.</p>
+
+        <p>Erinnere dich an die Hierarchie aus dem ArrayList-Kapitel:
+           <code>Collection</code> ganz oben, darunter <code>List</code>, und
+           darunter <code>ArrayList</code> und <code>LinkedList</code>. Wir nehmen
+           bewusst die mittlere Ebene.</p>
+
+        <h3 class="schritt-titel">Die Listen im Konstruktor anlegen</h3>
+        <p>Das ist der Fehler, den man bei dieser Aufgabe garantiert einmal
+           macht. Konstruktor 1 bekommt nur den Namen – trotzdem werden die beiden
+           Listen dort angelegt:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public Kontakt(String name) {
+    this.name = name;
+    this.termine = new ArrayList&lt;Termin&gt;();     // NICHT weglassen
+    this.gruppen = new ArrayList&lt;Gruppe&gt;();
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Lässt du die zwei Zeilen weg, sind <code>termine</code> und
+           <code>gruppen</code> nicht etwa leere Listen, sondern
+           <code>null</code> – also gar keine Liste. Beim ersten
+           <code>fuegeTerminHinzu(...)</code> fliegt dir dann eine
+           <code>NullPointerException</code> um die Ohren, und die Fehlermeldung
+           zeigt auf <code>termine.add(termin)</code>, obwohl der Fehler im
+           Konstruktor sitzt. Solche Fehler sucht man ewig.</p>
+
+        <p>Merksatz: <strong>Listen-Attribute werden immer im Konstruktor
+           angelegt, auch wenn sie leer bleiben.</strong> Eine leere Liste ist
+           etwas völlig anderes als keine Liste.</p>
+
+        <h3 class="schritt-titel">fuegeTerminHinzu statt setTermine</h3>
+        <p>Im UML stehen für die Termine gleich drei Methoden:
+           <code>setTermine</code>, <code>fuegeTerminHinzu</code> und
+           <code>entferneTermin</code>. Warum nicht nur der Setter?</p>
+
+        <p>Weil <code>setTermine</code> die ganze Liste <em>ersetzt</em>. Wer
+           einen einzelnen Termin hinzufügen will, müsste sich erst die Liste
+           holen, etwas anhängen und sie zurückschreiben. Mit
+           <code>fuegeTerminHinzu</code> ist das eine Zeile – und vor allem kann
+           man in der Methode noch prüfen, ob der Termin überhaupt sinnvoll ist.</p>
+
+        <p><code>entferneTermin</code> gibt einen <code>boolean</code> zurück.
+           Das kommt direkt von <code>List.remove()</code>: <code>true</code>, wenn
+           etwas entfernt wurde, <code>false</code>, wenn der Termin gar nicht drin
+           war. So kann der Aufrufer reagieren, statt im Dunkeln zu tappen.</p>
+
+        <h3 class="schritt-titel">Drei Klassen, drei enums namens Typ</h3>
+        <p><code>Telefon.Typ</code> hat MOBIL und FESTNETZ,
+           <code>Email.Typ</code> und <code>Adresse.Typ</code> haben PRIVAT und
+           GESCHAEFTLICH. Alle drei heißen <code>Typ</code> – das geht, weil sie
+           jeweils <strong>innerhalb</strong> ihrer Klasse stehen. Der volle Name
+           ist <code>Telefon.Typ</code> beziehungsweise <code>Email.Typ</code>, und
+           damit sind sie eindeutig unterscheidbar.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">new Telefon("+49 611 123456", Telefon.Typ.FESTNETZ);
+new Email("info@muster.de", Email.Typ.GESCHAEFTLICH);</code></pre>
+            </div>
+        </div>
+
+        <p>Und weil es eigene enums sind, kann man auch nicht aus Versehen
+           <code>Telefon.Typ.PRIVAT</code> schreiben – das gibt es nicht, und der
+           Compiler sagt es dir sofort.</p>

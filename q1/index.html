@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Q1 – Übersicht</title>
+    <meta name="description" content="Objektorientierte Programmierung in Java und die klassischen Such- und Sortierverfahren.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Q1 – Übersicht">
+    <meta property="og:description" content="Objektorientierte Programmierung in Java und die klassischen Such- und Sortierverfahren.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Q1 – Übersicht">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Q1 – Übersicht">
+    <meta name="twitter:description" content="Objektorientierte Programmierung in Java und die klassischen Such- und Sortierverfahren.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/stil.css">
+    <link rel="stylesheet" href="../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "MeinInfoKurs – Q1",
+  "description": "Objektorientierte Programmierung in Java und die klassischen Such- und Sortierverfahren.",
+  "url": "https://meininfokurs.cmrg.site/q1/",
+  "inLanguage": "de",
+  "provider": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  }
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite weit" data-verlauf="nein">
+        <p class="brotkrumen">Klasse 11 · 1. Halbjahr</p>
+        <h1 class="titel">Q1</h1>
+        <p>Objektorientierte Programmierung in Java und die klassischen Such- und Sortierverfahren.</p>
+
+        <h2 id="oop">OOP in Java</h2>
+        <div class="raster">
+            <a class="karte" href="oop/klasse-auto.html">
+                <span class="marke">OOP 1</span>
+                <span class="name">Die Klasse Auto</span>
+                <span class="zusatz">Unsere erste eigene Klasse: fünf Attribute, ein Konstruktor und zwei Methoden, die erstmal noch leer bleiben.</span>
+            </a>
+            <a class="karte" href="oop/einstiegstext-analyse.html">
+                <span class="marke">OOP 2</span>
+                <span class="name">Einstiegstext-Analyse</span>
+                <span class="zusatz">Klasse, Objekt, Attribut, Methode, Konstruktor – die fünf Begriffe, die in der Klausur als Erstes drankommen.</span>
+            </a>
+            <a class="karte" href="oop/autohaus.html">
+                <span class="marke">OOP 3</span>
+                <span class="name">Das Autohaus</span>
+                <span class="zusatz">Die Klasse Auto endlich benutzen: ein Objekt erzeugen, betanken, fahren lassen - und verstehen, warum der Kilometerstand trotzdem auf 0 bleibt.</span>
+            </a>
+            <a class="karte" href="oop/ausgabemethode.html">
+                <span class="marke">OOP 4</span>
+                <span class="name">Die Ausgabemethode</span>
+                <span class="zusatz">Das Auto soll sich selbst beschreiben können – und dabei das EVA-Prinzip einhalten: erst alles einsammeln, dann einmal ausgeben.</span>
+            </a>
+            <a class="karte" href="oop/tanken-und-fahren.html">
+                <span class="marke">OOP 5</span>
+                <span class="name">Methoden: tanken und fahren</span>
+                <span class="zusatz">Vier Teilaufgaben: beide Methoden implementieren, den Konstruktor gegen unsinnige Werte absichern und im Autohaus richtig durchtesten.</span>
+            </a>
+            <a class="karte" href="oop/geometrische-figuren.html">
+                <span class="marke">OOP 6</span>
+                <span class="name">Geometrische Figuren</span>
+                <span class="zusatz">Quadrat, Rechteck, Kreis und ein rechtwinkliges Dreieck objektorientiert modellieren – plus die Fachsprache, mit der man den Code beschreibt.</span>
+            </a>
+            <a class="karte" href="oop/konstruktoren-ueberladen.html">
+                <span class="marke">OOP 7</span>
+                <span class="name">Konstruktoren überladen</span>
+                <span class="zusatz">Mehrere Konstruktoren in einer Klasse: wann sich das lohnt, warum der Rückgabetyp nicht zählt und wieso der Default-Konstruktor plötzlich weg ist.</span>
+            </a>
+            <a class="karte" href="oop/arrays.html">
+                <span class="marke">OOP 8</span>
+                <span class="name">Arrays</span>
+                <span class="zusatz">Vier Teilaufgaben: Würfelsimulation, Schleifen im Kopf durchgehen, Schiffe versenken mit zweidimensionalem Array und das Sieb des Eratosthenes.</span>
+            </a>
+            <a class="karte" href="oop/arraylist-lieblingsfaecher.html">
+                <span class="marke">OOP 9</span>
+                <span class="name">ArrayList: Lieblingsfächer</span>
+                <span class="zusatz">Die erste Liste statt eines Arrays – und warum es plötzlich egal ist, dass es doch drei Fächer sein sollten statt zwei.</span>
+            </a>
+            <a class="karte" href="oop/arraylist-lottozahlen.html">
+                <span class="marke">OOP 10</span>
+                <span class="name">ArrayList: Lottozahlen</span>
+                <span class="zusatz">contains, size und die Fangfrage: remove(1) löscht nicht die Zahl 1, sondern das Element an Position 1.</span>
+            </a>
+            <a class="karte" href="oop/arraylist-ausgabe.html">
+                <span class="marke">OOP 11</span>
+                <span class="name">ArrayList: Listen ausgeben</span>
+                <span class="zusatz">Eine Liste von 10 bis 1000 füllen und auf zwei Arten durchlaufen – mit foreach und mit dem ListIterator.</span>
+            </a>
+            <a class="karte" href="oop/main-parameter.html">
+                <span class="marke">OOP 12</span>
+                <span class="name">Die main-Parameter</span>
+                <span class="zusatz">Was public static void main(String[] args) wirklich bedeutet – und wie man dem Programm beim Start Werte mitgibt.</span>
+            </a>
+            <a class="karte" href="oop/methoden-ueberladen.html">
+                <span class="marke">OOP 13</span>
+                <span class="name">Methoden überladen, Strings parsen</span>
+                <span class="zusatz">Drei Methoden namens summe, unterschieden nur an der Parameterliste – und warum der Rückgabetyp dabei keine Rolle spielt.</span>
+            </a>
+            <a class="karte" href="oop/assoziationen-multiplizitaeten.html">
+                <span class="marke">OOP 14</span>
+                <span class="name">Assoziationen und Multiplizitäten</span>
+                <span class="zusatz">Die kleinen Zahlen am Ende der UML-Striche: 1, 0..1, * und 1..* – und auf welcher Seite sie stehen müssen.</span>
+            </a>
+            <a class="karte" href="oop/telefonbuch-abstraktion.html">
+                <span class="marke">OOP 15</span>
+                <span class="name">Das Telefonbuch: Abstraktion</span>
+                <span class="zusatz">Aus einem App-Screenshot herauslesen, welche Klassen man braucht – und was man bewusst weglässt.</span>
+            </a>
+            <a class="karte" href="oop/klasse-termin.html">
+                <span class="marke">OOP 16</span>
+                <span class="name">Die Klasse Termin</span>
+                <span class="zusatz">Attribute und Methoden für einen Termin festlegen – und warum die Terminart ein enum wird und kein String.</span>
+            </a>
+            <a class="karte" href="oop/uml-diagramm-erzeugen.html">
+                <span class="marke">OOP 17</span>
+                <span class="name">UML-Diagramm erzeugen</span>
+                <span class="zusatz">Die Klasse Termin im UML-Klasseneditor bauen statt sie zu tippen – inklusive der beiden imports, die der Editor nicht erraten kann.</span>
+            </a>
+            <a class="karte" href="oop/telefonbuch-klassen.html">
+                <span class="marke">OOP 18</span>
+                <span class="name">Das Telefonbuch: Klassen erstellen</span>
+                <span class="zusatz">Kontakt, Adresse, Telefon, Email und Gruppe – und der Fehler, den bei dieser Aufgabe jeder einmal macht: die Listen im Konstruktor vergessen.</span>
+            </a>
+            <a class="karte" href="oop/uml-im-java-editor.html">
+                <span class="marke">OOP 19</span>
+                <span class="name">UML-Diagramm im Java-Editor</span>
+                <span class="zusatz">Assoziation oder Aggregation? Die Antwort steht im Code: einzelnes Attribut oder Liste. Plus der Unterschied zwischen Editor- und ABI-Notation.</span>
+            </a>
+            <a class="karte" href="oop/telefonbuch-spielwiese.html">
+                <span class="marke">OOP 20</span>
+                <span class="name">Telefonbuch-Spielwiese</span>
+                <span class="zusatz">Alle sechs Klassen zusammensetzen und ausgeben – mit einem einzigen println, weil toString() sich durch die ganze Kette durchreicht.</span>
+            </a>
+        </div>
+
+        <h2 id="algorithmen">Suchen und Sortieren</h2>
+        <div class="raster">
+            <a class="karte" href="algorithmen/suchen-mit-system-1.html">
+                <span class="marke">Algorithmus 1</span>
+                <span class="name">Suchen mit System: Struktogramm und Zahlenraten</span>
+                <span class="zusatz">Ein Struktogramm für das Zählen von Sechsern – und beim Zahlenraten zu zweit die Formel herleiten, wie viele Versuche man höchstens braucht.</span>
+            </a>
+            <a class="karte" href="algorithmen/suchen-mit-system-2.html">
+                <span class="marke">Algorithmus 2</span>
+                <span class="name">Binäre Suche: Die Startaufstellung</span>
+                <span class="zusatz">Die binäre Suche von Hand durchführen und danach als Methode istAufgestellt implementieren – inklusive der drei Stellen, an denen sie kippt.</span>
+            </a>
+            <a class="karte" href="algorithmen/suchen-mit-system-3.html">
+                <span class="marke">Algorithmus 3</span>
+                <span class="name">Hashing, Kollisionen und Effizienz</span>
+                <span class="zusatz">Das Geburtstagsparadoxon, zwei Hashfunktionen von Hand durchgerechnet und der Vergleich aller drei Suchverfahren.</span>
+            </a>
+            <a class="karte" href="algorithmen/ab-suchalgorithmen-1.html">
+                <span class="marke">Algorithmus 4</span>
+                <span class="name">Arbeitsblatt Suchalgorithmen I</span>
+                <span class="zusatz">Unsortiertes Array: warum hier nur die lineare Suche geht und warum der Nicht-gefunden-Fall immer der schlimmste ist.</span>
+            </a>
+            <a class="karte" href="algorithmen/ab-suchalgorithmen-2.html">
+                <span class="marke">Algorithmus 5</span>
+                <span class="name">Arbeitsblatt Suchalgorithmen II</span>
+                <span class="zusatz">Dasselbe Array, nur sortiert – und plötzlich reichen 2 statt 8 Vergleiche. Beide Arbeitsblätter zusammen sind eine einzige Argumentation.</span>
+            </a>
+            <a class="karte" href="algorithmen/unsortierte-top-10.html">
+                <span class="marke">Algorithmus 6</span>
+                <span class="name">Die unsortierte Top-10</span>
+                <span class="zusatz">Zehn Albumcover sortieren, aber nur zwei pro Schritt vergleichen – und dabei merken, warum eine Handlungsvorschrift eindeutig sein muss.</span>
+            </a>
+            <a class="karte" href="algorithmen/einfaches-sortieren.html">
+                <span class="marke">Algorithmus 7</span>
+                <span class="name">Einfaches Sortieren</span>
+                <span class="zusatz">Selection, Insertion und Bubble Sort von Hand durchgespielt, als Struktogramm entworfen und in Java implementiert.</span>
+            </a>
+            <a class="karte" href="algorithmen/rekursive-algorithmen.html">
+                <span class="marke">Algorithmus 8</span>
+                <span class="name">Rekursive Algorithmen</span>
+                <span class="zusatz">Fibonacci, Fakultät, ein Würfelspiel und zwei Methoden, die sich gegenseitig aufrufen – überall geht es um Rekursionsanker und Rekursionsschritt.</span>
+            </a>
+            <a class="karte" href="algorithmen/suchen-iterativ-rekursiv.html">
+                <span class="marke">Algorithmus 9</span>
+                <span class="name">Suchen: iterativ und rekursiv</span>
+                <span class="zusatz">Suche in linearen Listen mit toFirst/hasAccess/next, eine Methodendokumentation umsetzen und die binäre Suche aus durcheinandergeratenen Zeilen zusammenbauen.</span>
+            </a>
+            <a class="karte" href="algorithmen/sortieren-iterativ-rekursiv.html">
+                <span class="marke">Algorithmus 10</span>
+                <span class="name">Sortieren: iterativ und rekursiv</span>
+                <span class="zusatz">Sortieren durch Auswählen auf Listen und Quicksort – inklusive der Pointe, dass eine bereits sortierte Liste für Quicksort der schlechteste Fall ist.</span>
+            </a>
+            <a class="karte" href="algorithmen/ab-sortieralgorithmen.html">
+                <span class="marke">Algorithmus 11</span>
+                <span class="name">Arbeitsblatt Sortieralgorithmen</span>
+                <span class="zusatz">Andersherum: aus den Zwischenschritten erkennen, welcher Sortieralgorithmus gelaufen ist – und dann selbst eine Folge damit sortieren.</span>
+            </a>
+        </div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+    </main>
+
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Die Klasse Termin</title>
+    <meta name="description" content="Attribute und Methoden für einen Termin festlegen – und warum die Terminart ein enum wird und kein String.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/oop/klasse-termin.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Die Klasse Termin">
+    <meta property="og:description" content="Attribute und Methoden für einen Termin festlegen – und warum die Terminart ein enum wird und kein String.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/oop/klasse-termin.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Die Klasse Termin">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Die Klasse Termin">
+    <meta name="twitter:description" content="Attribute und Methoden für einen Termin festlegen – und warum die Terminart ein enum wird und kein String.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Die Klasse Termin",
+  "description": "Attribute und Methoden für einen Termin festlegen – und warum die Terminart ein enum wird und kein String.",
+  "url": "https://meininfokurs.cmrg.site/q1/oop/klasse-termin.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "OOP in Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"OOP in Java\", Seite 151",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#oop">OOP in Java</a>
+        </p>
+        <h1 class="titel">Die Klasse Termin</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist die Klasse Termin! Wir entwerfen
+           sie erstmal auf dem Papier – welche Attribute, welche Methoden. Neu
+           dabei ist das <code>enum</code>, mit dem man eine feste Auswahl an
+           Werten festlegt. Genau so ein Auswahlfeld haben wir auf dem Screenshot
+           ja gesehen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Eine Klasse <code>Termin</code> wird benötigt.</p>
+            <p><strong>a)</strong> Beschreiben Sie die Klasse <code>Termin</code>
+               anhand des Screenshots der App.</p>
+            <p><strong>b)</strong> Bestimmen Sie, welche Attribute und Methoden die
+               Klasse <code>Termin</code> braucht. Sie können dafür eine Notation in
+               Stichpunkten verwenden. Tipp: Es sollen die Klasse
+               <code>LocalDate</code> und die Klasse <code>LocalTime</code> verwendet
+               werden, beide benötigen eine Import-Anweisung. Beschreiben Sie
+               zunächst, welche Zwecke (bzw. Typ) ein Termin haben könnte,
+               beschränken Sie sich auf maximal 4.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>a) Die Klasse Termin anhand des Screenshots</h2>
+
+        <p>Im Block TERMINE steht ein Feld <em>Datum</em> und daneben ein
+           Auswahlfeld, in dem <em>GEBU…TAG</em> steht – also „Geburtstag",
+           abgeschnitten. Daraus liest man zwei Sachen: ein Termin hat ein
+           <strong>Datum</strong>, und er hat eine <strong>Art</strong>, die man
+           aus einer Liste auswählt.</p>
+
+        <p>Eine Uhrzeit ist im Screenshot nicht zu sehen. Sinnvoll ist sie
+           trotzdem: ein Geburtstag braucht keine, ein geschäftliches Treffen
+           schon. Deshalb nehmen wir sie dazu, sie darf aber leer bleiben.</p>
+
+        <h2>b) Attribute, Methoden und der Zweck</h2>
+
+        <h3 class="schritt-titel">Die vier Arten von Terminen</h3>
+        <p>Die Aufgabe sagt ausdrücklich: höchstens vier. Meine Wahl:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Art</th><th>Wofür</th></tr></thead>
+                <tbody>
+                    <tr><td><code>GEBURTSTAG</code></td><td>Jährlich wiederkehrend, ohne Uhrzeit</td></tr>
+                    <tr><td><code>JAHRESTAG</code></td><td>Hochzeitstag und Ähnliches, ebenfalls jährlich</td></tr>
+                    <tr><td><code>GESCHAEFTLICH</code></td><td>Termin mit Uhrzeit, beruflich</td></tr>
+                    <tr><td><code>PRIVAT</code></td><td>Termin mit Uhrzeit, privat</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Attribute und Methoden in Stichpunkten</h3>
+        <ul class="schritte">
+            <li><code>datum: LocalDate</code> – der Tag des Termins</li>
+            <li><code>uhrzeit: LocalTime</code> – die Uhrzeit, darf <code>null</code> sein</li>
+            <li><code>art: Art</code> – eine der vier Konstanten von oben</li>
+            <li>Zwei Konstruktoren: einer mit und einer ohne Uhrzeit</li>
+            <li>Getter und Setter für alle drei Attribute</li>
+            <li><code>toString(): String</code> – damit man den Termin ausgeben kann</li>
+        </ul>
+
+        <p>Das ist genau die Klasse, die im nächsten Schritt im UML-Editor gebaut
+           wird:</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Termin (UML)</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>                    Termin
+------------------------------------------------
+- datum: LocalDate
+- uhrzeit: LocalTime
+- art: Art
+------------------------------------------------
+c Termin(datum: LocalDate, art: Art)
+c Termin(datum: LocalDate, uhrzeit: LocalTime, art: Art)
++ getDatum(): LocalDate
++ setDatum(datum: LocalDate)
++ getUhrzeit(): LocalTime
++ setUhrzeit(uhrzeit: LocalTime)
++ getArt(): Art
++ setArt(art: Art)
++ toString(): String</code></pre>
+            </div>
+        </div>
+
+        <p>Die Zeichen davor sind die Sichtbarkeit: <code>-</code> ist
+           <code>private</code>, <code>+</code> ist <code>public</code>,
+           <code>c</code> markiert im Java-Editor einen Konstruktor. Die Attribute
+           sind alle privat, die Methoden alle öffentlich – das ist das Prinzip der
+           minimalen Sichtbarkeit: jede Klasse bekommt nur so viel Zugriff, wie sie
+           wirklich braucht.</p>
+
+        <h3 class="schritt-titel">Warum zwei Konstruktoren</h3>
+        <p>Konstruktor-Überladung, schon wieder. Ein Geburtstag hat keine
+           Uhrzeit, ein Geschäftstermin schon. Statt bei Geburtstagen irgendeine
+           Dummy-Uhrzeit hinzuschreiben, gibt es einfach einen Konstruktor ohne:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">new Termin(LocalDate.of(2025, 12, 24), Art.GEBURTSTAG);
+new Termin(LocalDate.of(2025, 9, 1), LocalTime.of(14, 30), Art.GESCHAEFTLICH);</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Was ein enum ist und warum man es nimmt</h3>
+        <p>Ein <code>enum</code> (kurz für Enumeration, also Aufzählung) legt eine
+           <strong>endliche, feste Menge benannter Konstanten</strong> fest. Für
+           unsere vier Terminarten sieht das so aus:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public enum Art {
+    GEBURTSTAG, JAHRESTAG, GESCHAEFTLICH, PRIVAT
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Man könnte die Art stattdessen als <code>String</code> speichern. Der
+           Vergleich zeigt, warum man das nicht tut:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>Mit String</th><th>Mit enum</th></tr></thead>
+                <tbody>
+                    <tr><td>Tippfehler</td><td><code>"Gebrutstag"</code> kompiliert klaglos</td><td><code>Art.GEBRUTSTAG</code> → Fehler beim Kompilieren</td></tr>
+                    <tr><td>Schreibweise</td><td>„privat", „Privat", „PRIVAT" – alles verschieden</td><td>Es gibt nur eine Schreibweise</td></tr>
+                    <tr><td>Autovervollständigung</td><td>Der Editor kann nichts vorschlagen</td><td>Nach <code>Art.</code> kommt die Liste</td></tr>
+                    <tr><td>Erlaubte Werte</td><td>Jeder beliebige Text geht rein</td><td>Nur die vier festgelegten</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Der wichtigste Punkt ist die erste Zeile: <strong>Fehler werden schon
+           beim Kompilieren gefunden statt erst im laufenden Programm.</strong> Ein
+           Tippfehler in einem String fällt dir erst auf, wenn ein Geburtstag
+           plötzlich nicht mehr in der Geburtstagsliste auftaucht – und dann suchst
+           du lange.</p>
+
+        <p>Zugegriffen wird über den Klassennamen davor, also
+           <code>Termin.Art.GESCHAEFTLICH</code>, wenn das enum innerhalb von
+           <code>Termin</code> steht. Praktisch sind enums außerdem mit
+           <code>switch</code>:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">switch (art) {
+    case GEBURTSTAG:    return "Geburtstag ohne Uhrzeit";
+    case JAHRESTAG:     return "Jahrestag";
+    case GESCHAEFTLICH: return "Geschäftlich";
+    case PRIVAT:        return "Privat";
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Beim <code>switch</code> über ein enum schreibt man die Konstanten ohne
+           den Typ davor, also <code>case GEBURTSTAG:</code> und nicht
+           <code>case Art.GEBURTSTAG:</code>. Java weiß ja schon, um welches enum
+           es geht.</p>
+
+        <h3 class="schritt-titel">LocalDate und LocalTime statt String</h3>
+        <p>Dasselbe Argument nochmal, nur für das Datum. Man könnte
+           <code>"24.12.2025"</code> als String speichern. Dann kann man aber nicht
+           sortieren, nicht vergleichen und nicht ausrechnen, wie viele Tage bis
+           dahin sind. Mit <code>LocalDate</code> geht das alles:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">import java.time.LocalDate;
+import java.time.LocalTime;
+
+LocalDate weihnachten = LocalDate.of(2025, 12, 24);
+LocalTime treffen     = LocalTime.of(14, 30);
+
+weihnachten.isAfter(LocalDate.now());   // liegt das noch vor uns?</code></pre>
+            </div>
+        </div>
+
+        <p>Beide brauchen eine Import-Anweisung, sonst findet der Compiler sie
+           nicht. Sie stehen über der Klasse, genau wie bei der
+           <code>ArrayList</code>.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="telefonbuch-abstraktion.html"><small>Vorherige Aufgabe</small>Das Telefonbuch: Abstraktion</a>
+            <a class="weiter" href="uml-diagramm-erzeugen.html"><small>Nächste Aufgabe</small>UML-Diagramm erzeugen</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

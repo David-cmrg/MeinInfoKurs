@@ -1,0 +1,125 @@
+        <p>Die Aufgabe der heutigen Stunde ist die siebte Übung – vermischte
+           Aufgaben zur Nordwind-Datenbank! Hier kommt nichts Neues mehr dazu, es
+           geht darum, alles aus den sechs Lektionen zusammen zu benutzen. Genau so
+           sieht auch die Klausur aus.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>a) Bearbeiten Sie die Übung 7</p>
+            <p><strong>Zusatzaufgabe:</strong> Erstellen Sie eine Datenbank-Anfrage
+               zur Beantwortung der folgenden Frage: Welche Kategorie hat den meisten
+               Umsatz erzielt?</p>
+        </div>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Die Übung 7 selbst liegt auf der Tutorial-Seite und ist im OneNote nicht abgedruckt. Ausgeschrieben ist dort nur die Zusatzaufgabe – die steht hier gelöst.</span>
+        </div>
+
+        <h2>Die Zusatzaufgabe</h2>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Die Nordwind-Datenbank ist im OneNote nicht abgedruckt. Sie ist
+            aber eine Standard-Beispieldatenbank; ich rechne mit den üblichen
+            Tabellen <code>kategorien</code>, <code>artikel</code> und
+            <code>bestelldetails</code>. Heißen sie bei euch anders, tausch nur die
+            Namen aus.</span>
+        </div>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-database" aria-hidden="true"></i> SQL</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Uebung7_Nordwind.sql">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-sql">-- Welche Kategorie hat den meisten Umsatz erzielt?
+-- @MeinInfoKurs.github.io
+
+SELECT   k.kategoriename,
+         SUM(bd.einzelpreis * bd.anzahl) AS Umsatz
+FROM     kategorien       AS k
+INNER JOIN artikel        AS a  ON k.kategorie_id = a.kategorie_id
+INNER JOIN bestelldetails AS bd ON a.artikel_id   = bd.artikel_id
+GROUP BY k.kategorie_id, k.kategoriename
+ORDER BY Umsatz DESC
+LIMIT 1;</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Wie man auf so eine Abfrage kommt</h3>
+        <p>Nicht von vorne anfangen zu tippen, sondern die Frage zerlegen:</p>
+
+        <ol class="schritte">
+            <li><strong>Was will ich sehen?</strong> Den Kategorienamen und einen Umsatz → das kommt ins <code>SELECT</code>.</li>
+            <li><strong>Wo stehen diese Daten?</strong> Der Name in <code>kategorien</code>, die Preise in <code>bestelldetails</code>. Dazwischen liegt <code>artikel</code> → zwei <code>JOIN</code>s.</li>
+            <li><strong>Was ist „Umsatz"?</strong> Einzelpreis mal Anzahl, über alle Positionen aufsummiert → <code>SUM(einzelpreis * anzahl)</code>.</li>
+            <li><strong>Pro was?</strong> Pro Kategorie → <code>GROUP BY</code>.</li>
+            <li><strong>„Den meisten"?</strong> Absteigend sortieren und den ersten nehmen → <code>ORDER BY … DESC LIMIT 1</code>.</li>
+        </ol>
+
+        <p>Die dritte Zeile ist die, die man am ehesten falsch macht. „Umsatz" ist
+           keine Spalte, die irgendwo steht – man muss sie ausrechnen. Und zwar
+           <strong>innerhalb</strong> von <code>SUM</code>, nicht außerhalb:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SUM(bd.einzelpreis * bd.anzahl)   -- richtig: pro Zeile rechnen, dann addieren
+SUM(bd.einzelpreis) * SUM(bd.anzahl)  -- FALSCH: ergibt voellig andere Zahlen</code></pre>
+            </div>
+        </div>
+
+        <p>Die zweite Variante multipliziert die Summe aller Preise mit der Summe
+           aller Stückzahlen. Das ist eine Zahl ohne jede Bedeutung – und sie sieht
+           auf den ersten Blick trotzdem plausibel aus.</p>
+
+        <h3 class="schritt-titel">Warum die Kategorie-ID mit ins GROUP BY gehört</h3>
+        <p><code>GROUP BY k.kategorie_id, k.kategoriename</code> – warum beides?
+           Weil es theoretisch zwei Kategorien mit demselben Namen geben könnte.
+           Gruppiert man nur nach dem Namen, würden deren Umsätze zusammengerechnet.
+           Die ID ist der Primärschlüssel und damit garantiert eindeutig.</p>
+
+        <h3 class="schritt-titel">Wenn man alle Kategorien sehen will</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Dasselbe ohne LIMIT: die vollstaendige Rangliste
+SELECT   k.kategoriename,
+         SUM(bd.einzelpreis * bd.anzahl) AS Umsatz
+FROM     kategorien       AS k
+INNER JOIN artikel        AS a  ON k.kategorie_id = a.kategorie_id
+INNER JOIN bestelldetails AS bd ON a.artikel_id   = bd.artikel_id
+GROUP BY k.kategorie_id, k.kategoriename
+ORDER BY Umsatz DESC;</code></pre>
+            </div>
+        </div>
+
+        <p>Das ist meistens die bessere Abfrage: man sieht nicht nur den Sieger,
+           sondern auch, wie deutlich der Abstand ist. Und wenn zwei Kategorien
+           gleichauf liegen, würde <code>LIMIT 1</code> eine davon willkürlich
+           unterschlagen.</p>
+
+        <h2>Was in Übung 7 zusammenkommt</h2>
+        <p>Der Rückblick im OneNote listet genau auf, was aus welcher Lektion
+           gebraucht wird:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Lektion</th><th>Inhalt</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td><code>WHERE</code>, <code>BETWEEN</code>, <code>LIKE</code>, <code>DISTINCT</code>, <code>ORDER BY</code>, <code>LIMIT</code></td></tr>
+                    <tr><td>2</td><td><code>SUM</code>, <code>COUNT</code>, <code>AVG</code>, <code>MAX</code>, <code>MIN</code></td></tr>
+                    <tr><td>3</td><td><code>INNER JOIN … ON</code></td></tr>
+                    <tr><td>4</td><td><code>GROUP BY</code>, <code>HAVING</code></td></tr>
+                    <tr><td>5</td><td>geschachtelte <code>SELECT</code> mit <code>IN</code></td></tr>
+                    <tr><td>6</td><td><code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, <code>CREATE TABLE</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Die Zusatzaufgabe allein benutzt Bausteine aus vier dieser sechs
+           Lektionen. Wenn du die hinbekommst, hast du den SQL-Teil verstanden.</p>

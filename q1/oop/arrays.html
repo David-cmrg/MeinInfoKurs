@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Arrays</title>
+    <meta name="description" content="Vier Teilaufgaben: Würfelsimulation, Schleifen im Kopf durchgehen, Schiffe versenken mit zweidimensionalem Array und das Sieb des Eratosthenes.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/oop/arrays.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Arrays">
+    <meta property="og:description" content="Vier Teilaufgaben: Würfelsimulation, Schleifen im Kopf durchgehen, Schiffe versenken mit zweidimensionalem Array und das Sieb des Eratosthenes.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/oop/arrays.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Arrays">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Arrays">
+    <meta name="twitter:description" content="Vier Teilaufgaben: Würfelsimulation, Schleifen im Kopf durchgehen, Schiffe versenken mit zweidimensionalem Array und das Sieb des Eratosthenes.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Arrays",
+  "description": "Vier Teilaufgaben: Würfelsimulation, Schleifen im Kopf durchgehen, Schiffe versenken mit zweidimensionalem Array und das Sieb des Eratosthenes.",
+  "url": "https://meininfokurs.cmrg.site/q1/oop/arrays.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "OOP in Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"OOP in Java\", Seite 114-120",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#oop">OOP in Java</a>
+        </p>
+        <h1 class="titel">Arrays</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde sind die Arrays! Vier Teilaufgaben,
+           und die haben es teilweise in sich – vor allem Aufgabe 2, wo du
+           Schleifen im Kopf durchgehen musst, ohne sie laufen zu lassen. Genau so
+           etwas kommt in der Klausur dran, weil man da keinen Rechner hat.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>Aufgabe 1:</strong> Gegeben ist ein Programmcode, der ein
+               Array <code>wuerfelergebnisse</code> anlegt. a) Skizzieren Sie das
+               Array. b) Geben Sie Deklaration und Initialisierung mithilfe einer
+               Zahlenliste in geschweiften Klammern an. c) Entwickeln Sie ein
+               Programm, das dasselbe Array mithilfe einer <em>for</em>-Schleife
+               anlegt. d) Implementieren Sie eine Würfelsimulation mit 30 Würfen in
+               einem Array <code>zufallsergebnisse</code>. e) Geben Sie die
+               Ergebnisse in der Form „Wurf 1 ergab 5." aus. Außerdem: Analysieren
+               Sie die Methode <code>wasMacheIch(pWert : int)</code> und geben Sie
+               eine vollständige Methodendokumentation an.</p>
+            <p><strong>Aufgabe 2:</strong> Gegeben ist das Array <em>feld</em>.
+               a) Geben Sie an, bei welcher der Zählschleifen i) bis v) das gesamte
+               Array durchlaufen wird. b) Beschreiben Sie die Wirkung der folgenden
+               Anweisungen auf das Array. Wird der Inhalt verändert, so geben Sie
+               das veränderte Array an.</p>
+            <p><strong>Aufgabe 3:</strong> Schiffe versenken. Einigen Sie sich auf
+               ein Regelwerk, entwickeln Sie ein Entwurfs- und ein
+               Implementierungsdiagramm und implementieren Sie das Spiel.</p>
+            <p><strong>Aufgabe 4:</strong> Stellen Sie die Funktionsweise des
+               Algorithmus „eratosthenes" mit <code>max = 30</code> dar und
+               implementieren Sie ihn in Java.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Aufgabe 1 – Würfelergebnisse</h2>
+
+        <p>Gegeben ist dieser Code:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">int [] wuerfelergebnisse = new int[6];
+wuerfelergebnisse[2] = 3;
+wuerfelergebnisse[0] = 1;
+wuerfelergebnisse[5] = 6;
+wuerfelergebnisse[1] = 2;
+wuerfelergebnisse[4] = 5;
+wuerfelergebnisse[3] = 4;</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">a) Die Skizze</h3>
+        <p>Die Zuweisungen stehen kreuz und quer, das ist Absicht – man soll
+           merken, dass die Reihenfolge der Zeilen nichts mit der Reihenfolge im
+           Array zu tun hat. Entscheidend ist der Index in den eckigen Klammern.
+           Sortiert man das, kommt das hier raus:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Index</th><th>[0]</th><th>[1]</th><th>[2]</th><th>[3]</th><th>[4]</th><th>[5]</th></tr></thead>
+                <tbody><tr><td>Inhalt</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr></tbody>
+            </table>
+        </div>
+
+        <p>Der Index fängt bei 0 an und hört bei 5 auf. Ein Array der Länge 6 hat
+           also <strong>keinen</strong> Index 6. Das ist der Klassiker, an dem man
+           sich eine <code>ArrayIndexOutOfBoundsException</code> einfängt.</p>
+
+        <h3 class="schritt-titel">b) Mit Zahlenliste</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">int[] wuerfelergebnisse = {1, 2, 3, 4, 5, 6};</code></pre>
+            </div>
+        </div>
+        <p>Das <code>new int[6]</code> braucht man hier nicht mehr – Java zählt
+           die Werte in den geschweiften Klammern selbst und macht das Array genau
+           so groß. Das geht aber nur direkt bei der Deklaration. Später
+           <code>wuerfelergebnisse = {1,2,3};</code> zu schreiben ist ein
+           Syntaxfehler.</p>
+
+        <h3 class="schritt-titel">c) Mit einer for-Schleife</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">int[] wuerfelergebnisse = new int[6];
+
+for (int i = 0; i &lt; wuerfelergebnisse.length; i++) {
+    wuerfelergebnisse[i] = i + 1;
+}</code></pre>
+            </div>
+        </div>
+        <p>Der Zusammenhang ist <code>Wert = Index + 1</code>. Schreib
+           <code>wuerfelergebnisse.length</code> statt einer 6 – wenn du das Array
+           später größer machst, läuft die Schleife automatisch mit.</p>
+
+        <h3 class="schritt-titel">d) und e) Die Würfelsimulation</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Wuerfelsimulation.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Wuerfelsimulation.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Wuerfelsimulation mit 30 Wuerfen
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Wuerfelsimulation {
+
+    private int[] zufallsergebnisse = new int[30];
+
+    public void wuerfeln() {
+        for (int i = 0; i &lt; zufallsergebnisse.length; i++) {
+            zufallsergebnisse[i] = (int)(Math.random() * 6 + 1);
+        }
+    }
+
+    public void ausgabe() {
+        for (int i = 0; i &lt; zufallsergebnisse.length; i++) {
+            System.out.println("Wurf " + (i + 1) + " ergab " + zufallsergebnisse[i] + ".");
+        }
+    }
+
+    /**
+     * Berechnet den Mittelwert der ersten pWert Wuerfe.
+     *
+     * @param pWert  Anzahl der zu beruecksichtigenden Wuerfe,
+     *               sinnvoll ist 1 bis zufallsergebnisse.length
+     * @return       Durchschnitt der ersten pWert Wuerfe als Dezimalzahl
+     */
+    public double wasMacheIch(int pWert) {
+        double ergebnis = 0;
+        for (int i = 0; i &lt; pWert; i++) {
+            ergebnis += zufallsergebnisse[i];
+        }
+        return ergebnis / pWert;
+    }
+
+    public static void main(String[] args) {
+        Wuerfelsimulation w = new Wuerfelsimulation();
+        w.wuerfeln();
+        w.ausgabe();
+        System.out.println("");
+        System.out.println("Durchschnitt aller 30 Wuerfe: " + InOut.format2(w.wasMacheIch(30)));
+    } // end of main
+
+} // end of class Wuerfelsimulation</code></pre>
+            </div>
+        </div>
+
+        <p>Zu <code>(int)(Math.random()*6 + 1)</code>:
+           <code>Math.random()</code> liefert eine Kommazahl von 0 bis knapp unter
+           1. Mal 6 macht daraus 0 bis knapp unter 6, plus 1 ergibt 1 bis knapp
+           unter 7. Das <code>(int)</code> davor schneidet die Nachkommastellen ab
+           – nicht runden, <strong>abschneiden</strong>. Übrig bleiben die ganzen
+           Zahlen 1 bis 6.</p>
+
+        <p>Bei der Ausgabe steht <code>(i + 1)</code> in Klammern. Das ist
+           wichtig: ohne Klammern würde Java <code>"Wurf " + i</code> als Text
+           zusammenbauen und danach <code>+ 1</code> einfach anhängen. Aus Wurf 0
+           würde dann „Wurf 01". Sobald links ein String steht, ist das
+           <code>+</code> kein Plus mehr.</p>
+
+        <h3 class="schritt-titel">Was macht wasMacheIch?</h3>
+        <p>Die Methode summiert die ersten <code>pWert</code> Einträge des Arrays
+           auf und teilt am Ende durch <code>pWert</code>. Sie berechnet also den
+           <strong>Mittelwert der ersten pWert Würfe</strong>. Bei
+           <code>wasMacheIch(30)</code> ist das der Durchschnitt aller Würfe – der
+           sollte bei einem fairen Würfel in der Nähe von 3,5 liegen.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>In der Aufgabenstellung steht die Signatur als
+            <code>wasMacheIch(pWert : int) : int</code>, im abgedruckten Code steht
+            aber <code>public double wasMacheIch(int pWert)</code>. Das passt nicht
+            zusammen. Richtig ist <code>double</code> – ein Mittelwert ist nun mal
+            selten eine ganze Zahl. Mit <code>int</code> als Rückgabetyp würde aus
+            3,7 eine 3.</span>
+        </div>
+
+        <p>Zwei Sachen fallen beim Analysieren noch auf: Wird
+           <code>pWert</code> mit 0 aufgerufen, wird durch 0 geteilt und es kommt
+           <code>NaN</code> raus. Und ist <code>pWert</code> größer als das Array,
+           fliegt eine <code>ArrayIndexOutOfBoundsException</code>. Beides steht
+           deshalb als Einschränkung in der Dokumentation.</p>
+
+        <h2>Aufgabe 2 – Schleifen im Kopf durchgehen</h2>
+
+        <p>Gegeben ist <code>feld</code> mit sechs Werten:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Index</th><th>[0]</th><th>[1]</th><th>[2]</th><th>[3]</th><th>[4]</th><th>[5]</th></tr></thead>
+                <tbody><tr><td>Inhalt</td><td>23</td><td>37</td><td>12</td><td>22</td><td>77</td><td>121</td></tr></tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">a) Welche Schleife durchläuft das ganze Array?</h3>
+        <p><code>feld.length</code> ist 6, gültige Indizes sind also 0 bis 5.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>Schleife</th><th>Was passiert</th></tr></thead>
+                <tbody>
+                    <tr><td>i)</td><td><code>i=0; i&lt;feld.length; i=i</code></td><td>Endlosschleife. <code>i=i</code> verändert nichts, <code>i</code> bleibt für immer 0.</td></tr>
+                    <tr><td>ii)</td><td><code>i=1; i&gt;feld.length; i++</code></td><td>Läuft kein einziges Mal. 1 &gt; 6 ist gleich zu Beginn falsch.</td></tr>
+                    <tr><td>iii)</td><td><code>i=0; i&lt;feld.length; i++</code></td><td><strong>Durchläuft alles.</strong> 0 bis 5, vorwärts.</td></tr>
+                    <tr><td>iv)</td><td><code>i=1; i&lt;=feld.length-1; i++</code></td><td>Läuft 1 bis 5 – <code>feld[0]</code> wird ausgelassen.</td></tr>
+                    <tr><td>v)</td><td><code>i=feld.length-1; i&gt;=0; i=i-1</code></td><td><strong>Durchläuft alles.</strong> 5 bis 0, rückwärts.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Die Antwort ist also: <strong>iii) und v)</strong>. Bei v) lohnt es
+           sich hinzusehen – die läuft rückwärts, erwischt aber trotzdem jeden
+           Index genau einmal. „Vollständig durchlaufen" heißt nicht „von vorne
+           nach hinten".</p>
+
+        <p>iv) ist die fieseste. <code>i&lt;=feld.length-1</code> ist als obere
+           Grenze völlig korrekt, dieselbe wie bei iii). Der Fehler steckt im
+           Start: <code>i=1</code> statt <code>i=0</code>. Solche Off-by-one-Fehler
+           übersieht man beim schnellen Lesen fast immer.</p>
+
+        <h3 class="schritt-titel">b) Wirkung der Anweisungen</h3>
+        <p>Jede Anweisung wird einzeln auf das ursprüngliche Array angewendet.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>Wirkung</th><th>Array danach</th></tr></thead>
+                <tbody>
+                    <tr><td>i)</td><td><code>feld[4]</code> wird auf 23 gesetzt und sofort wieder auf 77. Die erste Zuweisung ist damit umsonst.</td><td><strong>unverändert</strong><br>23, 37, 12, 22, 77, 121</td></tr>
+                    <tr><td>ii)</td><td>Gibt den Wert 12 zurück und beendet die Methode. Lesen verändert nichts.</td><td><strong>unverändert</strong><br>23, 37, 12, 22, 77, 121</td></tr>
+                    <tr><td>iii)</td><td>Setzt die Indizes 0, 1 und 2 auf 2.</td><td><strong>2, 2, 2</strong>, 22, 77, 121</td></tr>
+                    <tr><td>iv)</td><td>Setzt Index 2 und 3 auf den Wert von <code>feld[0]</code>, also 23.</td><td>23, 37, <strong>23, 23</strong>, 77, 121</td></tr>
+                    <tr><td>v)</td><td><code>i</code> startet bei 1 und wird hochgezählt, die Bedingung <code>i&gt;0</code> bleibt wahr. Praktisch eine Endlosschleife. <code>feld[2]</code> steht auf 15.</td><td>23, 37, <strong>15</strong>, 22, 77, 121 – das Programm hängt aber</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Zu v) noch ein Nachtrag für die Genauen: streng genommen ist das keine
+           echte Endlosschleife. <code>i</code> läuft irgendwann über den größten
+           <code>int</code> hinaus und wird negativ, dann ist <code>i&gt;0</code>
+           falsch und die Schleife endet. Das dauert gut zwei Milliarden
+           Durchläufe. Praktisch sitzt du da und wartest.</p>
+
+        <h2>Aufgabe 3 – Schiffe versenken</h2>
+
+        <p>Hier legt die Aufgabe das Regelwerk nicht fest, das sollt ihr im Kurs
+           selbst festlegen. Ich nehme die einfachste Variante, die noch spielbar
+           ist:</p>
+
+        <ol class="schritte">
+            <li>Spielfeld 10 × 10</li>
+            <li>5 Schiffe: eines mit Länge 5, eines mit 4, zwei mit 3, eines mit 2</li>
+            <li>Schiffe liegen waagerecht oder senkrecht, nie diagonal, und überlappen sich nicht</li>
+            <li>Ein Schuss trifft ein Feld; getroffen, versenkt oder daneben</li>
+            <li>Das Spiel ist vorbei, wenn alle Schiffsfelder getroffen sind</li>
+        </ol>
+
+        <p>Beim Entwurfsdiagramm reicht eine Klasse <code>Spielfeld</code>. Die
+           entscheidende Frage der Aufgabe ist die Datenstruktur – und das ist ein
+           <strong>zweidimensionales Array</strong>:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">private char[][] feld = new char[10][10];</code></pre>
+            </div>
+        </div>
+
+        <p>Das liest sich als „ein Array aus 10 Arrays mit je 10 Zeichen", also
+           Zeilen und Spalten. <code>feld[3][7]</code> ist Zeile 3, Spalte 7.
+           <code>char</code> bietet sich an, weil wir pro Feld nur einen Zustand
+           brauchen und den beim Ausgeben direkt hinschreiben können.</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Spielfeld.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Spielfeld.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Schiffe versenken - Spielfeld mit zweidimensionalem Array
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Spielfeld {
+
+    // Zustaende eines Feldes
+    // '~' Wasser, 'S' Schiff, 'X' Treffer, 'o' Fehlschuss
+    private char[][] feld = new char[10][10];
+    private int[] laengen = {5, 4, 3, 3, 2};
+    private int schiffsfelder = 0;
+    private int treffer = 0;
+
+    public Spielfeld() {
+        for (int zeile = 0; zeile &lt; feld.length; zeile++) {
+            for (int spalte = 0; spalte &lt; feld[zeile].length; spalte++) {
+                feld[zeile][spalte] = '~';
+            }
+        }
+        schiffeSetzen();
+    }
+
+    private void schiffeSetzen() {
+        for (int i = 0; i &lt; laengen.length; i++) {
+            boolean gesetzt = false;
+            while (!gesetzt) {
+                boolean waagerecht = Math.random() &lt; 0.5;
+                int zeile  = (int)(Math.random() * 10);
+                int spalte = (int)(Math.random() * 10);
+                if (passt(zeile, spalte, laengen[i], waagerecht)) {
+                    for (int k = 0; k &lt; laengen[i]; k++) {
+                        if (waagerecht) {
+                            feld[zeile][spalte + k] = 'S';
+                        } else {
+                            feld[zeile + k][spalte] = 'S';
+                        }
+                    }
+                    schiffsfelder += laengen[i];
+                    gesetzt = true;
+                }
+            }
+        }
+    }
+
+    private boolean passt(int zeile, int spalte, int laenge, boolean waagerecht) {
+        // ragt das Schiff ueber den Rand hinaus?
+        if (waagerecht &amp;&amp; spalte + laenge &gt; 10) {
+            return false;
+        }
+        if (!waagerecht &amp;&amp; zeile + laenge &gt; 10) {
+            return false;
+        }
+        // liegt da schon ein Schiff?
+        for (int k = 0; k &lt; laenge; k++) {
+            if (waagerecht &amp;&amp; feld[zeile][spalte + k] == 'S') {
+                return false;
+            }
+            if (!waagerecht &amp;&amp; feld[zeile + k][spalte] == 'S') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void schiessen(int zeile, int spalte) {
+        if (zeile &lt; 0 || zeile &gt; 9 || spalte &lt; 0 || spalte &gt; 9) {
+            System.out.println("Das Feld gibt es nicht.");
+            return;
+        }
+        if (feld[zeile][spalte] == 'S') {
+            feld[zeile][spalte] = 'X';
+            treffer++;
+            System.out.println("Treffer!");
+        } else if (feld[zeile][spalte] == '~') {
+            feld[zeile][spalte] = 'o';
+            System.out.println("Daneben.");
+        } else {
+            System.out.println("Da hast du schon hingeschossen.");
+        }
+    }
+
+    public boolean istFertig() {
+        return treffer == schiffsfelder;
+    }
+
+    public void anzeigen() {
+        String ausgabe = "   0 1 2 3 4 5 6 7 8 9\n";
+        for (int zeile = 0; zeile &lt; feld.length; zeile++) {
+            ausgabe += zeile + " ";
+            for (int spalte = 0; spalte &lt; feld[zeile].length; spalte++) {
+                // Schiffe bleiben verdeckt, bis sie getroffen werden
+                char zeichen = feld[zeile][spalte];
+                if (zeichen == 'S') {
+                    zeichen = '~';
+                }
+                ausgabe += " " + zeichen;
+            }
+            ausgabe += "\n";
+        }
+        System.out.println(ausgabe);
+    }
+
+    public static void main(String[] args) {
+        Spielfeld spiel = new Spielfeld();
+        int schuesse = 0;
+        while (!spiel.istFertig()) {
+            spiel.anzeigen();
+            int zeile  = InOut.readInt("Zeile:  ");
+            int spalte = InOut.readInt("Spalte: ");
+            spiel.schiessen(zeile, spalte);
+            schuesse++;
+        }
+        System.out.println("Alle Schiffe versenkt - mit " + schuesse + " Schuessen.");
+    } // end of main
+
+} // end of class Spielfeld</code></pre>
+            </div>
+        </div>
+
+        <p>Zwei Stellen sind erklärungsbedürftig. Die <code>while</code>-Schleife
+           in <code>schiffeSetzen</code> würfelt so lange eine Position aus, bis
+           eine passt. Das klingt nach einer schlechten Idee, funktioniert bei fünf
+           Schiffen auf 100 Feldern aber problemlos – es ist genug Platz da.</p>
+
+        <p>Und die innere Schleife in <code>anzeigen</code> läuft über
+           <code>feld[zeile].length</code>, nicht über <code>feld.length</code>.
+           Bei einem quadratischen Feld ist das dasselbe, bei einem 10×20-Feld
+           nicht mehr. <code>feld.length</code> ist die Anzahl der
+           <em>Zeilen</em>, <code>feld[zeile].length</code> die Länge einer
+           einzelnen Zeile.</p>
+
+        <h2>Aufgabe 4 – Das Sieb des Eratosthenes</h2>
+
+        <p>Diese Aufgabe ist mit einem Stern markiert, also freiwillig. Sie lohnt
+           sich trotzdem, weil sie zeigt, wozu ein <code>boolean</code>-Array gut
+           ist.</p>
+
+        <h3 class="schritt-titel">a) Funktionsweise mit max = 30</h3>
+        <p>Die Idee: man streicht der Reihe nach alle Vielfachen weg. Was übrig
+           bleibt, sind die Primzahlen. Am Anfang steht in
+           <code>istPrimzahl</code> überall <code>true</code>:</p>
+
+        <ol class="schritte">
+            <li><code>i = 2</code> ist noch <code>true</code> → alle Vielfachen streichen: 4, 6, 8, 10, … 28</li>
+            <li><code>i = 3</code> ist noch <code>true</code> → streichen: 6, 9, 12, 15, … 27</li>
+            <li><code>i = 4</code> ist schon <code>false</code> (kam bei der 2 dran) → nichts tun</li>
+            <li><code>i = 5</code> ist noch <code>true</code> → streichen: 10, 15, 20, 25</li>
+            <li>… und so weiter bis 29</li>
+        </ol>
+
+        <p>Übrig bleiben die Indizes, bei denen noch <code>true</code> steht und
+           die größer als 1 sind:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>primzahlen = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]</code></pre>
+            </div>
+        </div>
+
+        <p>Beachte die Bedingung <code>istPrimzahl[i] &amp;&amp; i&gt;1</code> im
+           Struktogramm. Bei 0 und 1 steht noch <code>true</code> drin, weil sie
+           nie als Vielfaches gestrichen wurden – Primzahlen sind sie trotzdem
+           nicht. Deshalb das <code>i&gt;1</code>.</p>
+
+        <h3 class="schritt-titel">b) Der Algorithmus in Java</h3>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Eratosthenes.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Eratosthenes.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Das Sieb des Eratosthenes, 1:1 nach dem Struktogramm
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Eratosthenes {
+
+    public int[] eratosthenes(int max) {
+        boolean[] istPrimzahl = new boolean[max];
+        int anzahl = 0;
+        int index = 0;
+
+        // alle Felder auf true
+        for (int i = 0; i &lt; max; i++) {
+            istPrimzahl[i] = true;
+        }
+
+        // Vielfache streichen
+        for (int i = 2; i &lt; max; i++) {
+            if (istPrimzahl[i]) {
+                for (int v = i * 2; v &lt; max; v += i) {
+                    istPrimzahl[v] = false;
+                }
+            }
+        }
+
+        // zaehlen, wie viele uebrig sind
+        for (int i = 0; i &lt; max; i++) {
+            if (istPrimzahl[i] &amp;&amp; i &gt; 1) {
+                anzahl++;
+            }
+        }
+
+        // die uebrigen einsammeln
+        int[] primzahlen = new int[anzahl];
+        for (int i = 0; i &lt; max; i++) {
+            if (istPrimzahl[i] &amp;&amp; i &gt; 1) {
+                primzahlen[index] = i;
+                index++;
+            }
+        }
+
+        return primzahlen;
+    }
+
+    public static void main(String[] args) {
+        Eratosthenes sieb = new Eratosthenes();
+        int[] ergebnis = sieb.eratosthenes(30);
+
+        String ausgabe = "Primzahlen bis 30:";
+        for (int i = 0; i &lt; ergebnis.length; i++) {
+            ausgabe += " " + ergebnis[i];
+        }
+        System.out.println(ausgabe);
+    } // end of main
+
+} // end of class Eratosthenes</code></pre>
+            </div>
+        </div>
+
+        <p>Warum wird zweimal über das Array gelaufen – einmal zum Zählen, einmal
+           zum Einsammeln? Weil ein Array in Java seine Größe beim Anlegen braucht
+           und sie danach nicht mehr ändern kann. Wir müssen also erst wissen,
+           <em>wie viele</em> Primzahlen es sind, bevor wir
+           <code>new int[anzahl]</code> schreiben können. Genau so steht es auch im
+           Struktogramm.</p>
+
+        <p>Und genau das ist der Grund, warum es die <code>ArrayList</code> gibt –
+           die wächst von selbst mit. Die schauen wir uns als Nächstes an.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="konstruktoren-ueberladen.html"><small>Vorherige Aufgabe</small>Konstruktoren überladen</a>
+            <a class="weiter" href="arraylist-lieblingsfaecher.html"><small>Nächste Aufgabe</small>ArrayList: Lieblingsfächer</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

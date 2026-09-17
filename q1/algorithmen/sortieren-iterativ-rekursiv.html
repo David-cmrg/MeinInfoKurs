@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Sortieren: iterativ und rekursiv</title>
+    <meta name="description" content="Sortieren durch Auswählen auf Listen und Quicksort – inklusive der Pointe, dass eine bereits sortierte Liste für Quicksort der schlechteste Fall ist.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/algorithmen/sortieren-iterativ-rekursiv.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Sortieren: iterativ und rekursiv">
+    <meta property="og:description" content="Sortieren durch Auswählen auf Listen und Quicksort – inklusive der Pointe, dass eine bereits sortierte Liste für Quicksort der schlechteste Fall ist.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/algorithmen/sortieren-iterativ-rekursiv.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Sortieren: iterativ und rekursiv">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Sortieren: iterativ und rekursiv">
+    <meta name="twitter:description" content="Sortieren durch Auswählen auf Listen und Quicksort – inklusive der Pointe, dass eine bereits sortierte Liste für Quicksort der schlechteste Fall ist.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Sortieren: iterativ und rekursiv",
+  "description": "Sortieren durch Auswählen auf Listen und Quicksort – inklusive der Pointe, dass eine bereits sortierte Liste für Quicksort der schlechteste Fall ist.",
+  "url": "https://meininfokurs.cmrg.site/q1/algorithmen/sortieren-iterativ-rekursiv.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "Suchen und Sortieren",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"Suchen und Sortieren\", Seite 62-66",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#algorithmen">Suchen und Sortieren</a>
+        </p>
+        <h1 class="titel">Sortieren: iterativ und rekursiv</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist Sortieren – iterativ und rekursiv!
+           Erst Sortieren durch Auswählen auf einer Liste, dann Quicksort. Quicksort
+           ist der erste Algorithmus, der nicht mehr O(n²) ist, und das merkt man
+           sofort an den Zahlen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>1</strong> Eine Teilnehmerliste soll nach Nachnamen sortiert
+               werden. Bei gleichen Nachnamen soll der Vorname als weiteres
+               Sortierkriterium berücksichtigt werden.</p>
+            <p><strong>2</strong> Das Sortieren durch Auswählen arbeitet ähnlich wie
+               das Sortieren durch Einfügen, jedoch wird hier jeweils das beste
+               Element aus der unsortierten Liste entnommen und an die sortierte Liste
+               angehängt. a) Führen Sie den Algorithmus für die gegebene Zahlenliste
+               durch und notieren Sie nach jedem Schritt den Inhalt der beiden
+               Teillisten. b) Rechnerarbeit: Implementieren Sie den Algorithmus in
+               Java. c) Beurteilen Sie die Effizienz des Sortierens durch Auswählen und
+               vergleichen Sie mit dem Sortieren durch Einfügen.</p>
+            <p><strong>3</strong> Der Quicksortalgorithmus soll auf unterschiedliche
+               Weise veranschaulicht werden. a) Veranschaulichen Sie die Arbeitsweise
+               des Quicksortalgorithmus im Kurs. b) Führen Sie den Quicksortalgorithmus
+               mit den Zahlen 1, 2, 18, 6, 13, 5, 29 durch und dokumentieren Sie jeden
+               Schritt. c) Stellen Sie den Quicksortalgorithmus als Struktogramm dar.</p>
+            <p><strong>4 Rechnerarbeit</strong> Der Quicksortalgorithmus nutzt eine
+               Hilfsmethode <code>int laenge(List&lt;ContentType&gt;)</code>, die für
+               eine gegebene lineare Liste die Länge bestimmt und zurückgibt.
+               Implementieren Sie die Methode.</p>
+            <p><strong>5</strong> Die Effizienz des Quicksortalgorithmus hängt im
+               Wesentlichen von der Wahl des Pivotelements ab. Geben Sie eine
+               Zahlenreihe an, für die der Algorithmus den worst case und den best case
+               in seiner Laufzeit erreicht, wenn als Pivotelement immer das erste
+               Element gewählt wird.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Aufgabe 1 – Die Teilnehmerliste</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>#</th><th>Nachname</th><th>Vorname</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>Baum</td><td>Kevin</td></tr>
+                    <tr><td>2</td><td>Dacher</td><td>Mathias</td></tr>
+                    <tr><td>3</td><td>Keller</td><td>Christin</td></tr>
+                    <tr><td>4</td><td>Mehler</td><td>Katrin</td></tr>
+                    <tr><td>5</td><td>Probst</td><td>Ralf</td></tr>
+                    <tr><td>6</td><td><strong>Strauss</strong></td><td><strong>Andreas</strong></td></tr>
+                    <tr><td>7</td><td><strong>Strauss</strong></td><td><strong>Katja</strong></td></tr>
+                    <tr><td>8</td><td>Traugott</td><td>Jörg</td></tr>
+                    <tr><td>9</td><td>Weiss</td><td>Jennifer</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Die einzige Stelle, an der das zweite Kriterium greift, sind die beiden
+           Strauss. Nach dem Nachnamen sind sie gleichwertig – erst der Vorname
+           entscheidet, und Andreas kommt vor Katja.</p>
+
+        <p>In Java schreibt man so einen Vergleich verschachtelt:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public boolean istKleiner(Person a, Person b) {
+    if (!a.getNachname().equals(b.getNachname())) {
+        return a.getNachname().compareTo(b.getNachname()) &lt; 0;
+    }
+    // Nachnamen gleich -> Vorname entscheidet
+    return a.getVorname().compareTo(b.getVorname()) &lt; 0;
+}</code></pre>
+            </div>
+        </div>
+
+        <p><code>compareTo</code> gibt bei Strings eine negative Zahl zurück, wenn
+           der erste alphabetisch vorne liegt, 0 bei Gleichheit und eine positive
+           Zahl sonst. Damit kann man Texte genauso vergleichen wie Zahlen.</p>
+
+        <p>Das ist übrigens genau die „strenge schwache Ordnung" aus der
+           Sortieraufgabe davor: nach dem Nachnamen allein sind die beiden Strauss
+           <em>gleichwertig</em>, also schwach geordnet. Erst das zweite Kriterium
+           macht die Reihenfolge eindeutig.</p>
+
+        <h2>Aufgabe 2 – Sortieren durch Auswählen</h2>
+
+        <h3 class="schritt-titel">a) Schritt für Schritt mit 7, 13, 2, 36, 203, 8, 12</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Schritt   Originalliste (unsortiert)      Hilfsliste (sortiert)
+------------------------------------------------------------------
+Start     7, 13, 2, 36, 203, 8, 12        (leer)
+1         7, 13, 36, 203, 8, 12           2
+2         13, 36, 203, 8, 12              2, 7
+3         13, 36, 203, 12                 2, 7, 8
+4         13, 36, 203                     2, 7, 8, 12
+5         36, 203                         2, 7, 8, 12, 13
+6         203                             2, 7, 8, 12, 13, 36
+7         (leer)                          2, 7, 8, 12, 13, 36, 203</code></pre>
+            </div>
+        </div>
+
+        <p>Nach jedem Schritt wandert genau ein Element von links nach rechts – das
+           jeweils kleinste. Die Hilfsliste ist dabei immer sortiert, die
+           Originalliste bleibt bis zum Schluss durcheinander.</p>
+
+        <h3 class="schritt-titel">b) Der Algorithmus in Java</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> SortierenDurchAuswaehlen.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="SortierenDurchAuswaehlen.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Sortieren durch Auswaehlen auf einer linearen Liste,
+ * genau nach dem Struktogramm
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public void sortiereDurchAuswaehlen() {
+    List&lt;Integer&gt; hilfsliste = new List&lt;Integer&gt;();
+
+    while (!liste.isEmpty()) {
+
+        // Hilfsvariable mit dem ersten Element vorbelegen
+        liste.toFirst();
+        int kleinstes = liste.getContent();
+        liste.next();
+
+        // den Rest der Liste durchsuchen
+        while (liste.hasAccess()) {
+            if (liste.getContent() &lt; kleinstes) {
+                kleinstes = liste.getContent();
+            }
+            liste.next();
+        }
+
+        // das kleinste Element aus dem Original entfernen ...
+        liste.toFirst();
+        while (liste.hasAccess() &amp;&amp; liste.getContent() != kleinstes) {
+            liste.next();
+        }
+        liste.remove();
+
+        // ... und hinten an die Hilfsliste anhaengen
+        hilfsliste.append(kleinstes);
+    }
+
+    liste = hilfsliste;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Die äußere Schleife läuft, solange die Originalliste nicht leer ist. In
+           jedem Durchlauf wird sie einmal komplett durchsucht, das Minimum entfernt
+           und hinten an die Hilfsliste gehängt. Am Ende wird die Hilfsliste zur neuen
+           Liste – das ist die letzte Zeile des Struktogramms.</p>
+
+        <p>Wichtig ist die Vorbelegung: die Hilfsvariable bekommt das
+           <strong>erste Element</strong> der Liste, nicht etwa 0. Mit 0 würde der
+           Algorithmus bei negativen Zahlen falsch arbeiten, weil dann nie ein
+           Element kleiner wäre.</p>
+
+        <h3 class="schritt-titel">c) Auswählen gegen Einfügen</h3>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>Durch Auswählen</th><th>Durch Einfügen</th></tr></thead>
+                <tbody>
+                    <tr><td>Aufwand allgemein</td><td>O(n²)</td><td>O(n²)</td></tr>
+                    <tr><td>Bei schon sortierter Liste</td><td>O(n²) – sucht trotzdem jedes Mal alles ab</td><td><strong>O(n)</strong> – merkt sofort, dass nichts zu verschieben ist</td></tr>
+                    <tr><td>Vergleiche</td><td>immer gleich viele, egal wie die Liste aussieht</td><td>je nach Vorsortierung deutlich weniger</td></tr>
+                    <tr><td>Elementbewegungen</td><td>wenige – pro Durchlauf wandert genau eins</td><td>viele Verschiebungen</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Beide sind quadratisch und damit für große Datenmengen nicht zu
+           gebrauchen. Der Unterschied liegt im günstigen Fall: <strong>Sortieren
+           durch Einfügen profitiert davon, wenn die Daten schon fast sortiert sind,
+           Sortieren durch Auswählen nicht.</strong> Auswählen braucht dafür weniger
+           Bewegungen, was zählen kann, wenn das Verschieben teuer ist.</p>
+
+        <h2>Aufgabe 3 – Quicksort</h2>
+
+        <h3 class="schritt-titel">a) Im Kurs veranschaulichen</h3>
+        <p>Zehn Leute stellen sich nebeneinander auf. Die erste Person nennt ihr
+           Geburtsdatum und tritt einen Schritt vor – das ist das <strong>Pivot</strong>.
+           Alle Jüngeren gehen nach links, alle Älteren nach rechts. Dann macht jede
+           der beiden Gruppen für sich dasselbe nochmal, bis nur noch Einzelpersonen
+           übrig sind.</p>
+
+        <p>Das Schöne daran ist, dass man die Rekursion körperlich sieht: dieselbe
+           Vorschrift wird auf immer kleinere Gruppen angewendet, und am Ende steht
+           alles richtig, ohne dass irgendjemand die ganze Reihe überblickt hätte.</p>
+
+        <h3 class="schritt-titel">b) Quicksort mit 1, 2, 18, 6, 13, 5, 29</h3>
+        <p>Pivot ist jeweils das erste Element.</p>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>quicksort(1, 2, 18, 6, 13, 5, 29)
+  Pivot = 1
+  kleiner: (leer)          groesser: 2, 18, 6, 13, 5, 29
+  -> quicksort(leer) + [1] + quicksort(2, 18, 6, 13, 5, 29)
+
+    quicksort(2, 18, 6, 13, 5, 29)
+      Pivot = 2
+      kleiner: (leer)      groesser: 18, 6, 13, 5, 29
+      -> quicksort(leer) + [2] + quicksort(18, 6, 13, 5, 29)
+
+        quicksort(18, 6, 13, 5, 29)
+          Pivot = 18
+          kleiner: 6, 13, 5    groesser: 29
+          -> quicksort(6, 13, 5) + [18] + quicksort(29)
+
+            quicksort(6, 13, 5)
+              Pivot = 6
+              kleiner: 5       groesser: 13
+              -> quicksort(5) + [6] + quicksort(13)
+              -> 5, 6, 13
+
+            quicksort(29) -> 29
+
+          -> 5, 6, 13, 18, 29
+
+      -> 2, 5, 6, 13, 18, 29
+
+Ergebnis: 1, 2, 5, 6, 13, 18, 29</code></pre>
+            </div>
+        </div>
+
+        <p>Beachte die ersten beiden Schritte: die 1 und die 2 sind schon die
+           kleinsten Elemente, also bleibt die linke Teilliste jeweils leer. Das ist
+           der ungünstige Fall – der Bereich wird nur um ein Element kleiner statt
+           halbiert. Genau darum geht es in Aufgabe 5.</p>
+
+        <h3 class="schritt-titel">c) Das Struktogramm</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>+--------------------------------------------------------------+
+| quicksort(liste)                                             |
++--------------------------------------------------------------+
+|              laenge(liste) <= 1 ?                            |
+|  WAHR                          |          FALSCH             |
++--------------------------------+-----------------------------+
+| gib liste zurueck              | Pivot = erstes Element      |
+| (Rekursionsanker)              +-----------------------------+
+|                                | erzeuge Listen kleiner      |
+|                                | und groesser                |
+|                                +-----------------------------+
+|                                |   fuer jedes weitere        |
+|                                |   Element e der liste       |
+|                                |  +------------------------+ |
+|                                |  |    e < Pivot ?         | |
+|                                |  | WAHR      |   FALSCH   | |
+|                                |  +-----------+------------+ |
+|                                |  | an        | an         | |
+|                                |  | kleiner   | groesser   | |
+|                                |  | anhaengen | anhaengen  | |
+|                                |  +-----------+------------+ |
+|                                +-----------------------------+
+|                                | gib zurueck:                |
+|                                |   quicksort(kleiner)        |
+|                                |   + Pivot                   |
+|                                |   + quicksort(groesser)     |
++--------------------------------+-----------------------------+</code></pre>
+            </div>
+        </div>
+
+        <h2>Aufgabe 4 – Die Hilfsmethode laenge</h2>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public int laenge(List&lt;ContentType&gt; pListe) {
+    int anzahl = 0;
+    pListe.toFirst();
+    while (pListe.hasAccess()) {
+        anzahl++;
+        pListe.next();
+    }
+    return anzahl;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Wieder das bekannte Listen-Muster. Eine lineare Liste kennt ihre eigene
+           Länge nämlich nicht – man muss durchzählen. Das ist auch der Grund, warum
+           die Methode überhaupt gebraucht wird: Quicksort muss wissen, wann eine
+           Teilliste höchstens ein Element hat und die Rekursion enden kann.</p>
+
+        <p>Und weil man dafür jedes Mal die ganze Liste durchläuft, sollte man
+           <code>laenge()</code> nicht in einer Schleifenbedingung aufrufen – dann
+           zählt man bei jedem Durchlauf neu durch.</p>
+
+        <h2>Aufgabe 5 – Worst Case und Best Case</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Fall</th><th>Beispielreihe</th><th>Was passiert</th><th>Aufwand</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Worst Case</strong></td><td>1, 2, 3, 4, 5, 6, 7</td><td>Das Pivot ist immer das kleinste Element. Die linke Teilliste bleibt leer, die rechte wird nur um eins kürzer. Es braucht n Rekursionsebenen.</td><td>O(n²)</td></tr>
+                    <tr><td><strong>Best Case</strong></td><td>4, 2, 6, 1, 3, 5, 7</td><td>Das Pivot ist immer der mittlere Wert. Beide Teillisten sind gleich groß, die Liste halbiert sich bei jedem Schritt.</td><td>O(n · log n)</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Das ist die ironische Pointe bei Quicksort mit erstem Pivot: <strong>eine
+           bereits sortierte Liste ist der schlechteste Fall.</strong> Ausgerechnet
+           die Eingabe, bei der es gar nichts zu tun gäbe, ist die langsamste. Eine
+           absteigend sortierte Liste ist übrigens genauso schlimm, nur bleibt dann
+           die rechte Teilliste leer.</p>
+
+        <p>Zur Probe für den Best Case: Pivot 4, links 2, 1, 3 und rechts 6, 5, 7.
+           In der linken Liste ist 2 das Pivot, links davon 1, rechts 3 – wieder
+           perfekt halbiert. Rechts genauso mit der 6.</p>
+
+        <h3 class="schritt-titel">Wie man das Problem in der Praxis löst</h3>
+        <p>Weil sortierte Daten gar nicht so selten sind, nimmt man das erste
+           Element in echten Programmen nicht als Pivot. Üblich sind:</p>
+
+        <ul class="schritte">
+            <li>das <strong>mittlere</strong> Element – bei sortierten Daten sofort optimal</li>
+            <li>ein <strong>zufälliges</strong> Element – der worst case wird unwahrscheinlich</li>
+            <li>der <strong>Median aus erstem, mittlerem und letztem</strong> Element</li>
+        </ul>
+
+        <p>Im Schnitt liegt Quicksort bei O(n · log n) und ist damit deutlich
+           schneller als alles, was wir vorher hatten. Bei 10 000 Elementen sind das
+           rund 130 000 Schritte statt 100 Millionen bei den O(n²)-Verfahren.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="suchen-iterativ-rekursiv.html"><small>Vorherige Aufgabe</small>Suchen: iterativ und rekursiv</a>
+            <a class="weiter" href="ab-sortieralgorithmen.html"><small>Nächste Aufgabe</small>Arbeitsblatt Sortieralgorithmen</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

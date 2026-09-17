@@ -1,0 +1,76 @@
+{
+  "basis_url": "https://meininfokurs.cmrg.site",
+  "seitenname": "MeinInfoKurs",
+  "autor": "David Gomez Camargo",
+  "adsense": "ca-pub-3759386961615231",
+  "adsense_slots": {
+    "oben": "",
+    "unten": "",
+    "schiene_links": "",
+    "schiene_rechts": ""
+  },
+  "_hinweis_werbung": "Anzeigenblock-IDs aus deinem AdSense-Konto (Anzeigen > Nach Anzeigenblock). oben/unten = Display-Anzeige (responsiv). schiene_links/schiene_rechts = Display-Anzeige, feste Groesse 160x600. Du darfst dieselbe ID zweimal eintragen, dann laufen beide Schienen auf einem Block. Solange ein Feld leer ist, wird dafuer KEIN <ins> ausgegeben - es gaebe sonst nur einen leeren Kasten. Die Auto-Ads aus dem Kopf-Skript laufen unabhaengig davon. WICHTIG: wenn die Schienen hier laufen, in AdSense das Auto-Ads-Format 'Side rails' ABSCHALTEN, sonst stehen dort zwei Anzeigen uebereinander.",
+  "email": "meininfokurs@gmail.com",
+  "halbjahre": [
+    {
+      "id": "e",
+      "name": "E-Phase",
+      "kuerzel": "E",
+      "zusatz": "Klasse 10 · Grundlagen",
+      "beschreibung": "Die Aufgaben aus der Einführungsphase: der Einstieg in Java und HTML.",
+      "bereiche": [
+        {
+          "id": "java",
+          "name": "Java"
+        },
+        {
+          "id": "html",
+          "name": "HTML"
+        }
+      ]
+    },
+    {
+      "id": "q1",
+      "name": "Q1",
+      "kuerzel": "Q1",
+      "zusatz": "Klasse 11 · 1. Halbjahr",
+      "beschreibung": "Objektorientierte Programmierung in Java und die klassischen Such- und Sortierverfahren.",
+      "bereiche": [
+        {
+          "id": "oop",
+          "name": "OOP in Java"
+        },
+        {
+          "id": "algorithmen",
+          "name": "Suchen und Sortieren"
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "name": "Q2",
+      "kuerzel": "Q2",
+      "zusatz": "Klasse 11 · 2. Halbjahr",
+      "beschreibung": "Relationale Datenbanken: Schlüssel, SQL, Normalisierung und der Zugriff aus PHP.",
+      "bereiche": [
+        {
+          "id": "datenbanken",
+          "name": "Datenbanken"
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "name": "Q3",
+      "kuerzel": "Q3",
+      "zusatz": "Klasse 12 · 1. Halbjahr",
+      "beschreibung": "Formale Sprachen: Alphabete, Syntax und Semantik.",
+      "bereiche": [
+        {
+          "id": "formale-sprachen",
+          "name": "Formale Sprachen"
+        }
+      ]
+    }
+  ]
+}

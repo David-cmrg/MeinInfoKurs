@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeinInfoKurs | Seite nicht gefunden</title>
+
+    <meta name="robots" content="noindex, follow">
+    <meta name="description" content="Diese Seite gibt es nicht (mehr). Alle Aufgaben, Lösungen und Erklärungen liegen in V3.">
+    <link rel="icon" href="/assets/logo.ico" type="image/x-icon">
+
+    <!-- Absolute Pfade sind hier Absicht: GitHub Pages liefert diese Datei
+         unter der falsch getippten URL aus, relative Pfade zeigen dann ins
+         Leere. Deshalb steht das bisschen CSS auch direkt hier drin. -->
+    <style>
+        :root { color-scheme: dark; }
+        body {
+            margin: 0; min-height: 100vh;
+            display: grid; place-items: center;
+            background: #12121f; color: #e8e8f0;
+            font: 16px/1.6 "Montserrat", system-ui, -apple-system, sans-serif;
+            text-align: center; padding: 24px;
+        }
+        .nummer {
+            font-size: 4rem; font-weight: 700; letter-spacing: -.04em;
+            margin: 0; line-height: 1;
+            background: linear-gradient(90deg, #7dd3fc, #d8b4fe);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        h1 { font-size: 1.35rem; font-weight: 600; margin: .75rem 0 .5rem; }
+        p  { margin: 0 0 1.5rem; color: #9a9ab0; max-width: 34rem; }
+        .knoepfe { display: flex; gap: .75rem; flex-wrap: wrap; justify-content: center; }
+        a {
+            display: inline-block; padding: .7rem 1.4rem;
+            border-radius: 8px; text-decoration: none; font-weight: 600;
+            color: #12121f; background: linear-gradient(90deg, #7dd3fc, #d8b4fe);
+        }
+        a.still {
+            color: #e8e8f0; background: none;
+            border: 1px solid #2c2c40;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <p class="nummer">404</p>
+        <h1>Die Seite gibt es hier nicht</h1>
+        <p>Vielleicht hat sich ein Tippfehler in die Adresse geschlichen, oder die
+           Seite lag noch im alten Aufbau. Alle Aufgaben stehen auf der Startseite.</p>
+        <div class="knoepfe">
+            <a href="/index.html">Zur Startseite</a>
+            <a class="still" href="/info.html">Info &amp; Kontakt</a>
+        </div>
+    </main>
+</body>
+</html>

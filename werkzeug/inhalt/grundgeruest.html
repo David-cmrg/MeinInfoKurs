@@ -1,0 +1,77 @@
+        <p>
+            Die Aufgabe der heutigen Stunde ist <strong>das Grundgerüst!</strong> <br/> 
+            Heute beschäftigen wir uns mit HMTL, welches die kurzform von <strong>H</strong>yper <strong>T</strong>ext <strong>M</strong>arkup <strong>L</strong>anguage ist.
+            Alles was du im Internet suchst, aufrufst oder dir anschaust basiert auf HTML. Es ist die Programmiersprache der Webentwickelung! Meiner Meinung nach
+            ist sie sehr einfach zu verstehen und anzuwenden. Schauen wir uns mal an wie ein ".html" Dokument aufgebaut ist. Dazu bearbeiten wir die heutige Aufgabe.
+            <br/>
+</p>
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> HTML</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="Grundgeruest.html" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-markup">&lt;!DOCTYPE html&gt;
+        &lt;html lang="en"&gt;
+        &lt;head&gt;
+                &lt;meta charset="UTF-8"&gt;
+                &lt;title&gt;Meine erste Webseite&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+                &lt;h1 style="color: white;"&gt;Willkommen bei meiner Webseite!&lt;/h1&gt;
+                &lt;p style="color: white;"&gt;Das hier ist ein Paragraph.&lt;/p&gt;
+        &lt;/body&gt;
+&lt;/html&gt;</code></pre></div></div>
+        <p>
+            Das Grundgerüst einer Webseite hat immer folgende Bestandteile: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>&lt;!DOCTYPE html&gt;</li> <br/>
+<li>&lt;html lang="en"&gt;</li>
+<li>&lt;head&gt;</li>
+<li>&lt;/head&gt;</li>
+<li>&lt;body&gt;</li>
+<li>&lt;/body&gt;</li>
+<li>&lt;/html&gt;</li>
+</ol>
+        <h3 class="schritt-titel">&lt;!DOCTYPE html&gt;</h3>
+        <p>
+            Dieser "Tag" steht am Anfang hedes HTML-Dokuments.
+            Es ist kein richtiger Tag, sondern eine Anweisung für deinen Browser.
+            Damit weiß der Browser, dass es sich um ein modernes HTML5-Dokument handelt und wie der Inhalt richtig angezeigt, 
+            beziehungsweise interpretiert, wird.
+        </p>
+        <br/>
+        <h3 class="schritt-titel">&lt;html lang="en"&gt;</h3>
+        <p>
+            Der Start des eigentlichen HTML-Dokumentes (vom Inhalt her) beginnt hier.
+            Mit "lang=en" gibst du an, dass die Sprache der Inhalte deiner Webseite Englisch ist. Dies ist für Suchmaschienen 
+            oder der Vorlesehilfe sehr hilfreich!
+        </p>
+        <br/>
+        <h3 class="schritt-titel">&lt;head&gt;</h3>
+        <p>
+           In dem sogenannten "Kopfbereich" der Webseite stehen die Informationen über die Seite, die man im Browser nicht 
+           direkt sieht / angezeigt bekommt. Hier legt man zum Beispiel den Titel der Webseite fest, bindet verschiedene CSS, 
+           JS oder weitere Dateien an und einiges mehr. Im Grunde kann man sich merken, dass alles was es an Informationen für die
+           Funktionalität der Webseite im "&lt;head&gt;" Tag angegeben wird.
+        </p>
+        <br/>
+        <h3 class="schritt-titel">&lt;body&gt;</h3>
+        <p>
+           der Body ist der sichtbare Bereich der Webseite. Alles, was Nutzer sehen sollen (Texte, Bilder, Links, Überschriften, Tabellen, Videos, usw.)
+           wird hier angegeben. Das ist also die Oberfläche mit welcher der Nutzer interagieren kann und sie angezeigt bekommt. 
+           Desweiteren kann man den "&lt;body&gt;" Tag in 3 weitere Abschnitte unterteilen. "&lt;header&gt;", "&lt;main&gt;" und "&lt;footer&gt;" helfen den
+           Entwicklern der Seite ein übersichtlicheres layout für die Webseite zu erstellen. Wenn man zum Beispiel eine Fußzeile haben möchte, kann man
+           diese einfach in den &lt;body&gt; schreiben und schon wird der Inhalt des footer Tags am unteren Ende der Webseite angezeigt.
+        </p>
+        <br/>
+        <h3 class="schritt-titel">Schließende Tags</h3>
+        <p>
+           In HTML gibt es <strong>öffnende</strong>, sowie <strong>schließende Tags</strong>.
+           Ein öffnender Tag ist so aufgebaut: <kbd>&lt;tagname&gt;</kbd>, während ein schließender Tag so aussieht: 
+           <kbd>&lt;/tagname&gt;</kbd>. Alles was sich zwischen den öffnenden und schließenden Tags befindet gehört
+           zu diesem Element. Schließende Klammern sind wichtig, damit der Browser genau weiß, wo ein Element aufhört.  <br/> <br/>
+</p>
+        <div class="code"><div class="code-feld"><pre><code class="language-markup">&lt;p&gt; Das hier ist ein Paragraph! &lt;/p&gt;</code></pre></div></div>
+        Hier beginnt
+        <kbd>&lt;p&gt;</kbd>
+        unser Textelement, während
+        <kbd>&lt;/p&gt;</kbd>
+        es schließt und beendet. Ohne die schließenden Klammern würde der Browser den Inhalt oft falsch darstellen.
+        <br/>

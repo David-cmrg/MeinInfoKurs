@@ -1,0 +1,377 @@
+        <p>Die Aufgabe der heutigen Stunde ist das einfache Sortieren! Fünf
+           Teilaufgaben rund um Selection Sort, Insertion Sort und Bubble Sort. Der
+           Großteil davon ist Handarbeit – Arrays Schritt für Schritt aufschreiben.
+           Das nervt beim Machen, ist aber genau das, was in der Klausur verlangt
+           wird.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p><strong>1</strong> Gegeben ist eine Tabelle mit drei deutschen
+               wöchentlichen Nachrichtenmagazinen, aufsteigend sortiert nach dem Jahr
+               ihrer Erstausgabe. Sortieren Sie die drei Datensätze jeweils nach den
+               Sortierkriterien Titel und Auflage und erläutern Sie, dass es sich
+               jeweils um Kriterien mit einer strengen schwachen Ordnung handelt.</p>
+            <p><strong>2 Gruppenarbeit</strong> Diese Aufgabe lässt sich gut als
+               Gruppenpuzzle bearbeiten. Jede Expertengruppe bearbeitet eines der
+               drei Sortierverfahren. Legen Sie fünf Stifte unterschiedlicher Länge
+               bereit und üben Sie Ihr Sortierverfahren. Sortieren Sie anschließend
+               in der Gruppe die Zahlenreihe 8, 3, 1, 7 mit allen drei Verfahren.</p>
+            <p><strong>3</strong> Gegeben ist ein unsortiertes Array von Zahlen.
+               Führen Sie die drei Sortierverfahren auf diesem Array durch, indem Sie
+               alle Teilschritte dokumentieren.</p>
+            <p><strong>4</strong> Gegeben ist ein Struktogramm für den
+               Sortieralgorithmus Selection Sort. a) Implementieren Sie den
+               Algorithmus in Java für ein Array mit Zahlen. b) Gegeben ist nun eine
+               Implementation des Insertion Sort. Entwerfen Sie ein passendes
+               Struktogramm.</p>
+            <p><strong>5</strong> Gegeben ist die Methode <em>sortiere(int[] a)</em>.
+               a) Analysieren Sie die Methode, indem Sie Schritt für Schritt die
+               Belegung des Arrays notieren. b) Implementieren Sie die Methode
+               <em>vertausche(int[] a, int i, int minpos)</em> auf Papier.</p>
+        </div>
+
+        <h2>Aufgabe 1 – Sortierkriterien</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Titel</th><th>Auflage</th><th>Erstausgabe</th></tr></thead>
+                <tbody>
+                    <tr><td>Spiegel</td><td>649 235</td><td>1947</td></tr>
+                    <tr><td>Stern</td><td>369 547</td><td>1948</td></tr>
+                    <tr><td>Focus</td><td>252 035</td><td>1993</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><strong>Nach Titel (alphabetisch aufsteigend):</strong> Focus, Spiegel,
+           Stern.<br>
+           <strong>Nach Auflage (aufsteigend):</strong> Focus (252 035), Stern
+           (369 547), Spiegel (649 235).</p>
+
+        <h3 class="schritt-titel">Was eine strenge schwache Ordnung ist</h3>
+        <p>Klingt komplizierter als es ist. Ein Sortierkriterium taugt nur dann
+           zum Sortieren, wenn es drei Eigenschaften hat:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Eigenschaft</th><th>Was sie bedeutet</th><th>Beim Titel</th></tr></thead>
+                <tbody>
+                    <tr><td>Irreflexiv</td><td>Kein Element ist kleiner als es selbst</td><td>„Stern" &lt; „Stern" ist falsch ✓</td></tr>
+                    <tr><td>Asymmetrisch</td><td>Ist a &lt; b, dann nicht gleichzeitig b &lt; a</td><td>„Focus" &lt; „Spiegel", also nicht umgekehrt ✓</td></tr>
+                    <tr><td>Transitiv</td><td>Ist a &lt; b und b &lt; c, dann auch a &lt; c</td><td>Focus &lt; Spiegel &lt; Stern, also Focus &lt; Stern ✓</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Für die Auflage gilt genau dasselbe, nur mit Zahlen statt Buchstaben.
+           Deshalb kann man nach beiden Kriterien sortieren.</p>
+
+        <p>„Schwach" heißt dabei: es darf Elemente geben, die
+           <strong>gleichwertig</strong> sind – zwei Magazine mit derselben Auflage
+           wären weder kleiner noch größer. Das Verfahren muss damit klarkommen und
+           darf sich nicht aufhängen. Hier kommt der Fall nicht vor, alle drei Werte
+           sind verschieden.</p>
+
+        <p>Ein Gegenbeispiel macht es klarer: „ist interessanter als" wäre
+           <strong>kein</strong> gültiges Sortierkriterium. Es ist nicht transitiv,
+           weil es von der Person abhängt, und man kann es nicht eindeutig
+           entscheiden. Damit kann kein Sortieralgorithmus etwas anfangen.</p>
+
+        <h2>Aufgabe 2 – Die Zahlenreihe 8, 3, 1, 7</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Schritt</th><th>Selection Sort</th><th>Insertion Sort</th><th>Bubble Sort</th></tr></thead>
+                <tbody>
+                    <tr><td>Start</td><td>8 3 1 7</td><td>8 3 1 7</td><td>8 3 1 7</td></tr>
+                    <tr><td>1</td><td>1 3 8 7 <small>(min 1 nach vorn)</small></td><td>3 8 1 7 <small>(3 einsortiert)</small></td><td>3 8 1 7 <small>(8↔3)</small></td></tr>
+                    <tr><td>2</td><td>1 3 8 7 <small>(min 3, bleibt)</small></td><td>1 3 8 7 <small>(1 einsortiert)</small></td><td>3 1 8 7 <small>(8↔1)</small></td></tr>
+                    <tr><td>3</td><td>1 3 7 8 <small>(min 7 nach vorn)</small></td><td>1 3 7 8 <small>(7 einsortiert)</small></td><td>3 1 7 8 <small>(8↔7, Ende D1)</small></td></tr>
+                    <tr><td>4</td><td>fertig</td><td>fertig</td><td>1 3 7 8 <small>(3↔1, Ende D2)</small></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Schon an diesem winzigen Beispiel sieht man den Charakter der drei
+           Verfahren: Selection sucht das Minimum und tauscht einmal pro Durchlauf.
+           Insertion baut vorne einen sortierten Bereich auf. Bubble tauscht immer
+           nur Nachbarn und schiebt das Größte nach hinten.</p>
+
+        <h2>Aufgabe 3 – Alle drei auf 6, 3, 8, 11, 12, 4, 2, 1</h2>
+
+        <h3 class="schritt-titel">Selection Sort</h3>
+        <p>Suche das kleinste Element im unsortierten Rest und tausche es an den
+           Anfang dieses Rests. Der Strich zeigt, wo der sortierte Teil endet.</p>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Start:        6  3  8 11 12  4  2  1
+i=0: min=1     1 | 3  8 11 12  4  2  6      (getauscht: 6 und 1)
+i=1: min=2     1  2 | 8 11 12  4  3  6      (getauscht: 3 und 2)
+i=2: min=3     1  2  3 | 11 12  4  8  6     (getauscht: 8 und 3)
+i=3: min=4     1  2  3  4 | 12 11  8  6     (getauscht: 11 und 4)
+i=4: min=6     1  2  3  4  6 | 11  8 12     (getauscht: 12 und 6)
+i=5: min=8     1  2  3  4  6  8 | 11 12     (getauscht: 11 und 8)
+i=6: min=11    1  2  3  4  6  8 11 | 12     (kein Tausch noetig)
+fertig:        1  2  3  4  6  8 11 12</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Insertion Sort</h3>
+        <p>Nimm das nächste Element und schiebe es im vorderen, schon sortierten
+           Bereich an die richtige Stelle.</p>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Start:        6 | 3  8 11 12  4  2  1
+i=1: merke=3   3  6 | 8 11 12  4  2  1      (6 nach rechts geschoben)
+i=2: merke=8   3  6  8 | 11 12  4  2  1     (bleibt, 8 > 6)
+i=3: merke=11  3  6  8 11 | 12  4  2  1     (bleibt)
+i=4: merke=12  3  6  8 11 12 |  4  2  1     (bleibt)
+i=5: merke=4   3  4  6  8 11 12 |  2  1     (12,11,8,6 geschoben)
+i=6: merke=2   2  3  4  6  8 11 12 |  1     (alles geschoben)
+i=7: merke=1   1  2  3  4  6  8 11 12       (alles geschoben)</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Bubble Sort</h3>
+        <p>Vergleiche immer zwei Nachbarn und tausche sie, wenn sie falsch herum
+           stehen. Nach jedem Durchlauf steht das größte Element hinten fest.</p>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Start:         6  3  8 11 12  4  2  1
+Durchlauf 1:   3  6  8 11  4  2  1 | 12     (12 ist ganz hinten angekommen)
+Durchlauf 2:   3  6  8  4  2  1 | 11 12
+Durchlauf 3:   3  6  4  2  1 |  8 11 12
+Durchlauf 4:   3  4  2  1 |  6  8 11 12
+Durchlauf 5:   3  2  1 |  4  6  8 11 12
+Durchlauf 6:   2  1 |  3  4  6  8 11 12
+Durchlauf 7:   1 |  2  3  4  6  8 11 12
+fertig:        1  2  3  4  6  8 11 12</code></pre>
+            </div>
+        </div>
+
+        <p>Bubble Sort braucht hier sieben Durchläufe – und in jedem Durchlauf
+           laufen viele Vergleiche. Es ist das langsamste der drei und wird trotzdem
+           immer als Erstes erklärt, weil man es am leichtesten versteht.</p>
+
+        <h2>Aufgabe 4 a) – Selection Sort in Java</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Sortierer.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Sortierer.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Selection Sort, Insertion Sort und Bubble Sort
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+public class Sortierer {
+
+    private int[] a = {6, 3, 8, 11, 12, 4, 2, 1};
+
+    // Aufgabe 5 b): tauscht zwei Eintraege im Array
+    public void vertausche(int[] pArray, int pPos1, int pPos2) {
+        int merke = pArray[pPos1];
+        pArray[pPos1] = pArray[pPos2];
+        pArray[pPos2] = merke;
+    }
+
+    // Aufgabe 4 a): Selection Sort, genau nach dem Struktogramm
+    public void selectionSort(int[] a) {
+        int links = 0;
+        int min;
+
+        while (links &lt; a.length) {
+            min = links;
+            for (int i = links + 1; i &lt; a.length; i++) {
+                if (a[i] &lt; a[min]) {
+                    min = i;
+                }
+            }
+            vertausche(a, min, links);
+            links = links + 1;
+        }
+    }
+
+    // Insertion Sort - die Vorlage aus Aufgabe 4 b)
+    public void insertionSort(int[] a) {
+        for (int i = 1; i &lt; a.length; i++) {
+            int merke = a[i];
+            int j = i;
+            while (j &gt; 0 &amp;&amp; a[j - 1] &gt; merke) {
+                a[j] = a[j - 1];
+                j = j - 1;
+            }
+            a[j] = merke;
+        }
+    }
+
+    // Bubble Sort
+    public void bubbleSort(int[] a) {
+        for (int durchlauf = 0; durchlauf &lt; a.length - 1; durchlauf++) {
+            for (int i = 0; i &lt; a.length - 1 - durchlauf; i++) {
+                if (a[i] &gt; a[i + 1]) {
+                    vertausche(a, i, i + 1);
+                }
+            }
+        }
+    }
+
+    public void ausgabe(int[] a) {
+        String zeile = "";
+        for (int i = 0; i &lt; a.length; i++) {
+            zeile += a[i] + " ";
+        }
+        System.out.println(zeile);
+    }
+
+    public static void main(String[] args) {
+        Sortierer s = new Sortierer();
+        int[] zahlen = {6, 3, 8, 11, 12, 4, 2, 1};
+
+        System.out.print("Vorher:  ");
+        s.ausgabe(zahlen);
+
+        s.selectionSort(zahlen);
+
+        System.out.print("Nachher: ");
+        s.ausgabe(zahlen);
+    } // end of main
+
+} // end of class Sortierer</code></pre>
+            </div>
+        </div>
+
+        <p>Das Struktogramm gibt eine <code>solange</code>-Schleife mit
+           <code>links</code> vor, keine <code>for</code>-Schleife. Ich habe mich
+           daran gehalten, weil die Aufgabe „Implementieren Sie den Algorithmus"
+           sagt – mit einer <code>for</code>-Schleife wäre es dasselbe, nur eben
+           nicht mehr 1:1 das Struktogramm.</p>
+
+        <p>Auffällig ist, dass <code>vertausche</code> hier
+           <strong>immer</strong> aufgerufen wird, auch wenn <code>min == links</code>
+           ist und das Element mit sich selbst getauscht wird. Das ist harmlos, nur
+           unnötig. Die Fassung in Aufgabe 5 prüft vorher mit
+           <code>if (minpos &gt; i)</code>.</p>
+
+        <h2>Aufgabe 4 b) – Struktogramm zum Insertion Sort</h2>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>+--------------------------------------------------+
+| insertionSort()                                  |
++--------------------------------------------------+
+|   for i = 1 to a.length - 1                      |
+|  +---------------------------------------------+ |
+|  | int merke = a[i]                            | |
+|  +---------------------------------------------+ |
+|  | int j = i                                   | |
+|  +---------------------------------------------+ |
+|  |   solange j > 0 UND a[j-1] > merke          | |
+|  |  +----------------------------------------+ | |
+|  |  | a[j] = a[j-1]                          | | |
+|  |  +----------------------------------------+ | |
+|  |  | j = j - 1                              | | |
+|  |  +----------------------------------------+ | |
+|  +---------------------------------------------+ |
+|  | a[j] = merke                                | |
+|  +---------------------------------------------+ |
++--------------------------------------------------+</code></pre>
+            </div>
+        </div>
+
+        <p>Die Struktur eins zu eins aus dem Code: eine Zählschleife außen, darin
+           zwei Zuweisungen, dann eine kopfgesteuerte Schleife, und nach der Schleife
+           noch eine Zuweisung. Wichtig ist, dass <code>a[j] = merke</code>
+           <strong>außerhalb</strong> der inneren Schleife steht – sonst würde man
+           den gemerkten Wert bei jedem Verschieben wieder ablegen.</p>
+
+        <p>Die Bedingung <code>j &gt; 0 UND a[j-1] &gt; merke</code> hat ihre
+           Reihenfolge nicht zufällig. Java prüft von links nach rechts und hört auf,
+           sobald das Ergebnis feststeht. Wäre <code>j &gt; 0</code> hinten, würde
+           bei <code>j = 0</code> zuerst <code>a[-1]</code> gelesen – und das gibt
+           eine <code>ArrayIndexOutOfBoundsException</code>.</p>
+
+        <h2>Aufgabe 5 a) – sortiere() Schritt für Schritt</h2>
+
+        <p>Die Methode <code>sortiere(int[] a)</code> ist ein Selection Sort mit
+           zwei verschachtelten <code>for</code>-Schleifen. Auf dem Array
+           8, 15, 3, 12, 9, 7 passiert Folgendes:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>i</th><th>minpos am Ende</th><th>Tausch?</th><th>Array danach</th></tr></thead>
+                <tbody>
+                    <tr><td>0</td><td>2 (Wert 3)</td><td>ja, 0 ↔ 2</td><td>3, 15, 8, 12, 9, 7</td></tr>
+                    <tr><td>1</td><td>5 (Wert 7)</td><td>ja, 1 ↔ 5</td><td>3, 7, 8, 12, 9, 15</td></tr>
+                    <tr><td>2</td><td>2 (Wert 8)</td><td><strong>nein</strong>, minpos = i</td><td>3, 7, 8, 12, 9, 15</td></tr>
+                    <tr><td>3</td><td>4 (Wert 9)</td><td>ja, 3 ↔ 4</td><td>3, 7, 8, 9, 12, 15</td></tr>
+                    <tr><td>4</td><td>4 (Wert 12)</td><td>nein</td><td>3, 7, 8, 9, 12, 15</td></tr>
+                    <tr><td>5</td><td>5 (Wert 15)</td><td>nein</td><td>3, 7, 8, 9, 12, 15</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Bei <code>i = 2</code> sieht man, wofür das <code>if (minpos &gt; i)</code>
+           gut ist: die 8 steht schon richtig, <code>minpos</code> bleibt bei 2, und
+           der Tausch wird übersprungen. Ohne die Abfrage würde das Element sinnlos
+           mit sich selbst getauscht.</p>
+
+        <h2>Aufgabe 5 b) – vertausche auf Papier</h2>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public void vertausche(int[] pArray, int pPos1, int pPos2) {
+    int merke = pArray[pPos1];
+    pArray[pPos1] = pArray[pPos2];
+    pArray[pPos2] = merke;
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Drei Zeilen, und die Hilfsvariable <code>merke</code> ist der ganze
+           Trick. Ohne sie geht es nicht:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">pArray[pPos1] = pArray[pPos2];   // der alte Wert von pPos1 ist jetzt weg
+pArray[pPos2] = pArray[pPos1];   // schreibt denselben Wert nochmal zurueck</code></pre>
+            </div>
+        </div>
+
+        <p>Danach stehen an beiden Stellen derselbe Wert und der andere ist
+           unwiderruflich überschrieben. Man braucht also erst einen Zwischenspeicher,
+           bevor man die erste Stelle überschreibt. Das ist derselbe Gedanke wie beim
+           Getränkeglas: um zwei Gläser zu tauschen, braucht man ein drittes leeres.</p>
+
+        <p>Und noch etwas Wichtiges: die Methode bekommt das Array als Parameter
+           und verändert es trotzdem dauerhaft. Bei Arrays wird nämlich nicht der
+           Inhalt kopiert, sondern nur die Adresse übergeben – die Methode arbeitet
+           also auf demselben Array wie der Aufrufer. Bei einem einfachen
+           <code>int</code> wäre das anders, da bekäme die Methode eine Kopie.</p>
+
+        <h2>Die drei Verfahren im Vergleich</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Verfahren</th><th>Idee</th><th>Vertauschungen</th><th>Aufwand</th></tr></thead>
+                <tbody>
+                    <tr><td>Selection Sort</td><td>Minimum suchen, nach vorne tauschen</td><td>wenige (höchstens n-1)</td><td>O(n²)</td></tr>
+                    <tr><td>Insertion Sort</td><td>Element in den sortierten Bereich einfügen</td><td>viele Verschiebungen, aber schnell bei fast sortierten Daten</td><td>O(n²), im besten Fall O(n)</td></tr>
+                    <tr><td>Bubble Sort</td><td>Nachbarn tauschen, Größtes „blubbert" nach hinten</td><td>sehr viele</td><td>O(n²)</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Alle drei sind O(n²) und damit für große Datenmengen ungeeignet. Bei
+           10 000 Elementen sind das 100 Millionen Vergleiche. Deshalb kommt später
+           Quicksort – der schafft dasselbe in O(n · log n).</p>

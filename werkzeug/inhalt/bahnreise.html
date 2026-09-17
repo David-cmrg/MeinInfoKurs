@@ -1,0 +1,100 @@
+        <p>Die Aufgabe der heutigen Stunde ist <strong>die Bahnreise!</strong> Dazu schauen wir uns mal die Aufgabe genauer an und versuchen durch intelligentes Lösen ein vollfunktionsfähiges Programm zu erstellen. <br/></p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+          Die Bürger von Java sollen mit der Bahn fahren, damit die Umwelt geschont wird, deshalb bietet die Bahn Gruppenreisen ab 6 Personen im Tarif Gruppe&amp;Spar 70 an.  
+          Dabei gibt es auf den Normalpreis für eine Person 70 % Rabatt, maximal bezahlt man aber 36,60 € pro Person, egal wie weit man innerhalb Deutschlands reist. Entwickle einen Preisrechner für solche Gruppenreisen.  
+          Eingegeben werden der Normalpreis für eine Person und die Anzahl der in der Gruppe reisenden Personen, ausgegeben wird der Preis für die Gruppe. Nenne das Programm Bahnreise.
+        </p></div>
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="Bahnreise.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+*
+* Das fertige Java Programm der Bahnreise
+*
+* @version 1.0 vom 25.02.2024
+* @MeinInfoKurs.github.io
+*/
+
+public class Bahnreise {
+
+                public static void main(String[] args) {
+                                int PersonenAnzahl;
+                                double Normalpreis, Maximalpreis, GruppenPreis, PersonenEndPreis, Rabatt;
+
+                                PersonenAnzahl = InOut.readInt("Anzahl der reisenden Personen: ");
+                                Normalpreis = InOut.readDouble("Betrag des Normalpreises: ");
+
+                                Maximalpreis = 36.60;
+                                Rabatt = 0.70;
+                                GruppenPreis = Normalpreis*PersonenAnzahl;
+
+                                if (PersonenAnzahl &gt;= 6) {
+                                                GruppenPreis= GruppenPreis*Rabatt;
+                                };
+
+                                PersonenEndPreis=GruppenPreis/PersonenAnzahl;
+
+                                if (PersonenEndPreis &gt; Maximalpreis) {
+                                                PersonenEndPreis=Maximalpreis;
+                                                GruppenPreis=PersonenEndPreis*PersonenAnzahl;
+                                };
+
+                                System.out.println("Preis pro Einzelperson: " + PersonenEndPreis);
+                                System.out.println("Gesamtpreis der Gruppe: " + GruppenPreis);
+                }
+}</code></pre></div></div>
+        <p>
+            In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>Nutzereingabe des Normalpreises</li>
+<li>Nutzereingabe der reisenden Personen</li>
+<br/>
+<li>Gruppenreise möglichkeit (ab 6 Personen)</li>
+<li>Rabbatt auf den Ticketkauf (bei 6+ Fahrgästen)</li>
+<li>Maximalpreis von 36.60€ (pro Person)</li>
+<br/>
+<li>Ausgabe des Preises pro Person</li>
+<li>Ausgabe des gesamten Gruppenpreises</li>
+</ol>
+        <h3 class="schritt-titel">Nutzereingaben (Normalpreis und Personen)</h3>
+        <p>
+            Um eine Nutzereingabe zu ermöglichen, müssen wir zuerst die Variable deklarieren, der wir einen Wert zuweisen wollen.
+            Da wir in dieser Situation eine Zahl mit Nachkommastelle als Wert (Normalpreis) eingeben wollen, nutzen wir einen DOUBLE.
+            Aber wir brauchen auch eine Variable um ihr den Wert der Personenanzahl zu geben
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">int PersonenAnzahl;
+double Normalpreis;
+
+PersonenAnzahl = InOut.readInt("Anzahl der reisenden Personen: ");
+Normalpreis = InOut.readDouble("Betrag des Normalpreises: ");</code></pre></div></div>
+        <h3 class="schritt-titel">Gruppenrabatt berechnung und Ausgabe</h3>
+        <p>
+            Da wir nun die Anzahl aller Reisenden haben, können wir mit unseren Berechnungen fortfahren.
+            Zuerst wollen wir überprüfen ob die Personenanzahl bei 6 oder höher liegt.
+            Wenn ja, dann wollen wir unseren Rabatt von 70% auf den Normalpreis anwenden.
+            Zuletzt überprüfen wir ob der zu zahlende Preis einer Person über dem Maximalpreis (36.60) liegt und setzen
+            den Preis gegebenfalls auf den Maximalpreis (Wenn der end Preis &gt; Maximalpreis ist)
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">/* Alle Variablen die wir benötigen KÖNNEN Nachkommastellen beinhalten, darum verwenden wir einen Double */
+double Maximalpreis, GruppenPreis, PersonenEndPreis, Rabatt;
+
+/* Wertzuweisung an die benötigten Variablen */
+Maximalpreis=36.60;
+Rabatt = 0.70;
+GruppenPreis=Normalpreis*PersonenAnzahl;
+
+if (PersonenAnzahl &gt;= 6) {
+    /* Dies ist möglich, da wir bereits GruppenPreis einen Wert gegeben haben */
+    GruppenPreis= GruppenPreis*Rabatt;
+};
+
+PersonenEndPreis=GruppenPreis/PersonenAnzahl;    /* Bestimmung des Preises pro Person */
+
+if (PersonenEndPreis &gt; Maximalpreis) {
+    PersonenEndPreis=Maximalpreis;
+    GruppenPreis=PersonenEndPreis*PersonenAnahl;
+}
+
+System.out.println("Preis pro Einzelperson: " + PersonenEndPreis);
+System.out.println("Gesamtpreis der Gruppe: " + GruppenPreis);</code></pre></div></div>

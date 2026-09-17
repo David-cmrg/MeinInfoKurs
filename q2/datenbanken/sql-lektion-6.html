@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | SQL Lektion 6: INSERT, UPDATE, DELETE</title>
+    <meta name="description" content="Daten schreiben statt lesen – und das vergessene WHERE, das die halbe Datenbank kostet.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q2/datenbanken/sql-lektion-6.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | SQL Lektion 6: INSERT, UPDATE, DELETE">
+    <meta property="og:description" content="Daten schreiben statt lesen – und das vergessene WHERE, das die halbe Datenbank kostet.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q2/datenbanken/sql-lektion-6.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | SQL Lektion 6: INSERT, UPDATE, DELETE">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | SQL Lektion 6: INSERT, UPDATE, DELETE">
+    <meta name="twitter:description" content="Daten schreiben statt lesen – und das vergessene WHERE, das die halbe Datenbank kostet.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q2.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "SQL Lektion 6: INSERT, UPDATE, DELETE",
+  "description": "Daten schreiben statt lesen – und das vergessene WHERE, das die halbe Datenbank kostet.",
+  "url": "https://meininfokurs.cmrg.site/q2/datenbanken/sql-lektion-6.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q2 – Klasse 11 · 2. Halbjahr",
+  "about": "Datenbanken",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q2",
+    "url": "https://meininfokurs.cmrg.site/q2/"
+  },
+  "isBasedOn": "Informatik Q2, OneNote \"Datenbanken mySQL\", Seite 58",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html" aria-current="page"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q2/index.html">Q2</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q2/index.html#datenbanken">Datenbanken</a>
+        </p>
+        <h1 class="titel">SQL Lektion 6: INSERT, UPDATE, DELETE</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist die sechste SQL-Lektion:
+           <strong>DML</strong>, also Data Manipulation Language. Bis jetzt haben wir
+           nur gelesen. Jetzt schreiben wir – einfügen, ändern, löschen und Tabellen
+           anlegen. Ab hier kann man auch echt was kaputt machen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>a) Bearbeiten Sie die sechste Lektion und erstellen Sie in ihrem
+               OneNote-Heft eine kompakte übersichtliche Kurzzusammenfassung der
+               SQL-Befehle.<br>
+               b) Bearbeiten Sie die Übung 6</p>
+            <p><strong>Zusatzaufgabe</strong></p>
+            <ul>
+                <li>Erzeuge einen neuen Kurs.</li>
+                <li>Füge diesem Kurs zwei Teilnehmer hinzu.</li>
+                <li>Der Kurs wird gestrichen, lösche ihn aus der Datenbank.</li>
+            </ul>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Teil b) der Aufgabe – <em>Bearbeiten Sie die Übung 6</em> – liegt auf der Tutorial-Seite und ist im OneNote nicht abgedruckt. Hier stehen die Zusammenfassung und die Zusatzaufgabe.</span>
+        </div>
+
+        <h2>Die vier Befehle</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-database" aria-hidden="true"></i> SQL</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="SQL_Lektion6.sql">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Zusammenfassung der sechsten SQL-Lektion: DML
+-- @MeinInfoKurs.github.io
+
+-- INSERT: neue Zeile einfuegen
+INSERT INTO tabellen_name VALUES ('x', 'y', 'z');
+
+-- Besser: mit Spaltennamen, dann ist die Reihenfolge egal
+INSERT INTO kurse (id, name, raum) VALUES (12, 'Informatik GK', 'B204');
+
+-- UPDATE: vorhandene Zeilen aendern
+UPDATE kurse
+SET    raum = 'C101'
+WHERE  id = 12;
+
+-- DELETE: Zeilen loeschen
+DELETE FROM kurse
+WHERE  id = 12;
+
+-- CREATE TABLE: neue Tabelle anlegen
+CREATE TABLE kurse (
+    id      INT          NOT NULL,
+    name    VARCHAR(50)  NOT NULL,
+    raum    VARCHAR(10),
+    beginn  DATE,
+    typ     ENUM('GK', 'LK'),
+    PRIMARY KEY (id)
+);</code></pre>
+            </div>
+        </div>
+
+        <h2>Die Datentypen</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Typ</th><th>Wofür</th><th>Beispiel</th></tr></thead>
+                <tbody>
+                    <tr><td><code>INT(n)</code></td><td>ganze Zahlen</td><td><code>id INT</code></td></tr>
+                    <tr><td><code>VARCHAR(n)</code></td><td>Text bis n Zeichen</td><td><code>name VARCHAR(50)</code></td></tr>
+                    <tr><td><code>DATE</code></td><td>Datum im Format JJJJ-MM-TT</td><td><code>'2026-09-17'</code></td></tr>
+                    <tr><td><code>ENUM(…)</code></td><td>feste Auswahl an Werten</td><td><code>ENUM('GK','LK')</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><code>ENUM</code> ist genau dasselbe Prinzip wie das <code>enum</code> in
+           Java bei der Klasse <code>Termin</code>: eine feste, begrenzte Auswahl.
+           Schreibt man etwas anderes hinein, lehnt die Datenbank es ab, statt es
+           stillschweigend zu speichern.</p>
+
+        <p>Bei <code>VARCHAR</code> gibt die Zahl die Höchstlänge an. Zu knapp
+           gewählt, und lange Namen werden abgeschnitten – bei <code>VARCHAR(10)</code>
+           passt „Informatik GK" schon nicht mehr rein.</p>
+
+        <h2>Das WHERE bei UPDATE und DELETE</h2>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">DELETE FROM kurse;            -- loescht ALLE Kurse. Ohne Nachfrage.
+UPDATE kurse SET raum = 'C101';  -- setzt ALLE Kurse auf C101.</code></pre>
+            </div>
+        </div>
+
+        <p>Das ist der Befehl, mit dem man sich richtig Ärger einhandelt. Ein
+           vergessenes <code>WHERE</code> ist syntaktisch völlig korrekt – die
+           Datenbank fragt nicht nach und es gibt kein Rückgängig.</p>
+
+        <p>Angewöhnen kann man sich das hier: <strong>schreib die Anweisung erst
+           als <code>SELECT</code></strong> und schau dir an, welche Zeilen
+           betroffen wären.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- 1. Erst gucken, was getroffen wird
+SELECT * FROM kurse WHERE id = 12;
+
+-- 2. Wenn das stimmt, dasselbe WHERE fuers Loeschen benutzen
+DELETE FROM kurse WHERE id = 12;</code></pre>
+            </div>
+        </div>
+
+        <h2>Die Zusatzaufgabe</h2>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <span>Die Kurs-Datenbank aus Übung 6 ist im OneNote nicht abgedruckt.
+            Ich rechne mit <code>kurse(id, name)</code>,
+            <code>teilnehmer(id, vorname, nachname)</code> und der
+            Verknüpfungstabelle <code>kurs_hat_teilnehmer(kurs_id, teilnehmer_id)</code>.
+            Namen gegebenenfalls anpassen.</span>
+        </div>
+
+        <h3 class="schritt-titel">Schritt 1 – Einen neuen Kurs erzeugen</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">INSERT INTO kurse (id, name) VALUES (12, 'Informatik GK Q2');</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Schritt 2 – Zwei Teilnehmer hinzufügen</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Erst die Personen selbst, falls es sie noch nicht gibt
+INSERT INTO teilnehmer (id, vorname, nachname) VALUES (101, 'Anna', 'Berger');
+INSERT INTO teilnehmer (id, vorname, nachname) VALUES (102, 'Ben',  'Klein');
+
+-- Dann die Zuordnung zum Kurs
+INSERT INTO kurs_hat_teilnehmer (kurs_id, teilnehmer_id) VALUES (12, 101);
+INSERT INTO kurs_hat_teilnehmer (kurs_id, teilnehmer_id) VALUES (12, 102);</code></pre>
+            </div>
+        </div>
+
+        <p>Genau hier zahlt sich das Kapitel über Eltern- und Kindtabellen aus. Die
+           Reihenfolge ist nicht beliebig: erst der Kurs und die Teilnehmer, dann die
+           Zuordnung. Wer zuerst in <code>kurs_hat_teilnehmer</code> schreibt,
+           bekommt einen Fremdschlüsselfehler, weil es Kurs 12 noch gar nicht gibt.</p>
+
+        <h3 class="schritt-titel">Schritt 3 – Den Kurs löschen</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">-- Erst die Zuordnungen, sonst verweisen sie ins Leere
+DELETE FROM kurs_hat_teilnehmer WHERE kurs_id = 12;
+
+-- Dann den Kurs selbst
+DELETE FROM kurse WHERE id = 12;</code></pre>
+            </div>
+        </div>
+
+        <p>Beim Löschen ist die Reihenfolge <strong>genau umgekehrt</strong> zum
+           Einfügen: von innen nach außen, vom Kind zum Elternteil. Versucht man
+           zuerst den Kurs zu löschen, verhindert die referenzielle Integrität das –
+           es gibt ja noch Zeilen, die auf ihn zeigen.</p>
+
+        <p>Und die Teilnehmer bleiben stehen. Der Kurs wurde gestrichen, die
+           Personen gibt es aber weiterhin und sie sind vermutlich in anderen Kursen.
+           Das war in der Aufgabe auch nicht gefordert.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Man kann beim <code>CREATE TABLE</code> auch
+            <code>ON DELETE CASCADE</code> angeben – dann räumt die Datenbank die
+            Kindzeilen von selbst mit weg. Bequem, aber gefährlich: ein
+            <code>DELETE</code> löscht dann unter Umständen viel mehr, als man
+            wollte.</span>
+        </div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="sql-lektion-5.html"><small>Vorherige Aufgabe</small>SQL Lektion 5: Unterabfragen</a>
+            <a class="weiter" href="uebung-7-nordwind.html"><small>Nächste Aufgabe</small>Übung 7: Nordwind-Datenbank</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

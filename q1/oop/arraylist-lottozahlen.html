@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | ArrayList: Lottozahlen</title>
+    <meta name="description" content="contains, size und die Fangfrage: remove(1) löscht nicht die Zahl 1, sondern das Element an Position 1.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/oop/arraylist-lottozahlen.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | ArrayList: Lottozahlen">
+    <meta property="og:description" content="contains, size und die Fangfrage: remove(1) löscht nicht die Zahl 1, sondern das Element an Position 1.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/oop/arraylist-lottozahlen.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | ArrayList: Lottozahlen">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | ArrayList: Lottozahlen">
+    <meta name="twitter:description" content="contains, size und die Fangfrage: remove(1) löscht nicht die Zahl 1, sondern das Element an Position 1.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "ArrayList: Lottozahlen",
+  "description": "contains, size und die Fangfrage: remove(1) löscht nicht die Zahl 1, sondern das Element an Position 1.",
+  "url": "https://meininfokurs.cmrg.site/q1/oop/arraylist-lottozahlen.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "OOP in Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"OOP in Java\", Seite 124",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#oop">OOP in Java</a>
+        </p>
+        <h1 class="titel">ArrayList: Lottozahlen</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde sind die Lottozahlen! Hier geht es um
+           die Methoden, die eine <code>ArrayList</code> so mitbringt – und um
+           eine Stelle, an der man sich fast garantiert vertut. Teil 4 ist
+           ausdrücklich eine Fangfrage, und du sollst erst raten und dann
+           ausprobieren.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>1. Die Lottozahlen vom Samstag waren 1, 17, 25, 30, 31, 33.
+               Speichern Sie sie in einer ArrayList „lottozahlen".<br>
+               2. Prüfen Sie, ob sich die Zahl 12 in der Liste befindet. Prüfen Sie,
+               ob sich die Zahl 31 in der Liste befindet.<br>
+               3. Lassen Sie sich die Länge der Liste ausgeben (es müsste 6
+               herauskommen).<br>
+               4. Angenommen, Sie würden diesen Befehl eingeben:
+               <code>lottozahlen.remove(1);</code> – Was glauben Sie: Welche Zahl
+               würde entfernt werden? Probieren Sie es aus, NACHDEM Sie Ihre
+               Vermutung angestellt haben.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Lottozahlen.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Lottozahlen.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * ArrayList verwenden - Lottozahlen
+ *
+ * @version 1.0 vom 09.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+import java.util.ArrayList;
+
+public class Lottozahlen {
+
+    public static void main(String[] args) {
+
+        // 1. Die Ziehung vom Samstag
+        ArrayList&lt;Integer&gt; lottozahlen = new ArrayList&lt;Integer&gt;();
+        lottozahlen.add(1);
+        lottozahlen.add(17);
+        lottozahlen.add(25);
+        lottozahlen.add(30);
+        lottozahlen.add(31);
+        lottozahlen.add(33);
+
+        System.out.println("Ziehung: " + lottozahlen);
+
+        // 2. Ist die Zahl dabei?
+        System.out.println("Ist die 12 dabei? " + lottozahlen.contains(12));
+        System.out.println("Ist die 31 dabei? " + lottozahlen.contains(31));
+
+        // 3. Wie viele Zahlen sind es?
+        System.out.println("Anzahl der Zahlen: " + lottozahlen.size());
+
+        // 4. Die Fangfrage: remove(1) loescht NICHT die Zahl 1,
+        //    sondern das Element an Index 1 - also die 17.
+        lottozahlen.remove(1);
+        System.out.println("Nach remove(1): " + lottozahlen);
+
+        // Wenn man wirklich die Zahl 1 loeschen will, muss man den Wert
+        // als Objekt uebergeben:
+        lottozahlen.remove(Integer.valueOf(1));
+        System.out.println("Nach remove(Integer.valueOf(1)): " + lottozahlen);
+
+    } // end of main
+
+} // end of class Lottozahlen</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Warum Integer und nicht int</h3>
+        <p>In die spitzen Klammern gehört ein Objekttyp, also
+           <code>ArrayList&lt;Integer&gt;</code> und nicht
+           <code>ArrayList&lt;int&gt;</code>. Trotzdem darfst du
+           <code>lottozahlen.add(17);</code> schreiben und musst nicht
+           <code>new Integer(17)</code> bauen – Java packt die Zahl automatisch
+           ein. Das nennt sich Autoboxing. Beim Herausholen wird sie genauso
+           automatisch wieder ausgepackt.</p>
+
+        <p>Das ist bequem, und genau daher kommt auch die Falle in Teil 4.</p>
+
+        <h3 class="schritt-titel">contains und size</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">lottozahlen.contains(12)   // false
+lottozahlen.contains(31)   // true
+lottozahlen.size()         // 6</code></pre>
+            </div>
+        </div>
+
+        <p><code>contains</code> gibt einen <code>boolean</code> zurück, den kann
+           man direkt an einen String hängen – dann steht da „true" oder „false".
+           Wer wissen will, <em>wo</em> die Zahl steht, nimmt
+           <code>indexOf(31)</code>, das liefert hier 4. Ist die Zahl nicht drin,
+           kommt <code>-1</code> zurück.</p>
+
+        <h3 class="schritt-titel">Teil 4 – die Falle mit remove</h3>
+        <p>Die meisten tippen als Vermutung „die 1 wird entfernt". Das ist falsch,
+           und der Grund ist gemein: <code>remove</code> gibt es zweimal.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Aufruf</th><th>Was Java daraus macht</th><th>Ergebnis</th></tr></thead>
+                <tbody>
+                    <tr><td><code>remove(1)</code></td><td><code>remove(int index)</code> – löscht nach <strong>Position</strong></td><td>entfernt die <strong>17</strong></td></tr>
+                    <tr><td><code>remove(Integer.valueOf(1))</code></td><td><code>remove(Object o)</code> – löscht nach <strong>Wert</strong></td><td>entfernt die <strong>1</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Das ist Methoden-Überladung, dasselbe Thema wie bei den Konstruktoren:
+           zwei Methoden mit gleichem Namen, unterschieden am Parametertyp. Und
+           hier beißt es sich mit dem Autoboxing. Schreibst du
+           <code>remove(1)</code>, ist die <code>1</code> ein <code>int</code>.
+           Java findet eine Methode, die genau <code>int</code> nimmt – die mit dem
+           Index – und nimmt die. Es packt die Zahl gar nicht erst in ein
+           <code>Integer</code> ein, weil es das nicht muss.</p>
+
+        <p>Bei einer <code>ArrayList&lt;String&gt;</code> tritt das Problem nie
+           auf, weil ein String niemals als Index durchgeht. Nur bei
+           Zahlenlisten knallt es. Wenn du also einen <em>Wert</em> löschen willst
+           und nicht eine Position, schreib es ausdrücklich hin.</p>
+
+        <h3 class="schritt-titel">Und so sieht es aus</h3>
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-terminal" aria-hidden="true"></i> Konsole</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>Ziehung: [1, 17, 25, 30, 31, 33]
+Ist die 12 dabei? false
+Ist die 31 dabei? true
+Anzahl der Zahlen: 6
+Nach remove(1): [1, 25, 30, 31, 33]
+Nach remove(Integer.valueOf(1)): [25, 30, 31, 33]</code></pre>
+            </div>
+        </div>
+
+        <p>Nebenbei: <code>System.out.println(lottozahlen)</code> gibt die ganze
+           Liste in eckigen Klammern aus, ohne dass man eine Schleife braucht. Das
+           geht bei einem normalen Array <strong>nicht</strong> – da bekommst du
+           so etwas wie <code>[I@6d06d69c</code> zu sehen. Noch ein Punkt für die
+           Liste.</p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="arraylist-lieblingsfaecher.html"><small>Vorherige Aufgabe</small>ArrayList: Lieblingsfächer</a>
+            <a class="weiter" href="arraylist-ausgabe.html"><small>Nächste Aufgabe</small>ArrayList: Listen ausgeben</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

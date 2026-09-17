@@ -1,0 +1,837 @@
+/* ==========================================================================
+   MeinInfoKurs V3 — stil.css
+   Eine Datei für die ganze Seite. Alles hängt an den Variablen hier oben.
+   ========================================================================== */
+
+/* --- Farben -------------------------------------------------------------- */
+
+:root {
+    color-scheme: dark;
+
+    --grund:          #14151f;
+    --grund-tief:     #101119;
+    --flaeche:        #1b1d2b;
+    --flaeche-hoch:   #23263a;
+    --rand:           #2b2f45;
+    --rand-leise:     #22253550;
+
+    --text:           #e6e7ef;
+    --text-leise:     #9b9fb5;
+    --text-still:     #6f7489;
+
+    --akzent:         #7dd3fc;
+    --akzent-2:       #d8b4fe;
+    --verlauf:        linear-gradient(90deg, #7dd3fc, #d8b4fe);
+
+    --verifiziert:      #4ec9b0;
+    --nicht-verifiziert:#d7ba7d;
+    --fehler:           #e0687e;
+
+    /* Code-Token — die Farben von V2, unverändert */
+    --tok-kommentar: #6a9955;
+    --tok-keyword:   #569cd6;
+    --tok-klasse:    #d7ba7d;
+    --tok-methode:   #dcdcaa;
+    --tok-typ:       #4ec9b0;
+    --tok-string:    #ce9178;
+    --tok-zahl:      #b5cea8;
+    --tok-operator:  #d4d4d4;
+
+    /* Abstände — eine Skala, keine Zufallswerte */
+    --s1: 0.25rem;  --s2: 0.5rem;   --s3: 0.75rem;  --s4: 1rem;
+    --s5: 1.5rem;   --s6: 2rem;     --s7: 3rem;     --s8: 4.5rem;
+
+    --breite: 74ch;
+    --radius: 10px;
+    --nav-hoehe: 4.5rem;
+}
+
+/* Helles Thema. Die Werte stehen genau einmal hier und gelten fuer beide
+   Faelle: Schalter (data-thema) und Systemeinstellung (falls JS aus ist). */
+:root[data-thema="hell"] {
+    color-scheme: light;
+
+    --grund:            #f6f6f9;
+    --grund-tief:       #ececf2;
+    --flaeche:          #ffffff;
+    --flaeche-hoch:     #f0f0f6;
+    --rand:             #dedee8;
+    --rand-leise:       #e8e8f0;
+
+    --text:             #191a24;
+    --text-leise:       #555a70;
+    --text-still:       #7b8095;
+
+    --akzent:           #0369a1;
+    --akzent-2:         #7e22ce;
+    --verlauf:          linear-gradient(90deg, #0369a1, #7e22ce);
+
+    --verifiziert:       #0f766e;
+    --nicht-verifiziert: #a16207;
+    --fehler:            #b91c1c;
+
+    --tok-kommentar:    #4f8a3d;
+    --tok-keyword:      #0000c0;
+    --tok-klasse:       #1d6b7d;
+    --tok-methode:      #7a5c14;
+    --tok-typ:          #1d6b7d;
+    --tok-string:       #a31515;
+    --tok-zahl:         #2a7a2a;
+    --tok-operator:     #3a3a44;
+}
+
+@media (prefers-color-scheme: light) {
+    :root:not([data-thema="dunkel"]) {
+        color-scheme: light;
+
+        --grund:            #f6f6f9;
+        --grund-tief:       #ececf2;
+        --flaeche:          #ffffff;
+        --flaeche-hoch:     #f0f0f6;
+        --rand:             #dedee8;
+        --rand-leise:       #e8e8f0;
+
+        --text:             #191a24;
+        --text-leise:       #555a70;
+        --text-still:       #7b8095;
+
+        --akzent:           #0369a1;
+        --akzent-2:         #7e22ce;
+        --verlauf:          linear-gradient(90deg, #0369a1, #7e22ce);
+
+        --verifiziert:       #0f766e;
+        --nicht-verifiziert: #a16207;
+        --fehler:            #b91c1c;
+
+        --tok-kommentar:    #4f8a3d;
+        --tok-keyword:      #0000c0;
+        --tok-klasse:       #1d6b7d;
+        --tok-methode:      #7a5c14;
+        --tok-typ:          #1d6b7d;
+        --tok-string:       #a31515;
+        --tok-zahl:         #2a7a2a;
+        --tok-operator:     #3a3a44;
+    }
+}
+
+/* --- Grundlagen ---------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+body {
+    margin: 0;
+    background: var(--grund);
+    color: var(--text);
+    font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    -webkit-text-size-adjust: 100%;
+    overflow-x: hidden;
+}
+
+img, svg, video { max-width: 100%; height: auto; }
+
+a { color: var(--akzent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--akzent-2); }
+
+:focus-visible { outline: 2px solid var(--akzent); outline-offset: 3px; border-radius: 3px; }
+
+::selection { background: color-mix(in srgb, var(--akzent) 35%, transparent); }
+
+/* --- Navigation ---------------------------------------------------------- */
+
+.nav {
+    position: fixed;
+    top: .7rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    max-width: calc(100vw - 1.5rem);
+
+    display: flex;
+    align-items: center;
+    gap: .15rem;
+    padding: .3rem;
+
+    border-radius: 999px;
+    border: 1px solid var(--rand);
+    background: color-mix(in srgb, var(--flaeche) 94%, transparent);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, .3);
+
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.nav::-webkit-scrollbar { display: none; }
+
+.nav a {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .5rem .85rem;
+    border-radius: 999px;
+    color: var(--text-leise);
+    text-decoration: none;
+    font-size: .875rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background .18s, color .18s;
+}
+.nav a:hover { background: var(--flaeche-hoch); color: var(--text); }
+.nav a[aria-current="page"] { background: var(--flaeche-hoch); color: var(--text); }
+.nav a[aria-current="page"]::before {
+    content: "";
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--akzent);
+}
+.nav .nur-symbol { padding: .5rem .7rem; }
+
+/* --- Seitengerüst -------------------------------------------------------- */
+
+.seite {
+    max-width: var(--breite);
+    margin: 0 auto;
+    padding: calc(var(--nav-hoehe) + var(--s6)) var(--s5) var(--s8);
+}
+.seite.weit { max-width: 60rem; }
+
+/* --- Typografie ---------------------------------------------------------- */
+
+h1, h2, h3, h4 { line-height: 1.25; font-weight: 700; margin: 0; }
+
+.titel {
+    font-size: clamp(1.75rem, 1.2rem + 2.4vw, 2.6rem);
+    letter-spacing: -.02em;
+    background: var(--verlauf);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: var(--s3);
+    /* Fallback, falls background-clip nicht greift */
+    color: var(--akzent);
+}
+
+h2 { font-size: 1.4rem; margin: var(--s7) 0 var(--s4); letter-spacing: -.01em; }
+h3 { font-size: 1.1rem; margin: var(--s6) 0 var(--s3); }
+
+p { margin: 0 0 var(--s4); }
+p:last-child { margin-bottom: 0; }
+
+strong { font-weight: 700; color: var(--text); }
+
+code {
+    font-family: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+    font-size: .875em;
+}
+:not(pre) > code {
+    padding: .12em .4em;
+    border-radius: 4px;
+    background: var(--flaeche-hoch);
+    border: 1px solid var(--rand-leise);
+    color: var(--text);
+    word-break: break-word;
+}
+
+/* --- Kopfbereich einer Aufgabe ------------------------------------------- */
+
+.brotkrumen {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: var(--s3);
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-still);
+}
+.brotkrumen a { color: var(--text-still); text-decoration: none; }
+.brotkrumen a:hover { color: var(--akzent); }
+.brotkrumen span[aria-hidden] { opacity: .5; }
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .25rem .65rem;
+    margin-bottom: var(--s6);
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    font-size: .75rem;
+    font-weight: 600;
+}
+.status.ist-verifiziert       { color: var(--verifiziert); }
+.status.ist-nicht-verifiziert { color: var(--nicht-verifiziert); }
+.status.ist-fehler            { color: var(--fehler); }
+
+/* --- Aufgabenstellung ---------------------------------------------------- */
+
+.aufgabenstellung {
+    margin: var(--s5) 0 var(--s6);
+    padding: var(--s4) var(--s5);
+    border-left: 3px solid var(--akzent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    background: var(--flaeche);
+}
+.aufgabenstellung .marke {
+    display: block;
+    margin-bottom: var(--s2);
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-still);
+}
+.aufgabenstellung ol, .aufgabenstellung ul { margin: var(--s3) 0 0; padding-left: 1.3rem; }
+.aufgabenstellung li { margin-bottom: var(--s2); }
+
+/* --- Schrittliste -------------------------------------------------------- */
+
+.schritte { margin: var(--s4) 0 var(--s6); padding: 0; list-style: none; counter-reset: schritt; }
+.schritte li {
+    counter-increment: schritt;
+    position: relative;
+    padding-left: 2.2rem;
+    margin-bottom: var(--s3);
+}
+.schritte li::before {
+    content: counter(schritt, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: .15em;
+    font-family: ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--akzent);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Überschrift eines Lösungsschritts, mit Zähler in der Marginalie */
+.schritt-titel { counter-increment: kapitel; display: flex; gap: .7rem; align-items: baseline; }
+.schritt-titel::before {
+    content: counter(kapitel, decimal-leading-zero);
+    flex: none;
+    font-family: ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--text-still);
+    font-variant-numeric: tabular-nums;
+}
+main { counter-reset: kapitel; }
+
+/* --- Codeblock ----------------------------------------------------------- */
+
+.code {
+    position: relative;
+    margin: var(--s4) 0 var(--s6);
+    border: 1px solid var(--rand);
+    border-radius: var(--radius);
+    background: var(--grund-tief);
+    overflow: hidden;
+}
+
+.code-leiste {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s3);
+    padding: .5rem .5rem .5rem .9rem;
+    border-bottom: 1px solid var(--rand);
+    background: var(--flaeche);
+}
+.code-sprache {
+    font-family: ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-still);
+}
+.code-knoepfe { display: flex; gap: .35rem; flex: none; }
+
+.knopf {
+    padding: .35rem .75rem;
+    border: 1px solid var(--rand);
+    border-radius: 6px;
+    background: var(--flaeche-hoch);
+    color: var(--text-leise);
+    font: inherit;
+    font-size: .8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .18s, color .18s, border-color .18s;
+}
+.knopf:hover { background: var(--rand); color: var(--text); border-color: var(--text-still); }
+.knopf.fertig { color: var(--verifiziert); border-color: var(--verifiziert); }
+
+.code-feld { position: relative; }
+
+.code pre {
+    margin: 0;
+    padding: var(--s4);
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--rand) transparent;
+    font-size: .8125rem;
+    line-height: 1.65;
+    tab-size: 4;
+}
+.code pre code { font-size: inherit; background: none; border: 0; padding: 0; }
+
+/* Lösung ist unscharf, bis man sie aufdeckt */
+.verdeckt pre { filter: blur(5px); user-select: none; pointer-events: none; }
+.code-feld .aufdecken {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: color-mix(in srgb, var(--grund-tief) 25%, transparent);
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 2;
+}
+.code-feld .aufdecken span {
+    padding: .6rem 1.1rem;
+    border: 1px solid var(--rand);
+    border-radius: 8px;
+    background: var(--flaeche);
+    box-shadow: 0 4px 16px rgba(0,0,0,.25);
+}
+.code-feld .aufdecken:hover span { background: var(--flaeche-hoch); }
+
+/* Wasserzeichen: sichtbar für Maschinen, nicht markierbar für Menschen */
+.wz {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: none;
+}
+
+/* --- Verdeckte Antwort (Fragen-Aufgaben) --------------------------------- */
+
+.frageliste { margin: var(--s4) 0 var(--s6); padding: 0; list-style: none; counter-reset: frage; }
+.frageliste > li {
+    counter-increment: frage;
+    padding: var(--s4) 0;
+    border-top: 1px solid var(--rand);
+}
+.frageliste > li:last-child { border-bottom: 1px solid var(--rand); }
+.frageliste .frage { font-weight: 700; margin-bottom: var(--s3); }
+.frageliste .frage::before {
+    content: counter(frage) ". ";
+    color: var(--akzent);
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+}
+.antwort {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--text);
+    font: inherit;
+    text-align: left;
+    filter: blur(5px);
+    cursor: pointer;
+    transition: filter .25s;
+}
+.antwort:hover { filter: blur(4px); }
+.antwort.offen { filter: none; cursor: default; }
+
+/* --- Tabellen ------------------------------------------------------------ */
+
+.tabelle-huelle { overflow-x: auto; margin: var(--s4) 0 var(--s6); }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .9rem;
+}
+th, td {
+    padding: .6rem .8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--rand);
+    vertical-align: top;
+}
+th {
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-still);
+}
+tbody tr:hover { background: var(--flaeche); }
+/* erste Spalte ist meist ein Bezeichner - der soll nicht mitten im Wort brechen */
+@media (min-width: 34rem) { td:first-child { white-space: nowrap; } }
+
+/* --- Kartenraster (Übersichten) ------------------------------------------ */
+
+.raster {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+    gap: var(--s3);
+    margin: var(--s5) 0 var(--s7);
+    padding: 0;
+    list-style: none;
+}
+
+.karte {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    height: 100%;
+    padding: var(--s4);
+    border: 1px solid var(--rand);
+    border-radius: var(--radius);
+    background: var(--flaeche);
+    color: var(--text);
+    text-decoration: none;
+    transition: background .2s, border-color .2s, transform .2s;
+}
+.karte:hover {
+    background: var(--flaeche-hoch);
+    border-color: color-mix(in srgb, var(--akzent) 45%, var(--rand));
+    color: var(--text);
+    transform: translateY(-2px);
+}
+.karte .marke {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-still);
+}
+.karte .name { font-weight: 600; line-height: 1.4; }
+.karte .zusatz { font-size: .85rem; color: var(--text-leise); }
+
+.karte.kommt-noch { opacity: .5; }
+.karte.kommt-noch:hover { opacity: .75; transform: none; }
+.karte.kommt-noch .marke::after { content: " · kommt noch"; color: var(--nicht-verifiziert); }
+
+/* Große Halbjahres-Karten auf der Startseite */
+.halbjahre { grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+.halbjahre .karte { padding: var(--s5); gap: .5rem; }
+.halbjahre .kuerzel {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    background: var(--verlauf);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--akzent);
+}
+
+/* --- Vorherige / Nächste ------------------------------------------------- */
+
+.blaettern {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s3);
+    margin-top: var(--s8);
+    padding-top: var(--s5);
+    border-top: 1px solid var(--rand);
+}
+.blaettern a {
+    padding: var(--s3) var(--s4);
+    border: 1px solid var(--rand);
+    border-radius: var(--radius);
+    background: var(--flaeche);
+    color: var(--text);
+    text-decoration: none;
+    font-size: .9rem;
+    font-weight: 600;
+    transition: background .2s, border-color .2s;
+}
+.blaettern a:hover { background: var(--flaeche-hoch); border-color: var(--text-still); color: var(--text); }
+.blaettern .weiter { text-align: right; grid-column: 2; }
+.blaettern small {
+    display: block;
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-still);
+    margin-bottom: .1rem;
+}
+
+/* --- Werbung ------------------------------------------------------------- */
+
+.werbeplatz {
+    margin: var(--s6) 0;
+    min-height: 90px;
+    display: grid;
+    place-items: center;
+    border: 1px dashed var(--rand);
+    border-radius: var(--radius);
+    background: var(--flaeche);
+    overflow: hidden;
+}
+/* Falls AdSense nichts ausliefert, soll der Platz nicht als weisser Kasten
+   stehenbleiben. */
+.werbeplatz ins[data-ad-status="unfilled"] { display: none !important; }
+.werbeplatz:has(ins[data-ad-status="unfilled"]) { display: none; }
+.werbeplatz::before {
+    content: "Werbung";
+    font-size: .7rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-still);
+}
+.werbeplatz ins { width: 100%; }
+.werbeplatz:has(ins[data-ad-status="filled"])::before { content: none; }
+
+/* Die senkrechten Schienen links und rechts. Sie existieren erst ab 1400px:
+   die Textspalte misst mit geladener Montserrat 784px, darunter bliebe neben
+   160px Anzeige keine Luft mehr. Unterhalb der Grenze werden sie nicht nur
+   versteckt, sondern display:none - so laedt AdSense dort auch nichts nach.
+   Die 784px sind nachgemessen, nicht geschaetzt: --breite steht in ch, und ch
+   haengt an der Schrift. Wer --breite aendert, muss den Wert hier mitziehen. */
+.werbe-schiene { display: none; }
+
+@media (min-width: 1400px) {
+    .werbe-schiene {
+        display: block;
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 160px;
+        z-index: 5;            /* unter der Navigation (die liegt auf 50) */
+    }
+    /* Mitte des Freiraums neben der Textspalte:
+       (100vw - 784px) / 2 halbiert, minus die halbe Anzeigenbreite. Damit sitzt
+       die Schiene mittig im Rand - bei 1400px sind das 74px Abstand zu beiden
+       Seiten, bei 1920px schon 188px. */
+    .werbe-schiene.links  { left:  calc((100vw - 784px) / 4 - 80px); }
+    .werbe-schiene.rechts { right: calc((100vw - 784px) / 4 - 80px); }
+
+    .werbe-schiene ins { display: block; }
+    /* Liefert AdSense nichts, soll da kein Loch stehen. */
+    .werbe-schiene:has(ins[data-ad-status="unfilled"]) { display: none; }
+}
+
+/* Wer wenig Platz in der Hoehe hat, liest lieber als dass er Werbung sieht. */
+@media (max-height: 700px) {
+    .werbe-schiene { display: none; }
+}
+
+/* --- Modale Fenster ------------------------------------------------------ */
+
+/* --- Suchfenster --------------------------------------------------------- */
+
+dialog.fenster.fenster-suche { width: min(94vw, 38rem); }
+
+#suche-feld {
+    width: 100%;
+    padding: .7rem .9rem;
+    border: 1px solid var(--rand);
+    border-radius: var(--radius);
+    background: var(--grund-tief);
+    color: var(--text);
+    font: inherit;
+    font-size: 1rem;
+}
+#suche-feld:focus-visible { outline: 2px solid var(--akzent); outline-offset: 1px; }
+
+.suche-hinweis {
+    margin: var(--s3) 0 0;
+    font-size: .78rem;
+    color: var(--text-still);
+}
+.suche-hinweis kbd {
+    padding: .05em .35em;
+    border: 1px solid var(--rand);
+    border-radius: 4px;
+    background: var(--grund-tief);
+    font-family: inherit;
+    font-size: .95em;
+}
+
+.suche-treffer {
+    list-style: none;
+    margin: var(--s3) 0 0;
+    padding: 0;
+    max-height: min(52vh, 26rem);
+    overflow-y: auto;
+    overflow-x: hidden;   /* sonst schiebt ein langer Titel die Liste quer */
+}
+.suche-treffer li + li { border-top: 1px solid var(--rand); }
+.suche-treffer a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--s3);
+    padding: .6rem .2rem;
+    text-decoration: none;
+    color: var(--text);
+}
+.suche-treffer a:hover,
+.suche-treffer a:focus-visible { background: var(--grund-tief); }
+.suche-titel { font-weight: 600; min-width: 0; }
+.suche-wo {
+    flex: none;
+    font-size: .75rem;
+    color: var(--text-still);
+    white-space: nowrap;
+}
+
+/* Auf schmalen Schirmen passt "Q2 · Datenbanken" nicht mehr neben einen
+   umbrechenden Titel - dann untereinander statt nebeneinander. */
+@media (max-width: 30rem) {
+    .suche-treffer a {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .15rem;
+    }
+    .suche-wo { white-space: normal; }
+}
+
+dialog.fenster {
+    width: min(92vw, 30rem);
+    padding: 0;
+    border: 1px solid var(--rand);
+    border-radius: 14px;
+    background: var(--flaeche);
+    color: var(--text);
+}
+dialog.fenster::backdrop { background: rgba(0,0,0,.55); backdrop-filter: blur(4px); }
+.fenster-kopf {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s3);
+    padding: var(--s4) var(--s4) var(--s3);
+    border-bottom: 1px solid var(--rand);
+}
+.fenster-kopf h2 {
+    margin: 0;
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-still);
+}
+.fenster-koerper { padding: var(--s4); }
+.schliessen {
+    flex: none;
+    width: 2rem; height: 2rem;
+    display: grid; place-items: center;
+    border: 1px solid var(--rand);
+    border-radius: 7px;
+    background: var(--flaeche-hoch);
+    color: var(--text-leise);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+}
+.schliessen:hover:not(:disabled) { color: var(--text); background: var(--rand); }
+.schliessen:disabled { opacity: .35; cursor: not-allowed; }
+
+#verlauf-liste { margin: 0; padding: 0; list-style: none; }
+#verlauf-liste li + li { margin-top: var(--s2); }
+#verlauf-liste a { display: block; text-decoration: none; color: var(--text); font-size: .9rem; }
+#verlauf-liste a:hover { color: var(--akzent); }
+#verlauf-liste .leer { color: var(--text-still); font-size: .9rem; }
+
+/* Eigenwerbung im Modal */
+.eigenwerbung { text-align: center; }
+.eigenwerbung img {
+    width: 200px; height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: var(--s3);
+}
+.eigenwerbung h3 { margin: 0 0 var(--s2); font-size: 1.05rem; }
+.eigenwerbung p { color: var(--text-leise); font-size: .9rem; }
+.eigenwerbung .knopf { display: inline-block; text-decoration: none; padding: .5rem 1rem; }
+
+/* --- Werkzeugleiste oben rechts ------------------------------------------ */
+
+.werkzeuge {
+    position: fixed;
+    top: .95rem;
+    right: .95rem;
+    z-index: 99;
+    display: flex;
+    gap: .35rem;
+}
+.werkzeuge button {
+    width: 2.4rem; height: 2.4rem;
+    display: grid; place-items: center;
+    border: 1px solid var(--rand);
+    border-radius: 9px;
+    background: color-mix(in srgb, var(--flaeche) 94%, transparent);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(14px);
+    color: var(--text-leise);
+    cursor: pointer;
+    transition: color .18s, background .18s;
+}
+.werkzeuge button:hover { color: var(--text); background: var(--flaeche-hoch); }
+
+/* --- Fußzeile ------------------------------------------------------------ */
+
+.fuss {
+    max-width: var(--breite);
+    margin: 0 auto;
+    padding: var(--s5) var(--s5) var(--s7);
+    border-top: 1px solid var(--rand);
+    color: var(--text-still);
+    font-size: .8rem;
+}
+.fuss p { margin: 0 0 var(--s2); }
+.fuss a { color: var(--text-leise); }
+
+/* --- Hinweisstreifen ----------------------------------------------------- */
+
+.hinweis {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s3);
+    margin: var(--s5) 0;
+    padding: var(--s3) var(--s4);
+    border: 1px solid var(--rand);
+    border-left: 3px solid var(--nicht-verifiziert);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    background: var(--flaeche);
+    color: var(--text-leise);
+    font-size: .9rem;
+}
+
+/* --- Klein ---------------------------------------------------------------- */
+
+@media (max-width: 34rem) {
+    :root { --nav-hoehe: 4rem; }
+    .seite { padding-left: var(--s4); padding-right: var(--s4); }
+    .fuss  { padding-left: var(--s4); padding-right: var(--s4); }
+    .nav a { padding: .45rem .7rem; font-size: .8rem; }
+    .nav a .beschriftung { display: none; }
+    .nav a[aria-current="page"] .beschriftung { display: inline; }
+    .blaettern { grid-template-columns: 1fr; }
+    .blaettern .weiter { grid-column: 1; text-align: left; }
+    .werkzeuge { top: auto; bottom: .95rem; right: .95rem; }
+}
+
+.nur-fuer-screenreader {
+    position: absolute; width: 1px; height: 1px;
+    margin: -1px; padding: 0; overflow: hidden;
+    clip-path: inset(50%); white-space: nowrap; border: 0;
+}

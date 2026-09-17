@@ -1,0 +1,69 @@
+        <p>
+            Die Aufgabe der heutigen Stunde ist <strong>Die Wahl des Bürgermeisters!</strong> Das Programm der Bürgermeisterwahl ist ein recht einfach gehaltenes Programm, durch welches wir einen guten Einblick in EVA Programme erhalten. EVA steht für<kbd>Eingabe - Verarbeitung - Ausgabe</kbd>
+<br/></p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+            Es sind Bürgermeisterwahlen in der Hauptstadt System. Ein guter Start für unsere Reise nach Java. Der König von Java hat abstimmen lassen, wer das Bürgermeisteramt der Hauptstadt System übernimmt.  
+            Zur Wahl standen Bill Makes, Mark Tuckerberg, Larry Rage. 
+            Der König war des Rechnens müde und hat ein Programm in Auftrag gegeben, das ihm die prozentualen Werte zur Verkündung des Ergebnisses auf zwei Nachkommastellen berechnet. 
+            Leider ist der Programmierer an einem Kaffeeschock vor Beendigung seiner Arbeit gestorben und der ganze Kaffee ist über den Laptop gelaufen, aber es wurde glücklicherweise ein Zettel beim Programmierer gefunden.  
+        </p></div>
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="Buergermeisterwahl.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+*
+* Das fertige Java Programm "Buergermeisterwahl.java"
+*
+* @version 1.0 vom 25.02.2024
+* @MeinInfoKurs.github.io
+*/
+
+public class Buergermeisterwahl {
+
+    public static void main(String[] args) {
+        int Stimmen1=0, Stimmen2=0, Stimmen3=0;
+        double  Summe, Anteil1, Anteil2, Anteil3;
+
+        Stimmen1 = InOut.readInt("Stimmen Billy Makes: ");
+        Stimmen2 = InOut.readInt("Stimmen Mark Tuckerberg: ");
+        Stimmen3 = InOut.readInt("Stimmen Larry Rage: ");
+
+        Summe = Stimmen1 + Stimmen2 + Stimmen3;
+        Anteil1 = Stimmen1 / Summe * 100;
+        Anteil2 = Stimmen2 / Summe * 100;
+        Anteil3 = 100 - Anteil1 - Anteil2;
+
+        System.out.println("");
+        System.out.println("Anteil Billy Makes: " + InOut.format2(Anteil1) + " %");
+        System.out.println("Anteil Mark Tuckerberg: " + InOut.format2(Anteil2) + " %");
+        System.out.println("Anteil Larry Rage: " + InOut.format2(Anteil3) + " %");
+
+    } // end of main
+
+  } // end of class Buergermeisterwahl</code></pre></div></div>
+        <p>
+            In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>Tippe das Programm (siehe OneNote) ab</li>
+<li>Führe das Programm aus</li>
+<li>Beseitige ggf. Fehler</li>
+<li>Überlege, welche Fehler bei der Eingabe des Stimmzettels passieren können</li>
+</ol>
+        <h3 class="schritt-titel">Ausführen und Fehler finden</h3>
+        <p>
+            Der oben gegebene Code sollte bereits fehlerfrei sein. Das heißt, dass der Code problemlos ausgeführt werden kann. Falls du doch eine Fehlermeldung erhalten solltest überprüfe diesen bitte. <br/>
+            Es gibt verschiedene Arten von Fehlern in Java: <br/>
+            Es kann sein, dass der Name unter welchem du die Datei gespeichert hast und die Namensdeklaration im <kbd>public class NameDerDatei {</kbd> nicht übereinstimmen. Es kann aber auch sein, dass du in deinem Code Umlaute verwendest <kbd>( Ä; Ö; Ü; ß )</kbd>. Auch diese können eine korrekte Ausgabe verhindern.
+            Wenn du meinen oben angegebenen Code kopiert hast und in deinen Editor eingefügt hast, kann es selten zur Fehlermeldung "Illegaler Charakter" kommen. Falls dies bei dir der Fall sein sollte, wirst du meinen Code wieder aus deiner Console löschen und manuell abtippen müssen.
+            Falls ein anderer Fehler vorhanden ist und du Ihn nicht finden kannst, bitte Mitschüler oder deine Lehrkraft um hilfe. 
+        </p>
+        <br/>
+        <h3 class="schritt-titel">Fehler bei der Konsoleneingabe</h3>
+        <p>
+            In Java gibt es verschiedene Variablentypen (auch Datentypen genannt), welche jeweils eine Funktion haben.
+            Integer können nur Zahlen ohne Nachkommastellen aufnehmen.<br/>
+            Doubles können Zahlen mit und ohne Nachkommastellen aufnehmen.<br/>
+            Boolean können nur <kbd>True</kbd> oder <kbd>False</kbd> <br/>
+            Strings können nur Zeichenketten aufnehmen. 
+            etc... <br/><br/>
+            Wenn wir nun einem Variablentypen etwas zuweisen, was es nicht aufnehmen kann, erhalten wir einen Laufzeitfehler <kbd>Run-Time-Error</kbd>
+</p>

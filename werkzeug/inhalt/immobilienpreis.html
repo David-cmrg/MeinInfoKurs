@@ -1,0 +1,151 @@
+        <p>Die Aufgabe der heutigen Stunde ist <strong>der Immobilienpreiskalkulator!</strong> Dazu schauen wir uns mal die Aufgabe genauer an und versuchen durch intelligentes Lösen ein vollfunktionsfähiges Programm zu erstellen. <br/></p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+<strong>A.</strong> <br/>
+            Herr Rich möchte, dass Grundstücke, die aus zusammengesetzten Flächen (Rechteck, Trapez, Raute, Dreieck) bestehen mit dem Immobilienkalkulator berechnen lassen. 
+            Erweitern Sie das Programm. <br/><br/>
+<strong>B.</strong> <br/>
+            Immobilien werden auch als Wertanlage genutzt, deshalb soll das Programm von Herrn Rich um eine Gewinnkalkulation erweitert werden. 
+            Angenommen die jährliche Steigerungsrate beträgt 1,99 Prozent im Jahr. 
+            Erweitern Sie das Programm um eine Gewinnkalkulation. Herr Rich möchte den Kunden auch den Break-Even-Point nennen können. <br/><br/>
+<strong>C.</strong> <br/>
+            Berechnen Sie die prozentuale Steigerung im Vergleich zum Kaufpreis für die Jahre 2030 und 2050. 
+            Recherchieren Sie und vergleichen Sie diese Werte mit den Prognosen für diese Jahre.  
+            Erläutern Sie, ob die angenommene Preissteigerung von 1,99% realistisch bzw. welche durchschnittliche Preissteigerung Sie für realistisch halten.     
+        </p></div>
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="ImmobilienPreisKalkulator.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+*
+* Das fertige Java Programm des Immobilienpreiskalkulators
+*
+* @version 1.0 vom 06.04.2025
+* @MeinInfoKurs.github.io
+*/
+
+public class Immobilienpreiskalkulator {
+
+                public static void main(string[] args) {
+                    double grundstuecksPreis = 0, maklergebuehr, gesamtKosten;
+                    double laenge, breite, hoehe, seiteA, seiteC, diagonaleE, diagonaleF;
+                    double quadratmeterpreis, gebuehrProzent, mehrwertsteuerProzent, mehrwertsteuerBetrag;
+                    double flaeche = 0;
+
+                    System.out.println("Makler-Firma Herr Rich – Immobilienkalkulator:");
+                    System.out.println("Erlaubt sind nur Dezimalzahlen der Punkt-Schreibweise.");
+
+                    System.out.println("Welche Form hat das Grundstück?");
+                    System.out.println("1 - Rechteck");
+                    System.out.println("2 - Trapez");
+                    System.out.println("3 - Dreieck");
+                    System.out.println("4 - Raute");
+
+                    int form = InOut.readInt("Bitte wählen Sie 1-4:");
+
+                    if (form == 1) {
+                      breite = InOut.readDouble("Breite in Meter: ");
+                      laenge = InOut.readDouble("Länge in Meter: ");
+                      flaeche = breite * laenge;
+
+                    } else if (form == 2) {
+                      seiteA = InOut.readDouble("Länge der unteren Seite (a) in Meter: ");
+                      seiteC = InOut.readDouble("Länge der oberen Seite (c) in Meter: ");
+                      hoehe = InOut.readDouble("Höhe in Meter: ");
+                      flaeche = (seiteA + seiteC) / 2 * hoehe;
+
+                    } else if (form == 3) {
+                      breite = InOut.readDouble("Grundseite in Meter: ");
+                      hoehe = InOut.readDouble("Höhe in Meter: ");
+                      flaeche = (breite * hoehe) / 2;
+
+                    } else if (form == 4) {
+                      diagonaleE = InOut.readDouble("Diagonale e in Meter: ");
+                      diagonaleF = InOut.readDouble("Diagonale f in Meter: ");
+                      flaeche = (diagonaleE * diagonaleF) / 2;
+
+                    } else {
+                      System.out.println("Ungültige Auswahl. Das Programm wird beendet.");
+                      System.exit(0); // Beendet das Programm
+                    }
+
+                    quadratmeterpreis = InOut.readDouble("Quadratmeterpreis in Euro: ");
+                    gebuehrProzent = InOut.readDouble("Maklergebühr in Prozent: ");
+                    mehrwertsteuerProzent = InOut.readDouble("Mehrwertsteuer in Prozent: ");
+
+                    grundstuecksPreis = flaeche * quadratmeterpreis;
+                    maklergebuehr = grundstuecksPreis * gebuehrProzent / 100;
+                    mehrwertsteuerBetrag = grundstuecksPreis * mehrwertsteuerProzent / 100;
+                    gesamtKosten = grundstuecksPreis + maklergebuehr + mehrwertsteuerBetrag;
+
+                    // Ausgabe
+                    System.out.println("------------Grundstückspreis------------");
+                    System.out.println("Fläche: " + InOut.format2(flaeche) + " m²");
+                    System.out.println("Grundstückspreis: " + InOut.format2(grundstuecksPreis) + " Euro");
+
+                    System.out.println("------------Steuer und Gebühr------------");
+                    System.out.println("Maklergebühr: " + InOut.format2(maklergebuehr) + " Euro");
+                    System.out.println("Mehrwertsteuer: " + InOut.format2(mehrwertsteuerBetrag) + " Euro");
+
+                    System.out.println("------------Gesamtbetrag------------");
+                    System.out.println("Gesamtkosten: " + InOut.format2(gesamtKosten) + " Euro");
+
+                    // Gewinnkalkulation
+                    double steigerungsrate = 1.99 / 100;
+                    int jahr = 0;
+                    double wert = grundstuecksPreis;
+
+                    while (wert &lt; gesamtKosten) {
+                      jahr++;
+                      wert = grundstuecksPreis * Math.pow(1 + steigerungsrate, jahr);
+                    }
+
+                    System.out.println("------------Gewinnkalkulation------------");
+                    System.out.println("Annahme: Jährliche Wertsteigerung von 1,99 %.");
+                    System.out.println("Wert nach 10 Jahren: " + InOut.format2(grundstuecksPreis * Math.pow(1.0199, 10)) + " Euro");
+                    System.out.println("Wert nach 20 Jahren: " + InOut.format2(grundstuecksPreis * Math.pow(1.0199, 20)) + " Euro");
+                    System.out.println("Break-Even-Point erreicht nach ca. " + jahr + " Jahren.");
+
+                    System.out.println("Vielen Dank für den Auftrag. Bis zum nächsten Mal.");
+                  }
+                }</code></pre></div></div>
+        <p>
+            In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>Nutzereingabe des Normalpreises</li>
+<li>Nutzereingabe der reisenden Personen</li>
+<br/>
+<li>Gruppenreise möglichkeit (ab 6 Personen)</li>
+<li>Rabbatt auf den Ticketkauf (bei 6+ Fahrgästen)</li>
+<li>Maximalpreis von 36.60€ (pro Person)</li>
+<br/>
+<li>Ausgabe des Preises pro Person</li>
+<li>Ausgabe des gesamten Gruppenpreises</li>
+</ol>
+        <h3 class="schritt-titel">1. Nutzereingabe und Auswahl der Form</h3>
+        <p>
+            Der Nutzer gibt an, welche geometrische Form das Grundstück hat. Je nach Auswahl (rechteck, trapez, dreieck) werden unterschiedliche Eingaben abgefragt.
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">System.out.println("Welche Form hat das Grundstück?");
+System.out.println("1 - Rechteck");
+System.out.println("2 - Trapez");
+System.out.println("3 - Dreieck");
+System.out.println("4 - Raute");
+
+int form = InOut.readInt("Bitte wählen Sie 1-4:");</code></pre></div></div>
+        <h3 class="schritt-titel">2. Berechnung der Immobilienkosten</h3>
+        <p>
+            Die Grundfläche wird mit dem Quadratmeterpreis multipliziert. Zusätzlich werden Maklergebühr und Mehrwertsteuer berechnet und aufgeschlagen.
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">double grundstueckPreis = flaeche * qmPreis;
+double gebuehr = grundstueckPreis * gebuehrProzent / 100;
+double steuer = gebuehr * steuerProzent / 100;
+double gesamtpreis = grundstueckPreis + gebuehr + steuer;</code></pre></div></div>
+        <h3 class="schritt-titel">3. Wertsteigerung berechnen</h3>
+        <p>
+            Mit einer konstanten Preissteigerung von 1,99 % jährlich wird die erwartete Preisentwicklung berechnet. Dazu verwenden wir die Potenzfunktion.
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">double steigerung = 1.0199;
+double preis2030 = grundstueckPreis * Math.pow(steigerung, 5);
+double preis2050 = grundstueckPreis * Math.pow(steigerung, 25);</code></pre></div></div>

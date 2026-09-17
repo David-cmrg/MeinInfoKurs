@@ -1,0 +1,180 @@
+        <p>Die Aufgabe der heutigen Stunde ist die Klasse Termin! Wir entwerfen
+           sie erstmal auf dem Papier – welche Attribute, welche Methoden. Neu
+           dabei ist das <code>enum</code>, mit dem man eine feste Auswahl an
+           Werten festlegt. Genau so ein Auswahlfeld haben wir auf dem Screenshot
+           ja gesehen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Eine Klasse <code>Termin</code> wird benötigt.</p>
+            <p><strong>a)</strong> Beschreiben Sie die Klasse <code>Termin</code>
+               anhand des Screenshots der App.</p>
+            <p><strong>b)</strong> Bestimmen Sie, welche Attribute und Methoden die
+               Klasse <code>Termin</code> braucht. Sie können dafür eine Notation in
+               Stichpunkten verwenden. Tipp: Es sollen die Klasse
+               <code>LocalDate</code> und die Klasse <code>LocalTime</code> verwendet
+               werden, beide benötigen eine Import-Anweisung. Beschreiben Sie
+               zunächst, welche Zwecke (bzw. Typ) ein Termin haben könnte,
+               beschränken Sie sich auf maximal 4.</p>
+        </div>
+
+        <h2>a) Die Klasse Termin anhand des Screenshots</h2>
+
+        <p>Im Block TERMINE steht ein Feld <em>Datum</em> und daneben ein
+           Auswahlfeld, in dem <em>GEBU…TAG</em> steht – also „Geburtstag",
+           abgeschnitten. Daraus liest man zwei Sachen: ein Termin hat ein
+           <strong>Datum</strong>, und er hat eine <strong>Art</strong>, die man
+           aus einer Liste auswählt.</p>
+
+        <p>Eine Uhrzeit ist im Screenshot nicht zu sehen. Sinnvoll ist sie
+           trotzdem: ein Geburtstag braucht keine, ein geschäftliches Treffen
+           schon. Deshalb nehmen wir sie dazu, sie darf aber leer bleiben.</p>
+
+        <h2>b) Attribute, Methoden und der Zweck</h2>
+
+        <h3 class="schritt-titel">Die vier Arten von Terminen</h3>
+        <p>Die Aufgabe sagt ausdrücklich: höchstens vier. Meine Wahl:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Art</th><th>Wofür</th></tr></thead>
+                <tbody>
+                    <tr><td><code>GEBURTSTAG</code></td><td>Jährlich wiederkehrend, ohne Uhrzeit</td></tr>
+                    <tr><td><code>JAHRESTAG</code></td><td>Hochzeitstag und Ähnliches, ebenfalls jährlich</td></tr>
+                    <tr><td><code>GESCHAEFTLICH</code></td><td>Termin mit Uhrzeit, beruflich</td></tr>
+                    <tr><td><code>PRIVAT</code></td><td>Termin mit Uhrzeit, privat</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Attribute und Methoden in Stichpunkten</h3>
+        <ul class="schritte">
+            <li><code>datum: LocalDate</code> – der Tag des Termins</li>
+            <li><code>uhrzeit: LocalTime</code> – die Uhrzeit, darf <code>null</code> sein</li>
+            <li><code>art: Art</code> – eine der vier Konstanten von oben</li>
+            <li>Zwei Konstruktoren: einer mit und einer ohne Uhrzeit</li>
+            <li>Getter und Setter für alle drei Attribute</li>
+            <li><code>toString(): String</code> – damit man den Termin ausgeben kann</li>
+        </ul>
+
+        <p>Das ist genau die Klasse, die im nächsten Schritt im UML-Editor gebaut
+           wird:</p>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Termin (UML)</span>
+            </div>
+            <div class="code-feld">
+                <pre><code>                    Termin
+------------------------------------------------
+- datum: LocalDate
+- uhrzeit: LocalTime
+- art: Art
+------------------------------------------------
+c Termin(datum: LocalDate, art: Art)
+c Termin(datum: LocalDate, uhrzeit: LocalTime, art: Art)
++ getDatum(): LocalDate
++ setDatum(datum: LocalDate)
++ getUhrzeit(): LocalTime
++ setUhrzeit(uhrzeit: LocalTime)
++ getArt(): Art
++ setArt(art: Art)
++ toString(): String</code></pre>
+            </div>
+        </div>
+
+        <p>Die Zeichen davor sind die Sichtbarkeit: <code>-</code> ist
+           <code>private</code>, <code>+</code> ist <code>public</code>,
+           <code>c</code> markiert im Java-Editor einen Konstruktor. Die Attribute
+           sind alle privat, die Methoden alle öffentlich – das ist das Prinzip der
+           minimalen Sichtbarkeit: jede Klasse bekommt nur so viel Zugriff, wie sie
+           wirklich braucht.</p>
+
+        <h3 class="schritt-titel">Warum zwei Konstruktoren</h3>
+        <p>Konstruktor-Überladung, schon wieder. Ein Geburtstag hat keine
+           Uhrzeit, ein Geschäftstermin schon. Statt bei Geburtstagen irgendeine
+           Dummy-Uhrzeit hinzuschreiben, gibt es einfach einen Konstruktor ohne:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">new Termin(LocalDate.of(2025, 12, 24), Art.GEBURTSTAG);
+new Termin(LocalDate.of(2025, 9, 1), LocalTime.of(14, 30), Art.GESCHAEFTLICH);</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Was ein enum ist und warum man es nimmt</h3>
+        <p>Ein <code>enum</code> (kurz für Enumeration, also Aufzählung) legt eine
+           <strong>endliche, feste Menge benannter Konstanten</strong> fest. Für
+           unsere vier Terminarten sieht das so aus:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public enum Art {
+    GEBURTSTAG, JAHRESTAG, GESCHAEFTLICH, PRIVAT
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Man könnte die Art stattdessen als <code>String</code> speichern. Der
+           Vergleich zeigt, warum man das nicht tut:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>Mit String</th><th>Mit enum</th></tr></thead>
+                <tbody>
+                    <tr><td>Tippfehler</td><td><code>"Gebrutstag"</code> kompiliert klaglos</td><td><code>Art.GEBRUTSTAG</code> → Fehler beim Kompilieren</td></tr>
+                    <tr><td>Schreibweise</td><td>„privat", „Privat", „PRIVAT" – alles verschieden</td><td>Es gibt nur eine Schreibweise</td></tr>
+                    <tr><td>Autovervollständigung</td><td>Der Editor kann nichts vorschlagen</td><td>Nach <code>Art.</code> kommt die Liste</td></tr>
+                    <tr><td>Erlaubte Werte</td><td>Jeder beliebige Text geht rein</td><td>Nur die vier festgelegten</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Der wichtigste Punkt ist die erste Zeile: <strong>Fehler werden schon
+           beim Kompilieren gefunden statt erst im laufenden Programm.</strong> Ein
+           Tippfehler in einem String fällt dir erst auf, wenn ein Geburtstag
+           plötzlich nicht mehr in der Geburtstagsliste auftaucht – und dann suchst
+           du lange.</p>
+
+        <p>Zugegriffen wird über den Klassennamen davor, also
+           <code>Termin.Art.GESCHAEFTLICH</code>, wenn das enum innerhalb von
+           <code>Termin</code> steht. Praktisch sind enums außerdem mit
+           <code>switch</code>:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">switch (art) {
+    case GEBURTSTAG:    return "Geburtstag ohne Uhrzeit";
+    case JAHRESTAG:     return "Jahrestag";
+    case GESCHAEFTLICH: return "Geschäftlich";
+    case PRIVAT:        return "Privat";
+}</code></pre>
+            </div>
+        </div>
+
+        <p>Beim <code>switch</code> über ein enum schreibt man die Konstanten ohne
+           den Typ davor, also <code>case GEBURTSTAG:</code> und nicht
+           <code>case Art.GEBURTSTAG:</code>. Java weiß ja schon, um welches enum
+           es geht.</p>
+
+        <h3 class="schritt-titel">LocalDate und LocalTime statt String</h3>
+        <p>Dasselbe Argument nochmal, nur für das Datum. Man könnte
+           <code>"24.12.2025"</code> als String speichern. Dann kann man aber nicht
+           sortieren, nicht vergleichen und nicht ausrechnen, wie viele Tage bis
+           dahin sind. Mit <code>LocalDate</code> geht das alles:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">import java.time.LocalDate;
+import java.time.LocalTime;
+
+LocalDate weihnachten = LocalDate.of(2025, 12, 24);
+LocalTime treffen     = LocalTime.of(14, 30);
+
+weihnachten.isAfter(LocalDate.now());   // liegt das noch vor uns?</code></pre>
+            </div>
+        </div>
+
+        <p>Beide brauchen eine Import-Anweisung, sonst findet der Compiler sie
+           nicht. Sie stehen über der Klasse, genau wie bei der
+           <code>ArrayList</code>.</p>

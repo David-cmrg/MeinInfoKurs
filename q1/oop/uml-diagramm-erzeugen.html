@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | UML-Diagramm erzeugen</title>
+    <meta name="description" content="Die Klasse Termin im UML-Klasseneditor bauen statt sie zu tippen – inklusive der beiden imports, die der Editor nicht erraten kann.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/q1/oop/uml-diagramm-erzeugen.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | UML-Diagramm erzeugen">
+    <meta property="og:description" content="Die Klasse Termin im UML-Klasseneditor bauen statt sie zu tippen – inklusive der beiden imports, die der Editor nicht erraten kann.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/q1/oop/uml-diagramm-erzeugen.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | UML-Diagramm erzeugen">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | UML-Diagramm erzeugen">
+    <meta name="twitter:description" content="Die Klasse Termin im UML-Klasseneditor bauen statt sie zu tippen – inklusive der beiden imports, die der Editor nicht erraten kann.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/q1.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "UML-Diagramm erzeugen",
+  "description": "Die Klasse Termin im UML-Klasseneditor bauen statt sie zu tippen – inklusive der beiden imports, die der Editor nicht erraten kann.",
+  "url": "https://meininfokurs.cmrg.site/q1/oop/uml-diagramm-erzeugen.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "Q1 – Klasse 11 · 1. Halbjahr",
+  "about": "OOP in Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – Q1",
+    "url": "https://meininfokurs.cmrg.site/q1/"
+  },
+  "isBasedOn": "Informatik Q1, OneNote \"OOP in Java\", Seite 152-153",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html" aria-current="page"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../q1/index.html">Q1</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../q1/index.html#oop">OOP in Java</a>
+        </p>
+        <h1 class="titel">UML-Diagramm erzeugen</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>Lösung geprüft
+        </p>
+
+        <p>Die Aufgabe der heutigen Stunde ist der UML-Klasseneditor! Wir haben
+           die Klasse <code>Termin</code> auf dem Papier entworfen, jetzt bauen wir
+           sie im Java-Editor nach – und zwar nicht durch Tippen, sondern über das
+           UML-Fenster. Der Editor erzeugt den Java-Code dann selbst.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Lernaufgabe: <em>Datei &gt; Neu &gt; Klasse</em>. Bauen Sie die
+               folgende Klasse <code>Termin</code> mit dem UML-Klasseneditor nach.
+               Um die Klassen <code>LocalDate</code> und <code>LocalTime</code> zu
+               nutzen, müssen diese importiert werden:</p>
+            <p><code>import java.time.LocalDate;</code><br>
+               <code>import java.time.LocalTime;</code></p>
+            <p>Ergänzen Sie die folgende Zeile im Code. Die Dateien speichern: Java
+               Code, UML Code.</p>
+        </div>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+
+
+        <h2>So geht man im Editor vor</h2>
+
+        <ol class="schritte">
+            <li><em>Datei &gt; Neu &gt; Klasse</em> – es öffnet sich der UML-Klassen-Editor</li>
+            <li>Im Reiter <strong>Klasse</strong> den Namen <code>Termin</code> eintragen</li>
+            <li>Im Reiter <strong>Attribute</strong> die drei Attribute anlegen: Zugriff auf <em>private</em> stellen, Name und Typ eintragen, <em>get-Methode</em> und <em>set-Methode</em> ankreuzen, dann <em>Neu</em></li>
+            <li>Im Reiter <strong>Methoden</strong> die beiden Konstruktoren und <code>toString()</code> ergänzen</li>
+            <li>Die beiden <code>import</code>-Zeilen von Hand oben in den Code schreiben – die kann der Editor nicht raten</li>
+        </ol>
+
+        <p>Das Häkchen bei <em>get-Methode</em> und <em>set-Methode</em> ist der
+           eigentliche Gewinn: der Editor schreibt die Getter und Setter selbst.
+           Bei drei Attributen sind das sechs Methoden, die man sonst von Hand
+           tippen müsste – und bei denen man garantiert einmal
+           <code>this.</code> vergisst.</p>
+
+        <h2>Lösungsprozess der Aufgabe</h2>
+
+        <div class="code">
+            <div class="code-leiste">
+                <span class="code-sprache"><i class="fa-solid fa-code" aria-hidden="true"></i> Termin.java</span>
+                <div class="code-knoepfe">
+                    <button type="button" class="knopf" data-kopieren>Kopieren</button>
+                    <button type="button" class="knopf" data-datei="Termin.java">Herunterladen</button>
+                </div>
+            </div>
+            <span class="wz">/* MeinInfoKurs.github.io */</span>
+            <div class="code-feld verdeckt">
+                <button type="button" class="aufdecken"><span>Lösung anzeigen</span></button>
+                <pre><code class="language-java">/**
+ *
+ * Die Klasse Termin fuer das Telefonbuch
+ *
+ * @version 1.0 vom 14.09.2025
+ * @MeinInfoKurs.github.io
+ */
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class Termin {
+
+    // Die vier Arten, die ein Termin haben kann
+    public enum Art {
+        GEBURTSTAG, JAHRESTAG, GESCHAEFTLICH, PRIVAT
+    }
+
+    // Anfang Attribute
+    private LocalDate datum;
+    private LocalTime uhrzeit;
+    private Art art;
+    // Ende Attribute
+
+    // Konstruktor ohne Uhrzeit - zum Beispiel fuer Geburtstage
+    public Termin(LocalDate datum, Art art) {
+        this.datum = datum;
+        this.uhrzeit = null;
+        this.art = art;
+    }
+
+    // Konstruktor mit Uhrzeit
+    public Termin(LocalDate datum, LocalTime uhrzeit, Art art) {
+        this.datum = datum;
+        this.uhrzeit = uhrzeit;
+        this.art = art;
+    }
+
+    // Anfang Methoden
+    public LocalDate getDatum() {
+        return datum;
+    }
+
+    public void setDatum(LocalDate datum) {
+        this.datum = datum;
+    }
+
+    public LocalTime getUhrzeit() {
+        return uhrzeit;
+    }
+
+    public void setUhrzeit(LocalTime uhrzeit) {
+        this.uhrzeit = uhrzeit;
+    }
+
+    public Art getArt() {
+        return art;
+    }
+
+    public void setArt(Art art) {
+        this.art = art;
+    }
+
+    public String toString() {
+        return "Termin{datum=" + datum
+             + ", uhrzeit=" + uhrzeit
+             + ", art=" + art + "}";
+    }
+    // Ende Methoden
+
+} // end of class Termin</code></pre>
+            </div>
+        </div>
+
+        <h3 class="schritt-titel">Die zu ergänzende Zeile: toString</h3>
+        <p>Der UML-Editor legt <code>toString()</code> zwar an, füllt sie aber
+           nicht. Genau das ist die Zeile, die ergänzt werden soll:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">public String toString() {
+    return "Termin{datum=" + datum + ", uhrzeit=" + uhrzeit + ", art=" + art + "}";
+}</code></pre>
+            </div>
+        </div>
+
+        <p><code>toString()</code> ist eine besondere Methode. Java ruft sie
+           <strong>automatisch</strong> auf, sobald ein Objekt in einem
+           String-Zusammenhang auftaucht:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-java">System.out.println(meinTermin);          // ruft intern meinTermin.toString() auf
+String s = "Termin: " + meinTermin;      // hier genauso</code></pre>
+            </div>
+        </div>
+
+        <p>Schreibst du keine eigene <code>toString()</code>, erbt deine Klasse
+           die von <code>Object</code>, und die gibt so etwas aus wie
+           <code>Termin@6d06d69c</code>. Das ist der Klassenname plus eine interne
+           Speicheradresse und hilft niemandem. Deshalb gehört eine eigene
+           <code>toString()</code> in jede Klasse, die man irgendwann mal ausgeben
+           will.</p>
+
+        <h3 class="schritt-titel">Warum die Imports nicht automatisch kommen</h3>
+        <p><code>LocalDate</code> und <code>LocalTime</code> liegen im Paket
+           <code>java.time</code>. Der UML-Editor kennt beim Anlegen des Attributs
+           nur den Namen des Typs, nicht das Paket – deshalb musst du die beiden
+           Zeilen selbst oben hinschreiben.</p>
+
+        <p>Fehlen sie, bekommst du <code>cannot find symbol – class LocalDate</code>,
+           obwohl im UML-Diagramm alles richtig aussieht. Das ist bei dieser
+           Aufgabe der häufigste Stolperstein, weil man im Diagramm keinen Fehler
+           sieht.</p>
+
+        <h3 class="schritt-titel">Zwei Dateien am Ende</h3>
+        <p>Der Java-Editor speichert bei dieser Arbeitsweise zwei Dateien:
+           <code>Termin.java</code> mit dem Code und <code>Termin.uml</code> mit dem
+           Diagramm. Beide gehören zur Abgabe.</p>
+
+        <p>Das Praktische daran: die beiden bleiben synchron. Änderst du das
+           Diagramm, ändert sich der Code – und wenn du den Code änderst und das
+           Diagramm aktualisierst, erscheint die Änderung auch dort. Deshalb steht
+           in der Aufgabe, dass aus UML-Diagrammen automatisch Code erzeugt werden
+           kann und umgekehrt.</p>
+
+        <div class="hinweis">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Der Konstruktor ohne Uhrzeit setzt <code>uhrzeit</code>
+            ausdrücklich auf <code>null</code>. Nötig wäre das nicht, Java macht das
+            bei Objekt-Attributen von selbst – aber so sieht jeder, der den Code
+            liest, dass das Absicht ist und nicht vergessen wurde.</span>
+        </div>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="klasse-termin.html"><small>Vorherige Aufgabe</small>Die Klasse Termin</a>
+            <a class="weiter" href="telefonbuch-klassen.html"><small>Nächste Aufgabe</small>Das Telefonbuch: Klassen erstellen</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

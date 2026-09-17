@@ -1,0 +1,194 @@
+        <p>Die Aufgabe der heutigen Stunde ist die Sprache PGM! Nach Backofen und
+           hallihallo jetzt ein echtes Dateiformat: PGM (Portable Graymap) speichert
+           Graustufenbilder als reinen Text. Damit ist es eine formale Sprache, die
+           man tatsächlich benutzt – und man kann eine PGM-Datei im Texteditor
+           aufmachen und lesen.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>PGM ist ein einfaches Rasterformat für Graustufenbilder. Wir
+               betrachten bewusst eine <strong>vereinfachte Teilmenge</strong> des
+               Plain-PGM-Formats P2, damit sich die Struktur als formale Sprache
+               übersichtlich untersuchen lässt.</p>
+            <p><strong>Regeln unserer vereinfachten PGM-Sprache:</strong></p>
+            <ul>
+                <li>Jedes Wort beginnt mit P2.</li>
+                <li>Danach folgen Breite und Höhe als positive Dezimalzahlen.</li>
+                <li>Es folgt der maximale Grauwert Maxval. In unserer vereinfachten Sprache gilt 1 ≤ Maxval ≤ 255.</li>
+                <li>Danach folgen genau Breite · Höhe Pixelwerte.</li>
+                <li>Jeder Pixelwert ist eine Dezimalzahl zwischen 0 und Maxval.</li>
+                <li>Die Pixelwerte werden zeilenweise von oben nach unten und innerhalb einer Zeile von links nach rechts gelesen.</li>
+                <li>Zwischen zwei Bestandteilen steht genau ein Leerzeichen. Das Leerzeichen gehört in unserer vereinfachten Sprache als eigenes Zeichen zum Alphabet.</li>
+            </ul>
+            <p>a) Gib ein möglichst kleines Alphabet Σ an, über dem die Wörter unserer
+               vereinfachten PGM-Sprache gebildet werden.<br>
+               b) Zerlege das Beispielwort in seine Bestandteile und erkläre, welche
+               Syntaxregeln daran erkennbar sind.<br>
+               c) Untersuche die folgenden Wörter. Entscheide jeweils, ob sie
+               syntaktisch korrekt sind. Gib bei syntaktisch korrekten Wörtern
+               zusätzlich ihre Bedeutung an.<br>
+               d) Erkläre am Beispiel PGM den Unterschied zwischen Syntax und Semantik
+               einer formalen Sprache. Verwende dabei mindestens ein Wort aus Teil c).</p>
+        </div>
+
+        <h2>a) Das Alphabet</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Σ = { P, ' ', 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 }</code></pre>
+            </div>
+        </div>
+
+        <p>Zwölf Zeichen: das <code>P</code> für den Formatkopf, das Leerzeichen als
+           Trennzeichen und die zehn Ziffern. Mehr braucht es nicht.</p>
+
+        <p>Das <strong>Leerzeichen</strong> ist dabei das interessanteste. Normalerweise
+           denkt man an Leerzeichen als „nichts dazwischen". Hier ist es ein
+           vollwertiges Zeichen des Alphabets, weil es die Bestandteile trennt. Ohne
+           es wäre <code>P2 2 2 3 0 1 2 3</code> nur noch <code>P2223 0123</code>, und
+           man wüsste nicht mehr, wo eine Zahl aufhört und die nächste anfängt.</p>
+
+        <p>Die <code>2</code> aus <code>P2</code> ist übrigens dieselbe Ziffer, die
+           auch als Pixelwert vorkommt. Man braucht sie also nicht zweimal ins
+           Alphabet aufzunehmen – die Bedeutung hängt von der Position ab, nicht vom
+           Zeichen.</p>
+
+        <h2>b) Das Beispielwort zerlegt</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>P2   4   2   7   0 1 2 3 4 5 6 7
+^^   ^   ^   ^   ^^^^^^^^^^^^^^^
+|    |   |   |   8 Pixelwerte (4 · 2)
+|    |   |   Maxval = 7
+|    |   Hoehe = 2
+|    Breite = 4
+Formatkennung</code></pre>
+            </div>
+        </div>
+
+        <p>Zuerst kommt das P2, welches das Format angibt. Danach folgen
+           Zahlenwerte, welche immer von einem Leerzeichen getrennt sein müssen.</p>
+
+        <p>Daran erkennbare Syntaxregeln:</p>
+        <ol class="schritte">
+            <li>Das Wort beginnt zwingend mit <code>P2</code> – eine feste Kennung am Anfang</li>
+            <li>Die Reihenfolge ist fest: erst Breite, dann Höhe, dann Maxval, dann die Pixel</li>
+            <li>Die Anzahl der Pixelwerte ist <strong>nicht frei</strong>, sondern ergibt sich aus Breite · Höhe – hier 4 · 2 = 8</li>
+            <li>Jeder Pixelwert muss zwischen 0 und Maxval liegen</li>
+            <li>Zwischen zwei Bestandteilen steht genau ein Leerzeichen</li>
+        </ol>
+
+        <p>Regel 3 ist die bemerkenswerte: <strong>ein Teil des Wortes bestimmt,
+           wie lang der Rest sein muss.</strong> Das ist bei hallihallo nicht so, dort
+           darf n beliebig groß sein. Hier hängen die Bestandteile voneinander ab.</p>
+
+        <h2>c) Die vier Wörter untersuchen</h2>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Wort</th><th>Syntax</th><th>Bedeutung</th><th>Begründung</th></tr></thead>
+                <tbody>
+                    <tr><td><code>P2 2 2 3 0 1 2 3</code></td><td><strong>valide</strong></td><td>Ein 2×2-Bild mit einem maximalen Grauwert von 3.</td><td>–</td></tr>
+                    <tr><td><code>P2 2 2 3 0 1 2</code></td><td><strong>nicht valide</strong></td><td>Ein 2×2-Bild mit einem maximalen Grauwert von 3.</td><td>Es fehlt ein Grauwert.</td></tr>
+                    <tr><td><code>P2 2 2 3 0 1 2 4</code></td><td><strong>nicht valide</strong></td><td>Ein 2×2-Bild mit einem maximalen Grauwert von 3.</td><td>Der Grauwert vom letzten Pixel ist 4, aber der Maxval ist 3.</td></tr>
+                    <tr><td><code>P2 2 2 3 3 2 1 0</code></td><td><strong>valide</strong></td><td>Ein 2×2-Bild mit einem maximalen Grauwert von 3.</td><td>–</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Die beiden Fehler im Vergleich</h3>
+        <p>Es sind zwei <strong>verschiedene Sorten</strong> von Regelverstößen, und
+           genau darum geht es bei der Aufgabe:</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Wort</th><th>Was falsch ist</th><th>Verletzte Regel</th></tr></thead>
+                <tbody>
+                    <tr><td><code>P2 2 2 3 0 1 2</code></td><td>nur 3 statt 4 Pixelwerte</td><td>Anzahl = Breite · Höhe</td></tr>
+                    <tr><td><code>P2 2 2 3 0 1 2 4</code></td><td>Pixelwert 4 &gt; Maxval 3</td><td>0 ≤ Pixelwert ≤ Maxval</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Das zweite ist das tückischere. Die <strong>Form</strong> stimmt
+           vollständig: acht Zeichenbestandteile, alles Ziffern, richtig getrennt,
+           die Anzahl passt. Man muss <em>rechnen</em> beziehungsweise
+           <em>vergleichen</em>, um den Fehler zu finden – 4 ist größer als 3.</p>
+
+        <p>Beim ersten Wort reicht Abzählen. Deshalb würde ein einfacher
+           Syntaxprüfer, der nur die Struktur anschaut, das erste Wort ablehnen und
+           das zweite womöglich durchwinken.</p>
+
+        <h2>d) Syntax und Semantik am Beispiel PGM</h2>
+
+        <p>Die Syntax sind die Regeln, wie im PGM-Format ein Befehl geschrieben
+           werden muss. Stimmt die Syntax nicht, so kann das Bild semantisch nicht
+           interpretiert werden.</p>
+
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th></th><th>Syntax</th><th>Semantik</th></tr></thead>
+                <tbody>
+                    <tr><td>Bei PGM</td><td>P2 am Anfang, richtige Reihenfolge, richtige Anzahl Werte, Leerzeichen dazwischen</td><td>Welches Bild entsteht – welcher Pixel hat welchen Grauton</td></tr>
+                    <tr><td>Frage</td><td>Ist das Wort <strong>gebaut wie vorgeschrieben</strong>?</td><td>Was <strong>bedeutet</strong> das Wort?</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="schritt-titel">Am Wort <code>P2 2 2 3 0 1 2</code> gezeigt</h3>
+        <p>Nimmt man dieses Wort aus Teil c): die Syntax ist verletzt, weil ein
+           Pixelwert fehlt. Und damit gibt es <strong>keine Bedeutung mehr</strong> –
+           das Programm weiß nicht, welche Farbe der vierte Pixel haben soll. Es kann
+           auch nicht raten: soll das Feld schwarz sein, weiß, oder ist vielleicht die
+           Höhenangabe falsch?</p>
+
+        <p>Genau das meint der Satz „Stimmt die Syntax nicht, so kann das Bild
+           semantisch nicht interpretiert werden". <strong>Die Syntax ist die
+           Voraussetzung für die Semantik.</strong> Ohne korrekte Form gibt es nichts
+           zu deuten.</p>
+
+        <p>Umgekehrt gilt das aber nicht – und das ist der Unterschied zum Backofen.
+           Dort war Wort B syntaktisch korrekt und trotzdem sinnlos. Bei PGM ist jedes
+           syntaktisch korrekte Wort auch automatisch sinnvoll, weil jede gültige
+           Zahlenkombination irgendein Bild ergibt. Ein Bild aus lauter Nullen ist
+           einfach ein komplett schwarzes Bild – merkwürdig, aber nicht sinnlos.</p>
+
+        <h3 class="schritt-titel">Das Beispielbild</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>P2 4 2 7  0 1 2 3 4 5 6 7
+
+ergibt ein 4x2-Bild:
+
+  +---+---+---+---+
+  | 0 | 1 | 2 | 3 |     0 = schwarz
+  +---+---+---+---+
+  | 4 | 5 | 6 | 7 |     7 = weiss (= Maxval)
+  +---+---+---+---+
+
+Ein Verlauf von schwarz nach weiss, zeilenweise von links nach rechts.</code></pre>
+            </div>
+        </div>
+
+        <p>Der Maxval legt fest, was „ganz hell" bedeutet. Bei Maxval 7 ist die 7
+           weiß; bei Maxval 255 wäre die 7 fast schwarz. <strong>Derselbe Pixelwert
+           bedeutet also je nach Maxval etwas völlig anderes</strong> – das ist ein
+           schönes Beispiel dafür, dass die Bedeutung eines Zeichens vom Zusammenhang
+           abhängt.</p>
+
+        <h2>Zusatzleistung – der Vergleich mit dem echten PGM</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Unsere vereinfachte Sprache</th><th>Echtes PGM</th></tr></thead>
+                <tbody>
+                    <tr><td>Genau ein Leerzeichen zwischen Bestandteilen</td><td>Beliebige Whitespaces erlaubt – Leerzeichen, Tabulatoren und vor allem Zeilenumbrüche. Üblicherweise steht jede Bildzeile in einer eigenen Textzeile.</td></tr>
+                    <tr><td>Keine Kommentare</td><td>Zeilen, die mit <code>#</code> beginnen, sind Kommentare und werden überlesen.</td></tr>
+                    <tr><td>Nur das Textformat P2</td><td>Es gibt auch <code>P5</code> – dasselbe Bild, aber binär statt als Text gespeichert. Viel kleiner, dafür nicht mehr im Editor lesbar.</td></tr>
+                    <tr><td>Maxval 1 bis 255</td><td>Maxval bis 65535 möglich; über 255 braucht jeder Wert zwei Bytes.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Die Vereinfachung mit dem einen Leerzeichen ist übrigens genau die, die
+           unsere Sprache als formale Sprache handhabbar macht. Erlaubte man beliebig
+           viele Whitespaces, müsste man in jeder Regel „ein oder mehrere Trennzeichen"
+           schreiben – und die Wörter wären nicht mehr eindeutig aufschreibbar.</p>

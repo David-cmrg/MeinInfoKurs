@@ -1,0 +1,234 @@
+        <p>Die Aufgabe der heutigen Stunde ist die Relationenalgebra! Das ist
+           sozusagen das mathematische Gerüst hinter SQL. Statt
+           <code>SELECT … FROM … WHERE</code> schreibt man griechische Buchstaben –
+           gemeint ist aber genau dasselbe. Wer SQL kann, kann das hier auch, man
+           muss nur die drei Symbole zuordnen.</p>
+
+        <h2>Die drei Operatoren, um die es geht</h2>
+        <div class="tabelle-huelle">
+            <table>
+                <thead><tr><th>Symbol</th><th>Name</th><th>Was er macht</th><th>In SQL</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>σ</strong> (sigma)</td><td>Selektion</td><td>wählt <strong>Zeilen</strong> aus</td><td><code>WHERE</code></td></tr>
+                    <tr><td><strong>π</strong> (pi)</td><td>Projektion</td><td>wählt <strong>Spalten</strong> aus</td><td><code>SELECT</code></td></tr>
+                    <tr><td><strong>⋈</strong> (bowtie)</td><td>Join</td><td>verbindet Tabellen</td><td><code>INNER JOIN</code></td></tr>
+                    <tr><td><strong>∪ ∩</strong></td><td>Vereinigung, Schnitt</td><td>Mengenoperationen</td><td><code>UNION</code>, <code>INTERSECT</code></td></tr>
+                    <tr><td><strong>∧ ∨</strong></td><td>und, oder</td><td>Bedingungen verknüpfen</td><td><code>AND</code>, <code>OR</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Die Merkhilfe für die beiden wichtigsten: <strong>Sigma steht für
+           Selektion und wählt Zeilen, Pi steht für Projektion und wählt
+           Spalten.</strong> Das verwechselt man am Anfang ständig.</p>
+
+        <div class="aufgabenstellung">
+            <span class="marke">Die Aufgabenstellung lautet</span>
+            <p>Gegeben ist ein ER-Diagramm mit den Entitäten Flugzeug, Flugstrecke,
+               Passagier, Frequently-Flyer und Meilenkonto.</p>
+            <p><strong>Aufgabe 1:</strong> Ermitteln Sie die Relationen-Operatoren,
+               um alle Passagier-Vornamen zu erhalten, deren Nachname Meyer ist.<br>
+               <strong>Aufgabe 2:</strong> Geben Sie den Relationen-Operator an, mit
+               dem alle Kontonummern der Frequent-Flyers ermittelt werden können.<br>
+               <strong>Aufgabe 3:</strong> Welche Relationen-Operatoren müssen
+               angewendet werden, um alle Passagier-Nachnamen zu erhalten, die von
+               London nach New York fliegen?<br>
+               <strong>Aufgabe 4:</strong> Beschreiben Sie mit Worten, welches Ziel
+               mit der folgenden Anfrage verfolgt wird:
+               <code>π<sub>FlugNr</sub>(Flugstrecke ⋈ gebucht_von ⋈ Passagier ⋈ FrequentFlyer)</code><br>
+               <strong>Aufgabe 5:</strong> Analysieren Sie in gleicher Weise die
+               folgende Anfrage:
+               <code>π<sub>Kennzeichen</sub>(σ<sub>Name='Schmitz'</sub>(σ<sub>Start='Berlin'</sub>(Flugstrecke ⋈ Flugzeug) ⋈ gebucht_von ⋈ Passagier))</code><br>
+               <strong>Aufgabe 6:</strong> Gibt es Passagiere mit dem Namen Müller,
+               welche gleichzeitig mit Passagieren in einem Flugzeug sitzen, die
+               Schmitz heißen? Formulieren Sie eine entsprechende Anfrage.</p>
+        </div>
+
+        <h2>Das Datenmodell</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Flugzeug(Kennz, Baujahr, Typ, Sitze)
+Flugstrecke(FlugNr, Abflugzeit, Dauer, Start, Ziel, Meilen)
+Passagier(Pnr, Vorname, Name)
+FrequentFlyer(Pnr)                 -- ein Passagier "kann" einer sein
+Meilenkonto(Kontonr, Praemienmeilen)
+
+fliegt(Kennz, FlugNr)              -- n:m zwischen Flugzeug und Flugstrecke
+gebucht_von(FlugNr, Pnr)           -- n:m zwischen Flugstrecke und Passagier
+hat(Pnr, Kontonr)                  -- 1:1 zwischen FrequentFlyer und Meilenkonto</code></pre>
+            </div>
+        </div>
+
+        <h2>Aufgabe 1 – Vornamen aller Meyers</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>π_Vorname( σ_Name='Meyer' (Passagier) )</code></pre>
+            </div>
+        </div>
+
+        <p>Von innen nach außen lesen: erst <strong>σ</strong> die Zeilen
+           heraussuchen, in denen der Nachname Meyer ist, dann <strong>π</strong> nur
+           die Spalte Vorname behalten. In SQL:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SELECT Vorname FROM Passagier WHERE Name = 'Meyer';</code></pre>
+            </div>
+        </div>
+
+        <p>Die Reihenfolge ist wichtig. <code>σ_Name='Meyer'(π_Vorname(Passagier))</code>
+           wäre falsch – die Projektion hätte die Spalte <code>Name</code> schon
+           weggeworfen, und danach kann man nicht mehr danach filtern.</p>
+
+        <h2>Aufgabe 2 – Alle Kontonummern</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>π_Kontonr( Meilenkonto )</code></pre>
+            </div>
+        </div>
+
+        <p>Mehr braucht es nicht. Laut ER-Diagramm hat jeder Frequent Flyer genau
+           ein Meilenkonto (1 muss) und jedes Meilenkonto gehört zu genau einem
+           Frequent Flyer. Es gibt also keine Konten ohne Frequent Flyer – alle
+           Kontonummern in der Tabelle sind automatisch die gesuchten.</p>
+
+        <p>Ausführlicher ginge auch
+           <code>π_Kontonr(FrequentFlyer ⋈ hat ⋈ Meilenkonto)</code>, aber der Join
+           filtert nichts weg. Die Aufgabe sagt „geben Sie <em>den</em>
+           Relationen-Operator an" – Einzahl, also ist die kurze Fassung gemeint.</p>
+
+        <h2>Aufgabe 3 – Von London nach New York</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>π_Name( σ_Start='London' ∧ Ziel='New York' (Flugstrecke) ⋈ gebucht_von ⋈ Passagier )</code></pre>
+            </div>
+        </div>
+
+        <p>Drei Schritte:</p>
+        <ol class="schritte">
+            <li><strong>σ</strong> sucht die passenden Flugstrecken heraus – beide Bedingungen mit <strong>∧</strong> verknüpft</li>
+            <li><strong>⋈</strong> verbindet über <code>gebucht_von</code> mit den Passagieren</li>
+            <li><strong>π</strong> behält nur die Nachnamen</li>
+        </ol>
+
+        <p>Es sind zwei Joins nötig, weil <code>gebucht_von</code> eine
+           n:m-Beziehung ist – genau wie bei <code>schueler_hat_lehrer</code> muss man
+           über die Verknüpfungstabelle in der Mitte gehen.</p>
+
+        <p>Man filtert übrigens zuerst und verbindet danach, nicht umgekehrt. Beides
+           liefert dasselbe Ergebnis, aber so bleibt die Zwischentabelle klein.</p>
+
+        <h2>Aufgabe 4 – Was macht diese Anfrage?</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>π_FlugNr( Flugstrecke ⋈ gebucht_von ⋈ Passagier ⋈ FrequentFlyer )</code></pre>
+            </div>
+        </div>
+
+        <p><strong>Die Anfrage liefert die Flugnummern aller Flugstrecken, auf denen
+           mindestens ein Frequent Flyer gebucht ist.</strong></p>
+
+        <p>Warum? Die Kette verbindet Flugstrecken mit ihren Passagieren und diese
+           dann mit der Tabelle <code>FrequentFlyer</code>. Der Join wirkt dabei
+           <strong>wie ein Filter</strong>: Passagiere, die keine Frequent Flyer sind,
+           haben dort keinen Eintrag und fallen deshalb raus. Übrig bleiben nur
+           Strecken mit mindestens einem Vielflieger.</p>
+
+        <p>Das ist der Punkt, den man in der Antwort nennen sollte: hier steht
+           <strong>kein σ</strong>, und trotzdem wird gefiltert – nämlich durch den
+           Join selbst. Genau dafür ist <code>INNER JOIN</code> in SQL bekannt.</p>
+
+        <p>Und: <code>π</code> entfernt automatisch Doppelte. Eine Strecke mit drei
+           Vielfliegern erscheint also nur einmal, nicht dreimal. In SQL müsste man
+           dafür ausdrücklich <code>DISTINCT</code> schreiben.</p>
+
+        <h2>Aufgabe 5 – Die zweite Anfrage</h2>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>π_Kennzeichen( σ_Name='Schmitz' ( σ_Start='Berlin' (Flugstrecke ⋈ Flugzeug)
+                                ⋈ gebucht_von ⋈ Passagier ) )</code></pre>
+            </div>
+        </div>
+
+        <p><strong>Die Anfrage liefert die Kennzeichen aller Flugzeuge, die auf
+           einer in Berlin startenden Strecke fliegen, auf der ein Passagier namens
+           Schmitz gebucht ist.</strong></p>
+
+        <p>Von innen nach außen abgearbeitet:</p>
+        <ol class="schritte">
+            <li><code>Flugstrecke ⋈ Flugzeug</code> – welches Flugzeug fliegt welche Strecke</li>
+            <li><code>σ_Start='Berlin'</code> – nur die Strecken, die in Berlin starten</li>
+            <li><code>⋈ gebucht_von ⋈ Passagier</code> – die Passagiere dazuholen</li>
+            <li><code>σ_Name='Schmitz'</code> – nur die Zeilen mit Passagier Schmitz</li>
+            <li><code>π_Kennzeichen</code> – nur das Flugzeugkennzeichen ausgeben</li>
+        </ol>
+
+        <p>Interessant ist, dass die beiden σ an <strong>verschiedenen Stellen</strong>
+           stehen. Das Start-Kriterium wird früh angewendet, solange nur Strecken und
+           Flugzeuge im Spiel sind. Das Namenskriterium geht erst, nachdem die
+           Passagiere dazugekommen sind – vorher gibt es die Spalte
+           <code>Name</code> gar nicht.</p>
+
+        <h2>Aufgabe 6 – Müller und Schmitz im selben Flugzeug</h2>
+
+        <p>Diese Aufgabe ist die schwerste, weil man dieselbe Tabelle
+           <strong>zweimal</strong> braucht. Der Trick: man baut zwei getrennte
+           Mengen und schneidet sie.</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>Strecken mit einem Mueller:
+  M := π_FlugNr( σ_Name='Müller' (Passagier) ⋈ gebucht_von ⋈ Flugstrecke )
+
+Strecken mit einem Schmitz:
+  S := π_FlugNr( σ_Name='Schmitz' (Passagier) ⋈ gebucht_von ⋈ Flugstrecke )
+
+Die gesuchten Strecken:
+  M ∩ S</code></pre>
+            </div>
+        </div>
+
+        <p>Als ein Ausdruck:</p>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>π_FlugNr( σ_Name='Müller' (Passagier) ⋈ gebucht_von ⋈ Flugstrecke )
+  ∩
+π_FlugNr( σ_Name='Schmitz' (Passagier) ⋈ gebucht_von ⋈ Flugstrecke )</code></pre>
+            </div>
+        </div>
+
+        <p>Der Schnitt <strong>∩</strong> liefert die Flugnummern, die in
+           <em>beiden</em> Mengen vorkommen – also Strecken, auf denen sowohl ein
+           Müller als auch ein Schmitz sitzt. Ist das Ergebnis leer, lautet die
+           Antwort auf die Frage „nein".</p>
+
+        <h3 class="schritt-titel">Warum man das nicht in einem Schritt machen kann</h3>
+        <div class="code">
+            <div class="code-feld">
+                <pre><code>σ_Name='Müller' ∧ Name='Schmitz' (Passagier)      -- FALSCH, immer leer</code></pre>
+            </div>
+        </div>
+
+        <p>Das wäre die naheliegende Idee, ergibt aber nie ein Ergebnis: σ arbeitet
+           <strong>zeilenweise</strong>, und kein einzelner Passagier heißt
+           gleichzeitig Müller und Schmitz. Es sind ja zwei <em>verschiedene</em>
+           Personen gesucht, die dasselbe Flugzeug teilen.</p>
+
+        <p>Immer wenn eine Aufgabe zwei verschiedene Zeilen derselben Tabelle
+           miteinander vergleicht, braucht man entweder einen Schnitt wie hier oder
+           einen Self-Join. In SQL würde man es so schreiben:</p>
+
+        <div class="code">
+            <div class="code-feld">
+                <pre><code class="language-sql">SELECT DISTINCT g1.FlugNr
+FROM   gebucht_von AS g1
+INNER JOIN Passagier AS p1 ON g1.Pnr = p1.Pnr
+INNER JOIN gebucht_von AS g2 ON g1.FlugNr = g2.FlugNr
+INNER JOIN Passagier AS p2 ON g2.Pnr = p2.Pnr
+WHERE  p1.Name = 'Müller' AND p2.Name = 'Schmitz';</code></pre>
+            </div>
+        </div>
+
+        <p>Dieselbe Tabelle steht zweimal in der Abfrage, einmal als
+           <code>g1</code> und einmal als <code>g2</code>. Genau das leistet in der
+           Relationenalgebra der Schnitt der beiden Teilmengen.</p>

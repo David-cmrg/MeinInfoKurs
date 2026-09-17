@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="de" data-basis="../../">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MeinInfoKurs | Fehler in Java</title>
+    <meta name="description" content="Fehler sind scheiße . Man schreibt ein Programm und will es ausführen, jedoch bekommt man einen Fehler.">
+    <meta name="author" content="David Gomez Camargo">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://meininfokurs.cmrg.site/e/java/fehlersuche.html">
+
+    <meta property="og:site_name" content="MeinInfoKurs">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="MeinInfoKurs | Fehler in Java">
+    <meta property="og:description" content="Fehler sind scheiße . Man schreibt ein Programm und will es ausführen, jedoch bekommt man einen Fehler.">
+    <meta property="og:url" content="https://meininfokurs.cmrg.site/e/java/fehlersuche.html">
+    <meta property="og:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="MeinInfoKurs | Fehler in Java">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeinInfoKurs | Fehler in Java">
+    <meta name="twitter:description" content="Fehler sind scheiße . Man schreibt ein Programm und will es ausführen, jedoch bekommt man einen Fehler.">
+    <meta name="twitter:image" content="https://meininfokurs.cmrg.site/assets/og/e.png">
+
+    <meta name="theme-color" content="#14151f">
+
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/stil.css">
+    <link rel="stylesheet" href="../../assets/prism-thema.css">
+
+    <!-- Thema sofort setzen, sonst blitzt beim Laden das falsche auf -->
+    <script>
+        (function () {
+            try {
+                var t = JSON.parse(localStorage.getItem("thema"));
+                if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "hell" : "dunkel";
+                document.documentElement.setAttribute("data-thema", t);
+            } catch (e) { document.documentElement.setAttribute("data-thema", "dunkel"); }
+        })();
+    </script>
+
+    <!-- Werbung.
+         Das AdSense-Skript wird nur geladen, wenn die Seite wirklich ueber
+         http(s) ausgeliefert wird. Oeffnet man die Datei lokal per file://,
+         haengt sich das Skript auf und die Seite laedt nie fertig
+         ("Page Unresponsive"). In Produktion aendert die Pruefung nichts. -->
+    <meta name="google-adsense-account" content="ca-pub-3759386961615231">
+    <script>
+        if (location.protocol === "http:" || location.protocol === "https:") {
+            var werbeSkript = document.createElement("script");
+            werbeSkript.async = true;
+            werbeSkript.crossOrigin = "anonymous";
+            werbeSkript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3759386961615231";
+            document.head.appendChild(werbeSkript);
+        }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Fehler in Java",
+  "description": "Fehler sind scheiße . Man schreibt ein Programm und will es ausführen, jedoch bekommt man einen Fehler.",
+  "url": "https://meininfokurs.cmrg.site/e/java/fehlersuche.html",
+  "inLanguage": "de",
+  "learningResourceType": "Aufgabe mit Lösung",
+  "educationalLevel": "E-Phase – Klasse 10 · Grundlagen",
+  "about": "Java",
+  "author": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "David Gomez Camargo"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "MeinInfoKurs – E-Phase",
+    "url": "https://meininfokurs.cmrg.site/e/"
+  },
+  "isBasedOn": "Informatik E-Phase · übernommen aus V2/Seiten/Java/fehlersuche.html",
+  "license": "https://meininfokurs.cmrg.site/info.html"
+}
+    </script>
+</head>
+<body>    <nav class="nav" aria-label="Hauptnavigation">
+        <a href="../../index.html" class="nur-symbol" aria-label="Startseite"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+        <a href="../../e/index.html" aria-current="page"><span class="beschriftung">E</span></a>
+        <a href="../../q1/index.html"><span class="beschriftung">Q1</span></a>
+        <a href="../../q2/index.html"><span class="beschriftung">Q2</span></a>
+        <a href="../../q3/index.html"><span class="beschriftung">Q3</span></a>
+        <a href="../../info.html" class="nur-symbol" aria-label="Info und Kontakt"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></a>
+    </nav>
+    <div class="werkzeuge">
+        <button type="button" id="suche-knopf" data-oeffnet="suche-fenster" aria-label="Aufgabe suchen"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button type="button" id="verlauf-knopf" data-oeffnet="verlauf-fenster" aria-label="Zuletzt angesehen"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+        <button type="button" id="thema-schalter" aria-label="Helles Design einschalten" aria-pressed="false"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>
+    </div>
+
+    <main class="seite">
+        <p class="brotkrumen">
+            <a href="../../e/index.html">E-Phase</a>
+            <span aria-hidden="true">/</span>
+            <a href="../../e/index.html#java">Java</a>
+        </p>
+        <h1 class="titel">Fehler in Java</h1>
+        <p class="status ist-verifiziert">
+            <i class="fa-solid fa-book" aria-hidden="true"></i>Zum Nachschlagen
+        </p>
+
+        <!-- Werbeplatz "oben": noch keine Anzeigenblock-ID hinterlegt -->
+        <h2>Einführung</h2>
+        <p id="Einfuehrung">
+<strong>Fehler sind scheiße</strong>. <br/>
+            Man schreibt ein Programm und will es ausführen, jedoch bekommt man einen Fehler. Das kennt jeder. <br/>
+            Hier findest du die häufigsten Fehler die dir passieren können und wie du sie behebst!
+
+        </p>
+        <h3 class="schritt-titel">1. Syntaxfehler</h3>
+        <p>
+            Syntaxfehler entstehen, wenn der Quellcode nicht den Regeln der Java-Syntax entspricht. Diese Fehler werden vom Compiler erkannt und verhindern die erfolgreiche Kompilierung des Programms.
+            Beispiele für Syntaxfehler:</p>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">System.out.println("Hello World")   // Fehler:  Fehlendes Semikolon</code></pre></div></div>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        System.out.println("Hallo Welt");    // Fehler:  Fehlende schließende Klammer</code></pre></div></div>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">int zahl = 5;
+System.out.println(zahl2);   // Fehler:  zahl2 ist nicht definiert</code></pre></div></div>
+        <h3 class="schritt-titel">2. Kompilierungsfehler</h3>
+        <p>
+            Kompilierungsfehler treten auf, wenn der Quellcode syntaktisch korrekt ist, aber Probleme bei der Code-Übersetzung auftreten. Diese Fehler verhindern ebenfalls die erfolgreiche Kompilierung.
+            Beispiel für Kompilierungsfehler:</p>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">int zahl = "fünf";   // Fehler:  String kann nicht einem int-Wert zugewiesen werden</code></pre></div></div>
+        <h3 class="schritt-titel">3. Laufzeitfehler (Runtime Errors)</h3>
+        <p>
+            Laufzeitfehler treten während der Programmausführung auf. Das Programm wird erfolgreich kompiliert, aber es kommt während der Laufzeit zu unerwarteten Fehlern, die das Programm abstürzen lassen.
+            Beispiel für Laufzeitfehler:</p>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">int division = 10/0;   // Fehler:  Division durch 0 nicht möglich.</code></pre></div></div>
+        <h3 class="schritt-titel">4. Logische Fehler</h3>
+        <p>
+            Laufzeitfehler treten während der Programmausführung auf. Das Programm wird erfolgreich kompiliert, aber es kommt während der Laufzeit zu unerwarteten Fehlern, die das Programm abstürzen lassen.
+            Beispiel für Laufzeitfehler:</p>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">int addition = 5 - 3;   // Fehler:  Sollte eine Addition sein (5 + 3)</code></pre></div></div>
+        <h3 class="schritt-titel">5. Illegale Zeichen</h3>
+        <p style="margin-bottom: 35px;">
+            Falls du den Fehler eines Illegalen Zeichen (Illegal character) erhalten solltest liegt dies wahrscheinlich daran, dass du von irgendwo den Code kopiert und in deinem Editor eingefügt hast.<br/>
+            Es kann sogar sein, dass der Fehler eines Illegalen Zeichen beim kopieren meines Codes, zustande kommt. Wenn das passiert, wirst du all den Code aus deinem Editor löschen und manuell wieder eintippen müssen.
+            Illegale Zeichen sind Zeichen die der Editor nicht kennt. Es gibt auch unsichtbare Zeichen, also nicht wundern, wenn der Editor sagt in Zeile 4 ist ein Fehler, obwohl Zeile 4 leer ist.
+        </p>
+
+        <!-- Werbeplatz "unten": noch keine Anzeigenblock-ID hinterlegt -->
+
+        <nav class="blaettern" aria-label="Weitere Aufgaben">
+            <a class="zurueck" href="docs.html"><small>Vorherige Aufgabe</small>Java Editor – Die Dokumentation für Anfänger</a>
+        </nav>
+    </main>
+
+    <!-- Werbeschiene links: noch keine Anzeigenblock-ID hinterlegt -->
+    <!-- Werbeschiene rechts: noch keine Anzeigenblock-ID hinterlegt -->
+    <dialog class="fenster fenster-suche" id="suche-fenster">
+        <div class="fenster-kopf">
+            <h2>Aufgabe suchen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <input type="search" id="suche-feld" placeholder="Thema, Titel oder Stichwort"
+                   autocomplete="off" spellcheck="false" aria-label="Suchbegriff">
+            <p class="suche-hinweis" id="suche-hinweis">Tippe los. <kbd>Strg</kbd>+<kbd>K</kbd> öffnet die Suche von überall.</p>
+            <ul id="suche-treffer" class="suche-treffer"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="verlauf-fenster">
+        <div class="fenster-kopf">
+            <h2>Zuletzt angesehen</h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen">&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <ul id="verlauf-liste"></ul>
+        </div>
+    </dialog>
+    <dialog class="fenster" id="werbe-fenster">
+        <div class="fenster-kopf">
+            <h2>Werbung <span id="werbe-uhr"></span></h2>
+            <button type="button" class="schliessen" data-schliesst aria-label="Schließen" disabled>&times;</button>
+        </div>
+        <div class="fenster-koerper">
+            <div class="eigenwerbung" id="werbe-inhalt"></div>
+        </div>
+    </dialog>
+    <footer class="fuss">
+        <p>Die Aufgaben stammen aus dem Unterricht und wurden nicht von mir erstellt.
+           Diese Seite gibt sie wieder und zeigt, wie man sie lösen kann.</p>
+        <p>&copy; 2026 David Gomez Camargo &middot;
+           <a href="../../info.html">Info &amp; Kontakt</a> &middot;
+           <a href="mailto:meininfokurs@gmail.com">meininfokurs@gmail.com</a></p>
+    </footer>
+    <script src="../../assets/seite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+</body>
+</html>

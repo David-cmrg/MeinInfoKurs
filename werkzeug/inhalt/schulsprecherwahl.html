@@ -1,0 +1,263 @@
+        <p>Die Aufgabe der heutigen Stunde ist <strong>die Schulsprecherwahl!</strong> Dazu schauen wir uns mal die Aufgabe genauer an und versuchen durch intelligentes Lösen ein vollfunktionsfähiges Programm zu erstellen. <br/></p>
+        <div class="aufgabenstellung"><span class="marke">Die Aufgabenstellung lautet</span><p>
+          Das folgende Programm soll nach dem EVA-Prinzip funktionieren. 
+          Die Schulsprecherwahl steht an. Dazu soll ein Programm in Java entwickelt werden, das folgende Spezifikationen erfüllen soll: 
+          Die Kandidatennamen werden eingebeben und die dazugehörigen Stimmen. 
+          Eine Ausgabe-Ranking für alle Kandidaten: 
+          Kandidat, Anzahl der Stimmen, Gesamtanzahl der Stimmen, prozentualer Anteil der Stimmen, außer für Platz 1 wird der prozentuale Abstand zum ersten Platz angegeben. Die Kandidaten sollen in der Reihenfolge der Prozente ausgeben werden (Platz 1, Platz 2, usw.) 
+          Mit einem Befehl kann eine persönliche Ausgabe durch die Eingabe des Namens für einen einzelnen Kandidaten erfolgen. 
+        </p></div>
+        <h2>Lösungsprozess der Aufgabe</h2>
+        <div class="code"><div class="code-leiste"><span class="code-sprache"><i aria-hidden="true" class="fa-solid fa-code"></i> Java</span><div class="code-knoepfe"><button class="knopf" data-kopieren="" type="button">Kopieren</button><button class="knopf" data-datei="SchulsprecherWahl.java" type="button">Herunterladen</button></div></div><span class="wz">/* MeinInfoKurs.github.io */</span><div class="code-feld verdeckt"><button class="aufdecken" type="button"><span>Lösung anzeigen</span></button><pre><code class="language-java">/**
+*
+* Das fertige Java Programm der SchulsprecherWahl
+*
+* @version 1.0 vom 25.02.2024
+* @MeinInfoKurs.github.io
+*/
+
+public class SchulsprecherWahl {
+
+                public static void main(String[] args) {
+                    String Kandidat1="", Kandidat2="", Kandidat3="", Platz1="", Platz2="", Platz3="";
+                    int Stimmen1=0, Stimmen2=0, Stimmen3=0, Summe=0, StimmenPlatz1=0, StimmenPlatz2=0, StimmenPlatz3=0;
+                    double Anteil1, Anteil2, Anteil3;
+
+                    /* Eingabe von Werten */
+                    Kandidat1 = InOut.readString("Name des ersten Kandidaten: ");
+                    Kandidat2 = InOut.readString("Name des zweiten Kandidaten: ");
+                    Kandidat3 = InOut.readString("Name des dritten Kandidaten: ");
+                    System.out.println("");
+                    Stimmen1 = InOut.readInt("Stimmen von " + Kandidat1 + ":");
+                    Stimmen2 = InOut.readInt("Stimmen von " + Kandidat2 + ":");
+                    Stimmen3 = InOut.readInt("Stimmen von " + Kandidat3 + ":");
+
+                    /* Bestimmung der Prozente */
+                    Summe = Stimmen1 + Stimmen2 + Stimmen3;
+
+                    Anteil1 = Stimmen1 / Summe * 100;
+                    Anteil2 = Stimmen2 / Summe * 100;
+                    Anteil3 = 100 - Anteil1 - Anteil2;
+
+                    /* Bestimmung des ersten Platzes durch else-if */
+                    if (Stimmen1 &gt; Stimmen2 &amp;&amp; Stimmen1 &gt; Stimmen3) {
+                        Platz1=Kandidat1;
+                        StimmenPlatz1 = Stimmen1;
+
+                        /* Bestimmung des zweiten und dritten Platzes durch if-else */
+                        if (Stimmen2 &gt; Stimmen3) {
+                            Platz2=Kandidat2;
+                            StimmenPlatz2 = Stimmen2;
+                            Platz3=Kandidat3;
+                            StimmenPlatz3 = Stimmen3;
+                        } else {
+                            Platz2=Kandidat3;
+                            StimmenPlatz2 = Stimmen3;
+                            Platz3=Kandidat2;
+                            StimmenPlatz3 = Stimmen2;
+                        };
+                    } else if (Stimmen2 &gt; Stimmen1 &amp;&amp; Stimmen2 &gt; Stimmen3) {
+                        Platz1=Kandidat2;
+                        StimmenPlatz1 = Stimmen2;
+
+                        if (Stimmen1 &gt; Stimmen3) {
+                            Platz2=Kandidat1;
+                            StimmenPlatz2 = Stimmen1;
+                            Platz3=Kandidat3;
+                            StimmenPlatz3 = Stimmen3;
+                        } else {
+                            Platz2=Kandidat3;
+                            StimmenPlatz2 = Stimmen3;
+                            Platz3=Kandidat1;
+                            StimmenPlatz3 = Stimmen1;
+                        };
+                    } else if (Stimmen3 &gt; Stimmen2 &amp;&amp; Stimmen3 &gt; Stimmen1) {
+                        Platz1=Kandidat3;
+                        StimmenPlatz1 = Stimmen3;
+
+                        if (Stimmen1 &gt; Stimmen2) {
+                            Platz2=Kandidat1;
+                            StimmenPlatz2 = Stimmen1;
+                            Platz3=Kandidat2;
+                            StimmenPlatz3 = Stimmen2;
+                        } else {
+                            Platz2=Kandidat2;
+                            StimmenPlatz2 = Stimmen2;
+                            Platz3=Kandidat1;
+                            StimmenPlatz3 = Stimmen1;
+                        };
+                    }
+
+                    /* Abstand zwischen erst-, zweit-, und drittplatziertem Kandidaten | Berechnung der prozentualen Abstaende */
+                    double abstandZweitgroesste = ((double) (StimmenPlatz1 - StimmenPlatz2) / StimmenPlatz1) * 100;
+                    double abstandDrittgroesste = ((double) (StimmenPlatz1 - StimmenPlatz3) / StimmenPlatz1) * 100;
+
+                    /* Ausgabe unserer Berechnungen */
+                    System.out.println("Erstplatzierter wurde: " + Platz1);
+                    System.out.println("Er gewann mit " + StimmenPlatz1 + " Stimmen");
+                    System.out.println("");
+                    System.out.println("Die zweitgroesste Zahl ist: " + StimmenPlatz2 + " (Abstand: " + abstandZweitgroesste + "%)");
+                    System.out.println("Die drittgroesste Zahl ist: " + StimmenPlatz3 + " (Abstand: " + abstandDrittgroesste + "%)");
+                    System.out.println("Bis zur naechsten Schulsprecherwahl!");
+                }
+            }</code></pre></div></div>
+        <p>
+            In der Aufgabenstellung wird gefordert, dass wir folgende Funktionen in unseren Code implementieren: <br/><br/>
+</p>
+        <ol class="schritte">
+<li>Die Namen der Kandidaten</li>
+<li>Anzahl der Stimmen für die Kandidaten</li>
+<br/>
+<li>Stimmen aller Kandidaten zusammenrechnen</li>
+<li>Prozentuale Ausrechnung der Stimmen pro Kandidat</li>
+<li>Stimmen vergleich um sie nach Platzierung zu sortieren</li>
+<br/>
+<li>Gesmtanzahl der Stimmen</li>
+<li>Prozentualer Anteil der Stimmen pro Kandidat (außer für Platz 1)</li>
+<li>Ausgabe der Kandidaten nach Platzierung</li>
+</ol>
+        <h3 class="schritt-titel">1. Eingabe: Kandidaten und Stimmen</h3>
+        <p>
+            Wir wollen eine Nutzereingabe erstellen, mit welcher wir Kandidaten erstellen und ihnen eine Stimmenanzahl zuweisen können.
+            Dazu müssen wir jeweils Variablen <a href="https://www.w3schools.com/java/java_variables.asp#:~:text=Declaring%20(Creating)%20Variables,%3D%20value%3B" target="_blank">deklarieren</a> und diese dann 
+            <a href="https://www.w3schools.com/java/java_variables.asp#:~:text=int%20myNum%3B-,myNum%20%3D%2015%3B,-System.out" target="_blank">initialisieren</a>.<br/>
+            Wir initialisieren Sie, indem wir <kbd>X = InOut.readY("Fragestellung: ");</kbd> verwenden. Dabei ersetzen wir das<kbd> X </kbd>mit dem Variablennamen,
+            welchen wir für unsere Variable verwendet haben und<kbd> Y </kbd>mit dem Variablentypen (Datentypen) unserer Variable. Ein Beispiel könnte so aussehen:
+        </p>
+        <br/>
+        <div class="code"><div class="code-feld"><pre><code class="language-java">int Stimmen1;
+String Kandidat1="";
+
+Kandidat1 = InOut.readString("Name des ersten Kandidaten: ");
+Stimmen1 = InOut.readInt("Wie viele Stimmen hat " + Kandidat1 + ":");
+
+    /* Durch schließen der Anführungszeichen, setzen des +  und das darauf folgen
+     * einer Variable kann die String Variable in der Konsole als Text erscheinen.
+     *
+     *
+     * Hier ein Beispiel der Konsole:
+     * Name des ersten Kandidaten: Peter
+     * Wie viele Stimmen hat Peter: 0
+     */</code></pre></div></div>
+        <h3 class="schritt-titel">2. Berechnungen: Zusammenrechnung, Prozente und Platzierung</h3>
+        <p>Da die Eingabe nun vollendet ist, müssen wir mit den uns zugeteilten Werten einige Rechnungen anstellen, um an das gewünschte Ergebnis zu gelangen.</p>
+        <br/>
+        <br/>
+        <br/>
+        <div style="margin: 0px 10px 0px 30px;">
+<h4>2.1 Zusammenrechnung aller Stimmen</h4>
+<p>Um alle Stimmen zusammenrechnen zu können benötigen wir eine Addition, welche alle Stimmen zusammenzählt. Dieser Schritt ist noch der einfachste, falls du hier schon nicht weiter weißt,
+                    solltest du dir die Grundlagen nochmal gründlich anschauen.
+                </p>
+<div class="code"><div class="code-feld"><pre><code class="language-java">int Stimmen1=0, Stimmen2=0, Stimmen3=0, Summe=0;
+
+                            Stimmen1 = InOut.readInt("Wie viele Stimmen hat Kandidat1: ");
+                            Stimmen2 = InOut.readInt("Wie viele Stimmen hat Kandidat2: ");
+                            Stimmen3 = InOut.readInt("Wie viele Stimmen hat Kandidat3: ");
+
+                            /* Einfache Addition aller Stimmen zu einer Variable */
+                            Summe = Stimmen1 + Stimmen2 + Stimmen3;</code></pre></div></div>
+</div>
+        <br/>
+        <div style="margin: 0px 10px 0px 30px;">
+<h3>2.2 Prozentualer Anteil an allen Stimmen</h3>
+<p>
+                Wir wollen jetzt die genaue Prozentzahl, die ein Kandidat an Stimmen bekommen hat, bestimmen. Dazu müssen wir eine Rechnung durchführen, die die Summe aller Stimmen mit 100
+                multipliziert und dann durch die Anzahl der Stimmen eines Kandidaten teilt. Dadurch erhalten wir unsere Prozentzahl.
+                Um diese Zahl dann auszugeben, verwenden wir<kbd> InOut.format2(X) </kbd>. Das X ist in dem Fall wieder unsere Variable und sie wird durch das
+                <kbd> InOut.format2() </kbd>auf 2 Nachkommastellen gerundet.
+            </p>
+<div class="code"><div class="code-feld"><pre><code class="language-java">/* Beispielzuweisung für die Stimmen. */
+int Stimmen1=34, Stimmen2=69, Stimmen3=27, Summe=0;
+double Anteil1, Anteil2, Anteil3;
+
+/* Bestimmung der Prozente */
+Summe = Stimmen1 + Stimmen2 + Stimmen3;
+
+Anteil1 = Stimmen1 / Summe * 100;
+Anteil2 = Stimmen2 / Summe * 100;
+Anteil3 = 100 - Anteil1 - Anteil2;
+
+System.out.println("Anteil aller Stimmen von Kandidat1: " + InOut.format2(Anteil1) + "%");
+System.out.println("Anteil aller Stimmen von Kandidat2: " + InOut.format2(Anteil2) + "%");
+System.out.println("Anteil aller Stimmen von Kandidat3: " + InOut.format2(Anteil3) + "%");</code></pre></div></div>
+</div>
+        <div style="margin: 0px 10px 0px 30px;">
+<h3>2.3 Platzierung von Kandidaten bestimmen</h3>
+<p>
+                Wir wollen jetzt die genaue Prozentzahl, die ein Kandidat an Stimmen bekommen hat, bestimmen. Dazu müssen wir eine Rechnung durchführen, die die Summe aller Stimmen mit 100
+                multipliziert und dann durch die Anzahl der Stimmen eines Kandidaten teilt. Dadurch erhalten wir unsere Prozentzahl.
+                Um diese Zahl dann auszugeben, verwenden wir<kbd> InOut.format2(X) </kbd>. Das X ist in dem Fall wieder unsere Variable und sie wird durch das
+                <kbd> InOut.format2() </kbd>auf 2 Nachkommastellen gerundet. Unsere<kbd> else if </kbd>hilft uns, die IF Ketten direkt aneinander zu reihen,
+                falls die IF-Schleife dadrüber nicht wahr ist. Und durch die Bedingung<kbd> (Stimmen1 &gt; Stimmen2 &amp;&amp; Stimmen1 &gt; Stimmen3) </kbd> können wir mehrere Bedingungen auf einmal überprüfen.
+                Dafür sorgt das<kbd> &amp;&amp; </kbd>.
+            </p>
+<div class="code"><div class="code-feld"><pre><code class="language-java">/* Beispielzuweisung für die Stimmen. */
+String Kandidat1="Nicolas", Kandidat2="Sebastian", Kandidat3="Ackermann", Platz1="", Platz2="", Platz3="";
+int Stimmen1=34, Stimmen2=69, Stimmen3=27, Summe=0, StimmenPlatz1=0, StimmenPlatz2=0, StimmenPlatz3=0;
+double Anteil1, Anteil2, Anteil3;
+
+/* Bestimmung der Prozente */
+Summe = Stimmen1 + Stimmen2 + Stimmen3;
+
+Anteil1 = Stimmen1 / Summe * 100;
+Anteil2 = Stimmen2 / Summe * 100;
+Anteil3 = 100 - Anteil1 - Anteil2;
+
+/* Bestimmung des ersten Platzes durch else-if */
+if (Stimmen1 &gt; Stimmen2 &amp;&amp; Stimmen1 &gt; Stimmen3) {
+    Platz1=Kandidat1;
+    StimmenPlatz1 = Stimmen1;
+
+    /* Bestimmung des zweiten und dritten Platzes durch if-else */
+    if (Stimmen2 &gt; Stimmen3) {
+        Platz2=Kandidat2;
+        StimmenPlatz2 = Stimmen2;
+        Platz3=Kandidat3;
+        StimmenPlatz3 = Stimmen3;
+    } else {
+        Platz2=Kandidat3;
+        StimmenPlatz2 = Stimmen3;
+        Platz3=Kandidat2;
+        StimmenPlatz3 = Stimmen2;
+    };
+} else if (Stimmen2 &gt; Stimmen1 &amp;&amp; Stimmen2 &gt; Stimmen3) {
+    Platz1=Kandidat2;
+    StimmenPlatz1 = Stimmen2;
+
+    if (Stimmen1 &gt; Stimmen3) {
+        Platz2=Kandidat1;
+        StimmenPlatz2 = Stimmen1;
+        Platz3=Kandidat3;
+        StimmenPlatz3 = Stimmen3;
+    } else {
+        Platz2=Kandidat3;
+        StimmenPlatz2 = Stimmen3;
+        Platz3=Kandidat1;
+        StimmenPlatz3 = Stimmen1;
+    };
+} else if (Stimmen3 &gt; Stimmen2 &amp;&amp; Stimmen3 &gt; Stimmen1) {
+    Platz1=Kandidat3;
+    StimmenPlatz1 = Stimmen3;
+
+    if (Stimmen1 &gt; Stimmen2) {
+        Platz2=Kandidat1;
+        StimmenPlatz2 = Stimmen1;
+        Platz3=Kandidat2;
+        StimmenPlatz3 = Stimmen2;
+    } else {
+        Platz2=Kandidat2;
+        StimmenPlatz2 = Stimmen2;
+        Platz3=Kandidat1;
+        StimmenPlatz3 = Stimmen1;
+    };
+}
+
+/* Abstand zwischen erst-, zweit-, und drittplatziertem Kandidaten | Berechnung der prozentualen Abstände */
+double abstandZweitgroesste = ((double) (groesste - zweitgroesste) / groesste) * 100;
+double abstandDrittgroesste = ((double) (groesste - drittgroesste) / groesste) * 100;
+
+/* Ausgabe unserer Berechnungen */
+System.out.println("Erstplatzierter wurde: " + Platz1);
+System.out.println("Er gewann mit " + StimmenPlatz1 + " Stimmen");</code></pre></div></div>
+</div>
